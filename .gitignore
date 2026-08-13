@@ -1,0 +1,11 @@
+# 环境与生成物
+.venv/
+__pycache__/
+*.pyc
+out/
+
+# 大体量只读数据资产（放置方式见 README）
+shp_0222-0326/
+
+# 外部参考代码：只吸收思路，代码不入库（CLAUDE.md 约定）
+v2x_map_xml/xml2xodr/

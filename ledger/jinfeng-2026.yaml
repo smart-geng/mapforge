@@ -1,0 +1,17 @@
+# 金凤示范区 region/node 存量台账（正式版）
+# 裁决（2026-08-13，项目方）：编号沿用现网存量、不重排、不修复历史失配——
+#   生成的 MAP 与现网 XML 的 ID 保持完全一致（"都一样"），跨路口引用照抄现网原值。
+# 依据草案：jinfeng-2026.draft.yaml（自动交叉核对：24 条失配引用为现网既存状态，设备在跑，按原样保留）
+policy: inherit-as-is        # 生成侧从对应现网 XML 继承 region/node/upstream/remote，工具不发明 ID
+region_default: 500
+nodes:
+  - {file: map凤苑路-金剑路node18.xml,   canonical: {region: 500, id: 18}}
+  - {file: map凤苑路-金坪路NODE5.xml,    canonical: {region: 500, id: 5}}
+  - {file: map凤苑路-金玥路node4.xml,    canonical: {region: 500, id: 4}}
+  - {file: map凤阁路-金剑路路口node16.xml, canonical: {region: 500, id: 21801}}
+  - {file: map凤阁路-金玥路node13.xml,   canonical: {region: 21901, id: 21901}}
+  - {file: map含金路-金剑路路口node17.xml, canonical: {region: 500, id: 17}}
+  - {file: map含金路-金玥路node3.xml,    canonical: {region: 3, id: 3}}
+notes:
+  - 失配引用（草案 unresolved_refs 24 条）按现网原值保留；新增路口时向本台账申请新 id，禁止复用失配号段
+  - node13 自称 (21901,21901)、node3 自称 (3,3) 为存量事实，沿用

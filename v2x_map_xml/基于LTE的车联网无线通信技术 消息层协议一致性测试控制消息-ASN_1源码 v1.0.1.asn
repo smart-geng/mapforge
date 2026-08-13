@@ -1,0 +1,1008 @@
+TciMsgLayerFrame
+DEFINITIONS AUTOMATIC TAGS ::=
+
+BEGIN
+
+IMPORTS
+;
+
+--消息层TCI消息.
+TciMsgLayer ::= SEQUENCE{
+    version     INTEGER (2),
+    msgNo       NumericString (SIZE(10..20)),
+    msgFrame    TciMsgFrame,
+    ...
+}
+
+TciMsgFrame ::= CHOICE{
+    request         [0] Request,
+    response        [1] Response,
+    indication      [2] Indication,
+    exceptionInfo   [3] Exception,
+    ...
+}
+
+--TCI请求消息.
+Request ::=  SEQUENCE {
+    msgId   MESSAGE-ID-AND-TYPE.&id({MessageTypes}),
+    value   MESSAGE-ID-AND-TYPE.&Type({MessageTypes}{@.msgId}),
+    ...
+}
+
+MESSAGE-ID-AND-TYPE ::= CLASS {
+    &id    MsgID UNIQUE,
+    &Type
+} WITH SYNTAX {&Type IDENTIFIED BY &id}
+
+--TCI消息类型.
+MessageTypes MESSAGE-ID-AND-TYPE ::= {
+    { SetInitialState       IDENTIFIED BY setInitialState} |
+
+    { StartMsgLayerTx       IDENTIFIED BY startMsgLayerTx} |
+    { StopMsgLayerTx        IDENTIFIED BY stopMsgLayerTx} |
+    { StartMsgLayerRx       IDENTIFIED BY startMsgLayerRx} |
+    { StopMsgLayerRx        IDENTIFIED BY stopMsgLayerRx} |
+
+    { SetBsmInfo            IDENTIFIED BY setBsmInfo} |
+    { SetRsmInfo            IDENTIFIED BY setRsmInfo}
+}
+
+setInitialState             MsgID ::= 0
+
+startMsgLayerTx             MsgID ::= 1
+stopMsgLayerTx              MsgID ::= 2
+startMsgLayerRx             MsgID ::= 3
+stopMsgLayerRx              MsgID ::= 4
+
+setBsmInfo                  MsgID ::= 5
+setRsmInfo                  MsgID ::= 6
+
+--DUT初始化请求.
+SetInitialState ::= BOOLEAN (TRUE)
+
+--TS控制DUT开始发送消息层消息.
+--DUT发送的实际消息集类型参考msgType值.
+StartMsgLayerTx ::= SEQUENCE {
+    aid             Aid,
+    repeatRate      RepeatRate,
+    msgType         MsgType,
+    ...
+}
+
+--TS控制DUT停止发送消息层消息.
+StopMsgLayerTx ::= SEQUENCE {
+    aid             Aid,
+    ...
+}
+
+--TS控制DUT开始接收消息层消息.
+--DUT接收消息后，向TS发送的Indication中消息内容参见eventHandling中要求信息.
+StartMsgLayerRx ::= SEQUENCE {
+    aid             Aid,
+    eventHandling   EventHandling,
+    ...
+}
+
+--TS控制DUT停止接收消息层消息.
+StopMsgLayerRx ::= SEQUENCE {
+    aid             Aid,
+    ...
+}
+
+--TS设置DUT即将要发送的BSM消息中某个或某些参数信息.
+SetBsmInfo ::= BsmInfo
+
+--TS设置DUT即将要发送的BSM消息中交通参与者信息.
+SetRsmInfo ::= PtcData
+
+--三维的坐标位置，经纬度和高程. 
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DF_Position3D
+TestPosition3D ::= SEQUENCE {
+    latitude  Latitude,
+    longitude Longitude,
+    elevation Elevation OPTIONAL
+}
+Latitude ::= INTEGER (-900000000..900000001)        --定义纬度数值，北纬为正，南纬为负。分辨率1e-7°。
+Longitude ::= INTEGER (-1799999999..1800000001)     --定义经度数值。东经为正，西经为负。分辨率为1e-7°。
+Elevation ::= INTEGER (-4096..61439)                --定义车辆海拔高程。分辨率为0.1米。
+
+
+--BSM消息部分参数
+BsmInfo ::= SEQUENCE {
+    position3D      TestPosition3D          OPTIONAL,
+    transmission    VehTransmissionState    OPTIONAL,
+    speed           VehSpeed                OPTIONAL,
+    heading         VehHeading              OPTIONAL,
+    brakes          VehBrakeSystemStatus    OPTIONAL,
+    size            VehSize                 OPTIONAL,
+    vehClass        VehClassification       OPTIONAL,
+    eventFlags      VehEventFlags           OPTIONAL,
+    emergencyExt    VehEmergencyExtensions  OPTIONAL,
+    ...    
+}
+
+--车辆或其他交通参与者的速度大小
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DE_Speed
+VehSpeed ::= INTEGER (0..8191)
+
+--车辆或交通参与者的航向角
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DE_Heading
+VehHeading ::= INTEGER (0..28800)
+
+--车辆档位状态
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DE_TransmissionState
+VehTransmissionState ::= ENUMERATED {
+    neutral         (0), -- Neutral
+    park            (1), -- Park
+    forwardGears    (2), -- Forward gears
+    reverseGears    (3), -- Reverse gears
+    reserved1       (4),
+    reserved2       (5),
+    reserved3       (6),
+    unavailable     (7)
+}
+
+--车辆的刹车系统状态
+--针对“BIT STRING”类型参数，如果参数某一位被置1，那么表示该位对应的状态生效。
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 BrakeSystemStatus
+VehBrakeSystemStatus ::= SEQUENCE {
+    --刹车踏板踩下情况
+    brakePedalStatus    BIT STRING {
+        unavailable     (0), -- Vehicle brake pedal detector is unavailable
+        off             (1), -- Vehicle's brake padel is not pressed
+        on              (2)  -- Vehicle's brake padel is pressed
+    },
+    --车辆车轮制动情况
+    brakeAppliedStatus  BIT STRING {
+        unavailable     (0), -- When set, the brake applied status is unavailable
+        leftFront       (1), -- Left Front Active
+        leftRear        (2), -- Left Rear Active
+        rightFront      (3), -- Right Front Active
+        rightRear       (4)  -- Right Rear Active
+    },
+    --牵引力控制系统作用情况
+    tractionControlStatus   BIT STRING {
+        unavailable     (0), -- Not Equipped with traction control or traction control status is unavailable
+        off             (1), -- Traction control is Off
+        on              (2), -- Traction control is On (but not Engaged)
+        engaged         (3)  -- Traction control is Engaged
+    },
+    --制动防抱死系统作用情况
+    antiLockBrakeStatus BIT STRING {
+        unavailable     (0), -- Vehicle Not Equipped with ABS Brakes or ABS Brakes status is unavailable
+        off             (1), -- Vehicle's ABS are Off
+        on              (2), -- Vehicle's ABS are On ( but not Engaged )
+        engaged         (3)  -- Vehicle's ABS control is Engaged on any wheel
+    },
+    --车身稳定控制系统作用情况
+    stabilityControlStatus  BIT STRING {
+        unavailable     (0), -- Not Equipped with SC or SC status is unavailable
+        off             (1), -- Off
+        on              (2), -- On or active (but not engaged)
+        engaged         (3)  -- Stability control is Engaged
+    },
+    --刹车助力系统作用情况
+    brakeBoostApplied   BIT STRING {
+        unavailable     (0), -- Vehicle not equipped with brake boost or brake boost data is unavailable
+        off             (1), -- Vehicle's brake boost is off
+        on              (2)  -- Vehicle's brake boost is on (applied)
+    },
+    --辅助制动系统情况
+    auxiliaryBrakeStatus    BIT STRING {
+        unavailable     (0), -- Vehicle Not Equipped with Aux Brakes or Aux Brakes status is unavailable
+        off             (1), -- Vehicle's Aux Brakes are Off
+        on              (2), -- Vehicle's Aux Brakes are On ( Engaged )
+        reserved        (3)  -- Reserved
+    }
+}
+
+--车辆尺寸大小
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 VehicleSize
+VehSize ::= SEQUENCE {
+    width  INTEGER (0..1023),
+    length INTEGER (0.. 4095),
+    height INTEGER (0..127) OPTIONAL
+}
+
+--车辆的分类
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 VehicleClassification
+VehClassification ::= SEQUENCE {
+    basicClass  INTEGER (0..255),       --车辆基本类型
+    fuelType    INTEGER (0..15),        --车辆的燃料动力类型
+    ...
+}
+
+--车辆特殊状态
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 VehicleEventFlags
+VehEventFlags ::= BIT STRING {
+    eventHazardLights               (0),  -- 车辆警示灯亮起
+    eventStopLineViolation          (1),  -- 车辆在到达路口前预测自己可能会来不及刹车而越过停止线
+    eventABSactivated               (2),  -- ABS系统被触发并超过100毫秒
+    eventTractionControlLoss        (3),  -- 电子系统控制牵引力被触发并超过100毫秒
+    eventStabilityControlactivated  (4),  -- 车身稳定控制被触发并超过100毫秒
+    eventHazardousMaterials         (5),  -- 危险品运输车
+    eventReserved1                  (6),  
+    eventHardBraking                (7),  -- 车辆急刹车，并且减速度大于0.4G
+    eventLightsChanged              (8),  -- 过去2秒内，车灯状态改变
+    eventWipersChanged              (9),  -- 过去2秒内，车辆雨刷（前窗或后窗）状态改变
+    eventFlatTire                   (10), -- 车辆发现至少1个轮胎爆胎了
+    eventDisabledVehicle            (11), -- 车辆故障，无法行驶
+    eventAirBagDeployment           (12)  -- 至少1个安全气囊弹出
+} (SIZE (13, ...))
+
+--紧急车辆或特种车辆的辅助信息集合
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DF_VehicleEmergencyExtensions
+--针对“BIT STRING”类型参数，如果参数某一位被置1，那么表示该位对应的状态生效。
+VehEmergencyExtensions ::= SEQUENCE {
+    --定义紧急车辆或特殊车辆当前的行驶状态或驾驶行为.
+    --参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DE_ResponseType
+    responseType    BIT STRING {
+        notInUseOrNotEquipped   (0),
+        emergency               (1), -- active service call at emergency level
+        nonEmergency            (2), -- also used when returning from service call
+        pursuit                 (3), -- sender driving may be erratic
+        stationary              (4), -- sender is not moving, stopped along roadside
+        slowMoving              (5), -- such a litter trucks, etc.
+        stopAndGoMovement       (6)  -- such as school bus or garbage truck
+    },
+    --定义紧急车辆或特殊车辆的警笛或任何专用发声装置的状态
+    --参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DE_SirenInUse
+    sirenInUse    BIT STRING {
+        unavailable             (0), -- Not Equipped or unavailable
+        notInUse                (1),
+        inUse                   (2),
+        reserved                (3)  -- for future use
+    },
+    --定义紧急车辆或特殊车辆的警示灯或外置专用显示设备的工作状态
+    --参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DE_LightbarInUse
+    lightbarInUse    BIT STRING {
+        unavailable             (0), -- Not Equipped or unavailable
+        notInUse                (1), -- none active
+        inUse                   (2),
+        yellowCautionLights     (3),
+        schooldBusLights        (4),
+        arrowSignsActive        (5),
+        slowMovingVehicle       (6),
+        freqStops               (7)
+    }
+}
+
+--MAP消息概要信息
+BasicMapNodesInfo ::= SEQUENCE {
+    sizeNodeList    INTEGER (1..63),
+    nodeName        DescriptiveName OPTIONAL,
+    nodeId          NodeReferenceID,
+    nodeCenterPos   TestPosition3D,
+    linksInNode     INTEGER (0..32)
+
+}
+
+--MAP消息中路段概要信息
+BasicMapLinkInfo ::= SEQUENCE {
+    linkName            DescriptiveName OPTIONAL,
+    linkUpstreamNodeId  NodeReferenceID,
+    linkSpeedLimits     SpeedLimitList OPTIONAL,
+    linkWidth           LaneWidth OPTIONAL,
+    lanesInLink         INTEGER (1..32)
+
+}
+
+--MAP消息中车道概要信息
+BasicMapLaneInfo ::= SEQUENCE {
+    laneID              LaneID,
+    laneWidth           LaneWidth OPTIONAL,
+    laneSpeedLimits     SpeedLimitList OPTIONAL
+
+}
+
+--节点ID，节点ID是由一个全局唯一的地区ID和一个地区内部唯一的节点ID组成
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DF_NodeReferenceID
+NodeReferenceID ::= SEQUENCE {
+    region RoadRegulatorID OPTIONAL,
+    id NodeID      
+}
+--定义地图中各个划分区域的ID号
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DE_RoadRegulatorID
+RoadRegulatorID ::= INTEGER (0..65535) 
+--定义节点ID
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DE_NodeID
+NodeID ::= INTEGER (0..65535)
+
+--名称字符串类型
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DE_DescriptiveName
+DescriptiveName ::= IA5String (SIZE(1..63))
+
+--车道ID
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DE_LaneID
+LaneID ::= INTEGER (0..255)
+
+--宽度,单位1cm
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DE_LaneWidth
+LaneWidth ::= INTEGER (0..32767)
+
+--限速列表信息
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DF_SpeedLimitList
+SpeedLimitList ::= SEQUENCE (SIZE(1..9)) OF RegulatorySpeedLimit
+
+--限速属性,包括限速类型以及所规定的限制速度
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DF_RegulatorySpeedLimit
+RegulatorySpeedLimit ::= SEQUENCE {
+    type    SpeedLimitType,
+    speed   VehSpeed
+}
+
+--限速类型
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DE_SpeedLimitType
+SpeedLimitType ::= ENUMERATED {
+    unknown,
+    maxSpeedInSchoolZone,
+    maxSpeedInSchoolZoneWhenChildrenArePresent,
+    maxSpeedInConstructionZone,
+    vehicleMinSpeed,
+    vehicleMaxSpeed,
+    vehicleNightMaxSpeed,
+    truckMinSpeed,
+    truckMaxSpeed,
+    truckNightMaxSpeed,
+    vehiclesWithTrailersMinSpeed,
+    vehiclesWithTrailersMaxSpeed,
+    vehiclesWithTrailersNightMaxSpeed,
+    ...
+}
+--定义路段中每条车道，在下游路口处与下游路段车道的转向连接关系列表
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DF_ConnectsToList
+ConnectsToList ::= SEQUENCE (SIZE(1..16)) OF Connection
+
+--车道向下游路段车道的连接关系
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DF_Connection
+Connection::= SEQUENCE {
+    remoteIntersection  NodeReferenceID,
+    connectingLane      ConnectingLane OPTIONAL, 
+    phaseId             PhaseID OPTIONAL
+}
+
+--用于定位上游车道转向连接的下游车道
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DF_ConnectingLane
+ConnectingLane ::= SEQUENCE {
+    lane        LaneID, 
+    maneuver    AllowedManeuvers OPTIONAL
+}
+
+--定义一个（机动车）车道的允许转向行为。
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DE_AllowedManeuvers
+AllowedManeuvers ::= BIT STRING {
+    -- With bits as defined:
+    -- Allowed maneuvers at path end (stop line)
+    -- All maneuvers with bits not set are therefore prohibited
+    -- A value of zero shall be used for unknown, indicating no Maneuver
+    maneuverStraightAllowed (0),
+    -- a Straight movement is allowed in this lane
+    maneuverLeftAllowed (1),
+    -- a Left Turn movement is allowed in this lane
+    maneuverRightAllowed (2),
+    -- a Right Turn movement is allowed in this lane
+    maneuverUTurnAllowed (3),
+    -- a U turn movement is allowed in this lane
+    maneuverLeftTurnOnRedAllowed (4),
+    -- a Stop, and then proceed when safe movement
+    -- is allowed in this lane
+    maneuverRightTurnOnRedAllowed (5),
+    -- a Stop, and then proceed when safe movement
+    -- is allowed in this lane
+    maneuverLaneChangeAllowed (6),
+    -- a movement which changes to an outer lane
+    -- on the egress side is allowed in this lane
+    -- (example: left into either outbound lane)
+    maneuverNoStoppingAllowed (7),
+    -- the vehicle should not stop at the stop line
+    -- (example: a flashing green arrow)
+    yieldAllwaysRequired (8),
+    -- the allowed movements above are not protected
+    -- (example: an permanent yellow condition)
+    goWithHalt (9),
+    -- after making a full stop, may proceed
+    caution (10),
+    -- proceed past stop line with caution
+    reserved1 (11)
+    -- used to align to 12 Bit Field
+} (SIZE(12))
+
+--DUT接收到的MAP概要消息.
+--具体哪个或哪些参数存在，取决于TS发送MAP消息时要求DUT接收并返回的内容.
+RxMapInfo ::= SEQUENCE {
+    basicMapNodesInfo   BasicMapNodesInfo OPTIONAL,
+    basicMapLinkInfo    BasicMapLinkInfo OPTIONAL,
+    basicMapLaneInfo    BasicMapLaneInfo OPTIONAL,
+    connectsToList      ConnectsToList OPTIONAL,
+    allowedManeuvers    AllowedManeuvers OPTIONAL,
+    ...
+}
+
+--SPAT消息概要信息.
+BasicSpatIntersections ::= SEQUENCE {
+    sizeInterStateList  INTEGER (1..32),
+    intersectionId      NodeReferenceID,
+    status              IntersectionStatusObject,
+    timeStamp           DSecond OPTIONAL,
+    timeConfidence      TimeConfidence OPTIONAL,
+    phaseListSize       INTEGER (1..16)
+}
+
+--路口信号机的工作状态指示
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DE_IntersectionStatusObject
+IntersectionStatusObject ::= BIT STRING {
+    manualControlIsEnabled (0),
+    stopTimeIsActivated (1),
+    failureFlash (2),
+    preemptIsActive (3),
+    signalPriorityIsActive (4),
+    fixedTimeOperation (5),
+    trafficDependentOperation (6),
+    standbyOperation (7),
+    failureMode (8),
+    off (9),
+    recentMAPmessageUpdate (10),
+    recentChangeInMAPassignedLanesIDsUsed (11),
+    noValidMAPisAvailableAtThisTime (12),
+    noValidSPATisAvailableAtThisTime (13)
+} (SIZE(16))
+
+--定义1分钟内的毫秒级时刻
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DE_DSecond
+DSecond ::= INTEGER (0..65535)
+
+--数值描述了95%置信水平的时间精度
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DE_TimeConfidence
+TimeConfidence ::= ENUMERATED {
+    unavailable (0), -- Not Equipped or unavailable
+    time-100-000 (1), -- Better than 100 Seconds
+    time-050-000 (2), -- Better than 50 Seconds
+    time-020-000 (3), -- Better than 20 Seconds
+    time-010-000 (4), -- Better than 10 Seconds
+    time-002-000 (5), -- Better than 2 Seconds
+    time-001-000 (6), -- Better than 1 Second
+    time-000-500 (7), -- Better than 0.5 Seconds
+    time-000-200 (8), -- Better than 0.2 Seconds
+    time-000-100 (9), -- Better than 0.1 Seconds
+    time-000-050 (10), -- Better than 0.05 Seconds
+    time-000-020 (11), -- Better than 0.02 Seconds
+    time-000-010 (12), -- Better than 0.01 Seconds
+    time-000-005 (13), -- Better than 0.005 Seconds
+    time-000-002 (14), -- Better than 0.002 Seconds
+    time-000-001 (15), -- Better than 0.001 Seconds
+    -- Better than one millisecond
+    time-000-000-5 (16), -- Better than 0.000,5 Seconds
+    time-000-000-2 (17), -- Better than 0.000,2 Seconds
+    time-000-000-1 (18), -- Better than 0.000,1 Seconds
+    time-000-000-05 (19), -- Better than 0.000,05 Seconds
+    time-000-000-02 (20), -- Better than 0.000,02 Seconds
+    time-000-000-01 (21), -- Better than 0.000,01 Seconds
+    time-000-000-005 (22), -- Better than 0.000,005 Seconds
+    time-000-000-002 (23), -- Better than 0.000,002 Seconds
+    time-000-000-001 (24), -- Better than 0.000,001 Seconds
+    -- Better than one micro second
+    time-000-000-000-5 (25), -- Better than 0.000,000,5 Seconds
+    time-000-000-000-2 (26), -- Better than 0.000,000,2 Seconds
+    time-000-000-000-1 (27), -- Better than 0.000,000,1 Seconds
+    time-000-000-000-05 (28), -- Better than 0.000,000,05 Seconds
+    time-000-000-000-02 (29), -- Better than 0.000,000,02 Seconds
+    time-000-000-000-01 (30), -- Better than 0.000,000,01 Seconds
+    time-000-000-000-005 (31), -- Better than 0.000,000,005 Seconds
+    time-000-000-000-002 (32), -- Better than 0.000,000,002 Seconds
+    time-000-000-000-001 (33), -- Better than 0.000,000,001 Seconds
+    -- Better than one nano second
+    time-000-000-000-000-5 (34), -- Better than 0.000,000,000,5 Seconds
+    time-000-000-000-000-2 (35), -- Better than 0.000,000,000,2 Seconds
+    time-000-000-000-000-1 (36), -- Better than 0.000,000,000,1 Seconds
+    time-000-000-000-000-05 (37), -- Better than 0.000,000,000,05 Seconds
+    time-000-000-000-000-02 (38), -- Better than 0.000,000,000,02 Seconds
+    time-000-000-000-000-01 (39) -- Better than 0.000,000,000,01 Seconds
+}
+
+--某个相位对应的相位信息，包括当前的相位ID和相位状态。
+CurrentPhase ::= SEQUENCE{
+    id          PhaseID,
+    phaseState  PhaseState
+}
+
+--当前相位状态，用于说明当前相位生效的灯色状态和对应的剩余时间
+PhaseState ::= SEQUENCE{
+    light           LightState,     --生效的灯色状态
+    remainingTime   TimeMark        --灯色剩余时间
+}
+
+--信号灯相位的灯色状态
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DE_LightState
+LightState ::= ENUMERATED {
+    unavailable (0),
+    dark (1),
+    flashing-red (2),
+    red (3),
+    flashing-green (4), 
+    permissive-green (5),
+    protected-green (6),
+    yellow (7),     
+    flashing-yellow (8),
+    ...
+}
+
+--信号灯相位ID
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DE_PhaseID
+PhaseID ::= INTEGER (0..255)
+--道路交通标志的类型
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DE_SignType
+SignType ::= INTEGER (0..65535)
+
+--以0.1秒为单位，定义一小时中的时间
+--可以表示当前小时中的时刻，也可以表示长度不超过1小时的时间段
+TimeMark ::= INTEGER (0..36001) 
+
+--DUT接收到的SPAT概要消息.
+--具体哪个或哪些参数存在，取决于TS发送SPAT消息时要求DUT接收并返回的内容.
+RxSpatInfo ::= SEQUENCE {
+    basicSpatIntersections      BasicSpatIntersections OPTIONAL,
+    currentPhase                CurrentPhase OPTIONAL,
+    ...
+}
+
+--DUT接收TS发送的路侧消息时,假定的DUT实时位置和航向角信息.
+TestVehicleInfo ::= SEQUENCE {
+    vehPosition    TestPosition3D,
+    vehHeading     VehHeading,
+    ...
+}
+
+--RSI消息概要信息
+BasicRSI ::= SEQUENCE {
+    rsuId       RsuId,
+    refPos      TestPosition3D,
+    countRTE    INTEGER (0..8),
+    countRTS    INTEGER (0..8),
+    ...
+}
+
+--道路交通事件信息
+RteData ::= SEQUENCE {
+    rteId       INTEGER (0..255),
+    eventType   EventType,
+    eventSource EventSource,
+    ...
+}
+
+--道路交通事件的类型
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DE_EventType
+EventType ::= INTEGER (0..65535)
+
+--道路交通事件的信息来源
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DE_EventSource
+EventSource ::= ENUMERATED {
+    unknown(0),         -- 0 Unknown
+    police(1),          -- 1 traffic police
+    government(2),      -- 2 govenment
+    meteorological(3),  -- 3 meteorological department
+    internet(4),        -- 4 internet services
+    detection(5),       -- 5 local detection
+    ...
+}
+
+--道路交通标志
+RtsData ::= SEQUENCE {
+    rtsId INTEGER (0..255),
+    -- local ID of this rts information set by RSU
+
+    signType SignType,
+    -- Type of sign, according to China GB 5768.2
+    ...
+}
+
+--DUT接收到的RSI概要消息.
+--具体哪个或哪些参数存在，取决于TS发送RSI消息时要求DUT接收并返回的内容.
+RxRsiInfo ::= SEQUENCE {
+    basicRSI      BasicRSI OPTIONAL,
+    rteData       RteData OPTIONAL,
+    rtsData       RtsData OPTIONAL,
+    ...
+}
+
+--RSM消息概要信息.
+BasicRSM ::= SEQUENCE {
+    rsuId                   RsuId,
+    refPos                  TestPosition3D,
+    countParticipants       INTEGER (1..16),
+    ...
+}
+
+--交通参与者信息
+PtcData ::= SEQUENCE {
+    ptcType         PtcType,
+    ptcId           INTEGER (0..65535),
+    source          SourceType,
+    id              OCTET STRING (SIZE(8)) OPTIONAL,
+    secMark         DSecond,
+    pos             PositionOffsetLLV,
+    posConfidence   PositionConfidenceSet,
+    speed           VehSpeed,
+    heading         VehHeading,
+    size            VehSize,
+    ...
+}
+
+--路侧单元检测到的交通参与者类型
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DE_ParticipantType
+PtcType ::= ENUMERATED {
+    unknown     (0),
+    motor       (1),
+    non-motor   (2),
+    pedestrian  (3),
+    rsu         (4),
+    ...
+}
+
+--交通参与者数据的来源
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DE_SourceType
+SourceType ::= ENUMERATED {
+    unknown(0),
+    selfinfo(1),
+    v2x(2),
+    video(3),
+    microwaveRadar(4),
+    loop(5),
+    lidar(6),
+    integrated(7),
+    ...
+}
+
+--DUT接收到的RSM概要消息.
+--具体哪个或哪些参数存在，取决于TS发送RSM消息时要求DUT接收并返回的内容.
+RxRsmInfo ::= SEQUENCE {
+    basicRSM      BasicRSM OPTIONAL,
+    ptcData       PtcData OPTIONAL,
+    ...
+}
+--------------------------------
+--RSU ID
+RsuId ::= OCTET STRING (SIZE(8))
+--------------------------------
+MsgID ::= INTEGER(0..255)
+Aid ::= INTEGER(0..MAX)         --应用ID
+RepeatRate ::= INTEGER(0..255)  --每5秒间隔内发送的消息数量。如值为0，表示消息仅传输一次。
+
+--应答信息
+Response ::= SEQUENCE {
+    msgId               MsgID,      --需与请求信息中msgId一致，用以表示应答信息与请求信息的匹配关系。
+    resultCode          ResultCode,
+    exception           Exception OPTIONAL,
+    ...
+}
+
+--结果码
+ResultCode ::= ENUMERATED {
+    rcSuccess (0), -- 成功
+    rcFailure (1)  -- 失败
+}
+
+--异常消息
+Exception ::= SEQUENCE {
+    eType          ExceptionType,
+    eId            ExceptionId,
+    eModule        Module OPTIONAL,    
+    eDescription   ExceptionText OPTIONAL,
+    ...
+}
+
+--异常类型
+--具体返回类型DUT自行根据情况选择.
+ExceptionType ::= ENUMERATED {
+    info,       --提示类异常
+    warning,    --警告类异常
+    error       --错误类异常
+}
+
+--出现异常的模块或功能名称.
+Module ::= UTF8String (SIZE(0..255))
+
+ExceptionId ::= ENUMERATED {
+    criticalError               (1),    --关键错误.
+    incorrectParameterValue     (2),    --参数错误.
+    missingParameter            (3),    --缺失参数.
+    radioInterfaceUnavailable   (4),    --无线接口不可用.
+    ...
+}
+
+--异常描述信息.
+ExceptionText ::= UTF8String (SIZE(0..1200))
+
+--DUT接收消息层消息时事件处理参数.
+EventHandling ::= SEQUENCE {
+    rxFlag        RxFlag,
+    rxPduType     RxPduParamFlag,
+    ...
+}
+
+--DUT接收标识参数.
+--注：此版本中仅使用'recvAidMatch(0)'
+RxFlag ::= ENUMERATED {
+    recvAidMatch        (0), 
+    recvAllMsg          (1), 
+    ...
+}
+
+--DUT接收消息层消息后处理要求参数信息.
+RxPduParamFlag ::= CHOICE {
+    rxBsmPduParam       BsmPduParam,        --BSM消息处理要求
+    rxMapRequirement    RxMapRequirement,   --MAP消息处理要求
+    rxSpatRequirement   RxSpatRequirement,  --SPAT消息处理要求
+    rxRsiRequirement    RxRsiRequirement,   --RSI消息处理要求
+    rxRsmRequirement    RxRsmRequirement,   --RSM消息处理要求
+    ...
+}
+
+--如果参数某一位被置1，那么表示该位对应的状态生效。
+BsmPduParam ::= BIT STRING {
+    containsPosition3D                (0),  -- DUT的Indication中包含TestPosition3D信息
+    containsVehTransmissionState      (1),  -- DUT的Indication中包含VehTransmissionState信息
+    containsVehSpeed                  (2),  -- DUT的Indication中包含VehSpeed信息
+    containsVehHeading                (3),  -- DUT的Indication中包含VehHeading信息
+    containsVehBrakeSystemStatus      (4),  -- DUT的Indication中包含VehBrakeSystemStatus信息
+    containsVehSize                   (5),  -- DUT的Indication中包含VehSize信息
+    containsVehClassification         (6),  -- DUT的Indication中包含VehClassification信息
+    containsVehEventFlags             (7),  -- DUT的Indication中包含VehEventFlags信息
+    containsVehEmergencyExtensions    (8)   -- DUT的Indication中包含VehEmergencyExtensions信息
+}
+
+RxMapRequirement ::= SEQUENCE {
+    vehInfo         TestVehicleInfo,        -- DUT在地图中的相关描述信息,用于DUT接收到MAP消息时的前提条件设置
+    paramInMap      ParamInMap              -- DUT的Indication中包含具体MAP参数信息
+}
+
+--如果参数某一位被置1，那么表示该位对应的状态生效。
+ParamInMap ::= BIT STRING {
+    containsBasicMapNodesInfo           (0),  -- DUT的Indication中包含BasicMapNodesInfo信息
+    containsBasicMapLinkInfo            (1),  -- DUT的Indication中包含BasicMapLinkInfo信息
+    containsBasicMapLaneInfo            (2),  -- DUT的Indication中包含BasicMapLaneInfo信息
+    containsConnectsToList              (3),  -- DUT的Indication中包含ConnectsToList信息
+    containsAllowedManeuvers            (4)   -- DUT的Indication中包含AllowedManeuvers信息
+}
+
+--DUT返回的相位状态信息的要求信息.
+--时间信息参考SPAT消息中timeStamp指定的时刻信息.
+RxSpatRequirement ::= SEQUENCE {
+    phaseId         PhaseID OPTIONAL,        -- DUT重点关注的相位ID,与containsCurrentPhase配合使用
+    paramInSpat     ParamInSpat              -- DUT的Indication中包含的相位状态信息的要求信息
+}
+
+--相位状态信息的要求信息
+--如果参数某一位被置1，那么表示该位对应的状态生效。
+ParamInSpat ::= BIT STRING {
+    containsBasicSpatIntersections      (0),  -- DUT的Indication中包含BasicSpatIntersections信息
+    containsCurrentPhase                (1)   -- DUT的Indication中包含CurrentPhase信息
+}
+
+RxRsiRequirement ::= SEQUENCE {
+    rteId           INTEGER (0..255) OPTIONAL,  -- DUT的Indication中包含指定RteId的RTE信息,与containsRteData配合使用
+    rtsId           INTEGER (0..255) OPTIONAL,  -- DUT的Indication中包含指定RtsId的RTS信息,与containsRtsData配合使用
+    paramInRsi      ParamInRsi                  -- DUT的Indication中包含具体RSI参数信息
+}
+
+--如果参数某一位被置1，那么表示该位对应的状态生效。
+ParamInRsi ::= BIT STRING {
+    containsBasicRSI                    (0),  -- 值为1,DUT的Indication中包含BasicRSI信息
+    containsRteData                     (1),  -- 值为1,DUT的Indication中包含RteData信息
+    containsRtsData                     (2)   -- 值为1,DUT的Indication中包含RtsData信息
+}
+
+RxRsmRequirement ::= SEQUENCE {
+    ptcId           INTEGER (0..65535) OPTIONAL,  -- DUT的Indication中包含指定ptcId的PtcData信息,与containsPtcData配合使用
+    paramInRsm      ParamInRsm                    -- DUT的Indication中包含具体RSM参数信息
+}
+
+--如果参数某一位被置1，那么表示该位对应的状态生效。
+ParamInRsm ::= BIT STRING {
+    containsBasicRSM                    (0),  -- DUT的Indication中包含BasicRSM信息
+    containsPtcData                     (1)   -- DUT的Indication中包含PtcData信息
+}
+
+--TS要求DUT发送的消息描述信息.
+MsgType ::= ENUMERATED {
+    bsmMsgType          (0),    -- DUT发送BSM消息集.
+    mapRelativePos      (1),    -- DUT发送MAP消息集,其中位置点信息采用相对位置属性填写规则.
+    mapAbsolutePos      (2),    -- DUT发送MAP消息集,其中位置点信息采用真实经纬度填写规则.
+    spatTimeCounting    (3),    -- DUT发送SPAT消息集,其中信号灯相位采用倒计时形式.
+    spatUTCTiming       (4),    -- DUT发送SPAT消息集,其中信号灯相位采用UTC世界标准时间的形式.
+    rsiMsgType          (5),    -- DUT发送RSI消息集.
+    rsmMsgType          (6)     -- DUT发送RSM消息集.
+}
+
+--用于DUT向TS上报DUT已接收到的V2X消息或DUT被触发了相关事件内容.
+--当'event!=exceptionReport(5)'时, msgLayerPduParam参数必须存在;
+--当'event=exceptionReport(5)'时, exceptionInfo参数必须存在.
+Indication ::= SEQUENCE {   
+    event                   Event,
+    msgLayerPduParam        MsgLayerPduParam   OPTIONAL,
+    exceptionInfo           Exception          OPTIONAL,
+    ...
+}
+
+Event ::= ENUMERATED {
+    eBsmRx                  (0),    -- 接收到BSM消息
+    eMapRx                  (1),    -- 接收到MAP消息
+    eRsmRx                  (2),    -- 接收到RSM消息
+    eSpatRx                 (3),    -- 接收到SPAT消息
+    eRsiRx                  (4),    -- 接收到RSI消息
+    exceptionReport         (5)     -- DUT出错.
+}
+
+--DUT接收到的消息内容描述信息.
+MsgLayerPduParam::= CHOICE {
+    bsmPduParam     BsmInfo,        --接收到BSM消息时使用
+    mapPduParam     RxMapInfo,      --接收到MAP消息时使用
+    spatPduParam    RxSpatInfo,     --接收到SPAT消息时使用
+    rsiPduParam     RxRsiInfo,      --接收到RSI消息时使用
+    rsmPduParam     RxRsmInfo,      --接收到RSM消息时使用
+    ...
+}
+
+--三维的相对位置（相对经纬度和相对高程）
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DF_PositionOffsetLLV
+PositionOffsetLLV ::= SEQUENCE {
+    offsetLL PositionOffsetLL,
+    offsetV VerticalOffset OPTIONAL
+}
+
+OffsetLL-B12 ::= INTEGER (-2048..2047) 
+-- A range of +- 0.0002047 degrees 
+-- In LSB units of 0.1 microdegrees 
+OffsetLL-B14 ::= INTEGER (-8192..8191) 
+-- A range of +- 0.0008191 degrees 
+-- In LSB units of 0.1 microdegrees
+OffsetLL-B16 ::= INTEGER (-32768..32767) 
+-- A range of +- 0.0032767 degrees 
+-- In LSB units of 0.1 microdegrees
+OffsetLL-B18 ::= INTEGER (-131072..131071) 
+-- A range of +- 0.0131071 degrees 
+-- In LSB units of 0.1 microdegrees
+OffsetLL-B22 ::= INTEGER (-2097152..2097151) 
+-- A range of +- 0.2097151 degrees 
+-- In LSB units of 0.1 microdegrees
+OffsetLL-B24 ::= INTEGER (-8388608..8388607) 
+-- A range of +- 0.8388607 degrees 
+-- In LSB units of 0.1 microdegrees
+
+Position-LL-24B ::= SEQUENCE { 
+    -- ranges of +- 0.0002047 degrees 
+    -- ranges of +- 22.634554 meters at the equator
+    lon OffsetLL-B12,
+    lat OffsetLL-B12
+    }
+
+Position-LL-28B ::= SEQUENCE { 
+    -- ranges of +- 0.0008191 degrees 
+    -- ranges of +- 90.571389 meters at the equator
+    lon OffsetLL-B14,
+    lat OffsetLL-B14
+    }
+
+Position-LL-32B ::= SEQUENCE { 
+    -- ranges of +- 0.0032767 degrees 
+    -- ranges of +- 362.31873 meters at the equator
+    lon OffsetLL-B16,
+    lat OffsetLL-B16
+    }
+
+Position-LL-36B ::= SEQUENCE { 
+    -- ranges of +- 0.0131071 degrees 
+    -- ranges of +- 01.449308 Kmeters at the equator
+    lon OffsetLL-B18,
+    lat OffsetLL-B18
+    }
+
+Position-LL-44B ::= SEQUENCE { 
+    -- ranges of +- 0.2097151 degrees 
+    -- ranges of +- 23.189096 Kmeters at the equator
+    lon OffsetLL-B22,
+    lat OffsetLL-B22
+    }
+
+Position-LL-48B ::= SEQUENCE { 
+    -- ranges of +- 0.8388607 degrees 
+    -- ranges of +- 92.756481 Kmeters at the equator
+    lon OffsetLL-B24,
+    lat OffsetLL-B24
+    }
+
+Position-LLmD-64b ::= SEQUENCE {
+    -- a full 32b Lat/Lon range
+    lon Longitude,
+    lat Latitude
+    }
+
+--经纬度偏差，来描述一个坐标点的相对位置
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DF_PositionOffsetLL
+PositionOffsetLL ::= CHOICE { 
+    -- Locations with LL content Span at the equator when using a zoom of one:
+    position-LL1 Position-LL-24B, 
+    -- within +- 22.634554 meters of the reference position
+    position-LL2 Position-LL-28B, 
+    -- within +- 90.571389 meters of the reference position
+    position-LL3 Position-LL-32B, 
+    -- within +- 362.31873 meters of the reference position
+    position-LL4 Position-LL-36B, 
+    -- within +- 01.449308 Kmeters of the reference position
+    position-LL5 Position-LL-44B, 
+    -- within +- 23.189096 Kmeters of the reference position
+    position-LL6 Position-LL-48B, 
+    -- within +- 92.756481 Kmeters of the reference position
+    position-LatLon Position-LLmD-64b 
+    -- node is a Lat/Lon absolute coordinates
+    -- not a reference position
+}
+
+--垂直方向位置偏差
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DF_VerticalOffset
+VerticalOffset ::= CHOICE { 
+    offset1 VertOffset-B07, -- with a range of +- 6.3 meters vertical
+    offset2 VertOffset-B08, -- with a range of +- 12.7 meters vertical
+    offset3 VertOffset-B09, -- with a range of +- 25.5 meters vertical
+    offset4 VertOffset-B10, -- with a range of +- 51.1 meters vertical
+    offset5 VertOffset-B11, -- with a range of +- 102.3 meters vertical
+    offset6 VertOffset-B12, -- with a range of +- 204.7 meters vertical
+    elevation Elevation     -- with a range of -409.5 to + 6143.9 meters
+}
+
+VertOffset-B07 ::= INTEGER (-64..63)
+VertOffset-B08 ::= INTEGER (-128..127)
+VertOffset-B09 ::= INTEGER (-256..255)
+VertOffset-B10 ::= INTEGER (-512..511)
+VertOffset-B11 ::= INTEGER (-1024..1023)
+VertOffset-B12 ::= INTEGER (-2048..2047)
+
+--当前实时位置（经纬度和高程）的精度大小，包括水平位置精度和高程精度，有系统自身进行实时计算和更新。
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DF_PositionConfidenceSet
+PositionConfidenceSet ::= SEQUENCE {
+    pos PositionConfidence, -- for both horizontal directions
+    elevation ElevationConfidence OPTIONAL
+}
+
+--数值描述了95%置信水平的车辆位置精度
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DE_PositionConfidence
+PositionConfidence ::= ENUMERATED {
+    unavailable (0),
+    a500m (1),
+    a200m (2),
+    a100m (3),
+    a50m (4),
+    a20m (5),
+    a10m (6),
+    a5m (7),
+    a2m (8),
+    a1m (9),
+    a50cm (10),
+    a20cm (11),
+    a10cm (12),
+    a5cm (13),
+    a2cm (14),
+    a1cm (15)
+}
+
+--数值描述了95%置信水平的车辆高程精度
+--参考《基于LTE的车联网无线通信技术 消息层技术要求》中 DE_ElevationConfidence
+ElevationConfidence ::= ENUMERATED {
+    unavailable (0),
+    elev-500-00 (1),
+    elev-200-00 (2),
+    elev-100-00 (3),
+    elev-050-00 (4),
+    elev-020-00 (5),
+    elev-010-00 (6),
+    elev-005-00 (7),
+    elev-002-00 (8),
+    elev-001-00 (9),
+    elev-000-50 (10),
+    elev-000-20 (11),
+    elev-000-10 (12),
+    elev-000-05 (13),
+    elev-000-02 (14),
+    elev-000-01 (15)
+}
+
+END

@@ -1,0 +1,64 @@
+# 金凤示范区 region/node 存量台账草案（自动生成 7 路口 + 引用图）
+# 决策规则：decision 为空的条目属 FORBIDDEN_AUTO（node ID 裁决），须人工填写后此文件方可转正
+region_candidates: [3, 500, 21901]   # 观测到的 region 取值（混用实锤）
+nodes:
+  - file: map凤苑路-金剑路node18.xml
+    declared: {region: 500, id: 18}
+    filename_hint: 18
+    referenced_by_declared_id: ['map凤苑路-金玥路node4.xml', 'map含金路-金剑路路口node17.xml']
+    decision: null        # 人工：canonical {region, id}
+  - file: map凤苑路-金坪路NODE5.xml
+    declared: {region: 500, id: 5}
+    filename_hint: 5
+    referenced_by_declared_id: []
+    decision: null        # 人工：canonical {region, id}
+  - file: map凤苑路-金玥路node4.xml
+    declared: {region: 500, id: 4}
+    filename_hint: 4
+    referenced_by_declared_id: ['map凤苑路-金剑路node18.xml']
+    decision: null        # 人工：canonical {region, id}
+  - file: map凤阁路-金剑路路口node16.xml
+    declared: {region: 500, id: 21801}
+    filename_hint: 16
+    referenced_by_declared_id: []
+    decision: null        # 人工：canonical {region, id}
+  - file: map凤阁路-金玥路node13.xml
+    declared: {region: 21901, id: 21901}
+    filename_hint: 13
+    referenced_by_declared_id: []
+    decision: null        # 人工：canonical {region, id}
+  - file: map含金路-金剑路路口node17.xml
+    declared: {region: 500, id: 17}
+    filename_hint: 17
+    referenced_by_declared_id: ['map凤苑路-金剑路node18.xml']
+    decision: null        # 人工：canonical {region, id}
+  - file: map含金路-金玥路node3.xml
+    declared: {region: 3, id: 3}
+    filename_hint: 3
+    referenced_by_declared_id: []
+    decision: null        # 人工：canonical {region, id}
+unresolved_refs:      # 被引用但没有任何文件以此自称——引用失配/缺文件
+  - {ref: {region: 21901, id: 21803}, referenced_by: ['map凤阁路-金玥路node13.xml'], decision: null}
+  - {ref: {region: 21901, id: 21903}, referenced_by: ['map凤阁路-金玥路node13.xml'], decision: null}
+  - {ref: {region: 21901, id: 22003}, referenced_by: ['map凤阁路-金玥路node13.xml'], decision: null}
+  - {ref: {region: 21901, id: 3}, referenced_by: ['map凤阁路-金玥路node13.xml'], decision: null}
+  - {ref: {region: 3, id: 1}, referenced_by: ['map含金路-金玥路node3.xml'], decision: null}
+  - {ref: {region: 3, id: 2}, referenced_by: ['map含金路-金玥路node3.xml'], decision: null}
+  - {ref: {region: 3, id: 4}, referenced_by: ['map含金路-金玥路node3.xml'], decision: null}
+  - {ref: {region: 500, id: 15}, referenced_by: ['map含金路-金剑路路口node17.xml'], decision: null}
+  - {ref: {region: 500, id: 16}, referenced_by: ['map含金路-金剑路路口node17.xml'], decision: null}
+  - {ref: {region: 500, id: 20}, referenced_by: ['map凤苑路-金剑路node18.xml'], decision: null}
+  - {ref: {region: 500, id: 20603}, referenced_by: ['map凤苑路-金坪路NODE5.xml'], decision: null}
+  - {ref: {region: 500, id: 20701}, referenced_by: ['map凤苑路-金坪路NODE5.xml'], decision: null}
+  - {ref: {region: 500, id: 20702}, referenced_by: ['map凤苑路-金坪路NODE5.xml'], decision: null}
+  - {ref: {region: 500, id: 20703}, referenced_by: ['map凤苑路-金坪路NODE5.xml'], decision: null}
+  - {ref: {region: 500, id: 21204}, referenced_by: ['map凤阁路-金剑路路口node16.xml'], decision: null}
+  - {ref: {region: 500, id: 21301}, referenced_by: ['map凤阁路-金剑路路口node16.xml'], decision: null}
+  - {ref: {region: 500, id: 21501}, referenced_by: ['map凤苑路-金坪路NODE5.xml'], decision: null}
+  - {ref: {region: 500, id: 21803}, referenced_by: ['map凤阁路-金剑路路口node16.xml'], decision: null}
+  - {ref: {region: 500, id: 22}, referenced_by: ['map含金路-金剑路路口node17.xml'], decision: null}
+  - {ref: {region: 500, id: 22001}, referenced_by: ['map凤阁路-金剑路路口node16.xml'], decision: null}
+  - {ref: {region: 500, id: 23}, referenced_by: ['map凤苑路-金剑路node18.xml'], decision: null}
+  - {ref: {region: 500, id: 3}, referenced_by: ['map凤苑路-金玥路node4.xml'], decision: null}
+  - {ref: {region: 500, id: 401}, referenced_by: ['map凤苑路-金玥路node4.xml'], decision: null}
+  - {ref: {region: 500, id: 9}, referenced_by: ['map凤苑路-金玥路node4.xml'], decision: null}
