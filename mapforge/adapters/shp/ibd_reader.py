@@ -24,6 +24,8 @@ class LaneRec:
     lane_type: int
     max_speed_kmh: int
     geometry: np.ndarray          # (n,2) lon/lat 度
+    s_width_mm: int = 0           # 起点宽（IBD S_WIDTH，变宽车道用）
+    e_width_mm: int = 0           # 终点宽（IBD E_WIDTH）
 
 
 @dataclass
@@ -49,13 +51,41 @@ class JunctionRec:
         return self.polygon.mean(axis=0)
 
 
+def _chain_segments(segs: list[np.ndarray], eps: float = 2e-6) -> np.ndarray:
+    """多段中心线按端点衔接拼链（度容差 eps≈0.2m）；拼不上的余段丢弃取最长链。"""
+    if len(segs) == 1:
+        return segs[0]
+    segs = sorted(segs, key=lambda g: -g.shape[0])
+    chain, rest = list(segs[0]), list(segs[1:])
+    changed = True
+    while rest and changed:
+        changed = False
+        for i, s in enumerate(rest):
+            if np.linalg.norm(s[0] - chain[-1]) < eps:
+                chain.extend(list(s[1:]))
+            elif np.linalg.norm(s[-1] - chain[-1]) < eps:
+                chain.extend(list(s[::-1][1:]))
+            elif np.linalg.norm(s[-1] - chain[0]) < eps:
+                chain[0:0] = list(s[:-1])
+            elif np.linalg.norm(s[0] - chain[0]) < eps:
+                chain[0:0] = list(s[::-1][:-1])
+            else:
+                continue
+            rest.pop(i)
+            changed = True
+            break
+    return np.asarray(chain)
+
+
 def _s(v) -> str:
     return str(v).strip()
 
 
 def _i(v, default=0) -> int:
+    """整数解析（容忍小数字符串——DBF 数值字段带小数位时 pyshp 返回 float，
+    如上游链节 S_WIDTH='4272.0'；int(str) 直接抛错会把真值吞成 0）。"""
     try:
-        return int(str(v).strip())
+        return int(float(str(v).strip()))
     except (ValueError, TypeError):
         return default
 
@@ -130,7 +160,8 @@ class IbdSource:
                     lane_pid=_s(m["LANE_PID"]), link_pid=_s(m.get("LINK_PID", "")),
                     seq=_i(m.get("SEQ_NUM")), width_mm=_i(m.get("WIDTH")),
                     lane_type=_i(m.get("LANE_TYPE")), max_speed_kmh=_i(m.get("MAX_SPEED")),
-                    geometry=np.asarray(sr.shape.points) if sr.shape.points else np.zeros((0, 2)))
+                    geometry=np.asarray(sr.shape.points) if sr.shape.points else np.zeros((0, 2)),
+                    s_width_mm=_i(m.get("S_WIDTH")), e_width_mm=_i(m.get("E_WIDTH")))
                 if layer == "IBD_LANE_LINK_MERGE":
                     self._merge_pids.add(rec.lane_pid)
                     by_pid.setdefault(rec.lane_pid, rec)      # MERGE 不覆盖普通层
@@ -154,6 +185,28 @@ class IbdSource:
     def lane(self, lane_pid: str) -> LaneRec | None:
         self._load_lanes()
         return self._lane_by_pid.get(lane_pid)
+
+    def is_merge(self, lane_pid: str) -> bool:
+        """是否路口内虚拟车道（IBD_LANE_LINK_MERGE 层）。"""
+        self._load_lanes()
+        return lane_pid in self._merge_pids
+
+    @property
+    def roadcenters(self) -> dict[str, np.ndarray]:
+        """LINK_PID → 道路中心线几何（IBD_ROADCENTER，IS_JUNC 路口内段除外；多段拼链）。"""
+        if getattr(self, "_roadcenters", None) is None:
+            segs: dict[str, list[np.ndarray]] = {}
+            r = self._reader("IBD_ROADCENTER")
+            fields = [f[0] for f in r.fields[1:]]
+            for sr in r.iterShapeRecords():
+                m = dict(zip(fields, sr.record))
+                if _i(m.get("IS_JUNC")):
+                    continue
+                g = np.asarray(sr.shape.points)
+                if g.shape[0] >= 2:
+                    segs.setdefault(_s(m.get("LINK_PID", "")), []).append(g)
+            self._roadcenters = {k: _chain_segments(v) for k, v in segs.items()}
+        return self._roadcenters
 
     @property
     def topo_out(self) -> dict[str, list[str]]:

@@ -80,10 +80,13 @@ def convert(input_path: Path,
             to: str = typer.Option(..., "--to", help="目标格式: geojson | uper | map-xml | map(三视图) | xodr"),
             out: Path = typer.Option(None, "-o", help="输出路径/目录"),
             mode: str = typer.Option("absolute", help="UPER 点列编码 absolute|offset"),
-            like: Path = typer.Option(None, help="IBD SHP 源必填：现网参考 XML（定位路口/配对/phase 演示通道）"),
+            like: Path = typer.Option(None, help="IBD SHP 源：现网参考 XML（定位路口；--to map 还提供配对/phase 通道）"),
+            at: str = typer.Option(None, "--at", help="IBD SHP 源定位路口的备选方式: lon,lat（如 106.51,29.60）"),
+            shp_profile: str = typer.Option(None, "--profile",
+                                            help="SHP Profile YAML（路径或 profiles/shp/ 下的名字）；"
+                                                 "缺省用内置 ibd-smarteditor-v1 直读器"),
             junction: str = typer.Option(None, help="xodr 源：junction id（缺省自动选最大十字）"),
             region: int = typer.Option(500), node_id: int = typer.Option(9901),
-            connect: str = typer.Option(None, help="MAP→xodr 附加 G2 连接路对，如 west-north,south-west"),
             allow_no_phase: bool = typer.Option(False, "--allow-no-phase",
                                                 help="显式降级：允许交付无 phase 的信控路口 MAP（默认红线阻断）")):
     """统一转换入口：MAP XML / OpenDRIVE / IBD SHP 目录 → geojson / uper / map-xml / map / xodr。"""
@@ -92,19 +95,59 @@ def convert(input_path: Path,
 
     # —— 源 → MapNode ——
     fmt, profile, pipe = "v2xmap-xml", "jinfeng-dialect", None
-    if input_path.is_dir():                                  # IBD SHP 目录
-        if like is None:
-            typer.echo("IBD SHP 源需要 --like <现网参考XML>")
+    neighbors: list = []
+    def _shp_source(shp_dir):
+        """SHP 源：默认走 Profile 引擎（ibd-smarteditor-v1）——其宽度阶梯能从边界横距
+        救回 WIDTH=0 脏数据；YAML 缺失时退回内置直读器。"""
+        from mapforge.adapters.shp.profile_source import ProfileSource
+        try:
+            s = ProfileSource(str(shp_dir), shp_profile or "ibd-smarteditor-v1")
+            typer.echo(f"profile: {s.p.get('profile')}（{s.p.get('_path', '内嵌')}）")
+            return s
+        except FileNotFoundError:
+            if shp_profile:
+                raise
+            from mapforge.adapters.shp.ibd_reader import IbdSource
+            return IbdSource(str(shp_dir))
+
+    if input_path.is_dir() and to == "xodr":                 # SHP → xodr：直转（不过 MAP 窄门）
+        from mapforge.ops.shp_to_xodr import build_junction_xodr
+        src = _shp_source(input_path)
+        if like is not None:
+            ref = parse_map_xml(str(like))
+            lon_, lat_ = ref.ref_lon, ref.ref_lat
+        elif at:
+            lon_, lat_ = (float(v) for v in at.split(","))
+        else:
+            names = "、".join((j.name or j.pid) for j in src.junctions[:20])
+            typer.echo(f"SHP→xodr 需定位路口：--like <现网XML> 或 --at lon,lat。可选路口：{names}")
             raise typer.Exit(1)
-        from mapforge.adapters.shp.ibd_reader import IbdSource
+        junc, dist = src.find_junction(lon_, lat_)
+        base = out if out else (_ROOT / "out" / "convert" / f"ibd_{junc.pid[-8:]}")
+        base.parent.mkdir(parents=True, exist_ok=True)
+        st = build_junction_xodr(src, junc, base.with_suffix(".xodr"))
+        typer.echo(f"直转 {st['junction']}（ref 距 {dist:.0f}m）: 进口路 {st['roads_enter']} + "
+                   f"出口路 {st['roads_leave']} + 连接路 {st['conn_via'] + st['conn_g2']}"
+                   f"（实测几何 {st['conn_via']} / G2 合成 {st['conn_g2']}），"
+                   f"junction connections {st['connections']} laneLinks {st['lanelinks']}，"
+                   f"拟合偏差峰值 {st['fit_dev_max']:.2f}m")
+        if getattr(src, "derivation_stats", None):
+            typer.echo(f"  推导统计: {src.derivation_stats}")
+        typer.echo(f"  {base.with_suffix('.xodr').name}")
+        typer.echo("OK")
+        return
+    if input_path.is_dir():                                  # SHP 目录 → MAP 系目标
+        if like is None:
+            typer.echo("SHP 源转 MAP 需要 --like <现网参考XML>")
+            raise typer.Exit(1)
         from mapforge.ops.shp_to_map import rebuild_from_ibd, phase_table_from_xml, id_table_from_xml
         ref = parse_map_xml(str(like))
         node, summary, _ = rebuild_from_ibd(
-            IbdSource(str(input_path)), ref.ref_lon, ref.ref_lat,
+            _shp_source(input_path), ref.ref_lon, ref.ref_lat,
             region=ref.region, node_id=ref.node_id,
             phase_table=phase_table_from_xml(ref),
             id_table=id_table_from_xml(ref))     # 台账 inherit-as-is（ledger/jinfeng-2026.yaml 裁决）
-        fmt, profile, pipe = "shp", "ibd-smarteditor-v1", summary
+        fmt, profile, pipe = "shp", (shp_profile or "ibd-smarteditor-v1"), summary
         typer.echo(f"SHP 重塑: {summary['junction']} links={summary['links']} lanes={summary['lanes']} "
                    f"connects={summary['connects']} phase={summary['phase_bound']}/{summary['phase_bound']+summary['phase_missing']}")
     elif input_path.suffix.lower() == ".xodr":
@@ -124,8 +167,15 @@ def convert(input_path: Path,
         pipe = {"junction": jid, "connects": rep.n_conn, "virtual_nodes": rep.virtual_nodes}
         typer.echo(f"xodr junction {jid} 重塑: {len(node.links)} links, "
                    f"connectsTo {rep.n_conn}（虚拟台账 {rep.virtual_nodes}）")
-    else:                                                    # MAP XML
-        node = parse_map_xml(str(input_path))
+    else:                                                    # MAP XML（可为多节点帧）
+        from mapforge.adapters.v2xmap.xml_reader import parse_map_xml_all
+        all_nodes = parse_map_xml_all(str(input_path))
+        sel = [n for n in all_nodes if n.node_id == node_id]
+        node = sel[0] if sel else all_nodes[0]
+        neighbors = [n for n in all_nodes if n is not node]
+        if neighbors:
+            typer.echo(f"多节点帧: 共 {len(all_nodes)} 节点，主节点 ({node.region},{node.node_id})，"
+                       f"邻居 {[n.node_id for n in neighbors]} 作为真实出口数据源")
 
     # —— MapNode → 目标 ——
     base = out if out else (_ROOT / "out" / "convert" / (Path(input_path).stem if not input_path.is_dir()
@@ -172,13 +222,93 @@ def convert(input_path: Path,
             raise typer.Exit(2)
     elif to == "xodr":
         from mapforge.ops.map_to_xodr import build_xodr
-        pairs = [tuple(p.split("-", 1)) for p in connect.split(",")] if connect else []
-        stats = build_xodr(node, base.with_suffix(".xodr"), pairs)
-        typer.echo(f"  {base.with_suffix('.xodr').name}: {stats}")
+        stats = build_xodr(node, base.with_suffix(".xodr"), neighbors=neighbors or None)
+        typer.echo(f"  进口路 {stats['links']} + 出口路 {stats['exit_roads']}"
+                   f"（真实 {stats['exit_real']} / 镜像 INFERRED {stats['exit_mirror']}）+ "
+                   f"连接路 {stats['conn_roads']}(G2)，junction connections {stats['connections']}"
+                   f"，拟合偏差峰值 {stats['fit_dev_max']:.2f}m"
+                   + (f"，skipped {stats['skipped']}" if stats["skipped"] else ""))
+        typer.echo(f"  {base.with_suffix('.xodr').name}")
     else:
         typer.echo(f"未知目标 {to}")
         raise typer.Exit(1)
     typer.echo("OK")
+
+
+@app.command("profile-init")
+def profile_init(out: Path = typer.Argument(Path("my-vendor.yaml"), help="输出模板路径")):
+    """生成带注释的 SHP Profile 模板（新图商字段映射从这里开始改）。"""
+    from mapforge.adapters.shp.profile_source import TEMPLATE_YAML
+    if out.exists():
+        typer.echo(f"{out} 已存在，不覆盖")
+        raise typer.Exit(1)
+    out.write_text(TEMPLATE_YAML, encoding="utf-8")
+    typer.echo(f"模板已生成: {out}\n下一步: 按交付改字段名 → python -m mapforge.cli profile-check {out} <shp目录>")
+
+
+@app.command("profile-check")
+def profile_check(profile: str = typer.Argument(..., help="Profile YAML（路径或 profiles/shp/ 名字）"),
+                  shp_dir: Path = typer.Argument(..., help="图商 SHP 交付目录")):
+    """映射体检：图层/字段存在性、值抽样、宽度量级、路线与降级预告。发现硬伤 exit 1。"""
+    import shapefile as _sf
+    from mapforge.adapters.shp.profile_source import load_profile, _LEN_TO_MM
+    p = load_profile(profile)
+    typer.echo(f"profile: {p.get('profile')}  encoding={p.get('encoding', 'utf-8')}  "
+               f"units.length={(p.get('units') or {}).get('length', 'm')}")
+    crs = p.get("crs") or {}
+    typer.echo(f"crs: declared={crs.get('declared')!r} verified={crs.get('verified')!r}"
+               + ("" if crs.get("verified") not in (False, None, "false") else
+                  "  <-- 未核验：核验通过前禁止生产转换（硬约束3）"))
+    errors, warns = [], []
+    lane_spec = p["layers"]["lane"]
+    for lname, spec in p["layers"].items():
+        f = shp_dir / f"{spec['file']}.shp"
+        if not f.exists():
+            errors.append(f"[{lname}] 缺文件 {f.name}")
+            continue
+        r = _sf.Reader(str(shp_dir / spec["file"]), encoding=p.get("encoding", "utf-8"))
+        have = {x[0] for x in r.fields[1:]}
+        mapped = {k: v for k, v in spec.get("fields", {}).items()}
+        miss = {k: v for k, v in mapped.items() if v not in have}
+        for k, v in miss.items():
+            errors.append(f"[{lname}] 字段 {k}->{v!r} 不存在（可用: {sorted(have)[:12]}...）")
+        ok = {k: v for k, v in mapped.items() if v in have}
+        if ok:
+            rec = r.record(0)
+            fields = [x[0] for x in r.fields[1:]]
+            m = dict(zip(fields, rec))
+            sample = {k: str(m.get(v))[:18] for k, v in ok.items()}
+            typer.echo(f"  [{lname}] {spec['file']} {r.numRecords} 条  样例: {sample}")
+    # 宽度量级体检
+    wf = (lane_spec.get("fields") or {}).get("width")
+    if wf and (shp_dir / f"{lane_spec['file']}.shp").exists():
+        r = _sf.Reader(str(shp_dir / lane_spec["file"]), encoding=p.get("encoding", "utf-8"))
+        fields = [x[0] for x in r.fields[1:]]
+        if wf in fields:
+            i = fields.index(wf)
+            vals = [float(str(rec[i]).strip() or 0) for rec in list(r.iterRecords())[:200]]
+            scale = _LEN_TO_MM[(p.get("units") or {}).get("length", "m")]
+            med_mm = sorted(v * scale for v in vals)[len(vals) // 2]
+            typer.echo(f"  宽度量级: 抽样中位 {med_mm:.0f}mm（按 units.length 换算）")
+            if not 1500 <= med_mm <= 6500:
+                warns.append(f"宽度中位 {med_mm:.0f}mm 不像车道宽——units.length 可能配错")
+    # 路线与降级预告
+    geom = lane_spec.get("geometry", "field")
+    typer.echo(f"  车道几何路线: {'A 车道中心线字段' if geom == 'field' else 'B 边界线合成'}；"
+               f"宽度阶梯: {lane_spec.get('width_from', ['field', 'boundaries', 'spacing', 'default'])}")
+    for opt, msg in (("junction", "无路口层：需 --at lon,lat 定位，端点聚类推断进 REVIEW"),
+                     ("topo", "无拓扑层：junction 连接将为空（几何推断路线未实装）"),
+                     ("road", "无道路层：按车道 road 字段合成归组，路名/拼链不可用"),
+                     ("road_center", "无道路中心线层：参考线用中间车道替代")):
+        if opt not in p["layers"]:
+            warns.append(msg)
+    for w in warns:
+        typer.echo(f"  警告: {w}")
+    if errors:
+        for e in errors:
+            typer.echo(f"  错误: {e}")
+        raise typer.Exit(1)
+    typer.echo("profile-check PASS")
 
 
 @app.command("validate-xodr")

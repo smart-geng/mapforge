@@ -110,13 +110,23 @@ def _speed_limits(el):
 
 
 def parse_map_xml(path: str) -> MapNode:
+    """首个 Node（单路口文件的既有行为）。多节点帧用 parse_map_xml_all。"""
+    return parse_map_xml_all(path)[0]
+
+
+def parse_map_xml_all(path: str) -> list[MapNode]:
+    """帧内全部 Node——多节点 MAP（相邻路口合帧）时，邻居节点的 inLink 即本节点的真实出口路。"""
     root = ET.parse(path).getroot()
-    nd = root.find("mapFrame/nodes/Node")
-    if nd is None:
+    mf = root.find("mapFrame")
+    nodes = root.findall("mapFrame/nodes/Node")
+    if not nodes:
         raise ValueError("no mapFrame/nodes/Node in %s" % path)
+    return [_parse_node(nd, mf) for nd in nodes]
+
+
+def _parse_node(nd, mf) -> MapNode:
     region, nid = _node_ref(nd.find("id"))
     out = MapNode(name=(nd.findtext("name") or "").strip(), region=region, node_id=nid)
-    mf = root.find("mapFrame")
     out.msg_cnt = _int(mf, "msgCnt")
     out.time_stamp = _int(mf, "timeStamp")
     ref = nd.find("refPos")

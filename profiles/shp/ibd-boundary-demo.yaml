@@ -1,0 +1,44 @@
+# 路线 B 演示：故意不消费 IBD 的 WIDTH 字段，宽度全部由边界横距推导——
+# 模拟"只有边界线+左右关系、没有宽度字段"的图商形态，用金凤真实数据验证推导路线。
+# 金凤实测：推导宽 vs WIDTH 字段误差中位 1.4cm、最大 2.4cm（接入指南二）。
+profile: ibd-boundary-demo
+encoding: gbk
+units:
+  length: mm
+crs:
+  declared: "WGS84(声称)"
+  verified: internally-consistent
+
+layers:
+  junction:
+    file: IBD_OBJECT_INTERSECTION_SURFACE
+    list_sep: ";"
+    fields: {id: OBJECT_PID, name: NAME, enter_roads: ENTER_ROAD, leave_roads: LEAVE_ROAD}
+  road:
+    file: IBD_ROADLINK
+    fields: {id: LINK_PID, name: ROADNAME, lane_count: LANE_NUM}
+  road_center:
+    file: IBD_ROADCENTER
+    fields: {road: LINK_PID, is_junction_interior: IS_JUNC}
+  lane:
+    file: IBD_LANE_LINK
+    geometry: field
+    width_from: [boundaries, spacing, default]   # 无 field：全走推导阶梯
+    default_width_m: 3.5
+    fields:
+      id: LANE_PID
+      road: LINK_PID
+      seq: SEQ_NUM
+  lane_merge:
+    file: IBD_LANE_LINK_MERGE
+    fields: {id: LANE_PID, road: LINK_PID, seq: SEQ_NUM}
+  topo:
+    file: IBD_LANE_TOPO_DETAIL
+    fields: {from: IN_PID, to: OUT_PID}
+  boundary:
+    file: IBD_LANE_BOUNDARY
+    fields: {id: BORDER_PID}
+  lane_boundary_rel:
+    file: IBD_LANE_BOUNDARY_REL
+    side_values: {left: 1, right: 2}
+    fields: {lane: LANE_PID, boundary: BORDER_PID, side: SIDE}

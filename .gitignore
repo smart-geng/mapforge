@@ -9,3 +9,6 @@ shp_0222-0326/
 
 # 外部参考代码：只吸收思路，代码不入库（CLAUDE.md 约定）
 v2x_map_xml/xml2xodr/
+
+# 第三方验证工具二进制（esmini 官方 Release，本地下载不入库）
+esmini/
