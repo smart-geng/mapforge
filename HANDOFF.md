@@ -1,7 +1,8 @@
 # 地图格式转换工厂 · 会话交接文档
 
-> 更新日期：2026-08-14。项目已落位 `F:\MapFactory\`，方案升级至 **v1.22**（双侧 leg road 规范模型 + 自研 OpenDRIVE writer + 全网 G2 + 段长/蛇行治理 + esmini 独立验证）。
+> 更新日期：2026-08-14。项目已落位 `F:\MapFactory\`，方案升级至 **v1.25**（双侧 leg road + 自研 OpenDRIVE writer + 全网 G2 + 极小段 fail-closed 门禁 + esmini 独立验证）。
 > **完整交接见 [docs/交接文档-mapforge.md](docs/交接文档-mapforge.md)**（架构、验收方法、复跑命令、遗留事项）。
+> **遗留工作总排期见 [docs/遗留工作全面规划-2026-08-14.md](docs/遗留工作全面规划-2026-08-14.md)**。
 > **新会话请先读本文件，再按第三节的待办继续工作。**
 
 ---
@@ -41,6 +42,8 @@ F:\MapFactory\
 
 ## 三、下一步待办（新会话从这里继续）
 
+**v1.25 极小段假平滑已收口（2026-08-14）**：v1.22 的中位段长门禁仍放过 0.667m 碎段，本轮改为最终 xodr 硬门禁：普通 leg 最短段 ≥3m、junction connecting road ≥1m；leg 同时要求来源偏差 ≤1.5m、|κ|≤0.04、|dκ/ds|≤0.0045、翻转≤8/100m。`fit_leg_refline` 只有全部条件同时通过才返回；无解抛 `ReflineFitError`，fallback 仅供诊断。SHP 拼链修正为比较真实连接端切向，候选自身绕街角则在完整 ROADLINK 边界停止；已删除静默裁源线的 `_trim_far_spikes`。车道写出新增 `mapforge.source_lane` provenance，并有按来源 lane 配对的保真/绑错故障测试。**验收：pytest 44/44 PASS；14/14 文件通过加强 G7、XSD、planView、G2、断面、换乘和 esmini；普通道路全局最短段约 3.2m。**尚未完成的更大范围工作仍以遗留工作总规划为准，尤其是把来源 lane 双向保真扩展为 14 文件的正式 G8 交付门禁。
+
 0. ~~参考线拟合 spike~~ **已完成（2026-08-13，结果见《Spike报告-参考线拟合验证》，方案已升 v1.5）**：A/B/C 全部通过——拟合路线验证成立（Town03 回拍类型零漏检、半径误差中位 6–15%；node16 端到端 XSD PASS + 连续性 0 违例；SolveG2 连接路可用；pyclothoids Windows wheel 直装成功）。**重大发现：IBD CURVATURE 字段核验不通过**（与几何不相关），曲率先验降级、字段核验升为强制门禁。已有代码资产：`mapforge/ops/refline_fit.py`、`mapforge/adapters/v2xmap/xml_reader.py`、`mapforge/validate/planview_check.py`、`.venv`（Python 3.10，正式环境换 3.11）。拟合器正式化待办：边界局部精修、段数最优化（Maier）、大半径假 arc 归直、spiral 档接入。
 1. ~~M0 四项无依赖作业~~ **已完成（2026-08-13，《M0作业报告-ASN编译与数据核验》，方案升 v1.6）**：
    - ① ASN.1：163 定义编译 PASS + UPER 回环 PASS（`adapters/v2xmap/asn/msglayer-draft.asn` + 运行时 `msglayer_draft.py`；送审稿修复 5 处尾随逗号已留痕）；
@@ -55,6 +58,7 @@ F:\MapFactory\
    - **交付包已落地（`--to map` 即产方案 8.3 目录，report/deliver.py）**：三视图+quality/loss+id-mapping/diff+provenance+config+STATUS 共 11 文件；**红线实测生效**（无 phase → BLOCKED exit=2，--allow-no-phase 显式降级记 DROPPED）。样例 out/deliver/。
    - **工程化整备完成**：SHP 重塑与 GeoJSON 预览已入包（ops/shp_to_map、report/preview_geojson），CLI 自足不依赖 scripts/；拟合器加保真后处理（假 arc 归直/同类合并，refine 后禁并弧）；全量回归绿。已知限制：σ=5cm 压力组复合弧分段模糊（根治=Maier 最优分段，正式化项）。
    - **工程卫生完成**：pytest 26 项全绿（`pytest tests -q`，含金凤黄金回归门禁）；README 就位；**git 仓库已建**（main 分支，首次提交 24c2a9d，70 文件；.gitignore 排除 .venv/out/SHP 大数据/xml2xodr 参考代码）。
+   - **转向补全模式 connect-mode（2026-08-14 第十五轮，用户"全连接/默认连接填满空隙，路口需要支持这种模式，因为地图本来可能就有问题"，方案升 v1.24）**：新增 `ops/junction_fill.py`（两管道 + CLI 共用）。三档：`data`（默认，仅源数据——"不发明拓扑"仍是默认立场）/ `default`（按车道位置补**应有而缺失**的转向；判"已有转向"用**几何分类**不用数据字段——字段正是可疑的那个）/ `full`（全连接：每条进口车道→每个非掉头出口腿的每条车道，治整片缺录 + 铺满路口）。补出连接标 INFERRED（`stats.conn_filled`）、走与数据连接同一套 G2 回旋链、受**曲率守卫**（|κ|>0.125 即 R<8m 判不可行，计 `conn_fill_skipped`）、掉头默认排除（`--allow-uturn`）。CLI：`--connect-mode data|default|full`。**实测 14 文件**：default 补 12/拒 7，full 补 759/拒 77，**门禁零降级**；esmini 抽检 4 文件全 PASS（96–116 对缝隙 0.0cm、零跳变）。pytest 37（新增 data 档 conn_filled==0 的行为门禁）。
    - **路口铺面材质与验收统一（2026-08-14 第十四轮，用户"补齐为啥不是路/验收和道路不一样"，方案升 v1.23）**：① **lane type 渲染逐类型隔离实测**（上一轮在拼图里目测，结论记反了——教训：颜色/材质这类判断必须单变量隔离+采像素，不能靠多目标拼图目测）：`driving/restricted/shoulder/parking/stop`=沥青(83,83,75)、**`none/border`=浅灰(125,125,113)**、`curb/sidewalk/biking`=混凝土(170,170,154)、`median`=绿化(70,139,88)。铺面原用 `none` → 浅灰补丁；改 **`restricted`**（沥青 + 规范语义"铺装不可行车"），路口内与进口道无缝同材质。② **铺面纳入门禁**：`audit_file` 断面台阶去掉"仅非 junction road"过滤，覆盖所有 road（铺面实测 0.3–0.7cm 达标）。③ 用户提议的"全连接/默认连接填空隙"**未采用**：多边形铺面已 100% 覆盖内部（out/preview/junction_close{,_m2x}.png 实证），而全连接会发明数据中不存在的转向、违反"不发明拓扑"硬约束；如需可行车全连接应设显式开关并标 INFERRED。七门禁 14/14 PASS、pytest 36 绿。
    - **段长与曲率蛇行治理（2026-08-14 第十三轮，用户质疑"极小段拼接会影响自动驾驶车辆"，方案升 v1.22）**：质疑成立——实测 SHP 侧中位段长 1.6–1.9m、50.3% 的段 <2m、node18 单路口 684 段。**先立判据再动手**：`smoothness.curvature_quality/curvature_audit`——段长只是辅助指标，真判据是 sharpness(dκ/ds) 变号率（方向盘微抖）与侧向 jerk v³·dκ/ds（leg 60km/h、conn 30km/h）。**三件核心改动**：① `simplify_planview` 曲率域精简 + κ 去噪（中值+均值，窗**从小到大够用即止**；目标先最少变号再最少段数；`_absorb_short_segs` 每次合并验偏差——**曲率图上直接删控制点会改 ∫κ ds 致航向漂移，实测偏差爆到 30m**）；② `weld_g2` 让 G2 成为**无条件承诺**（g2ify 失控分支残差 + 简化跳过零长阶跃 ⇒ 断差穿透 8e-3~3.3e-2，焊平后回 0.00e+00）；③ 连接路桥切口 3→8m（切口小把三段桥压成 1.6m 碎段）+ 最少段优先（3 段 G2 链偏差 ≤0.5m 就用）。**走不通并删除的路**：曲率剖面直接重建（离散曲率→RDP→clothoid + Kabsch 配准）最好只有 1.5–2.0m 偏差（曲率误差两次积分放大），需非线性最小二乘精修才可行——代码已删，不留死路。**成绩**：段数 3752→2089（−44%）、<1m 段 7.8%→**0.0%**、<2m 50.3%→3.1%、中位 2.00→4.20m；leg 蛇行 18–24→0–11.5/100m、leg jerk 667–1290→0–149。闭环升七门禁（G7 曲率品质）14/14 PASS、pytest 36 绿、视觉 14 张过。
    - **MAP 管道补齐到 SHP 同等（2026-08-14 第十二轮，"MAP XML 转 xodr 也要达到同等效果"，方案升 v1.21）**：`ops/map_to_xodr.py` leg 构建重写——站点网格多 laneSection（≈30m，共享站点 ⇒ 断面天然连续，8→34 段/路口）、实测轮廓跟踪（`_lane_profile` 投影 (s,d) + `_prof_eval` 局部回归 + `_bounds` 中点边界 + Hermite/FC 限幅，与 SHP 同机制；`fc_clamp` 移入 `refline_fit` 共享）、车道 speed 逐段落盘。**三个实测暴露的真问题**：① **车道存在性按点列覆盖判定**——MAP 各车道点列覆盖范围不同（进口 lane1/4 只覆盖近路口段=口部展宽；出口 lane1 只覆盖远端=下游加出车道），旧的"最近值外推"把远端车道摆进路口口部落进对向幅（重叠 2.9m）；改为覆盖外零宽（自然锥形收放）后降至 0.12m，识别 15 条展宽/加出车道，零宽端不写衔接。② 出口瞄准取 **written 链**（median 钳 0 时堆叠外移，否则错开一个车道宽）；口部零宽目标车道自动改瞄最近实存车道。③ **`simplify_planview` 后必须统一 G2**——精简/短段吸收留 8e-3~3.3e-2 κ 残差（旧代码只在精简失败时 G2 化 → SHP 侧 G3 全线回归）；用 `weld_g2` 焊平（不增段、护段长中位；g2ify 会把 node18 中位段长 3.9→2.9m 触发 G7），大阶跃仍走 g2ify 再焊。esmini 探针起点改用 `RM_GetLaneWidthByRoadId` 找车道真正存在的最小 s（零宽处起步会被归邻道，量到的是探针错误）。终态：七门禁 14/14 PASS、pytest 36 绿、视觉 14 张目检过。

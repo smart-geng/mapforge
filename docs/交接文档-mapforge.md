@@ -1,6 +1,6 @@
 # mapforge 交接文档
 
-> 版本：2026-08-14 · 对应方案 v1.22 · 首次完整交接
+> 版本：2026-08-14 · 对应方案 v1.25 · 已补极小段 fail-closed 收口
 > 读完本文即可独立接手：知道项目做什么、代码怎么组织、质量怎么保证、哪里还没做完。
 > 逐轮开发流水见 [HANDOFF.md](../HANDOFF.md)，设计决策的完整论证见
 > [地图格式转换工厂-首批三格式方案.md](地图格式转换工厂-首批三格式方案.md)。
@@ -30,7 +30,7 @@
 ```bash
 python -m venv .venv
 .venv/Scripts/pip install numpy scipy pyshp lxml pyclothoids pycrate typer pyyaml pytest matplotlib shapely
-.venv/Scripts/python -m pytest tests -q          # 36 项，含金凤黄金回归
+.venv/Scripts/python -m pytest tests -q          # 44 项，含金凤黄金回归
 .venv/Scripts/python scripts/closed_loop.py      # 全流程闭环七门禁（约 3 分钟）
 ```
 
@@ -62,9 +62,9 @@ python -m venv .venv
    `adapters/opendrive/writer.py` 每个元素/属性/顺序对照 OpenDRIVE_1.5M.xsd。
 4. **G2 是无条件承诺。** 参考线段间曲率断差必须为 0（`weld_g2` 兜底焊平）。
    G1 阶跃 = 侧向加速度阶跃 = 方向盘瞬时打角。
-5. **段长不是判据，曲率蛇行才是。** G2 的短 clothoid 链几何上是平滑的；真正伤害
-   规划/控制的是 sharpness(dκ/ds) 反复变号与侧向 jerk 超标。用
-   `smoothness.curvature_audit` 度量，不要凭段数拍脑袋。
+5. **短段不是唯一判据，但生成器不得靠极小段假平滑。** 成熟地图中可能有合理短原语；
+   本生成 Profile 的普通 leg 仍强制最短段 ≥3m、连接路 ≥1m，并联合检查
+   sharpness(dκ/ds)、翻转密度和 jerk。无合格候选必须阻断，不能交付 fallback。
 6. **偏差始终对原始顶点报告。** 平滑/去噪/精简都是修复手段，不是新的真值。
 7. **硬约束（来自 CLAUDE.md，不可违反）**：phaseId 绑定禁止自动推断；region/node ID
    只消费台账不发明；CRS 缺失或可疑即停止生产转换；未识别字段进扩展区不丢弃；
@@ -131,7 +131,7 @@ planview_prims         → writer 几何原语
 | G4 断面台阶 | laneSection 边界 <5cm | 全部 **0.000m** |
 | G5 换乘连续 | 进/出侧 <1cm | 全部 **0.0cm** |
 | G6 esmini 独立行驶 | 缝隙 <15cm、零跳变、可穿越 | 14/14 PASS |
-| G7 曲率品质 | 蛇行/jerk/段长中位 | leg 蛇行 ≤11.5/100m、jerk ≤149 |
+| G7 曲率品质 | 最短段/sharpness/蛇行/jerk | leg min≥3m、flip≤8/100m、sharp≤0.0045；conn min≥1m |
 
 三层验证哲学（缺一不可）：
 
@@ -142,16 +142,17 @@ planview_prims         → writer 几何原语
 > 教训：自检工具本身也要被自检。曾有一次"边缘钩子"是叠画脚本的索引拼接假象，
 > 审计器与 odrviewer 都没有这个东西。
 
-段长/曲率现状（本轮治理后）：
+段长/曲率现状（v1.25 硬门禁后；不含 junction paving）：
 
-| 指标 | 治理前 | 治理后 |
-|---|---|---|
-| 总段数（14 文件） | 3752 | 2089（−44%） |
-| <1m 段占比 | 7.8% | **0.0%** |
-| <2m 段占比 | 50.3% | 3.1% |
-| 段长中位 | 2.00m | 4.20m |
-| leg 蛇行（次/100m） | 18–24 | 0–11.5 |
-| leg 侧向 jerk（60km/h） | 667–1290 | 0–149 |
+| 指标 | v1.25 实测 |
+|---|---:|
+| 总段数（14 文件） | 1969 |
+| 全文件 <1m 段 | **0** |
+| 普通 leg 最短段 / 段长中位 | **3.20m / 15.91m** |
+| connecting road 最短段 | **1.46m** |
+| leg 蛇行最大（次/100m） | **7.30** |
+| leg sharpness 最大 | **0.004415** |
+| leg 侧向 jerk 最大（60km/h） | **20.44** |
 
 ---
 
@@ -211,7 +212,7 @@ cd <临时目录> && <项目>/esmini/bin/odrviewer.exe --odr <file> --headless -
 排障经验：
 
 - **odrviewer 只给一个盒子**：outline `<object>` 不渲染成面，路口铺面要用
-  `type=none` 的铺面 road。
+  `type=restricted` 的铺面 road（`none` 在 esmini 中是浅灰，不是沥青）。
 - **esmini 段错误**：ABI 签名必须对齐 v3.6.0（id_t=uint32、double 参数、出参取
   车道 id），旧 float 签名喂进去是垃圾值。
 - **G3 突然回归**：多半是新加的几何处理跳过了 `weld_g2`。

@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 """拟合器单测：合成真值回拍（类型识别/半径还原/假 arc 抑制/横向偏差）。"""
 import numpy as np
+import pytest
 
-from mapforge.ops.refline_fit import (PlanView, PlanSeg, eval_planview, fit_polyline,
-                                      lateral_deviation)
+from mapforge.ops.refline_fit import (PlanView, PlanSeg, ReflineFitError, eval_planview,
+                                      fit_leg_refline, fit_polyline, lateral_deviation,
+                                      planview_quality)
 
 
 def synth(segs, step=2.0, noise=0.0, seed=7):
@@ -47,3 +49,31 @@ def test_s_curve_sign_split():
     arcs = [s for s in pv.segs if s.kind == "arc"]
     assert len(arcs) >= 2
     assert arcs[0].curvature * arcs[-1].curvature < 0             # 符号相反的两段
+
+
+def test_planview_quality_exposes_micro_segment():
+    pv = PlanView(0.0, 0.0, 0.0, [
+        PlanSeg("spiral", 12.0, 0.0, 0.01),
+        PlanSeg("spiral", 0.6, 0.01, -0.01),
+        PlanSeg("spiral", 15.0, -0.01, 0.0),
+    ])
+    q = planview_quality(pv)
+    assert q["seg_min_len"] == pytest.approx(0.6)
+    assert q["sharpness_max"] > 0.03
+    assert q["sharp_sign_flips"] == 2
+
+
+def test_leg_fit_never_returns_invalid_fallback(monkeypatch):
+    """候选搜索失败必须阻断；旧实现会把不合格 fallback 当成“最优”继续交付。"""
+    import mapforge.ops.refline_fit as rf
+
+    monkeypatch.setattr(rf, "simplify_planview", lambda *_a, **_kw: None)
+    pts = np.array([[0.0, 0.0], [20.0, 0.0], [40.0, 0.0]])
+    with pytest.raises(ReflineFitError, match="无合格候选"):
+        fit_leg_refline(pts)
+
+
+def test_leg_deviation_cap_cannot_be_relaxed_silently():
+    pts = np.array([[0.0, 0.0], [20.0, 0.0], [40.0, 0.0]])
+    with pytest.raises(ValueError, match="dev_tol"):
+        fit_leg_refline(pts, dev_tol=2.0)

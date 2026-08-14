@@ -148,6 +148,10 @@ def _chained_links(src: IbdSource, seed_pid: str, is_enter: bool, proj, cj,
             d1 = float(np.linalg.norm(c[-1] - far))
             if min(d0, d1) < _DEG_EPS:
                 cand = (c if d1 <= d0 else c[::-1]) if is_enter else (c if d0 <= d1 else c[::-1])
+                if _join_angle(proj, chain, cand, is_enter) > _CHAIN_TURN:
+                    continue                             # 同名但拐了街角：leg 到此为止
+                if _corridor_turn(proj(cand)) > _CHAIN_TURN:
+                    continue                             # 候选 link 自身已绕街角：整段不拼，绝不裁点
                 best = (pid, cand) if best is None else "AMBIG"
         if best is None or best == "AMBIG":              # 无候选或分叉即停
             break
@@ -156,6 +160,66 @@ def _chained_links(src: IbdSource, seed_pid: str, is_enter: bool, proj, cj,
         chain.insert(0, (pid, cand)) if is_enter else chain.append((pid, cand))
         total += _polylen(proj(cand))
     return chain
+
+
+_CHAIN_TURN = math.radians(50.0)     # 拼链接点最大转角：超过即认定"拐了街角"
+
+
+def _corridor_turn(gxy) -> float:
+    """单个 ROADLINK 相对起始行车方向的最大转角（rad）。
+
+    leg 只沿当前进出口走廊延长；若下一个完整 ROADLINK 已经绕过街角，应停在
+    link 边界。这里按完整对象取舍，不删除对象内部的“坏点”，从而保持来源边界
+    与 laneSection provenance 一致。
+    """
+    g = np.asarray(gxy, float)
+    if g.shape[0] < 3:
+        return 0.0
+    seg = np.diff(g, axis=0)
+    keep = np.linalg.norm(seg, axis=1) > 0.05            # 忽略厘米级重复点的无意义航向
+    if keep.sum() < 2:
+        return 0.0
+    hdg = np.unwrap(np.arctan2(seg[keep, 1], seg[keep, 0]))
+    return float(np.max(np.abs(hdg - hdg[0])))
+
+
+def _join_angle(proj, chain, cand, is_enter) -> float:
+    """拼链接点处的方向变化角（rad）。同名路可能绕过街角（金玥路辅路实测 R=3m 发夹），
+    leg 是进出口走廊而非整条街——转角超限即停止拼接，从源头掐掉发夹弯。"""
+    cur = proj(chain[0][1] if is_enter else chain[-1][1])
+    nxt = proj(cand)
+    if cur.shape[0] < 2 or nxt.shape[0] < 2:
+        return 0.0
+
+    def _endpoint_tangent(g, at_start: bool):
+        """取连接端的行车方向切向，跳过端部重复点。"""
+        if at_start:
+            anchor = g[0]
+            for p in g[1:]:
+                v = p - anchor
+                if np.linalg.norm(v) > 1e-6:
+                    return v
+        else:
+            anchor = g[-1]
+            for p in g[-2::-1]:
+                v = anchor - p
+                if np.linalg.norm(v) > 1e-6:
+                    return v
+        return np.zeros(2, dtype=float)
+
+    if is_enter:
+        # cand 插到链首：cand[-1] → cur[0]，比较 cand 末端与 cur 起端切向。
+        v_before = _endpoint_tangent(nxt, at_start=False)
+        v_after = _endpoint_tangent(cur, at_start=True)
+    else:
+        # cand 追加到链尾：cur[-1] → cand[0]，比较 cur 末端与 cand 起端切向。
+        v_before = _endpoint_tangent(cur, at_start=False)
+        v_after = _endpoint_tangent(nxt, at_start=True)
+    n1, n2 = np.linalg.norm(v_before), np.linalg.norm(v_after)
+    if n1 < 1e-9 or n2 < 1e-9:
+        return 0.0
+    cosv = float(np.dot(v_before, v_after) / (n1 * n2))
+    return math.acos(max(-1.0, min(1.0, cosv)))
 
 
 def _fit_ref(pts_xy, resample_step=2.0, min_seg_len=6.0):
@@ -437,6 +501,8 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
         seg_lens_all = np.linalg.norm(np.diff(gxy, axis=0), axis=1)
         chain_raw = [_polylen(proj(c)) for _, c in chain]
         seg_lens = list(chain_raw)
+        # 路口侧可能按真实车道端点延伸，增量只归到种子 link；不得裁掉或按比例
+        # 重分来源 span，否则 laneSection 的 provenance 会与原始 ROADLINK 错位。
         seg_lens[-1] += max(0.0, float(seg_lens_all.sum()) - sum(chain_raw))
         pv, dev, smoothed = fit_leg_refline(gxy)         # 曲率封顶（双侧模型 1−tκ 护栏）
         if smoothed:
@@ -620,7 +686,7 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
                                 if mw0 is not None:
                                     mw0 = prev_m[srcs[0]]
                         lane_id = sign * (k + 1 + (med_off if sign > 0 else 0))
-                        ln = W.Lane(lane_id)
+                        ln = W.Lane(lane_id, source_id=ln_rec["l"].lane_pid)
                         if born or dying:
                             for so, a, b, c, dd in _width_pieces(w0, w1, L_sec, born, dying):
                                 ln.add_width(a, b, c, dd, s_offset=so)
@@ -755,7 +821,7 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
         sec = W.LaneSection(0.0, center_mark=std_mark("center"))
         xid, cum = {}, 0.0
         for k, r in enumerate(recs):
-            ln = W.Lane(-(k + 1))
+            ln = W.Lane(-(k + 1), source_id=r["l"].lane_pid)
             ln.add_width(*_smooth_w(r["sw"], r["ew"], L_fit))
             ln.mark = std_mark("outer" if k == len(recs) - 1 else "inner")
             if r["l"].max_speed_kmh:

@@ -558,33 +558,99 @@ def max_kappa(pv: PlanView) -> float:
     return out
 
 
+class ReflineFitError(ValueError):
+    """参考线无法同时满足来源偏差与可驾驶几何硬门禁。"""
+
+
+def planview_quality(pv: PlanView) -> dict:
+    """直接审计中间 PlanView，供候选选择和写出后的 G7 使用同一语义。
+
+    极小段不是孤立指标：真正危险的是极小段承载较大的曲率变化，形成高
+    ``|dκ/ds|`` 和密集正负翻转。这里仍保留最短段硬指标，防止消费端收到
+    0.x m 的几何碎片，即使该碎片碰巧没有越过旧的中位数门禁。
+    """
+    if not pv.segs:
+        return {"length": 0.0, "n_segs": 0, "seg_min_len": 0.0,
+                "seg_median_len": 0.0, "sharpness_max": float("inf"),
+                "sharp_sign_flips": 0, "sharp_sign_flips_per_100m": float("inf"),
+                "kappa_max": float("inf")}
+    lens = [float(s.length) for s in pv.segs]
+    sharp = [((float(s.curvature_end) - float(s.curvature)) / max(float(s.length), 1e-12))
+             if s.kind == "spiral" else 0.0 for s in pv.segs]
+    flips = sum(1 for a, b in zip(sharp, sharp[1:])
+                if a * b < 0.0 and min(abs(a), abs(b)) > 1e-6)
+    total = sum(lens)
+    return {"length": total, "n_segs": len(lens),
+            "seg_min_len": min(lens), "seg_median_len": float(np.median(lens)),
+            "sharpness_max": max(map(abs, sharp), default=0.0),
+            "sharp_sign_flips": flips,
+            "sharp_sign_flips_per_100m": flips / max(total, 1e-9) * 100.0,
+            "kappa_max": max_kappa(pv)}
+
+
 def fit_leg_refline(pts: np.ndarray, kappa_cap: float = 1.0 / 30.0,
-                    resample_step: float = 2.0, min_seg_len: float = 6.0):
+                    resample_step: float = 2.0, min_seg_len: float = 6.0,
+                    dev_tol: float | None = None, sharp_cap: float = 0.0045,
+                    min_output_seg_len: float = 3.0,
+                    flips_per_100m_cap: float = 8.0,
+                    hard_dev_cap: float = 1.5):
     """leg 参考线拟合 + 曲率封顶 + 全程 G2 化。
     封顶：|κ|>cap 的中段折角是数字化噪声（城市路段中途不存在 R<30m 的物理弯），
     渐进滑动平均后重拟合直到达标——双侧车道模型里 1−tκ→0 会让车道中心驻点/回卷；
     G2 化：line-arc 结点 SolveG2 过渡（消 v²Δκ 侧向加速度阶跃）。
     返回 (PlanView, 对原始顶点偏差, smoothed: bool)。"""
-    pv, dev = fit_polyline_auto(pts, resample_step, min_seg_len)
+    src = np.asarray(pts, float)
+    if src.ndim != 2 or src.shape[0] < 2 or src.shape[1] != 2:
+        raise ReflineFitError("参考线源点至少需要两个二维点")
+    tol = hard_dev_cap if dev_tol is None else float(dev_tol)
+    if tol <= 0.0 or tol > hard_dev_cap + 1e-9:
+        raise ValueError(f"dev_tol 必须在 (0, {hard_dev_cap}] m 内，收到 {tol}")
+
+    pv, dev = fit_polyline_auto(src, resample_step, min_seg_len)
     smoothed = False
     if max_kappa(pv) > kappa_cap:
-        base = resample_polyline(np.asarray(pts, float), 2.0)
+        base = resample_polyline(src, 2.0)
         for w in (3, 5, 9, 15):
             sm = _movavg_keep_ends(base, w)
             pv, _d = fit_polyline_auto(sm, resample_step, min_seg_len)
             if max_kappa(pv) <= kappa_cap:
                 break
         smoothed = True
-    src = np.asarray(pts, float)
-    base_dev = _dev_to_src(pv, src) if pv.segs else 0.0
     # 曲率域段精简：把逐顶点碎段还原成有物理长度的 line/arc/clothoid（消费端要求）
-    got = simplify_planview(pv, src, dev_tol=min(0.9, max(0.50, base_dev * 1.5)),
-                            min_seg_len=12.0)
-    # 统一 G2：精简输出只剩微小残差 → 焊平（不增段，护住段长中位）；
-    # 未精简则是 line-arc 大阶跃 → 必须插入过渡段，再焊平兜底病态结点
-    pv = weld_g2(got[0]) if got is not None else weld_g2(g2ify_planview(pv)[0])
+    # 容差：参考线**不是交付物**——车道按实测横距相对它写出，差量由 laneOffset/width
+    # 吸收，故容差可远大于车道精度要求；换来的是曲率不跟数字化噪声抖（蛇行↓）。
+    # 车道保真由 validate/lane_fidelity 独立把关，不靠"参考线贴得紧"这个间接指标。
+    # 1.5m 是金凤 14 条主线对拍后的硬上限。旧实现按 base_dev 无界放大，会在
+    # "平滑失败"时悄悄牺牲来源几何；现在显式参数也不得越过 hard_dev_cap。
+    total_src = float(arclength(src)[-1])
+    hard_min = min(float(min_output_seg_len), total_src / 3.0)
+    kappa_limit = kappa_cap * 1.2                 # 输出硬界 R≥25m（默认参数）
+
+    got = simplify_planview(
+        pv, src, dev_tol=tol, min_seg_len=12.0,
+        hard_min_seg_len=hard_min, sharp_cap=sharp_cap,
+        flips_per_100m_cap=flips_per_100m_cap, kappa_cap=kappa_limit)
+    if got is None:
+        # fallback 只用于生成诊断，绝不再把“相对最好但不合格”的曲线交付。
+        fallback = weld_g2(g2ify_planview(pv)[0])
+        q = planview_quality(fallback)
+        d = _dev_to_src(fallback, src)
+        raise ReflineFitError(
+            "参考线拟合无合格候选："
+            f"dev={d:.3f}m/{tol:.3f}m, min_seg={q['seg_min_len']:.3f}m/"
+            f"{hard_min:.3f}m, sharp={q['sharpness_max']:.6f}/{sharp_cap:.6f}, "
+            f"flips={q['sharp_sign_flips_per_100m']:.2f}/{flips_per_100m_cap:.2f}, "
+            f"kappa={q['kappa_max']:.6f}/{kappa_limit:.6f}")
+    pv = got[0]
     # 偏差始终对原始顶点报告（平滑/G2 过渡/精简是修复，不是新的真值）
     dev = _dev_to_src(pv, src)
+    q = planview_quality(pv)
+    # 双重后置条件：未来任何候选搜索改动都不能绕过交付硬门禁。
+    if (dev > tol + 1e-9 or q["seg_min_len"] < hard_min - 1e-9
+            or q["sharpness_max"] > sharp_cap + 1e-12
+            or q["sharp_sign_flips_per_100m"] > flips_per_100m_cap + 1e-9
+            or q["kappa_max"] > kappa_limit + 1e-12):
+        raise ReflineFitError(f"参考线候选后置检查失败：dev={dev:.3f}, quality={q}")
     return pv, dev, smoothed
 
 
@@ -795,7 +861,11 @@ def _smooth_kappa(k: np.ndarray, win: int) -> np.ndarray:
 
 
 def simplify_planview(pv: PlanView, src_pts: np.ndarray, dev_tol: float = 0.35,
-                      min_seg_len: float = 8.0):
+                      min_seg_len: float = 8.0, *,
+                      hard_min_seg_len: float = 0.0,
+                      sharp_cap: float | None = None,
+                      flips_per_100m_cap: float | None = None,
+                      kappa_cap: float | None = None):
     """**曲率域段精简 + 去噪**：κ 序列平滑后在 (s,κ) 上 Douglas–Peucker 简化，
     把逐顶点碎段还原成有物理长度的 line/arc/clothoid（直路 1 段、标准弯 3 段）。
 
@@ -804,7 +874,9 @@ def simplify_planview(pv: PlanView, src_pts: np.ndarray, dev_tol: float = 0.35,
     ② 蛇行：sharpness(dκ/ds) 反复变号 ⇒ 方向盘来回微抖。故优化目标是
        **先最少变号、再最少段数**，而不是单纯"段够长"。
 
-    在 (平滑窗 × κ容差) 网格里搜索偏差 ≤ dev_tol 的最优解；全部超差返回 None。
+    在 (平滑窗 × κ容差) 网格里搜索偏差 ≤ dev_tol 的最优解。调用方可再给出
+    最短段、|dκ/ds|、翻转密度和 |κ| 硬门禁；任一门禁没有可行解即返回 None，
+    不返回“最接近但仍不合格”的 fallback。
     返回 (PlanView, dev, n_segs) 或 None。"""
     src = np.asarray(src_pts, float)
     # 前置：κ 必须**连续**才能在曲率域做折线简化——G1 链（arc↔arc 阶跃）直接简化
@@ -823,13 +895,16 @@ def simplify_planview(pv: PlanView, src_pts: np.ndarray, dev_tol: float = 0.35,
             k0[i] = k0[i + 1] = 0.5 * (k0[i] + k0[i + 1])
     L_tot = float(s[-1])
     min_len = min(min_seg_len, L_tot / 3)
+    hard_min = min(max(float(hard_min_seg_len), 0.0), L_tot / 3)
     best = None                                          # (score, pv, dev)
-    # 平滑窗**从小到大**：够用即止，保留最多真实几何（大窗优先会把真弯也抹平，
-    # 横向偏差无谓变大）。窗口上限随采样点数自适应，短段（连接路中段）才吃得到去噪。
+    strict_mode = (hard_min > 0.0 or sharp_cap is not None
+                   or flips_per_100m_cap is not None or kappa_cap is not None)
+    # 旧实现遇到首个“偏差合格”候选就提前停止，会选中 0.6–1m 的尖锐碎段；
+    # 现在只有候选通过全部硬门禁才允许停止，否则继续搜索后续窗/κ容差。
     wins = [w for w in (1, 5, 9, 15, 25, 41, 61) if w <= max(3, k0.size // 4)] or [1]
     for win in wins:
         k = _smooth_kappa(k0, win)
-        for tol_k in (4e-3, 2e-3, 1e-3, 5e-4, 2e-4, 1e-4, 5e-5):
+        for tol_k in (8e-3, 4e-3, 2e-3, 1e-3, 5e-4, 2e-4, 1e-4, 5e-5, 2e-5):
             idx = _rdp_curvature(s, k, tol_k)
             if idx.size < 2:
                 continue
@@ -840,17 +915,31 @@ def simplify_planview(pv: PlanView, src_pts: np.ndarray, dev_tol: float = 0.35,
             if dev > dev_tol:
                 continue
             cand = _absorb_short_segs(cand, src, min_len, dev_tol)
-            sharp = [0.0 if sg.length <= 1e-9 else
-                     ((sg.curvature_end if sg.kind == "spiral" else sg.curvature)
-                      - sg.curvature) / sg.length for sg in cand.segs]
-            flips = sum(1 for a, b in zip(sharp, sharp[1:])
-                        if a * b < 0 and min(abs(a), abs(b)) > 1e-6)
-            score = (flips, len(cand.segs))
+            cand = weld_g2(cand)
+            dev = _dev_to_src(cand, src)                 # weld 后必须重新验来源偏差
+            if dev > dev_tol + 1e-9:
+                continue
+            q = planview_quality(cand)
+            if hard_min and q["seg_min_len"] < hard_min - 1e-9:
+                continue
+            if sharp_cap is not None and q["sharpness_max"] > sharp_cap + 1e-12:
+                continue
+            if (flips_per_100m_cap is not None
+                    and q["sharp_sign_flips_per_100m"] > flips_per_100m_cap + 1e-9):
+                continue
+            if kappa_cap is not None and q["kappa_max"] > kappa_cap + 1e-12:
+                continue
+            score = (q["sharp_sign_flips_per_100m"], q["n_segs"],
+                     q["sharpness_max"], dev, -q["seg_min_len"])
+            # 严格模式按“小窗→大窗、粗 κ→细 κ”搜索；第一个通过全部硬门禁的
+            # 候选已足够安全，同时保留最少平滑。继续遍历只会显著拖慢批量生成。
+            if strict_mode:
+                return cand, dev, len(cand.segs)
             if best is None or score < best[0]:
-                best = (score, cand, _dev_to_src(cand, src))
-            break                                        # 同一窗下取最粗 κ 容差（段最少）
-        # 蛇行已达标（每 100m 变号 ≤6，相当于每弯 2–3 次）：停止加大平滑
-        if best is not None and best[0][0] <= max(1, int(L_tot / 100.0 * 6)):
+                best = (score, cand, dev)
+            break                                        # 普通模式保持旧的粗容差优先策略
+        if (not strict_mode and best is not None
+                and best[0][0] <= max(1.0, L_tot / 100.0 * 6.0)):
             break
     if best is None:
         return None

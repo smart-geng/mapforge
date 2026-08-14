@@ -272,13 +272,13 @@ def audit_file(path) -> dict:
 def curvature_quality(road, v_kmh: float | None = None):
     """曲率品质（"碎段拼接假平滑"的真正判据）。
 
-    段长本身不是判据——G2 的短 clothoid 链在几何上是平滑的；真正伤害
-    规划/控制的是**曲率蛇行**：sharpness(dκ/ds) 高频变号 ⇒ 方向盘来回微抖，
-    以及大 |dκ/ds| ⇒ 侧向 jerk 超标（乘用车舒适阈约 0.5–0.9 m/s³）。
+    段长不是唯一判据——有设计意义的短 clothoid 可以平滑；但生成器用 0.xm
+    碎段承载大 Δκ 是明确缺陷。故调用侧应把最短段硬下限与**曲率蛇行**联合：
+    sharpness(dκ/ds) 高频变号 ⇒ 方向盘来回微抖，大 |dκ/ds| ⇒ 侧向 jerk 超标。
 
     v_kmh 缺省按路类取：junction 连接路 30km/h（路口内转弯），普通路 60km/h。
-    返回 {sharp_sign_flips_per_100m, jerk_max, jerk_p95, kappa_max,
-          seg_median_len, seg_min_len, n_segs}。"""
+    返回 {sharp_sign_flips_per_100m, sharpness_max, jerk_max, jerk_p95,
+          kappa_max, seg_median_len, seg_min_len, n_segs}。"""
     gs = _geoms(road)
     if not gs:
         return None
@@ -294,6 +294,7 @@ def curvature_quality(road, v_kmh: float | None = None):
                 if a * b < 0 and min(abs(a), abs(b)) > 1e-6)
     jerk = [abs(s) * v ** 3 for s in sharp]               # v³·dκ/ds = 侧向 jerk
     return {"sharp_sign_flips_per_100m": flips / total * 100.0,
+            "sharpness_max": max((abs(x) for x in sharp), default=0.0),
             "jerk_max": max(jerk) if jerk else 0.0,
             "jerk_p95": float(np.percentile(jerk, 95)) if jerk else 0.0,
             "kappa_max": max(max(abs(g[5]), abs(g[6])) for g in gs),
@@ -315,6 +316,7 @@ def curvature_audit(root):
         lens = [q["seg_median_len"] for q in rows]
         out[tag] = {
             "flips_per_100m_max": max(q["sharp_sign_flips_per_100m"] for q in rows),
+            "sharpness_max": max(q["sharpness_max"] for q in rows),
             "jerk_max": max(q["jerk_max"] for q in rows),
             "seg_median_len": float(np.median(lens)),
             "seg_min_len": min(q["seg_min_len"] for q in rows),

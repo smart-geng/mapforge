@@ -35,7 +35,10 @@ def test_direct_xodr_node4(ibd, tmp_path):
     assert st["roads_enter"] == 4 and st["roads_leave"] == 4
     assert st["connections"] >= 20 and st["conn_g2"] == 0
     assert st["lanelinks"] >= st["connections"]
-    assert st["fit_dev_max"] < 0.5
+    # 参考线偏差**不是**保真判据（v1.25：参考线容差放到 1.5m 换曲率不跟噪声抖，
+    # 车道由实测横距相对它写出、差量被 laneOffset/width 吸收）——保真改由
+    # validate/lane_fidelity 直接比对"写出车道中心 vs 源车道点列"
+    assert st["fit_dev_max"] <= 1.5
 
     root = etree.parse(str(out)).getroot()
     assert len(root.findall("junction")) == 1
@@ -57,7 +60,7 @@ def test_direct_xodr_node4(ibd, tmp_path):
 
     # 门禁：虚拟行车换乘连续（进口车道→连接路→出口车道，两端 G2 桥构造性归零）
     import math
-    from mapforge.validate.smoothness import audit_file, route_continuity
+    from mapforge.validate.smoothness import audit_file, curvature_audit, route_continuity
     rc = route_continuity(etree.parse(str(out)).getroot())
     assert rc
     assert max(r["gap_in"] for r in rc) < 0.01
@@ -68,3 +71,80 @@ def test_direct_xodr_node4(ibd, tmp_path):
     au = audit_file(out)
     assert au["kappa_step_max"] < 1e-6
     assert au["lane_edge_step_max"] < 0.05
+    cq = curvature_audit(root)
+    assert cq["leg"]["seg_min_len"] >= 3.0             # 禁止 0.x–2.xm 碎段假平滑
+    assert cq["leg"]["sharpness_max"] <= 0.0045
+    assert cq["leg"]["flips_per_100m_max"] <= 8.0
+
+
+def test_connect_mode_fill(ibd, tmp_path):
+    """转向补全三档：data 只用源 TOPO（默认不发明拓扑）；full 补出可行车连接且门禁不降级。
+
+    动机：源数据的车道拓扑可能整片缺录/失配（IBD TOPO 上游缺录、MAP connectsTo ID 失配），
+    需要按几何补全的模式；补出的连接必须与数据连接同等平滑（同一套 G2 机制）。"""
+    import math
+    from mapforge.adapters.v2xmap.xml_reader import parse_map_xml
+    from mapforge.ops.shp_to_xodr import build_junction_xodr
+    from mapforge.validate.smoothness import audit_file, route_continuity
+
+    ref = parse_map_xml(str(ROOT / "v2x_map_xml" / "map凤苑路-金玥路node4.xml"))
+    junc, _d = ibd.find_junction(ref.ref_lon, ref.ref_lat)
+    st_d = build_junction_xodr(ibd, junc, tmp_path / "d.xodr", connect_mode="data")
+    st_f = build_junction_xodr(ibd, junc, tmp_path / "f.xodr", connect_mode="full")
+    assert st_d.get("conn_filled", 0) == 0                   # 默认档绝不发明拓扑
+    assert st_f["conn_filled"] >= 20                         # 全连接实补
+    assert st_f["connections"] > st_d["connections"]
+
+    schema = etree.XMLSchema(etree.parse(str(ROOT / "OpenDRIVE_1.5M.xsd")))
+    root = etree.parse(str(tmp_path / "f.xodr"))
+    assert schema.validate(root), schema.error_log
+    au = audit_file(tmp_path / "f.xodr")
+    assert au["kappa_step_max"] < 1e-6                       # 补出的连接同样全网 G2
+    rc = route_continuity(etree.parse(str(tmp_path / "f.xodr")).getroot())
+    assert max(r["gap_in"] for r in rc) < 0.01
+    assert max(r["gap_out"] for r in rc if not math.isnan(r["gap_out"])) < 0.01
+
+
+def test_lane_fidelity_and_no_hairpin(ibd, tmp_path):
+    """真正的保真/平滑判据（替代"参考线贴得紧"这个间接指标）：
+    ① 写出车道中心 vs 源车道点列的横向偏差；② leg 参考线不得出现发夹弯。
+
+    背景：v1.25 把参考线容差放到 1.5m 以让曲率不跟数字化噪声抖（node18 蛇行
+    10.3→4.9 次/100m），代价必须由这两条直接判据兜住——否则就是在悄悄挪路。"""
+    import numpy as np
+    from mapforge.adapters.v2xmap.xml_reader import parse_map_xml
+    from mapforge.ops.shp_to_xodr import build_junction_xodr, _proj
+    from mapforge.validate.lane_fidelity import paired_deviation
+    from mapforge.validate.smoothness import _geoms, curvature_audit
+
+    ref = parse_map_xml(str(ROOT / "v2x_map_xml" / "map凤苑路-金剑路node18.xml"))
+    junc, _d = ibd.find_junction(ref.ref_lon, ref.ref_lat)
+    out = tmp_path / "n18.xodr"
+    build_junction_xodr(ibd, junc, out)
+    lon0, lat0 = float(junc.center[0]), float(junc.center[1])
+    src_lanes = {l.lane_pid: _proj(l.geometry, lat0, lon0)
+                 for pid in set(junc.enter_roads) | set(junc.leave_roads)
+                 for l in ibd.lanes_of(pid) if l.geometry.shape[0] >= 2}
+
+    root = etree.parse(str(out)).getroot()
+    fid = paired_deviation(root, src_lanes)
+    assert fid["matched"] == len(src_lanes) and not fid["missing"]
+    assert fid["source_to_target"]["median"] < 0.6
+    assert fid["source_to_target"]["p95"] < 1.5
+    assert max(x["source_to_target"]["median"] for x in fid["per_lane"].values()) < 0.6
+
+    # 故障注入：把一条来源 lane 的 provenance 绑到错误对象，G8 必须报告缺失；
+    # 旧“到全路面最近距离”会被相邻车道掩盖，无法发现这种 lane 绑错。
+    victim = next(iter(src_lanes))
+    for ud in root.findall(f".//userData[@code='mapforge.source_lane'][@value='{victim}']"):
+        ud.set("value", "fault-injected-wrong-lane")
+    bad = paired_deviation(root, src_lanes)
+    assert victim in bad["missing"]
+
+    kmax = max((max(abs(g[5]), abs(g[6])) for rd in root.findall("road")
+                if rd.get("junction") in (None, "-1") for g in _geoms(rd)), default=0.0)
+    assert kmax < 1 / 25                                  # leg 无发夹弯（R≥25m）
+    cq = curvature_audit(root)["leg"]
+    assert cq["seg_min_len"] >= 3.0
+    assert cq["sharpness_max"] <= 0.0045
+    assert cq["flips_per_100m_max"] <= 8.0

@@ -52,6 +52,12 @@ def _lane_speed_kmh(ln) -> float | None:
     return None
 
 
+def _source_lane_key(link, lane) -> str:
+    """MAP 无显式 link ID，使用上游节点+名称+laneId 形成文件内稳定来源键。"""
+    reg, nid = link.upstream or (None, None)
+    return f"map:{reg}:{nid}:{link.name}:lane:{lane.lane_id}"
+
+
 def _lane_kappa(k_ref: float, t: float) -> float:
     """参考线曲率 → 横向偏移 t 处车道中心曲率：κ/(1−tκ)。"""
     den = 1.0 - t * k_ref
@@ -152,7 +158,7 @@ def _emit_lanes(sec, lanes, B, sign, j, n_sec, Ls, med_off, stats):
         mw1 = sign * (B[j + 1][1][k + 1] - B[j + 1][1][k])
         mw0, mw1 = fc_clamp(w0, mw0, w1, mw1, Ls)
         lane_id = sign * (k + 1 + (med_off if sign > 0 else 0))
-        lane = W.Lane(lane_id)
+        lane = W.Lane(lane_id, source_id=x.get("source_id"))
         lane.add_width(w0, mw0,
                        (3 * (w1 - w0) - (2 * mw0 + mw1) * Ls) / Ls ** 2,
                        (-2 * (w1 - w0) + (mw0 + mw1) * Ls) / Ls ** 3)
@@ -170,8 +176,12 @@ def _emit_lanes(sec, lanes, B, sign, j, n_sec, Ls, med_off, stats):
 
 
 def build_xodr(node: MapNode, out_path: str | Path,
-               neighbors: list[MapNode] | None = None) -> dict:
-    """MapNode → .xodr（双向 leg road）。neighbors：同帧其他节点（真实出口数据）。"""
+               neighbors: list[MapNode] | None = None, *,
+               connect_mode: str = "data", allow_uturn: bool = False) -> dict:
+    """MapNode → .xodr（双向 leg road）。neighbors：同帧其他节点（真实出口数据）。
+
+    connect_mode：data=仅 connectsTo（默认，不发明拓扑）/ default=补无出口车道 /
+    full=全连接（治 connectsTo 缺录失配，同时把路口铺满行车带）——见 ops/junction_fill。"""
     lat0, lon0 = node.ref_lat, node.ref_lon
     proj = lambda p: _project(p, lat0, lon0)                 # noqa: E731
     doc = W.XodrDoc(f"node{node.node_id}", geo_reference=_georef(lat0, lon0))
@@ -238,6 +248,7 @@ def build_xodr(node: MapNode, out_path: str | Path,
         for ln in lk.lanes:
             prof = _lane_profile(ref, tang, proj(ln.points)) if len(ln.points) >= 2 else None
             x = {"ln": ln, "prof": prof, "w": (ln.width_cm or 350) / 100.0,
+                 "source_id": _source_lane_key(lk, ln),
                  "kmh": _lane_speed_kmh(ln)}
             if prof is not None:                          # 进口车道按 MAP 语义必抵停止线，
                 lo = float(prof[0].min())                 # 远端起点按数据（口部展宽车道锥形展开）
@@ -270,6 +281,7 @@ def build_xodr(node: MapNode, out_path: str | Path,
                         continue                          # 左侧车道必在参考线左
                     lo, hi = float(prof[0].min()), float(prof[0].max())
                     llanes.append({"prof": prof, "lid": ln.lane_id,
+                                   "source_id": _source_lane_key(real, ln),
                                    "w": (ln.width_cm or 350) / 100.0,
                                    "kmh": _lane_speed_kmh(ln),
                                    # 出口两端均按数据覆盖（远端才加出的车道不得外推进口部）
@@ -281,6 +293,7 @@ def build_xodr(node: MapNode, out_path: str | Path,
                     for ln in real.lanes:
                         w = (ln.width_cm or 350) / 100.0
                         llanes.append({"prof": None, "rel": cum + w / 2, "w": w,
+                                       "source_id": _source_lane_key(real, ln),
                                        "kmh": _lane_speed_kmh(ln)})
                         cum += w
                 kind = "real"
@@ -378,6 +391,35 @@ def build_xodr(node: MapNode, out_path: str | Path,
     rid_c = 100
     pave_pts = []
     from pyclothoids import SolveG2
+
+    def _make_conn(cls, w, in_rid, in_xid, out_rid, out_xid, contact):
+        """一条连接路（G2 回旋链 + 单车道 + junction connection）。"""
+        nonlocal rid_c
+        road = W.Road(rid_c, junction=JID)
+        for cl in cls:
+            road.add_geometry("spiral", cl.XStart, cl.YStart, cl.ThetaStart,
+                              cl.length, cl.KappaStart, cl.KappaEnd)
+        road.add_offset(0.0, w / 2)
+        csec = W.LaneSection(0.0)
+        clane = W.Lane(-1)
+        clane.add_width(w)
+        clane.pred, clane.succ = in_xid, out_xid
+        csec.right.append(clane)
+        road.sections.append(csec)
+        road.add_link("predecessor", "road", in_rid, "end")
+        road.add_link("successor", "road", out_rid, contact)
+        doc.add_road(road)
+        pave_pts.append(road.end_pose()[:2])
+        pave_pts.extend((g[1], g[2]) for g in road.geoms)
+        conn = W.Connection(in_rid, rid_c, "start")
+        conn.add_lanelink(in_xid, -1)
+        junction.connections.append(conn)
+        rid_c += 1
+        stats["conn_roads"] += 1
+        stats["connections"] += 1
+        stats["lanelinks"] += 1
+
+    filled_pairs = set()                                 # 已建连接对（补全去重用）
     for lk in links:
         ii = in_info[lk.name]
         for ln in lk.lanes:
@@ -401,31 +443,50 @@ def build_xodr(node: MapNode, out_path: str | Path,
                 except Exception:
                     stats["skipped"] += 1
                     continue
-                w = (ln.width_cm or 350) / 100.0
-                road = W.Road(rid_c, junction=JID)
-                for cl in cls:
-                    road.add_geometry("spiral", cl.XStart, cl.YStart, cl.ThetaStart,
-                                      cl.length, cl.KappaStart, cl.KappaEnd)
-                road.add_offset(0.0, w / 2)
-                csec = W.LaneSection(0.0)
-                clane = W.Lane(-1)
-                clane.add_width(w)
-                clane.pred = ii["xid"][ln.lane_id]
-                clane.succ = e["xid"].get(kk, kk)
-                csec.right.append(clane)
-                road.sections.append(csec)
-                road.add_link("predecessor", "road", ii["rid"], "end")
-                road.add_link("successor", "road", e["rid"], e["contact"])
-                doc.add_road(road)
-                pave_pts += [(g[1], g[2]) for g in road.geoms]
-                pave_pts.append(road.end_pose()[:2])
-                conn = W.Connection(ii["rid"], rid_c, "start")
-                conn.add_lanelink(ii["xid"][ln.lane_id], -1)
-                junction.connections.append(conn)
-                rid_c += 1
-                stats["conn_roads"] += 1
-                stats["connections"] += 1
-                stats["lanelinks"] += 1
+                filled_pairs.add(((lk.name, ln.lane_id), (c.node, kk)))
+                _make_conn(cls, (ln.width_cm or 350) / 100.0, ii["rid"],
+                           ii["xid"][ln.lane_id], e["rid"], e["xid"].get(kk, kk),
+                           e["contact"])
+
+    # —— 转向补全（connect_mode≠data）：connectsTo 缺录/失配时按几何补，标 INFERRED ——
+    if connect_mode != "data" and exits:
+        from mapforge.ops.junction_fill import plan_fill
+        leg_of_exit = {nid: name for name, nid in exit_of_leg.items()}
+        ent_meta, exit_meta = [], []
+        for lk in links:
+            ii = in_info[lk.name]
+            ids = sorted(ii["t"], key=lambda i: -ii["xid"][i])    # -1 最左 → 断面序
+            for i, lid in enumerate(ids):
+                ent_meta.append({"key": (lk.name, lid), "leg": lk.name, "idx": i,
+                                 "n": len(ids), "pose": _shift(ii["pose"], ii["t"][lid]),
+                                 "rid": ii["rid"], "xid": ii["xid"][lid],
+                                 "kappa": _lane_kappa(ii["kappa"], ii["t"][lid]),
+                                 "w": next((x.width_cm or 350) / 100.0
+                                           for x in lk.lanes if x.lane_id == lid)})
+        for nid, e in exits.items():
+            ks = sorted(e["t"])                                   # 号小=靠中线
+            for i, kk in enumerate(ks):
+                q = _shift(e["pose"], e["t"][kk])
+                exit_meta.append({"key": (nid, kk), "leg": leg_of_exit.get(nid, nid),
+                                  "idx": i, "n": len(ks),
+                                  "pose": (q[0], q[1], e["pose"][2] + math.pi),
+                                  "rid": e["rid"], "xid": e["xid"].get(kk, kk),
+                                  "kappa": -_lane_kappa(e["kappa"], e["t"][kk]),
+                                  "contact": e["contact"]})
+        for en, ex in plan_fill(ent_meta, exit_meta, filled_pairs,
+                                mode=connect_mode, allow_uturn=allow_uturn):
+            try:
+                cls = SolveG2(en["pose"][0], en["pose"][1], en["pose"][2], en["kappa"],
+                              ex["pose"][0], ex["pose"][1], ex["pose"][2], ex["kappa"])
+            except Exception:
+                cls = None
+            if cls is None or any(max(abs(c.KappaStart), abs(c.KappaEnd)) > 0.125
+                                  for c in cls):
+                stats["conn_fill_skipped"] = stats.get("conn_fill_skipped", 0) + 1
+                continue                                  # 无解或 R<8m：判为不可行转向
+            _make_conn(cls, en["w"], en["rid"], en["xid"], ex["rid"], ex["xid"],
+                       ex["contact"])
+            stats["conn_filled"] = stats.get("conn_filled", 0) + 1
 
     # —— junction 铺面：MAP 无面数据 → 连接路几何凸包 +2.5m（INFERRED，type=none） ——
     if pave_pts:

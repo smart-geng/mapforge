@@ -30,8 +30,12 @@ def _validate(out):
     assert schema.validate(etree.parse(str(out))), schema.error_log
     from mapforge.validate.planview_check import check_file
     assert not check_file(str(out))["violations"]
-    from mapforge.validate.smoothness import audit_file
+    from mapforge.validate.smoothness import audit_file, curvature_audit
     assert audit_file(out)["kappa_step_max"] < 1e-6      # 全网 G2 门禁
+    cq = curvature_audit(etree.parse(str(out)).getroot())["leg"]
+    assert cq["seg_min_len"] >= 3.0                       # 禁止极小段假平滑
+    assert cq["sharpness_max"] <= 0.0045
+    assert cq["flips_per_100m_max"] <= 8.0
 
 
 def _worst_seam_kappa_gap(out) -> float:
@@ -107,6 +111,6 @@ def test_real_exits_from_multinode_frame(tmp_path):
     # west 链 s255-298 有数字化噪声（R=10m 级振荡），曲率封顶主动平滑——
     # 对原始（含噪）顶点的偏差 0.68m 是修复的代价而非回归；封顶行为本身锁死
     assert st.get("refit_smoothed", 0) >= 1
-    assert st["fit_dev_max"] < 1.0
+    assert st["fit_dev_max"] <= 1.5                          # v1.25 来源偏差硬上限
     _validate(out)
     assert _worst_seam_kappa_gap(out) < 1e-6

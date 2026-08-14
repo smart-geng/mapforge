@@ -47,6 +47,7 @@ class Lane:
     speed_ms: float | None = None
     pred: int | None = None
     succ: int | None = None
+    source_id: str | None = None                         # mapforge provenance（userData）
 
     def add_width(self, a, b=0.0, c=0.0, d=0.0, s_offset=0.0):
         self.widths.append((s_offset, a, b, c, d))
@@ -157,6 +158,9 @@ class XodrDoc:
                           laneChange="both")
         if ln.speed_ms is not None:
             ET.SubElement(el, "speed", sOffset="0", max=_f(ln.speed_ms))
+        if ln.source_id:
+            ET.SubElement(el, "userData", code="mapforge.source_lane",
+                          value=str(ln.source_id))
         return el
 
     def _road_el(self, root, rd: Road):

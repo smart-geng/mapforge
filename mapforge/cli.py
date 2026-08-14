@@ -86,6 +86,12 @@ def convert(input_path: Path,
                                             help="SHP Profile YAML（路径或 profiles/shp/ 下的名字）；"
                                                  "缺省用内置 ibd-smarteditor-v1 直读器"),
             junction: str = typer.Option(None, help="xodr 源：junction id（缺省自动选最大十字）"),
+            connect_mode: str = typer.Option("data", "--connect-mode",
+                                             help="→xodr 路口转向来源：data=仅源数据（默认，不发明"
+                                                  "拓扑）| default=补每条车道位置应有的转向 | "
+                                                  "full=全连接（源拓扑缺录时铺满路口，标 INFERRED）"),
+            allow_uturn: bool = typer.Option(False, "--allow-uturn",
+                                             help="补全时允许掉头（默认排除）"),
             region: int = typer.Option(500), node_id: int = typer.Option(9901),
             allow_no_phase: bool = typer.Option(False, "--allow-no-phase",
                                                 help="显式降级：允许交付无 phase 的信控路口 MAP（默认红线阻断）")):
@@ -125,7 +131,8 @@ def convert(input_path: Path,
         junc, dist = src.find_junction(lon_, lat_)
         base = out if out else (_ROOT / "out" / "convert" / f"ibd_{junc.pid[-8:]}")
         base.parent.mkdir(parents=True, exist_ok=True)
-        st = build_junction_xodr(src, junc, base.with_suffix(".xodr"))
+        st = build_junction_xodr(src, junc, base.with_suffix(".xodr"),
+                                 connect_mode=connect_mode, allow_uturn=allow_uturn)
         typer.echo(f"直转 {st['junction']}（ref 距 {dist:.0f}m）: 进口路 {st['roads_enter']} + "
                    f"出口路 {st['roads_leave']} + 连接路 {st['conn_via'] + st['conn_g2']}"
                    f"（实测几何 {st['conn_via']} / G2 合成 {st['conn_g2']}），"
@@ -222,7 +229,8 @@ def convert(input_path: Path,
             raise typer.Exit(2)
     elif to == "xodr":
         from mapforge.ops.map_to_xodr import build_xodr
-        stats = build_xodr(node, base.with_suffix(".xodr"), neighbors=neighbors or None)
+        stats = build_xodr(node, base.with_suffix(".xodr"), neighbors=neighbors or None,
+                           connect_mode=connect_mode, allow_uturn=allow_uturn)
         typer.echo(f"  进口路 {stats['links']} + 出口路 {stats['exit_roads']}"
                    f"（真实 {stats['exit_real']} / 镜像 INFERRED {stats['exit_mirror']}）+ "
                    f"连接路 {stats['conn_roads']}(G2)，junction connections {stats['connections']}"

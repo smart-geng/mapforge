@@ -63,17 +63,24 @@ def plan_fill(entries, exits, existing, mode: str = "full", allow_uturn: bool = 
             out.append((turn, lanes))
         return out
 
+    by_key = {x["key"]: x for x in exits}
     plan = []
     for e in entries:
-        has = any((e["key"], x["key"]) in existing for x in exits)
+        # 本车道**已有**的转向集合（按几何分类，非按数据字段——数据字段正是可疑的那个）
+        have = set()
+        for (ek, xk) in existing:
+            if ek != e["key"]:
+                continue
+            x = by_key.get(xk)
+            if x is not None:
+                have.add("uturn" if x["leg"] == e["leg"]
+                         else turn_of(e["pose"][2], x["pose"][2]))
+        want = _default_turn(e)
         for turn, lanes in _cands(e):
             if mode == "full":
                 targets = lanes                          # 全连接：该腿所有出口车道
-            else:                                        # default：仅补"完全无出口"的车道
-                if has:
-                    continue
-                want = _default_turn(e)
-                if turn != want:
+            else:                                        # default：只补该车道位置应有的转向
+                if turn != want or want in have:
                     continue
                 targets = [_position_match(e, lanes, turn)]
             for x in targets:

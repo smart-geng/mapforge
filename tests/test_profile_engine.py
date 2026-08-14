@@ -75,15 +75,62 @@ def test_profile_engine_supersedes_builtin(node4_ref, tmp_path):
 
     def norm(p, drop_width):
         txt = re.sub(r'date="[^"]*"', 'date=""', p.read_text(encoding="utf-8"))
-        return re.sub(r"<width [^/]*/>", "", txt) if drop_width else txt
+        if not drop_width:
+            return txt
+        # laneOffset 与 width 同源：v1.19 起车道边界由实测轮廓导出（边界=相邻中心中点、
+        # laneOffset=最左车道左缘），故宽度救回**必然**传导到 laneOffset——两者一起剔除后
+        # 再比"其余内容逐字节全等"，laneOffset 的分歧幅度另行有界检查
+        txt = re.sub(r"<width [^/]*/>", "", txt)
+        return re.sub(r"<laneOffset [^/]*/>", "", txt)
 
-    # 非宽度内容逐字节全等
+    # 非宽度/非 laneOffset 内容逐字节全等
     assert norm(tmp_path / "builtin.xodr", True) == norm(tmp_path / "profile.xodr", True)
-    # 宽度分歧有界：仅内置缺数据的车道（金凤 node4 拼链范围实测 ≤8 处）
-    wa = re.findall(r"<width [^/]*/>", norm(tmp_path / "builtin.xodr", False))
-    wb = re.findall(r"<width [^/]*/>", norm(tmp_path / "profile.xodr", False))
-    n_diff = sum(1 for x, y in zip(wa, wb) if x != y)
-    assert len(wa) == len(wb) and 0 < n_diff <= 8
+    # laneOffset 分歧有界：只应源自被救回的宽度（半个车道宽以内）
+    oa = [float(m) for m in re.findall(r'<laneOffset s="[^"]*" a="([^"]*)"',
+                                       (tmp_path / "builtin.xodr").read_text(encoding="utf-8"))]
+    ob = [float(m) for m in re.findall(r'<laneOffset s="[^"]*" a="([^"]*)"',
+                                       (tmp_path / "profile.xodr").read_text(encoding="utf-8"))]
+    assert len(oa) == len(ob)
+    assert max((abs(x - y) for x, y in zip(oa, ob)), default=0.0) < 2.5
+    # 语义契约：Profile 只救回内置 reader 中 WIDTH=0 的记录，绝不改写已有宽度；
+    # 输出差异可传播到同 section 的相邻边界/median，以及调和后的相邻 section。
+    rescued = set()
+    for pid in a.roadlinks:
+        aa = {x.lane_pid: x for x in a.lanes_of(pid)}
+        bb = {x.lane_pid: x for x in b.lanes_of(pid)}
+        for sid, old in aa.items():
+            new = bb[sid]
+            if old.width_mm == new.width_mm:
+                continue
+            assert old.width_mm == 0 and new.width_mm > 0
+            assert (old.s_width_mm, old.e_width_mm) == (new.s_width_mm, new.e_width_mm)
+            rescued.add(sid)
+    assert rescued
+
+    from lxml import etree
+
+    def lane_rows(path):
+        root = etree.parse(str(path)).getroot()
+        rows = {}
+        for rd in root.findall("road"):
+            for si, sec in enumerate(rd.findall("lanes/laneSection")):
+                for ln in sec.findall("left/lane") + sec.findall("right/lane"):
+                    ud = ln.find("userData[@code='mapforge.source_lane']")
+                    sid = ud.get("value") if ud is not None else None
+                    widths = [tuple(w.get(k) for k in ("sOffset", "a", "b", "c", "d"))
+                              for w in ln.findall("width")]
+                    rows[(rd.get("id"), si, ln.get("id"))] = (sid, widths)
+        return rows
+
+    ra = lane_rows(tmp_path / "builtin.xodr")
+    rb = lane_rows(tmp_path / "profile.xodr")
+    assert ra.keys() == rb.keys()
+    affected = {(road, si) for (road, si, _lid), (sid, _w) in rb.items()
+                if sid in rescued}
+    affected |= {(road, si + d) for road, si in list(affected) for d in (-1, 1)}
+    changed = [key for key in ra if ra[key][1] != rb[key][1]]
+    assert changed
+    assert all((road, si) in affected for road, si, _lid in changed)
     assert b.derivation_stats["width"]["boundaries"] > 0     # 阶梯确实启用了
 
 
