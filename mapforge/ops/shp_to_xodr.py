@@ -273,8 +273,12 @@ def _pair_legs(src: IbdSource, junc: JunctionRec, proj, cj):
 
 
 def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
-                        *, max_len: float = 160.0) -> dict:
-    """IBD 路口 → 完整 OpenDRIVE（双侧 leg road + junction 连接路 + laneLink）。"""
+                        *, max_len: float = 160.0, connect_mode: str = "data",
+                        allow_uturn: bool = False) -> dict:
+    """IBD 路口 → 完整 OpenDRIVE（双侧 leg road + junction 连接路 + laneLink）。
+
+    connect_mode：data=仅数据 TOPO（默认，不发明拓扑）/ default=补无出口车道 /
+    full=全连接（治 TOPO 整片缺录，同时把路口铺满行车带）——见 ops/junction_fill。"""
     lon0, lat0 = float(junc.center[0]), float(junc.center[1])
     proj = lambda p: _proj(p, lat0, lon0)                # noqa: E731
     cj = proj(junc.polygon).mean(axis=0)
@@ -825,6 +829,7 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
         stats["lanelinks"] += 1
         rid_c += 1
 
+    filled_pairs = set()                                 # 已建连接对（补全去重用）
     for e_pid in enter_set:
         for l in [x for x in src.lanes_of(e_pid) if x.geometry.shape[0] >= 2]:
             in_xid = xid_of[e_pid].get(l.seq)
@@ -846,6 +851,7 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
                     if out_xid is None:
                         stats["skipped"] += 1
                         continue
+                    filled_pairs.add((l.lane_pid, (out_rec.link_pid, out_rec.seq)))
                     if via is not None and via.geometry.shape[0] >= 3:
                         vg = proj(via.geometry)
                         a = np.asarray(lane_end.get(l.lane_pid, end_pose[e_pid])[:2])
@@ -919,6 +925,39 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
                                         (out_rec.width_mm or 3500) / 1000.0,
                                         e_pid, out_rec.link_pid, in_xid, out_xid)
                         stats["conn_g2"] += 1
+
+    # —— 转向补全（connect_mode≠data）：源 TOPO 缺录时按几何补，标 INFERRED ——
+    if connect_mode != "data":
+        from mapforge.ops.junction_fill import plan_fill
+        ent_meta, exit_meta = [], []
+        for e_pid in enter_set:
+            lanes = [x for x in src.lanes_of(e_pid)
+                     if x.lane_pid in lane_end and xid_of[e_pid].get(x.seq)]
+            lanes.sort(key=lambda l: -xid_of[e_pid][l.seq])   # -1 最左 → 断面序
+            for i, l in enumerate(lanes):
+                ent_meta.append({"key": l.lane_pid, "leg": e_pid, "idx": i,
+                                 "n": len(lanes), "pose": lane_end[l.lane_pid],
+                                 "pid": e_pid, "xid": xid_of[e_pid][l.seq],
+                                 "lane": l})
+        for x_pid in leave_set:
+            lanes = [x for x in src.lanes_of(x_pid)
+                     if (x_pid, x.seq) in lane_start and xid_of[x_pid].get(x.seq)]
+            lanes.sort(key=lambda l: abs(xid_of[x_pid][l.seq]))   # |id| 小=靠中线
+            for i, l in enumerate(lanes):
+                exit_meta.append({"key": (x_pid, l.seq), "leg": x_pid, "idx": i,
+                                  "n": len(lanes), "pose": lane_start[(x_pid, l.seq)],
+                                  "pid": x_pid, "xid": xid_of[x_pid][l.seq],
+                                  "lane": l})
+        for e, x in plan_fill(ent_meta, exit_meta, filled_pairs,
+                              mode=connect_mode, allow_uturn=allow_uturn):
+            prims = _g2_prims(e["pose"], x["pose"])
+            if prims is None or any(max(abs(p[5]), abs(p[6])) > 0.125 for p in prims):
+                stats["conn_fill_skipped"] = stats.get("conn_fill_skipped", 0) + 1
+                continue                                  # 无解或 R<8m：判为不可行转向
+            connecting_road(("fill", e["key"], x["key"]), prims,
+                            (e["lane"].width_mm or 3500) / 1000.0,
+                            e["pid"], x["pid"], e["xid"], x["xid"])
+            stats["conn_filled"] = stats.get("conn_filled", 0) + 1
 
     # —— junction 铺面：IBD 交叉口面实测轮廓（type=none 无标线沥青面，不入拓扑） ——
     from mapforge.adapters.opendrive.writer import add_paving_road

@@ -277,7 +277,10 @@ def add_paving_road(doc: "XodrDoc", poly_xy, junction_id: int, road_id: int = 90
         (lo0, hi0), (lo1, hi1) = prof[i], prof[i + 1]
         road.add_offset(u0, hi0, (hi1 - hi0) / Ls)
         sec = LaneSection(u0)
-        ln = Lane(-1, "none")
+        # restricted：esmini 实测渲染为**沥青**(83,83,75)，与行车道同材质；
+        # none/border 渲染浅灰(125,125,113)、curb/sidewalk 混凝土(170,170,154)。
+        # 语义亦相符：铺装路面但不可行车（不入拓扑、无 connection 引用）
+        ln = Lane(-1, "restricted")
         w0, w1 = hi0 - lo0, hi1 - lo1
         ln.add_width(w0, (w1 - w0) / Ls)
         if i > 0:

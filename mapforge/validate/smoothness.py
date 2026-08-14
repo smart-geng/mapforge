@@ -250,8 +250,9 @@ def audit_file(path) -> dict:
     ks_all, steps_all = [], []
     for rd in root.findall("road"):
         ks_all.extend(kappa_steps(rd))
-        if rd.get("junction") in (None, "-1"):
-            steps_all.extend(section_boundary_steps(rd))
+        # 断面台阶对**所有** road 检查（含路口铺面）——铺面也是交付路面，
+        # 不该因为"不可行车"就免检；连接路只有单 section，天然无贡献
+        steps_all.extend(section_boundary_steps(rd))
     gaps = junction_seam_gaps(root)
     ks = [k for k in ks_all if k > 1e-9]
     return {
