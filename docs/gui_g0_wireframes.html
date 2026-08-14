@@ -1,0 +1,559 @@
+<title>mapforge 控制台 · G0 界面线框</title>
+<style>
+  :root{
+    --paper:#F1F3EF; --surface:#FFFFFF; --fill:#E8EBE6; --fill-2:#DDE2DB;
+    --ink:#1B211D; --muted:#6C746F; --rule:#C7CDC6; --rule-2:#A8B0A7;
+    --accent:#2E6B4C; --pass:#2E6B4C; --warn:#9A6B15; --block:#97302E;
+    --sans:"Segoe UI",system-ui,-apple-system,"Microsoft YaHei","PingFang SC",sans-serif;
+    --mono:ui-monospace,"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:#121513; --surface:#1A1E1B; --fill:#232823; --fill-2:#2C322C;
+      --ink:#E4E9E4; --muted:#949C96; --rule:#333A34; --rule-2:#4A544C;
+      --accent:#74C295; --pass:#74C295; --warn:#D2A24C; --block:#E0797A;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#121513; --surface:#1A1E1B; --fill:#232823; --fill-2:#2C322C;
+    --ink:#E4E9E4; --muted:#949C96; --rule:#333A34; --rule-2:#4A544C;
+    --accent:#74C295; --pass:#74C295; --warn:#D2A24C; --block:#E0797A;
+  }
+
+  *{box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);
+       font-size:14px;line-height:1.55;margin:0;padding:28px 20px 60px}
+  .wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:26px}
+
+  /* —— 抬头 —— */
+  .masthead{border-bottom:2px solid var(--ink);padding-bottom:14px;
+            display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between}
+  .masthead h1{margin:0;font-size:1.45rem;font-weight:650;letter-spacing:-.01em;text-wrap:balance}
+  .masthead p{margin:4px 0 0;color:var(--muted);max-width:60ch}
+  .stamp{font-family:var(--mono);font-size:.68rem;letter-spacing:.09em;
+         text-transform:uppercase;color:var(--muted);text-align:right;line-height:1.7}
+  .stamp b{color:var(--ink);font-weight:600}
+
+  /* —— 索引 —— */
+  .index{display:flex;flex-wrap:wrap;gap:8px}
+  .index a{font-family:var(--mono);font-size:.72rem;letter-spacing:.05em;text-decoration:none;
+           color:var(--ink);background:var(--surface);border:1px solid var(--rule);
+           padding:5px 10px}
+  .index a:hover{border-color:var(--accent);color:var(--accent)}
+  .index a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  /* —— 图纸 —— */
+  .sheet{background:var(--surface);border:1px solid var(--rule-2)}
+  .titleblock{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:baseline;
+              border-bottom:1px solid var(--rule-2);padding:10px 14px;background:var(--fill)}
+  .titleblock .no{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;color:var(--muted)}
+  .titleblock h2{margin:0;font-size:1.02rem;font-weight:650}
+  .titleblock .meta{font-family:var(--mono);font-size:.68rem;color:var(--muted);text-align:right}
+  .sheet-body{display:grid;grid-template-columns:1fr 272px;gap:0}
+  @media (max-width:860px){.sheet-body{grid-template-columns:1fr}}
+  .canvas{padding:16px;overflow-x:auto}
+  .notes{border-left:1px solid var(--rule);padding:14px 14px 16px;margin:0;
+         list-style:none;display:flex;flex-direction:column;gap:9px}
+  @media (max-width:860px){.notes{border-left:none;border-top:1px solid var(--rule)}}
+  .notes li{display:grid;grid-template-columns:20px 1fr;gap:8px;font-size:.8rem;color:var(--muted)}
+  .notes b{color:var(--ink);font-weight:600}
+  .mk{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;
+      border:1px solid var(--rule-2);border-radius:50%;font-family:var(--mono);
+      font-size:.62rem;color:var(--ink);background:var(--surface);flex:none}
+
+  /* —— 线框元件 —— */
+  .app{border:1px solid var(--rule-2);min-width:640px;background:var(--surface)}
+  .app-top{display:flex;align-items:center;justify-content:space-between;gap:12px;
+           border-bottom:1px solid var(--rule);padding:7px 11px;background:var(--fill)}
+  .brand{font-family:var(--mono);font-size:.74rem;letter-spacing:.04em}
+  .app-body{display:grid;grid-template-columns:132px 1fr}
+  .side{border-right:1px solid var(--rule);padding:9px 0;display:flex;flex-direction:column;gap:1px}
+  .side i{font-style:normal;font-family:var(--mono);font-size:.72rem;padding:5px 11px;color:var(--muted)}
+  .side i.on{background:var(--fill-2);color:var(--ink);box-shadow:inset 2px 0 0 var(--accent)}
+  .side i.off{opacity:.42}
+  .side hr{border:0;border-top:1px dashed var(--rule);margin:7px 9px}
+  .side small{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;color:var(--muted);padding:0 11px 3px}
+  .pane{padding:12px;display:flex;flex-direction:column;gap:11px}
+
+  .lbl{font-family:var(--mono);font-size:.65rem;letter-spacing:.09em;text-transform:uppercase;
+       color:var(--muted);display:block;margin-bottom:5px}
+  .box{border:1px dashed var(--rule-2);background:var(--fill);padding:9px 10px}
+  .solid{border:1px solid var(--rule);background:var(--surface);padding:9px 10px}
+  .row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+  .col{display:flex;flex-direction:column;gap:9px}
+  .grow{flex:1;min-width:0}
+  .mono{font-family:var(--mono);font-size:.72rem}
+  .dim{color:var(--muted)}
+  .btn{font-family:var(--mono);font-size:.7rem;border:1px solid var(--rule-2);
+       background:var(--surface);padding:5px 11px;color:var(--ink)}
+  .btn.pri{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+  .btn.dis{opacity:.4;text-decoration:line-through}
+  .field{border:1px solid var(--rule);background:var(--surface);padding:6px 9px;
+         font-family:var(--mono);font-size:.72rem;display:flex;justify-content:space-between;gap:10px}
+  .radio{display:flex;gap:7px;align-items:flex-start;font-family:var(--mono);font-size:.72rem}
+  .radio span{width:11px;height:11px;border:1px solid var(--rule-2);border-radius:50%;flex:none;margin-top:3px}
+  .radio.sel span{border-color:var(--accent);box-shadow:inset 0 0 0 2.5px var(--accent)}
+  .chk{width:11px;height:11px;border:1px solid var(--rule-2);flex:none;display:inline-block;
+       vertical-align:-1px;margin-right:5px}
+
+  table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.7rem}
+  th,td{text-align:left;padding:5px 7px;border-bottom:1px solid var(--rule);vertical-align:top}
+  th{color:var(--muted);font-weight:500;letter-spacing:.04em;background:var(--fill)}
+  td.num{font-variant-numeric:tabular-nums;text-align:right}
+
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block;vertical-align:0;flex:none}
+  .dot.p{background:var(--pass)} .dot.w{background:var(--warn)} .dot.b{background:var(--block)}
+  .dot.r{background:transparent;border:1px dashed var(--rule-2)}
+  .gates{display:flex;gap:6px;flex-wrap:wrap}
+  .gate{border:1px solid var(--rule);padding:5px 8px;display:flex;gap:6px;align-items:center;
+        font-family:var(--mono);font-size:.68rem;background:var(--surface)}
+  .tag{font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;padding:2px 6px;
+       border:1px solid var(--rule-2);color:var(--muted)}
+  .tag.p{color:var(--pass);border-color:var(--pass)}
+  .tag.b{color:var(--block);border-color:var(--block)}
+  .tag.w{color:var(--warn);border-color:var(--warn)}
+  .tabs{display:flex;gap:0;border-bottom:1px solid var(--rule)}
+  .tabs i{font-style:normal;font-family:var(--mono);font-size:.72rem;padding:6px 12px;
+          border:1px solid transparent;border-bottom:none;color:var(--muted)}
+  .tabs i.on{background:var(--surface);border-color:var(--rule);color:var(--ink);
+             margin-bottom:-1px;border-bottom:1px solid var(--surface)}
+  .bar{height:7px;background:var(--fill-2);position:relative;overflow:hidden}
+  .bar>i{position:absolute;inset:0 auto 0 0;background:var(--accent);display:block}
+  .marker{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;
+          border:1px solid var(--accent);border-radius:50%;font-family:var(--mono);font-size:.6rem;
+          color:var(--accent);background:var(--surface);vertical-align:1px;margin-left:5px;flex:none}
+  .stage{background:var(--fill);border:1px dashed var(--rule-2);min-height:186px;padding:11px;
+         display:flex;align-items:center;justify-content:center;position:relative}
+  .stage svg{width:100%;max-width:420px;height:auto}
+
+  .foot{border-top:1px solid var(--rule-2);padding-top:14px;color:var(--muted);font-size:.82rem}
+  .foot h3{margin:0 0 7px;font-size:.92rem;color:var(--ink)}
+  .foot ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px}
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div>
+      <h1>mapforge 控制台 · G0 界面线框</h1>
+      <p>五屏低保真线框，供结构评审。内容取自真实产物（金凤 7 路口、七门禁实测值），
+         每个元件都对应已实现的后端能力；标 <span class="tag">待建</span> 的是需要新写的。</p>
+    </div>
+    <div class="stamp">
+      版本 <b>v0.1</b><br>
+      形态 <b>单机本地</b><br>
+      服务角色 <b>转换执行者</b>
+    </div>
+  </header>
+
+  <nav class="index">
+    <a href="#s1">01 工作台</a>
+    <a href="#s2">02 数据源与 CRS</a>
+    <a href="#s3">03 转换向导</a>
+    <a href="#s4">04 地图预览</a>
+    <a href="#s5">05 质量看板</a>
+  </nav>
+
+  <!-- ════════ 01 ════════ -->
+  <section class="sheet" id="s1">
+    <div class="titleblock">
+      <span class="no">图 01</span>
+      <h2>工作台</h2>
+      <span class="meta">入口 · 环境自检 · 运行历史</span>
+    </div>
+    <div class="sheet-body">
+      <div class="canvas">
+        <div class="app">
+          <div class="app-top">
+            <span class="brand">mapforge 控制台</span>
+            <span class="mono dim">127.0.0.1:8765 · 离线</span>
+          </div>
+          <div class="app-body">
+            <div class="side">
+              <small>G0</small>
+              <i class="on">工作台</i><i>数据源</i><i>转换</i><i>预览</i><i>质量</i>
+              <hr>
+              <small>G1 / G2</small>
+              <i class="off">决策台</i><i class="off">Profile</i><i class="off">交付包</i><i class="off">批量回归</i>
+            </div>
+            <div class="pane">
+
+              <div>
+                <span class="lbl">环境自检 <span class="marker">1</span></span>
+                <div class="row">
+                  <span class="gate"><span class="dot p"></span>依赖 numpy/shapely/pyclothoids</span>
+                  <span class="gate"><span class="dot p"></span>OpenDRIVE_1.5M.xsd</span>
+                  <span class="gate"><span class="dot w"></span>esmini v3.6.0 未就位 → G6 降级</span>
+                </div>
+              </div>
+
+              <div>
+                <span class="lbl">最近运行 <span class="marker">2</span></span>
+                <div class="solid" style="padding:0">
+                  <table>
+                    <tr><th>run</th><th>源 → 目标</th><th>参数</th><th>门禁</th><th class="num">耗时</th></tr>
+                    <tr>
+                      <td>r-0814-1732</td><td>金凤 node4 · SHP→xodr</td><td>connect=full</td>
+                      <td><span class="dot p"></span><span class="dot p"></span><span class="dot p"></span><span class="dot p"></span><span class="dot p"></span><span class="dot p"></span><span class="dot p"></span></td>
+                      <td class="num">8.2s</td>
+                    </tr>
+                    <tr>
+                      <td>r-0814-1715</td><td>金凤 node18 · MAP→xodr</td><td>connect=data</td>
+                      <td><span class="dot p"></span><span class="dot p"></span><span class="dot p"></span><span class="dot p"></span><span class="dot p"></span><span class="dot r"></span><span class="dot p"></span></td>
+                      <td class="num">6.4s</td>
+                    </tr>
+                    <tr>
+                      <td>r-0814-1656</td><td>金凤 NODE5 · SHP→MAP</td><td>allow-no-phase</td>
+                      <td><span class="dot p"></span><span class="dot p"></span><span class="dot w"></span><span class="dot p"></span><span class="dot p"></span><span class="dot p"></span><span class="dot p"></span></td>
+                      <td class="num">3.1s</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+
+              <div class="row">
+                <span class="btn pri">新建转换</span>
+                <span class="btn">批量回归 <span class="tag">G2</span></span>
+                <span class="mono dim">产物目录 out/runs/ <span class="marker">3</span></span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li><span class="mk">1</span><span><b>环境自检常驻。</b>esmini 是外部二进制，缺失时 G6 与 3D 页降级而非报错——本会话踩过这个坑，值得前置提示。</span></li>
+        <li><span class="mk">2</span><span><b>门禁七色块即行摘要。</b>空心点=未跑（如 esmini 缺失），黄=降级放行。点击整行进质量看板。</span></li>
+        <li><span class="mk">3</span><span><b>每次转换一个 run 目录</b>（前置工作项 B2）。界面只读该目录，刷新不重算、历史可回看。</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ════════ 02 ════════ -->
+  <section class="sheet" id="s2">
+    <div class="titleblock">
+      <span class="no">图 02</span>
+      <h2>数据源与 CRS</h2>
+      <span class="meta">登记 · 体检 · 红线阻断</span>
+    </div>
+    <div class="sheet-body">
+      <div class="canvas">
+        <div class="app">
+          <div class="app-top"><span class="brand">数据源</span><span class="btn">登记新数据源</span></div>
+          <div class="app-body" style="grid-template-columns:200px 1fr">
+            <div class="side" style="padding:9px">
+              <div class="box" style="margin-bottom:7px">
+                <div class="mono">shp_0222-0326</div>
+                <div class="mono dim">IBD · 44 图层</div>
+                <div class="mono" style="color:var(--warn)">● 内部自洽</div>
+              </div>
+              <div class="box" style="margin-bottom:7px">
+                <div class="mono">v2x_map_xml</div>
+                <div class="mono dim">MAP · 7 帧</div>
+                <div class="mono" style="color:var(--warn)">● 内部自洽</div>
+              </div>
+              <div class="box" style="border-color:var(--block)">
+                <div class="mono">图商B_2026Q3</div>
+                <div class="mono dim">SHP · 31 图层</div>
+                <div class="mono" style="color:var(--block)">● 可疑 · 阻断</div>
+              </div>
+            </div>
+            <div class="pane">
+
+              <div>
+                <span class="lbl">CRS 状态 <span class="marker">1</span></span>
+                <div class="solid col">
+                  <div class="row">
+                    <span class="dot w"></span>
+                    <b class="mono">internally-consistent</b>
+                    <span class="tag w">待人工签认</span>
+                  </div>
+                  <div class="mono dim" style="line-height:1.75">
+                    .prj = 自定义 WKT，无 EPSG，仅声称 WGS84<br>
+                    逐点核验：SHP ↔ MAP 同源同系（H0 全胜）<br>
+                    GCJ02 假设：已否定<br>
+                    绝对校验（实测控制点）：<span style="color:var(--warn)">缺</span>
+                  </div>
+                  <div class="row"><span class="btn">查看核验证据</span><span class="btn">人工签认 <span class="tag">G1</span></span></div>
+                </div>
+              </div>
+
+              <div>
+                <span class="lbl">图层清单</span>
+                <div class="solid" style="padding:0">
+                  <table>
+                    <tr><th>图层</th><th>几何</th><th class="num">要素</th><th>编码</th><th>用途</th></tr>
+                    <tr><td>IBD_LANE_LINK</td><td>polylineZ</td><td class="num">1 842</td><td>GBK</td><td>车道中心线</td></tr>
+                    <tr><td>IBD_LANE_TOPO_DETAIL</td><td>表</td><td class="num">3 517</td><td>GBK</td><td>车道拓扑</td></tr>
+                    <tr><td>IBD_..._INTERSECTION_SURFACE</td><td>polygonZ</td><td class="num">36</td><td>GBK</td><td>交叉口面 / 铺面</td></tr>
+                    <tr><td>IBD_LANE_POSITION</td><td>polylineZ</td><td class="num">470 MB</td><td>GBK</td><td>逐形点姿态 <span class="marker">2</span></td></tr>
+                  </table>
+                </div>
+              </div>
+
+              <div class="box" style="border-color:var(--block)">
+                <span class="lbl" style="color:var(--block)">阻断态示例 · 图商B <span class="marker">3</span></span>
+                <div class="mono">CRS 可疑：.prj 缺失且与已知源不重合</div>
+                <div class="row" style="margin-top:7px">
+                  <span class="btn dis">开始转换</span>
+                  <span class="mono dim">核验通过前禁止生产转换（硬约束）</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li><span class="mk">1</span><span><b>CRS 状态灯三态</b>：已核验 / 内部自洽 / 可疑。数据来自 <code class="mono">mapir/crs_probe</code> 的既有结论。</span></li>
+        <li><span class="mk">2</span><span><b>大表要缓存。</b>IBD_POSITION 达 470 MB，首次扫描进后台任务并建索引（前置 B5），否则界面必卡。</span></li>
+        <li><span class="mk">3</span><span><b>阻断是硬的。</b>红灯时转换按钮禁用且界面不提供"忽略"——对应"CRS 缺失/可疑即停止生产转换"。</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ════════ 03 ════════ -->
+  <section class="sheet" id="s3">
+    <div class="titleblock">
+      <span class="no">图 03</span>
+      <h2>转换向导</h2>
+      <span class="meta">四步 · 参数随目标变化 · 先干跑</span>
+    </div>
+    <div class="sheet-body">
+      <div class="canvas">
+        <div class="app">
+          <div class="app-top">
+            <span class="brand">新建转换</span>
+            <span class="mono dim">① 源 → ② 目标 → <b style="color:var(--accent)">③ 参数</b> → ④ 预检</span>
+          </div>
+          <div class="app-body" style="grid-template-columns:1fr 258px">
+            <div class="pane">
+
+              <div class="row">
+                <div class="grow"><span class="lbl">源</span>
+                  <div class="field"><span>shp_0222-0326</span><span class="dim">IBD 44 图层</span></div></div>
+                <div class="grow"><span class="lbl">路口定位 <span class="marker">1</span></span>
+                  <div class="field"><span>凤苑路-金玥路 node4</span><span class="dim">--like</span></div></div>
+              </div>
+
+              <div class="row">
+                <div class="grow"><span class="lbl">目标</span>
+                  <div class="field"><span>OpenDRIVE (.xodr)</span><span class="dim">1.5</span></div></div>
+                <div class="grow"><span class="lbl">Profile</span>
+                  <div class="field"><span>ibd-smarteditor-v1</span><span class="dim">内置</span></div></div>
+              </div>
+
+              <div>
+                <span class="lbl">路口转向来源 · connect-mode <span class="marker">2</span></span>
+                <div class="solid col">
+                  <div class="radio sel"><span></span><div><b>data</b> — 仅源数据 TOPO<br>
+                    <span class="dim">默认。不发明拓扑。</span></div></div>
+                  <div class="radio"><span></span><div><b>default</b> — 补每条车道位置应有的转向<br>
+                    <span class="dim">治个别漏录。最左→左、最右→右、其余→直行。</span></div></div>
+                  <div class="radio"><span></span><div><b>full</b> — 全连接<br>
+                    <span class="dim">治整片缺录，同时铺满路口。补出的标 INFERRED。</span></div></div>
+                  <div class="mono dim"><span class="chk"></span>允许掉头（默认排除）</div>
+                </div>
+              </div>
+
+              <div class="box">
+                <span class="lbl">红线预检 <span class="marker">3</span></span>
+                <div class="mono"><span class="dot p"></span> CRS 已核验　<span class="dot p"></span> phase 已绑定（现网 XML）　<span class="dot p"></span> 台账无冲突</div>
+              </div>
+
+            </div>
+            <div class="side" style="padding:12px;gap:11px;border-left:1px solid var(--rule);border-right:none">
+              <span class="lbl">干跑预检 <span class="marker">4</span></span>
+              <div class="box" style="font-family:var(--mono);font-size:.7rem;line-height:1.85">
+                进口路 <b>4</b> · 出口路 <b>4</b><br>
+                双向腿 <b>4</b><br>
+                laneSection <b>27</b><br>
+                连接路 <b>24</b>（实测几何 24）<br>
+                拟合偏差峰值 <b>0.27 m</b><br>
+                <span class="dim">未写文件</span>
+              </div>
+              <div class="col">
+                <span class="btn pri">执行转换</span>
+                <span class="btn">存为预设</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li><span class="mk">1</span><span><b>三种定位方式</b>：参考 XML（--like）、经纬度（--at）、从路口列表点选。后者对不熟悉数据的人最友好。</span></li>
+        <li><span class="mk">2</span><span><b>三档并列展示而非藏进高级选项。</b>它直接决定产物是否含推断拓扑，交付时要说得清。</span></li>
+        <li><span class="mk">3</span><span><b>红线前移到执行前。</b>避免跑完才发现 BLOCKED。无 phase 时这里给显式降级入口，并说明会记 DROPPED。</span></li>
+        <li><span class="mk">4</span><span><b>干跑不写文件</b>，只出结构预估——参数选错能立刻看出来（如连接路数为 0）。</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ════════ 04 ════════ -->
+  <section class="sheet" id="s4">
+    <div class="titleblock">
+      <span class="no">图 04</span>
+      <h2>地图预览</h2>
+      <span class="meta">矢量 / 俯视 / 快照 · 源与产物叠加</span>
+    </div>
+    <div class="sheet-body">
+      <div class="canvas">
+        <div class="app">
+          <div class="app-top">
+            <span class="brand">预览 · r-0814-1732 · node4</span>
+            <span class="mono dim">node3 · <b>node4</b> · NODE5 · node13 · node16 · node17 · node18</span>
+          </div>
+          <div class="app-body" style="grid-template-columns:148px 1fr 190px">
+            <div class="side" style="padding:11px;gap:9px">
+              <span class="lbl">图层</span>
+              <div class="mono"><span class="chk" style="background:var(--accent);border-color:var(--accent)"></span>车道中心线</div>
+              <div class="mono"><span class="chk" style="background:var(--accent);border-color:var(--accent)"></span>车道边界</div>
+              <div class="mono"><span class="chk"></span>Link 中线</div>
+              <div class="mono"><span class="chk" style="background:var(--accent);border-color:var(--accent)"></span>连接关系</div>
+              <div class="mono"><span class="chk"></span>停止线</div>
+              <div class="mono"><span class="chk"></span>路口铺面</div>
+              <hr style="border:0;border-top:1px dashed var(--rule);width:100%">
+              <span class="lbl">叠加对照 <span class="marker">2</span></span>
+              <div class="mono"><span class="chk" style="background:var(--accent);border-color:var(--accent)"></span>源 SHP 车道线</div>
+              <div class="mono dim">红=产物 蓝=源</div>
+            </div>
+
+            <div class="pane" style="padding:11px">
+              <div class="tabs"><i class="on">矢量</i><i>xodr 俯视</i><i>3D 快照 <span class="tag w">需 esmini</span></i></div>
+              <div class="stage">
+                <svg viewBox="0 0 300 168" role="img" aria-label="路口线框示意：四条腿与路口内连接路">
+                  <g fill="none" stroke="currentColor" stroke-width="1" opacity=".5">
+                    <path d="M0 74h108M192 74h108M0 94h108M192 94h108"/>
+                    <path d="M132 0v56M132 112v56M168 0v56M168 112v56"/>
+                  </g>
+                  <g fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 3" opacity=".85">
+                    <path d="M108 84h84M150 0v168"/>
+                  </g>
+                  <g fill="none" stroke="currentColor" stroke-width="1.4">
+                    <path d="M108 84q26 0 26-28V56"/>
+                    <path d="M108 84q34 0 46 14t14 42v28"/>
+                    <path d="M192 84q-26 0-26 28v0"/>
+                  </g>
+                  <circle cx="134" cy="66" r="3" fill="currentColor"/>
+                </svg>
+                <span class="mono dim" style="position:absolute;left:11px;bottom:8px">选中：lane 12-3 <span class="marker">3</span></span>
+              </div>
+            </div>
+
+            <div class="side" style="padding:11px;gap:8px;border-right:none;border-left:1px solid var(--rule)">
+              <span class="lbl">要素属性</span>
+              <div class="box" style="font-family:var(--mono);font-size:.68rem;line-height:1.8">
+                lane_id <b>12-3</b><br>
+                width <b>3.45 m</b><br>
+                maneuvers <b>直行+右转</b><br>
+                speed <b>60 km/h</b><br>
+                phaseId <b>3</b><br>
+                状态 <span class="tag p">TRANSFORMED</span>
+              </div>
+              <div class="box" style="font-family:var(--mono);font-size:.68rem;line-height:1.8">
+                来源 <b>LANE_LINK</b><br>
+                宽度来源 <b>字段</b><br>
+                <span class="dim">非字段来源会标 APPROXIMATED</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li><span class="mk">1</span><span><b>三种视图各有分工</b>：矢量看语义与拓扑、俯视看边缘与断面、快照看真实渲染。缺 esmini 时第三页降级置灰。</span></li>
+        <li><span class="mk">2</span><span><b>源与产物叠加设为常驻功能。</b>本会话多次靠临时叠画脚本定位问题（重叠 2.9 m、边缘钩子），不该每次现写。</span></li>
+        <li><span class="mk">3</span><span><b>点选即看八态。</b>把 EXACT/TRANSFORMED/APPROXIMATED/INFERRED 落到每个要素上，交付评审时能逐个追问。</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ════════ 05 ════════ -->
+  <section class="sheet" id="s5">
+    <div class="titleblock">
+      <span class="no">图 05</span>
+      <h2>质量看板</h2>
+      <span class="meta">七门禁 · 损失八态 · 失败可定位</span>
+    </div>
+    <div class="sheet-body">
+      <div class="canvas">
+        <div class="app">
+          <div class="app-top">
+            <span class="brand">质量 · r-0814-1732 · node4 · SHP→xodr</span>
+            <span class="mono" style="color:var(--pass)">全部门禁 PASS</span>
+          </div>
+          <div class="pane">
+
+            <div class="gates">
+              <span class="gate"><span class="dot p"></span>G1 XSD</span>
+              <span class="gate"><span class="dot p"></span>G2 planView</span>
+              <span class="gate"><span class="dot p"></span>G3 曲率连续</span>
+              <span class="gate"><span class="dot p"></span>G4 断面台阶</span>
+              <span class="gate"><span class="dot p"></span>G5 换乘</span>
+              <span class="gate"><span class="dot p"></span>G6 esmini 行驶</span>
+              <span class="gate"><span class="dot p"></span>G7 曲率品质</span>
+            </div>
+
+            <div class="row" style="align-items:flex-start">
+              <div class="grow" style="min-width:330px">
+                <span class="lbl">门禁明细 <span class="marker">1</span></span>
+                <div class="solid" style="padding:0">
+                  <table>
+                    <tr><th>门禁 · 指标</th><th class="num">实测</th><th class="num">阈值</th><th>结论</th></tr>
+                    <tr><td>G3 κ 断差最大</td><td class="num">0.0e+00</td><td class="num">&lt;1e-6</td><td><span class="tag p">PASS</span></td></tr>
+                    <tr><td>G4 断面台阶最大</td><td class="num">0.005 m</td><td class="num">&lt;0.05</td><td><span class="tag p">PASS</span></td></tr>
+                    <tr><td>G5 换乘缝隙 进/出</td><td class="num">0.0 / 0.0 cm</td><td class="num">&lt;1 cm</td><td><span class="tag p">PASS</span></td></tr>
+                    <tr><td>G6 行驶跳变</td><td class="num">0</td><td class="num">0</td><td><span class="tag p">PASS</span></td></tr>
+                    <tr><td>G7 蛇行 leg</td><td class="num">5.8 /100m</td><td class="num">≤18</td><td><span class="tag p">PASS</span></td></tr>
+                    <tr><td>G7 侧向 jerk leg</td><td class="num">15.2</td><td class="num">≤200</td><td><span class="tag p">PASS</span></td></tr>
+                    <tr><td>G7 段长中位 leg</td><td class="num">8.2 m</td><td class="num">≥2.5</td><td><span class="tag p">PASS</span></td></tr>
+                  </table>
+                </div>
+                <div class="box" style="margin-top:9px;border-color:var(--warn)">
+                  <span class="mono">失败样例 · G4 断面台阶 1.13 m @ road 11 s=161</span>
+                  <span class="btn" style="margin-left:7px">定位到地图 <span class="marker">2</span></span>
+                </div>
+              </div>
+
+              <div style="width:262px;flex:none">
+                <span class="lbl">损失八态 <span class="marker">3</span></span>
+                <div class="solid col" style="gap:7px">
+                  <div class="mono">EXACT <span class="dim">· 车道几何/宽度/限速</span></div>
+                  <div class="bar"><i style="width:74%"></i></div>
+                  <div class="mono">TRANSFORMED <span class="dim">· 参考线拟合</span></div>
+                  <div class="bar"><i style="width:18%"></i></div>
+                  <div class="mono">APPROXIMATED <span class="dim">· 锥形收放/标线</span></div>
+                  <div class="bar"><i style="width:6%"></i></div>
+                  <div class="mono">INFERRED <span class="dim">· 铺面/补全转向</span></div>
+                  <div class="bar"><i style="width:2%"></i></div>
+                </div>
+                <span class="lbl" style="margin-top:11px">推导统计</span>
+                <div class="box" style="font-family:var(--mono);font-size:.68rem;line-height:1.8">
+                  宽度来源 字段 <b>96%</b> / 边界 <b>4%</b><br>
+                  锥形收放 <b>21</b><br>
+                  补全转向 <b>0</b>（connect=data）<br>
+                  铺面 <b>polygon</b>（交叉口面）
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li><span class="mk">1</span><span><b>阈值与 closed_loop 同源。</b>界面不重定义常量，从同一处读——否则会出现"界面绿、CI 红"两份真相。</span></li>
+        <li><span class="mk">2</span><span><b>失败项必须可定位</b>到 road / s，并一键跳地图预览。只报数字的看板等于没有。</span></li>
+        <li><span class="mk">3</span><span><b>八态是交付语言。</b>评审看的不是"成功了吗"，而是"哪些是真数据、哪些是推的"。</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <h3>评审时请重点看这三处</h3>
+    <ol>
+      <li><b>转换向导的参数分组</b>（图 03）——connect-mode 放在主区还是收进高级选项？它决定产物是否含推断拓扑。</li>
+      <li><b>地图预览的叠加对照</b>（图 04）——是否值得做成常驻功能？本会话它抓出过 2.9 m 重叠这类真问题。</li>
+      <li><b>质量看板的信息密度</b>（图 05）——七门禁 + 八态 + 推导统计同屏，是否过密？可拆成摘要页与明细页。</li>
+    </ol>
+  </footer>
+
+</div>
