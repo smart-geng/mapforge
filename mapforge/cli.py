@@ -27,6 +27,20 @@ def _msgframe_type():
     return msglayer_draft.MsgLayerDraft.MessageFrame
 
 
+def _finalize_xodr(path: Path, stats: dict, connect_mode: str):
+    from mapforge.report.decision import finalize_opendrive_g8
+    policy = _ROOT / "profiles" / "validation" / "g8-opendrive-jinfeng-v1.yaml"
+    result = finalize_opendrive_g8(
+        path, stats.get("source_lane_manifest"), policy, connect_mode=connect_mode)
+    gate, decision = result["gate"], result["decision"]
+    typer.echo(f"  G8: {gate['status']}（matched {gate.get('scope', {}).get('matched_source_lanes', 0)}，"
+               f"exclusions {len(gate.get('exclusions', []))}）")
+    typer.echo(f"  DELIVERY-STATUS: {decision['status']}")
+    if decision["status"] != "DELIVERABLE":
+        raise typer.Exit(2)
+    return result
+
+
 @app.command()
 def preview(xml_path: Path, out: Path = typer.Option(None, "-o", help="输出 GeoJSON 路径")):
     """MAP XML → GeoJSON 预览（refPos/Link/Lane，含 phase、maneuvers 属性）。"""
@@ -94,7 +108,7 @@ def convert(input_path: Path,
                                              help="补全时允许掉头（默认排除）"),
             region: int = typer.Option(500), node_id: int = typer.Option(9901),
             allow_no_phase: bool = typer.Option(False, "--allow-no-phase",
-                                                help="显式降级：允许交付无 phase 的信控路口 MAP（默认红线阻断）")):
+                                                help="显式降级：生成无 phase 的诊断产物，生产状态仍 BLOCKED")):
     """统一转换入口：MAP XML / OpenDRIVE / IBD SHP 目录 → geojson / uper / map-xml / map / xodr。"""
     from mapforge.adapters.v2xmap.xml_reader import parse_map_xml
     from mapforge.report.preview_geojson import to_geojson
@@ -141,6 +155,7 @@ def convert(input_path: Path,
         if getattr(src, "derivation_stats", None):
             typer.echo(f"  推导统计: {src.derivation_stats}")
         typer.echo(f"  {base.with_suffix('.xodr').name}")
+        _finalize_xodr(base.with_suffix(".xodr"), st, connect_mode)
         typer.echo("OK")
         return
     if input_path.is_dir():                                  # SHP 目录 → MAP 系目标
@@ -237,6 +252,7 @@ def convert(input_path: Path,
                    f"，拟合偏差峰值 {stats['fit_dev_max']:.2f}m"
                    + (f"，skipped {stats['skipped']}" if stats["skipped"] else ""))
         typer.echo(f"  {base.with_suffix('.xodr').name}")
+        _finalize_xodr(base.with_suffix(".xodr"), stats, connect_mode)
     else:
         typer.echo(f"未知目标 {to}")
         raise typer.Exit(1)

@@ -17,6 +17,7 @@ from pathlib import Path
 
 from mapforge import __version__
 from mapforge.adapters.v2xmap.xml_reader import MapNode
+from mapforge.report.decision import delivery_decision
 
 _MANEUVER_NAMES = {0: "straight", 1: "left", 2: "right", 3: "uTurn"}
 
@@ -121,9 +122,16 @@ def build_delivery(node: MapNode, out_dir: Path, *,
         json.dumps(to_geojson(node), ensure_ascii=False, indent=1), encoding="utf-8")
     files += ["map.uper", "map.xml", "map.geojson"]
 
+    n_no_phase = sum(1 for lk in node.links for ln in lk.lanes
+                     for c in ln.connects if c.phase is None)
+    blockers = ([{"code": "phase_missing", "count": n_no_phase,
+                  "allow_no_phase": bool(allow_no_phase)}] if n_no_phase else [])
+    decision = delivery_decision({}, set(), blockers=blockers)
+
     # 报告
     q = quality_report(node, pipeline_summary)
     q["encoding"] = {"mode": mode, "bytes": len(buf), "uper_roundtrip": "PASS" if roundtrip_ok else "FAIL"}
+    q["delivery_decision"] = decision
     l = loss_report(node, loss_events, simplify_tol_m)
     (out_dir / "quality-report.json").write_text(json.dumps(q, ensure_ascii=False, indent=2), encoding="utf-8")
     (out_dir / "loss-report.json").write_text(json.dumps(l, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -167,11 +175,9 @@ def build_delivery(node: MapNode, out_dir: Path, *,
         yaml.safe_dump(config, allow_unicode=True, sort_keys=False), encoding="utf-8")
     files += ["provenance-manifest.json", "conversion-config.yaml"]
 
-    # 红线（方案 8.2）：信控路口 phase 缺绑
-    n_no_phase = sum(1 for lk in node.links for ln in lk.lanes for c in ln.connects if c.phase is None)
-    status = "OK"
-    if n_no_phase and not allow_no_phase:
-        status = "BLOCKED(phase_missing=%d)" % n_no_phase
+    # 红线（方案 8.2）：allow_no_phase 仅允许生成诊断产物，不改变生产阻断。
+    status = "OK" if decision["status"] == "DELIVERABLE" else (
+        "BLOCKED(phase_missing=%d)" % n_no_phase if n_no_phase else "BLOCKED")
     (out_dir / "DELIVERY-STATUS.txt").write_text(status + "\n", encoding="utf-8")
     files.append("DELIVERY-STATUS.txt")
-    return {"status": status, "files": files, "bytes": len(buf)}
+    return {"status": status, "decision": decision, "files": files, "bytes": len(buf)}
