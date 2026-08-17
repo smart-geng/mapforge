@@ -32,11 +32,14 @@ from mapforge.ops.refline_fit import (eval_planview, fc_clamp, fit_leg_refline,
                                       fit_polyline_auto, g2ify_planview,
                                       planview_prims, seg_kappa, simplify_planview,
                                       weld_g2)
+from mapforge.validate.g8_model import geometry_sha256, make_manifest, source_lane
 
 R_EARTH = 6378137.0
 _DEG_EPS = 1e-5          # 端点衔接容差（度，≈1m）
 _TAPER = 20.0            # 生/灭车道锥形收放长度（m，APPROXIMATED：数据以整 Link 粒度生灭）
 _SNAP = 1.5              # 对向链边界向进口边界吸附距离（m）
+_SOURCE_TRANSITION_TOL = 0.5  # 连续化后仍可归属来源中心线的最大横向位移（m）
+_SOURCE_TRANSITION_MARGIN = 0.5  # 支持域裁剪的纵向安全余量（m）
 
 
 def _smooth_w(w0, w1, L):
@@ -107,6 +110,21 @@ def _georef(lat0, lon0):
 
 def _polylen(pts_xy):
     return float(np.linalg.norm(np.diff(pts_xy, axis=0), axis=1).sum()) if len(pts_xy) >= 2 else 0.0
+
+
+def _densify_polyline(pts_xy, step=0.5):
+    """沿原折线分段线性加密；不平滑、不外推，端点与总长保持不变。"""
+    pts = np.asarray(pts_xy, float)
+    if len(pts) < 2:
+        return pts.copy()
+    seg = np.linalg.norm(np.diff(pts, axis=0), axis=1)
+    ss = np.concatenate([[0.0], np.cumsum(seg)])
+    if ss[-1] <= 1e-9:
+        return pts[:1].copy()
+    q = np.arange(0.0, ss[-1], max(float(step), 1e-3))
+    q = np.append(q, ss[-1]) if not len(q) or ss[-1] - q[-1] > 1e-9 else q
+    return np.column_stack([np.interp(q, ss, pts[:, 0]),
+                            np.interp(q, ss, pts[:, 1])])
 
 
 def _center_of(src: IbdSource, pid: str):
@@ -244,13 +262,26 @@ def _g2_prims(p0, p1):
              c.KappaStart, c.KappaEnd) for c in cls]
 
 
-def _prims_dev(prims, pts):
-    """几何原语链对实测点列的最大横向偏差（每 0.5m 采样最近距）。"""
+def _prims_fidelity(prims, pts):
+    """几何原语链对来源折线的双向与端点误差。"""
     from mapforge.ops.refline_fit import PlanSeg, PlanView
     segs = [PlanSeg("spiral" if p[0] == "spiral" else p[0], p[4], p[5],
                     p[6] if p[0] == "spiral" else None) for p in prims]
     ref = eval_planview(PlanView(prims[0][1], prims[0][2], prims[0][3], segs), 0.5)
-    return float(max(np.min(np.linalg.norm(ref - q[None, :], axis=1)) for q in pts))
+    src = np.asarray(pts, float)
+    src_d = np.linalg.norm(np.diff(src, axis=0), axis=1)
+    src_s = np.concatenate([[0.0], np.cumsum(src_d)])
+    sample_s = np.arange(0.0, src_s[-1], 0.5)
+    if not len(sample_s) or src_s[-1] - sample_s[-1] > 1e-9:
+        sample_s = np.append(sample_s, src_s[-1])
+    src = np.column_stack([np.interp(sample_s, src_s, src[:, 0]),
+                           np.interp(sample_s, src_s, src[:, 1])])
+    s2t = max(np.min(np.linalg.norm(ref - q[None, :], axis=1)) for q in src)
+    t2s = max(np.min(np.linalg.norm(src - q[None, :], axis=1)) for q in ref)
+    return {"source_to_target_max_m": float(s2t),
+            "target_to_source_max_m": float(t2s),
+            "start_m": float(np.linalg.norm(src[0] - ref[0])),
+            "end_m": float(np.linalg.norm(src[-1] - ref[-1]))}
 
 
 def _bridged_geoms(vg, p0, p1, fit_fn, scale=1.0):
@@ -262,10 +293,19 @@ def _bridged_geoms(vg, p0, p1, fit_fn, scale=1.0):
     d = np.linalg.norm(np.diff(vg, axis=0), axis=1)
     s = np.concatenate([[0.0], np.cumsum(d)])
     L = float(s[-1])
+    dense_s = np.arange(0.0, L, 0.5)
+    if not len(dense_s) or L - dense_s[-1] > 1e-9:
+        dense_s = np.append(dense_s, L)
+    vg = np.column_stack([np.interp(dense_s, s, vg[:, 0]),
+                          np.interp(dense_s, s, vg[:, 1])])
+    s = dense_s
     # 切口下限 8m：SolveG2 桥是 3 段回旋线，切口太小会把桥压成 1–2m 的碎段
     # （消费端读到高频曲率锯齿）；8m 切口 ⇒ 桥段 ≈2.5–4m，仍是合理的缓和过渡长度
-    cut0 = min(max(8.0, 2.0 * float(np.linalg.norm(vg[0] - p0[:2]))) * scale, L / 3)
-    cut1 = min(max(8.0, 2.0 * float(np.linalg.norm(vg[-1] - p1[:2]))) * scale, L / 3)
+    cut_fraction = min(0.45, 1.0 / 3.0 + 0.06 * max(scale - 1.0, 0.0))
+    cut0 = min(max(8.0, 2.0 * float(np.linalg.norm(vg[0] - p0[:2]))) * scale,
+               L * cut_fraction)
+    cut1 = min(max(8.0, 2.0 * float(np.linalg.norm(vg[-1] - p1[:2]))) * scale,
+               L * cut_fraction)
     mid = vg[(s >= cut0) & (s <= L - cut1)]
     if mid.shape[0] < 4:
         return None
@@ -289,12 +329,13 @@ def _bridged_geoms(vg, p0, p1, fit_fn, scale=1.0):
     if (sum(c.length for c in b0) > 40 or sum(c.length for c in b1) > 40
             or any(max(abs(c.KappaStart), abs(c.KappaEnd)) > 0.5 for c in bridge)):
         return None                                      # 桥失控/猪尾巴：由调用侧重试
-    prims = [("spiral", c.XStart, c.YStart, c.ThetaStart, c.length,
-              c.KappaStart, c.KappaEnd) for c in b0]
-    prims += prims_mid
-    prims += [("spiral", c.XStart, c.YStart, c.ThetaStart, c.length,
+    prims0 = [("spiral", c.XStart, c.YStart, c.ThetaStart, c.length,
+               c.KappaStart, c.KappaEnd) for c in b0]
+    prims1 = [("spiral", c.XStart, c.YStart, c.ThetaStart, c.length,
                c.KappaStart, c.KappaEnd) for c in b1]
-    return prims, dev
+    support_s = (sum(p[4] for p in prims0),
+                 sum(p[4] for p in prims0) + sum(p[4] for p in prims_mid))
+    return prims0 + prims_mid + prims1, dev, mid, support_s
 
 
 def _pair_legs(src: IbdSource, junc: JunctionRec, proj, cj):
@@ -353,6 +394,64 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
              "multi_section_roads": 0, "conn_via": 0, "conn_g2": 0, "connections": 0,
              "lanelinks": 0, "skipped": 0, "fit_dev_max": 0.0, "speeds": 0,
              "junction": junc.name, "junction_pid": junc.pid}
+    manifest_lanes: dict[str, dict] = {}
+    pending_sources: dict[str, dict] = {}
+    source_profile = getattr(src, "p", {}).get("profile", "ibd-smarteditor-v1")
+
+    def _register_source(rec, points, *, role, direction, at_stopline=False, via=False,
+                         eligible=True, support_reason="target-leg-domain"):
+        points = np.asarray(points, float)
+        if rec.lane_pid in manifest_lanes:
+            old = manifest_lanes[rec.lane_pid]
+            if (old["role"] != role or old["travel"]["target_direction"] != direction
+                    or old["comparison"]["eligible"] != bool(eligible)):
+                raise ValueError(f"SHP source key 冲突: {rec.lane_pid}")
+            prev = np.asarray(old["geometry"]["coordinates"], float)
+            parts = (prev, points) if direction == "with_s" else (points, prev)
+            joined = np.vstack(parts)
+            keep = np.concatenate([[True], np.linalg.norm(np.diff(joined, axis=0), axis=1) > 1e-6])
+            joined = joined[keep]
+            old["geometry"]["coordinates"] = joined.tolist()
+            old["geometry"]["geometry_sha256"] = geometry_sha256(joined)
+            old["travel"]["start"] = joined[0].tolist()
+            old["travel"]["end"] = joined[-1].tolist()
+            old.setdefault("support", {})["compared_length_m"] = (
+                _polylen(joined) if eligible else 0.0)
+            return
+        geom_source = getattr(rec, "geometry_source", "field")
+        derived = geom_source != "field"
+        support = "boundary" if geom_source == "boundaries" else "field"
+        policy_class = (f"shp.{support}-via" if via else
+                        f"shp.{support}-approach" if at_stopline else
+                        f"shp.{support}-leg")
+        stop = {"availability": "not-applicable"}
+        if at_stopline:
+            candidates = [x for x in getattr(src, "stoplines_by_lane", {}).get(rec.lane_pid, [])
+                          if x.geometry.shape[0] >= 2]
+            if candidates:
+                end = np.asarray(points)[-1]
+                chosen = min(candidates,
+                             key=lambda x: np.linalg.norm(proj(x.geometry).mean(axis=0) - end))
+                stop = {"availability": "available", "source_id": chosen.object_pid,
+                        "geometry": {"type": "LineString",
+                                     "coordinates": proj(chosen.geometry).tolist()}}
+            else:
+                stop = {"availability": "unavailable", "reason": "source-stopline-not-linked"}
+        entry = source_lane(
+            rec.lane_pid, points,
+            owner={"format": "shp", "junction": junc.pid, "link": rec.link_pid,
+                   "lane": rec.lane_pid},
+            role=role, status="APPROXIMATED" if derived else "TRANSFORMED",
+            support_kind=f"shp-{support}-centerline", policy_class=policy_class,
+            travel_direction=direction, eligible=eligible, stop_line=stop,
+        )
+        entry["support"] = {
+            "full_source_length_m": _polylen(proj(rec.geometry)),
+            "compared_length_m": _polylen(points) if eligible else 0.0,
+            "reason": support_reason,
+        }
+        manifest_lanes[rec.lane_pid] = entry
+
     rid_of, xid_of = {}, {}                              # 均以 link_pid 为键
     exit_contact = {}                                    # leave_pid → "start"|"end"
     end_pose, lane_end, lane_start = {}, {}, {}
@@ -361,8 +460,10 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
     def _span_recs(pid, ref, tang, u0, u1, seed_tail):
         """一个源 Link 的车道实测：横向偏移 d + 数据首末宽 + **全程横距轮廓**
         （lg 每点投影到参考线的 (s, d) 序列——边缘贴合实测形状的原料）。"""
-        i0 = min(int(u0 / 0.5), len(ref) - 2)
-        i1 = min(int(u1 / 0.5) + 1, len(ref))
+        ref_s = np.concatenate([[0.0], np.cumsum(np.linalg.norm(np.diff(ref, axis=0), axis=1))])
+        i0 = min(int(np.searchsorted(ref_s, u0, side="left")), len(ref) - 2)
+        i1 = min(int(np.searchsorted(ref_s, u1, side="right")) + 1, len(ref))
+        i1 = max(i1, i0 + 2)
         rwin, twin = ref[i0:i1], tang[i0:i1]
         recs = []
         for l in [x for x in src.lanes_of(pid) if x.geometry.shape[0] >= 2]:
@@ -370,6 +471,12 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
             flip = float(np.dot(lg[-1] - lg[0], rwin[-1] - rwin[0])) < 0
             if flip:
                 lg = lg[::-1]
+            sparse_profile = len(lg) <= 5
+            if sparse_profile:
+                # 2--5 点来源在世界坐标中是分段直线；相对弯曲参考线的 d(s)
+                # 并不线性。先沿原折线加密再投影，才能在不平滑源几何的前提下
+                # 重建这条直线，而不是用两个横距端值画出一条平行弧。
+                lg = _densify_polyline(lg, 0.5)
             sw = (l.s_width_mm or l.width_mm or 3500)
             ew = (l.e_width_mm or l.width_mm or 3500)
             if flip:
@@ -385,21 +492,66 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
             gi = np.argmin(np.linalg.norm(ref[None, :, :] - lg[:, None, :], axis=2), axis=1)
             dd = (tang[gi, 0] * (lg[:, 1] - ref[gi, 1])
                   - tang[gi, 1] * (lg[:, 0] - ref[gi, 0]))
-            order = np.argsort(gi * 0.5)
-            recs.append({"d": d, "l": l, "sw": sw / 1000.0, "ew": ew / 1000.0, "lg": lg,
-                         "ps": (gi[order] * 0.5).astype(float), "pd": dd[order]})
+            base_s = ref_s[gi]
+            longitudinal = np.sum((lg - ref[gi]) * tang[gi], axis=1)
+            inside = ~((gi == 0) & (longitudinal < -1.5))
+            inside &= ~((gi == len(ref) - 1) & (longitudinal > 1.5))
+            support_s = base_s[inside]
+            support_lg = lg[inside]
+            support_pd = dd[inside]
+            order = np.argsort(base_s)
+            support_order = np.argsort(support_s)
+            recs.append({"d": d, "l": l, "sw": sw / 1000.0, "ew": ew / 1000.0,
+                         "lg": lg[order], "ps": base_s[order], "pd": dd[order],
+                         "support_lg": support_lg[support_order],
+                         "support_ps": support_s[support_order].astype(float),
+                         "support_pd": support_pd[support_order].astype(float),
+                         "profile_interpolate": sparse_profile})
         return recs
 
     def _prof_eval(rec, u, win=10.0):
         """轮廓在 s=u 处的 (值, 斜率)：±win 窗**局部线性回归**在 u 点取值——
         中位数在扇形段有一阶偏差（span 两侧窗互不重叠会撕开边界），回归无此偏差。"""
-        ps, pd = rec["ps"], rec["pd"]
+        # 与 manifest/G8 使用同一观测域。端点纵向越界点会全部投影到参考线
+        # 首/末 s；若继续参与轮廓回归，会在它们已从来源支持域排除后仍把目标
+        # laneOffset/width 横向推偏，形成不可审计的“幽灵影响”。
+        ps = rec.get("support_ps", rec["ps"])
+        pd = rec.get("support_pd", rec["pd"])
+        ups = np.unique(ps)
+        if ((rec.get("profile_interpolate") or 2 <= len(ups) <= 5)
+                and len(ups) >= 2 and float(ups[-1] - ups[0]) > 1.0):
+            upd = np.asarray([np.median(pd[np.isclose(ps, value)]) for value in ups])
+            if u <= ups[0]:
+                return float(upd[0]), 0.0
+            if u >= ups[-1]:
+                return float(upd[-1]), 0.0
+            i = int(np.searchsorted(ups, u))
+            du = max(float(ups[i] - ups[i - 1]), 1e-9)
+            slope = float((upd[i] - upd[i - 1]) / du)
+            value = float(upd[i - 1] + (u - ups[i - 1]) * slope)
+            return value, float(min(max(slope, -0.25), 0.25))
         m = np.abs(ps - u) <= win
         if m.sum() >= 3 and float(ps[m].max() - ps[m].min()) > 1.0:
             b, a = np.polyfit(ps[m] - u, pd[m], 1)
             return float(a), float(min(max(b, -0.25), 0.25))
         k = np.argsort(np.abs(ps - u))[:5]
         return float(np.median(pd[k])), 0.0
+
+    def _clip_support(rec, a, b):
+        """源 lane 仅保留本目标 span 实际表示的沿程部分；区外长度进入 support 记账。"""
+        ps = np.asarray(rec.get("support_ps", rec["ps"]), float)
+        lg = np.asarray(rec.get("support_lg", rec["lg"]), float)
+        if len(ps) < 2:
+            return lg, None
+        ps, ui = np.unique(ps, return_index=True)
+        lg = lg[ui]
+        lo, hi = max(float(a), float(ps[0])), min(float(b), float(ps[-1]))
+        if hi <= lo + 1e-6:
+            return np.zeros((0, 2)), None
+        mid = ps[(ps > lo + 1e-9) & (ps < hi - 1e-9)]
+        u = np.concatenate([[lo], mid, [hi]])
+        points = np.column_stack([np.interp(u, ps, lg[:, 0]), np.interp(u, ps, lg[:, 1])])
+        return points, (lo, hi)
 
     def _side_specs(spans, sections):
         """逐合并 section 取本侧活动 span 的车道，宽度按 span 内数据斜坡插值到 section 端点。"""
@@ -418,10 +570,17 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
                 f1 = min(max((u1 - a) / max(b - a, 1e-6), 0.0), 1.0)
                 v0, m0 = _prof_eval(r, u0)
                 v1, m1 = _prof_eval(r, u1)
-                lanes.append({"d": r["d"], "l": r["l"],
+                support_lg, support_s = _clip_support(r, u0, u1)
+                lanes.append({"d": r["d"], "l": r["l"], "lg": r["lg"],
+                              "profile_rec": r,
+                              "support_lg": support_lg, "support_s": support_s,
+                              "extended": bool(sp.get("extended")),
                               "w0": r["sw"] + (r["ew"] - r["sw"]) * f0,
                               "w1": r["sw"] + (r["ew"] - r["sw"]) * f1,
-                              "v0": v0, "v1": v1, "m0": m0, "m1": m1})
+                              "v0": v0, "v1": v1, "m0": m0, "m1": m1,
+                              # _reconcile 会为 C0/C1 改写 v/w；保留来源原值，
+                              # 之后才能精确记账被连续化占用的支持域。
+                              "source_v0": v0, "source_v1": v1})
             out.append({"pid": sp["pid"], "span": sp, "lanes": lanes})
         return out
 
@@ -446,11 +605,19 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
         w = [(ln["w0"] if e == 0 else ln["w1"]) for ln in lanes]
         b = [v[0] - sign * w[0] / 2]
         mb = [mm[0]]
-        for k in range(1, len(lanes)):
-            b.append((v[k - 1] + v[k]) / 2)
-            mb.append((mm[k - 1] + mm[k]) / 2)
-        b.append(v[-1] + sign * w[-1] / 2)
-        mb.append(mm[-1])
+        for vk, mk in zip(v, mm):
+            b.append(2 * vk - b[-1])
+            mb.append(2 * mk - mb[-1])
+        widths = [sign * (b[i + 1] - b[i]) for i in range(len(v))]
+        if any(width < 0.4 or width > 8.0 for width in widths):
+            stats["center_boundary_fallback"] = stats.get("center_boundary_fallback", 0) + 1
+            b = [v[0] - sign * w[0] / 2]
+            mb = [mm[0]]
+            for k in range(1, len(lanes)):
+                b.append((v[k - 1] + v[k]) / 2)
+                mb.append((mm[k - 1] + mm[k]) / 2)
+            b.append(v[-1] + sign * w[-1] / 2)
+            mb.append(mm[-1])
         return b, mb
 
     def _side_match(specs):
@@ -463,7 +630,7 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
             if sa["span"] is sb["span"]:
                 ms.append({i: i for i in range(len(sa["lanes"]))})
                 continue
-            pairs = sorted((abs(x["d"] - y["d"]), i, j)
+            pairs = sorted((abs(x["v1"] - y["v0"]), i, j)
                            for i, x in enumerate(sa["lanes"])
                            for j, y in enumerate(sb["lanes"]))
             ua, ub, mp = set(), set(), {}
@@ -514,11 +681,12 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
                     for x in np.concatenate([[0.0], np.cumsum(seg_lens)])]
         e_bounds[-1] = round(L_fit, 4)                   # 边界一次圆整（span 与 section 同源）
         ref = eval_planview(pv, 0.5)
+        ref_s = np.concatenate([[0.0], np.cumsum(np.linalg.norm(np.diff(ref, axis=0), axis=1))])
         tang = np.gradient(ref, axis=0)
         tang /= np.linalg.norm(tang, axis=1, keepdims=True) + 1e-12
 
         def s_of(pt):
-            return 0.5 * int(np.argmin(np.linalg.norm(ref - pt[None, :], axis=1)))
+            return float(ref_s[int(np.argmin(np.linalg.norm(ref - pt[None, :], axis=1)))])
 
         # —— 进口 span（每源 Link 一段，覆盖 [0, L]） ——
         spans_e = []
@@ -529,7 +697,8 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
                 return False
             recs.sort(key=lambda r: -r["d"])             # 右侧：左→右
             off = recs[0]["d"] + recs[0]["sw"] / 2
-            spans_e.append({"pid": pid, "s0": u0, "s1": u1, "recs": recs, "off": off})
+            spans_e.append({"pid": pid, "s0": u0, "s1": u1, "recs": recs,
+                            "off": off, "extended": False})
 
         # —— 对向 span：leave 链边界投影到参考线（吸附/去碎） ——
         # 预算对齐进口参考线长度：对向覆盖不足会在数据尽头留"全幅漏斗"（собранная
@@ -561,8 +730,9 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
                 # 端窗取 15%——拼链相邻 Link 端点物理同点，边界处两侧实测自然收敛
                 lg = recs[0]["lg"]
                 n40 = max(2, lg.shape[0] * 3 // 20)
-                i0 = min(int(sa / 0.5), len(ref) - 2)
-                i1 = min(int(sb / 0.5) + 1, len(ref))
+                i0 = min(int(np.searchsorted(ref_s, sa, side="left")), len(ref) - 2)
+                i1 = min(int(np.searchsorted(ref_s, sb, side="right")) + 1, len(ref))
+                i1 = max(i1, i0 + 2)
                 rwin, twin = ref[i0:i1], tang[i0:i1]
 
                 def _dwin(part):
@@ -572,7 +742,8 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
                     return float(np.median(twin[ix, 0] * (sub[:, 1] - rwin[ix, 1])
                                            - twin[ix, 1] * (sub[:, 0] - rwin[ix, 0])))
                 spans_l.append({"pid": pid, "s0": sa, "s1": sb, "recs": recs,
-                                "din0": _dwin(lg[:n40]), "din1": _dwin(lg[-n40:])})
+                                "din0": _dwin(lg[:n40]), "din1": _dwin(lg[-n40:]),
+                                "extended": False})
             spans_l.sort(key=lambda s: s["s0"])
             for a, b in zip(spans_l, spans_l[1:]):       # 内部空档/重叠全部中点缝合——
                 if abs(b["s0"] - a["s1"]) > 1e-9:        # 对向幅物理连续，覆盖不得开天窗
@@ -586,14 +757,14 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
                         stats.get("left_extended_m", 0.0) + far["s0"], 1)
                     spans_l.insert(0, {"pid": far["pid"], "s0": 0.0, "s1": far["s0"],
                                        "recs": far["recs"], "din0": far["din0"],
-                                       "din1": far["din0"]})
+                                       "din1": far["din0"], "extended": True})
                 near = spans_l[-1]
                 if near["s1"] < L_fit - 1e-6:
                     stats["left_extended_m"] = round(
                         stats.get("left_extended_m", 0.0) + (L_fit - near["s1"]), 1)
                     spans_l.append({"pid": near["pid"], "s0": near["s1"], "s1": L_fit,
                                     "recs": near["recs"], "din0": near["din1"],
-                                    "din1": near["din1"]})
+                                    "din1": near["din1"], "extended": True})
 
         # —— 合并 section 边界（leave 边界 6m 稀疏化：微 section 会把锥形压成陡坡） ——
         bounds = set(np.round(e_bounds, 4))
@@ -601,8 +772,13 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
             for v in (sp["s0"], sp["s1"]):
                 if all(abs(v - b) > 6.0 for b in bounds) and 1.0 < v < L_fit - 1.0:
                     bounds.add(round(float(v), 4))
-        B = sorted(bounds)
-        sections = [(B[i], B[i + 1]) for i in range(len(B) - 1) if B[i + 1] - B[i] > 0.5]
+        coarse = sorted(bounds)
+        B = [coarse[0]]
+        for a, b in zip(coarse, coarse[1:]):
+            n = max(1, int(math.ceil((b - a) / 20.0)))
+            B.extend(float(x) for x in np.linspace(a, b, n + 1)[1:])
+        sections = [(B[i], B[i + 1]) for i in range(len(B) - 1)
+                    if B[i + 1] - B[i] > 0.5]
         rs = _side_specs(spans_e, sections)
         lspec = _side_specs(spans_l, sections)
         m_r = _side_match(rs)
@@ -660,7 +836,7 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
             all_objs, all_xid, all_endw = [], [], []
             prev_w, prev_m = None, None
             for si, spec in enumerate(side_specs):
-                objs, xid, end_w, end_m = [], {}, [], []
+                objs, xid, start_w, end_w, end_m = [], {}, [], [], []
                 if spec is not None:
                     L_sec = sections[si][1] - sections[si][0]
                     lanes = spec["lanes"]
@@ -686,24 +862,145 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
                                 if mw0 is not None:
                                     mw0 = prev_m[srcs[0]]
                         lane_id = sign * (k + 1 + (med_off if sign > 0 else 0))
-                        ln = W.Lane(lane_id, source_id=ln_rec["l"].lane_pid)
+                        direction = "with_s" if sign < 0 else "against_s"
+                        role = "approach" if sign < 0 else "departure"
+                        # 先冻结真正写出的 width 多项式，下面的来源支持域才能按文件
+                        # 语义计算中心线，而不是按尚未落盘的理想边界猜测。
                         if born or dying:
-                            for so, a, b, c, dd in _width_pieces(w0, w1, L_sec, born, dying):
-                                ln.add_width(a, b, c, dd, s_offset=so)
-                            end_w.append(0.0 if dying else w1)
-                            end_m.append(0.0)
+                            pieces = _width_pieces(w0, w1, L_sec, born, dying)
+                            written_end_m = 0.0
                             stats["tapers"] = stats.get("tapers", 0) + 1
                         elif mw0 is None:
-                            ln.add_width(*_smooth_w(w0, w1, L_sec))
-                            end_w.append(w1)
-                            end_m.append(0.0)
+                            pieces = [(0.0, *_smooth_w(w0, w1, L_sec))]
+                            written_end_m = 0.0
                         else:                            # Hermite：值+斜率贴实测轮廓
                             mw0, mw1 = _fc(w0, mw0, w1, mw1, L_sec)
                             c = (3 * (w1 - w0) - (2 * mw0 + mw1) * L_sec) / L_sec ** 2
                             d = (-2 * (w1 - w0) + (mw0 + mw1) * L_sec) / L_sec ** 3
-                            ln.add_width(w0, mw0, c, d)
-                            end_w.append(w1)
-                            end_m.append(mw1)
+                            pieces = [(0.0, w0, mw0, c, d)]
+                            written_end_m = mw1
+                        written_start_w = float(pieces[0][1])
+                        written_end_w = float(_pieces_end(pieces, L_sec))
+                        if ln_rec["extended"]:
+                            ln = W.Lane(lane_id, source_id=ln_rec["l"].lane_pid,
+                                        provenance={
+                                            "eligibility": "excluded", "role": role,
+                                            "status": "APPROXIMATED",
+                                            "support_kind": "source-extension",
+                                            "travel_direction": direction,
+                                            "exclusion_code": "source-extension",
+                                        })
+                        else:
+                            comp_a, comp_b = sections[si]
+                            support_exclusion = None
+                            taper_start = born or ln_rec["w0"] < 0.4
+                            taper_end = dying or ln_rec["w1"] < 0.4
+                            if taper_start:
+                                comp_a += min(_TAPER, L_sec)
+                                support_exclusion = "lane-transition-taper"
+                            if taper_end:
+                                comp_b -= min(_TAPER, L_sec)
+                                support_exclusion = "lane-transition-taper"
+                            # laneOffset/median/相邻宽度的 C0 连续化可能把当前来源中心
+                            # 推离原始 v0/v1。只裁掉确实被连续化占用的那一小段；固定
+                            # 0.5 m 是几何构造容差，不读取 G8 policy，也不改变 ceiling。
+                            y0, _my0, y1, _my1 = off_vals[si]
+                            if sign < 0:
+                                target_v0 = y0 - sum(start_w) - written_start_w / 2.0
+                                target_v1 = y1 - sum(end_w) - written_end_w / 2.0
+                            else:
+                                g0 = med_w[si][0] if has_median and med_w[si] is not None else 0.0
+                                g1 = med_w[si][2] if has_median and med_w[si] is not None else 0.0
+                                target_v0 = y0 + g0 + sum(start_w) + written_start_w / 2.0
+                                target_v1 = y1 + g1 + sum(end_w) + written_end_w / 2.0
+                            err0 = abs(target_v0 - float(ln_rec["source_v0"]))
+                            err1 = abs(target_v1 - float(ln_rec["source_v1"]))
+                            prev_same = False
+                            if si > 0 and side_specs[si - 1] is not None:
+                                prev_idx = [i2 for i2, j2 in side_match[si - 1].items()
+                                            if j2 == k]
+                                if prev_idx:
+                                    prev_lane = side_specs[si - 1]["lanes"][prev_idx[0]]
+                                    prev_same = (not prev_lane["extended"] and
+                                                 prev_lane["l"].lane_pid ==
+                                                 ln_rec["l"].lane_pid)
+                            next_same = False
+                            if (si < len(side_match) and k in side_match[si]
+                                    and side_specs[si + 1] is not None):
+                                next_lane = side_specs[si + 1]["lanes"][side_match[si][k]]
+                                next_same = (not next_lane["extended"] and
+                                             next_lane["l"].lane_pid ==
+                                             ln_rec["l"].lane_pid)
+                            if not prev_same and err0 > _SOURCE_TRANSITION_TOL:
+                                if err1 < err0 - 1e-9:
+                                    frac = ((err0 - _SOURCE_TRANSITION_TOL) /
+                                            max(err0 - err1, 1e-9))
+                                    cut = min(L_sec, frac * L_sec + _SOURCE_TRANSITION_MARGIN)
+                                    comp_a = max(comp_a, sections[si][0] + cut)
+                                else:
+                                    comp_a = sections[si][1]
+                                support_exclusion = "lane-transition-taper"
+                            if not next_same and err1 > _SOURCE_TRANSITION_TOL:
+                                if err0 < err1 - 1e-9:
+                                    frac = ((err1 - _SOURCE_TRANSITION_TOL) /
+                                            max(err1 - err0, 1e-9))
+                                    cut = min(L_sec, frac * L_sec + _SOURCE_TRANSITION_MARGIN)
+                                    comp_b = min(comp_b, sections[si][1] - cut)
+                                else:
+                                    comp_b = sections[si][0]
+                                support_exclusion = "lane-transition-taper"
+                            if ((not prev_same and err0 > _SOURCE_TRANSITION_TOL) or
+                                    (not next_same and err1 > _SOURCE_TRANSITION_TOL)):
+                                stats["source_center_transition_crops"] = \
+                                    stats.get("source_center_transition_crops", 0) + 1
+                            support_pts, support_s = _clip_support(
+                                ln_rec["profile_rec"], comp_a, comp_b)
+                            if sign > 0:
+                                support_pts = support_pts[::-1]
+                            at_stopline = sign < 0 and spec["pid"] == e_pid
+                            transition_too_short = (
+                                support_exclusion == "lane-transition-taper"
+                                and _polylen(support_pts) < 3.0)
+                            if (len(support_pts) < 2 or support_s is None
+                                    or transition_too_short):
+                                pending_sources.setdefault(ln_rec["l"].lane_pid, {
+                                    "rec": ln_rec["l"],
+                                    "points": ln_rec["lg"] if sign < 0 else ln_rec["lg"][::-1],
+                                    "role": role, "direction": direction,
+                                    "at_stopline": at_stopline,
+                                    "reason": support_exclusion or "source-support-unavailable",
+                                })
+                                code = support_exclusion or "source-support-unavailable"
+                                ln = W.Lane(lane_id, source_id=ln_rec["l"].lane_pid,
+                                            provenance={
+                                                "eligibility": "excluded", "role": role,
+                                                "status": "APPROXIMATED",
+                                                "support_kind": code,
+                                                "travel_direction": direction,
+                                                "exclusion_code": code,
+                                            })
+                            else:
+                                _register_source(ln_rec["l"], support_pts, role=role,
+                                                 direction=direction, at_stopline=at_stopline,
+                                                 support_reason=(support_exclusion
+                                                                 or "target-leg-domain"))
+                                sm = manifest_lanes[ln_rec["l"].lane_pid]
+                                provenance = {
+                                    "eligibility": "comparable", "role": role,
+                                    "status": sm["status"], "support_kind": sm["support_kind"],
+                                    "policy_class": sm["policy_class"],
+                                    "travel_direction": direction,
+                                    "support_s": list(support_s),
+                                }
+                                if support_exclusion:
+                                    provenance["support_exclusion_code"] = support_exclusion
+                                ln = W.Lane(lane_id, source_id=ln_rec["l"].lane_pid,
+                                            provenance=provenance)
+                        for so, a, b, c, dd in pieces:
+                            ln.add_width(a, b, c, dd, s_offset=so)
+                        start_w.append(written_start_w)
+                        end_w.append(written_end_w)
+                        end_m.append(written_end_m)
                         ln.mark = std_mark("outer" if k == len(lanes) - 1 else "inner")
                         if ln_rec["l"].max_speed_kmh:
                             ln.speed_ms = float(ln_rec["l"].max_speed_kmh) / 3.6
@@ -752,7 +1049,11 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
                 m0, m1 = _fc(g0, m0, g1, m1, Ls)
                 c = (3 * (g1 - g0) - (2 * m0 + m1) * Ls) / Ls ** 2
                 d = (-2 * (g1 - g0) + (m0 + m1) * Ls) / Ls ** 3
-                mln = W.Lane(1, "median")
+                mln = W.Lane(1, "median", provenance={
+                    "eligibility": "excluded", "role": "median",
+                    "status": "TRANSFORMED", "support_kind": "median",
+                    "travel_direction": "against_s", "exclusion_code": "median-non-driving",
+                })
                 mln.add_width(g0, m0, c, d)              # Hermite：值+斜率双侧衔接（全程 C1）
                 if si == len(sections) - 1:
                     med_end_last = g1                    # 路口端中隔宽（堆叠用）
@@ -821,7 +1122,26 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
         sec = W.LaneSection(0.0, center_mark=std_mark("center"))
         xid, cum = {}, 0.0
         for k, r in enumerate(recs):
-            ln = W.Lane(-(k + 1), source_id=r["l"].lane_pid)
+            support_lg, support_s = _clip_support(r, 0.0, L_fit)
+            if len(support_lg) >= 2 and support_s is not None:
+                _register_source(r["l"], support_lg, role="departure", direction="with_s")
+                sm = manifest_lanes[r["l"].lane_pid]
+                provenance = {
+                    "eligibility": "comparable", "role": "departure",
+                    "status": sm["status"], "support_kind": sm["support_kind"],
+                    "policy_class": sm["policy_class"],
+                    "travel_direction": "with_s", "support_s": list(support_s),
+                }
+            else:
+                _register_source(r["l"], r["lg"], role="departure", direction="with_s",
+                                 eligible=False, support_reason="source-support-unavailable")
+                provenance = {
+                    "eligibility": "excluded", "role": "departure",
+                    "status": "APPROXIMATED", "support_kind": "source-support-unavailable",
+                    "travel_direction": "with_s",
+                    "exclusion_code": "source-support-unavailable",
+                }
+            ln = W.Lane(-(k + 1), source_id=r["l"].lane_pid, provenance=provenance)
             ln.add_width(*_smooth_w(r["sw"], r["ew"], L_fit))
             ln.mark = std_mark("outer" if k == len(recs) - 1 else "inner")
             if r["l"].max_speed_kmh:
@@ -863,7 +1183,10 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
     conn_roads, conn_objs = {}, {}
     rid_c = 100
 
-    def connecting_road(key, prims, width_m, e_pid, x_pid, in_xid, out_xid):
+    def connecting_road(key, prims, width_m, e_pid, x_pid, in_xid, out_xid,
+                        *, source_rec=None, source_points=None, source_support_s=None,
+                        source_exclusion_code=None,
+                        exclusion_code="inferred-connector-no-source-geometry"):
         nonlocal rid_c
         if key in conn_roads:
             rid0, owner = conn_roads[key]
@@ -878,7 +1201,40 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
             road.add_geometry(*p)
         road.add_offset(0.0, width_m / 2)
         sec = W.LaneSection(0.0)
-        ln = W.Lane(-1)
+        if source_rec is not None and source_points is not None:
+            if source_exclusion_code is not None:
+                _register_source(source_rec, source_points, role="junction-via",
+                                 direction="with_s", via=True, eligible=False,
+                                 support_reason=source_exclusion_code)
+                ln = W.Lane(-1, source_id=source_rec.lane_pid, provenance={
+                    "eligibility": "excluded", "role": "junction-via",
+                    "status": "APPROXIMATED", "support_kind": "source-topology-gap",
+                    "travel_direction": "with_s",
+                    "exclusion_code": source_exclusion_code,
+                })
+            else:
+                _register_source(source_rec, source_points, role="junction-via",
+                                 direction="with_s", via=True,
+                                 support_reason=("source-topology-gap-bridge"
+                                                 if source_support_s is not None
+                                                 else "target-leg-domain"))
+                sm = manifest_lanes[source_rec.lane_pid]
+                provenance = {
+                    "eligibility": "comparable", "role": "junction-via",
+                    "status": sm["status"], "support_kind": sm["support_kind"],
+                    "policy_class": sm["policy_class"],
+                    "travel_direction": "with_s",
+                }
+                if source_support_s is not None:
+                    provenance["support_s"] = list(source_support_s)
+                    provenance["support_exclusion_code"] = "source-topology-gap-bridge"
+                ln = W.Lane(-1, source_id=source_rec.lane_pid, provenance=provenance)
+        else:
+            ln = W.Lane(-1, provenance={
+                "eligibility": "excluded", "role": "connector",
+                "status": "INFERRED", "support_kind": "synthetic-connector",
+                "travel_direction": "with_s", "exclusion_code": exclusion_code,
+            })
         ln.add_width(width_m)
         ln.pred, ln.succ = in_xid, out_xid
         sec.right.append(ln)
@@ -926,15 +1282,19 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
                         p0 = lane_end.get(l.lane_pid)
                         p1 = lane_start.get((out_rec.link_pid, out_rec.seq))
                         br = None
-                        # ① 最少段优先：整条转弯若能用一条 G2 回旋链（3 段）表达且
-                        #    对实测中心线偏差 ≤0.5m，就用它——路口内 40m 转弯用 3 段
-                        #    远优于"桥+中段"的 10+ 段（消费端读到的曲率更干净）
+                        # ① 最少段优先：整条转弯只有在双向与端点都贴合来源时，才可把
+                        #    整条 G2 标为实测可比较；单向最近距会漏掉端部过冲。
                         if p0 is not None and p1 is not None:
                             g2 = _g2_prims(p0, p1)
-                            if g2 is not None and _prims_dev(g2, vg) <= 0.5:
-                                br = (g2, _prims_dev(g2, vg))
-                                stats["conn_g2_direct"] = stats.get("conn_g2_direct", 0) + 1
-                        # ② 否则桥+实测中段（切口放大阶梯避猪尾巴病态解）
+                            if g2 is not None:
+                                fidelity = _prims_fidelity(g2, vg)
+                                if (fidelity["source_to_target_max_m"] <= 0.5
+                                        and fidelity["target_to_source_max_m"] <= 0.5
+                                        and fidelity["start_m"] <= 1.5
+                                        and fidelity["end_m"] <= 1.5):
+                                    br = (g2, fidelity["source_to_target_max_m"], vg, None)
+                                    stats["conn_g2_direct"] = stats.get("conn_g2_direct", 0) + 1
+                        # ② 否则桥+实测中段；桥接 apron 不冒充来源 via 的可比较域。
                         if br is None and p0 is not None and p1 is not None:
                             for sc in (1.0, 2.0, 3.0):
                                 br = _bridged_geoms(vg, np.asarray(p0), np.asarray(p1),
@@ -943,8 +1303,10 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
                                                     scale=sc)
                                 if br is not None:
                                     break
+                        source_compare, source_support_s = vg, None
+                        source_exclusion_code = None
                         if br is not None:               # 两端 G2 桥接（换乘零跳变）
-                            prims, dev = br
+                            prims, dev, source_compare, source_support_s = br
                             stats["conn_bridged"] = stats.get("conn_bridged", 0) + 1
                         else:
                             prims, dev = None, 0.0
@@ -960,6 +1322,7 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
                                                   c.KappaStart, c.KappaEnd) for c in cls]
                                         stats["conn_g2_synth"] = \
                                             stats.get("conn_g2_synth", 0) + 1
+                                        source_exclusion_code = "source-topology-gap-bridge"
                                 except Exception:
                                     prims = None
                             if prims is None:            # 最后：原始拟合（弃端点精确）
@@ -971,7 +1334,10 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
                         stats["fit_dev_max"] = max(stats["fit_dev_max"], dev)
                         connecting_road(("via", via.lane_pid), prims,
                                         (via.width_mm or 3500) / 1000.0,
-                                        e_pid, out_rec.link_pid, in_xid, out_xid)
+                                        e_pid, out_rec.link_pid, in_xid, out_xid,
+                                        source_rec=via, source_points=source_compare,
+                                        source_support_s=source_support_s,
+                                        source_exclusion_code=source_exclusion_code)
                         stats["conn_via"] += 1
                     else:                                # 直连：车道端位姿 SolveG2
                         p0 = lane_end.get(l.lane_pid)
@@ -1022,17 +1388,38 @@ def build_junction_xodr(src: IbdSource, junc: JunctionRec, out_path: str | Path,
                 continue                                  # 无解或 R<8m：判为不可行转向
             connecting_road(("fill", e["key"], x["key"]), prims,
                             (e["lane"].width_mm or 3500) / 1000.0,
-                            e["pid"], x["pid"], e["xid"], x["xid"])
+                            e["pid"], x["pid"], e["xid"], x["xid"],
+                            exclusion_code="filled-connector-no-source-geometry")
             stats["conn_filled"] = stats.get("conn_filled", 0) + 1
 
     # —— junction 铺面：IBD 交叉口面实测轮廓（type=none 无标线沥青面，不入拓扑） ——
     from mapforge.adapters.opendrive.writer import add_paving_road
     try:
-        if add_paving_road(doc, proj(junc.polygon), JID):
+        if add_paving_road(doc, proj(junc.polygon), JID, provenance={
+                "eligibility": "excluded", "role": "paving", "status": "TRANSFORMED",
+                "support_kind": "source-polygon", "travel_direction": "with_s",
+                "exclusion_code": "source-polygon-paving"}):
             stats["paving"] = "polygon"
     except Exception:
         stats["paving"] = "skip"
 
     doc.add_junction(junction)
     doc.write(out_path)
+    for sid, pending in pending_sources.items():
+        if sid not in manifest_lanes:
+            _register_source(pending["rec"], pending["points"], role=pending["role"],
+                             direction=pending["direction"],
+                             at_stopline=pending["at_stopline"], eligible=False,
+                             support_reason=pending["reason"])
+    stats["source_lane_manifest"] = make_manifest(
+        source_format="shp", source_profile=source_profile,
+        comparison_crs={
+            "id": "local-eqc", "units": "m", "axis_order": ["x", "y"],
+            "origin": {"lon": lon0, "lat": lat0}, "proj_string": doc.geo_reference,
+            "integrity": getattr(src, "p", {}).get("crs", {}).get(
+                "verified", "internally-consistent"),
+        },
+        source_contexts=[{"junction": junc.pid, "name": junc.name}],
+        lanes=[manifest_lanes[k] for k in sorted(manifest_lanes)],
+    )
     return stats

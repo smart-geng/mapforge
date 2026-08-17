@@ -46,3 +46,7 @@ layers:
     file: IBD_LANE_BOUNDARY_REL
     side_values: {left: 1, right: 2}    # SIDE=1 左 / 2 右（金凤实测边界横距≈WIDTH 验证）
     fields: {lane: LANE_PID, boundary: BORDER_PID, side: SIDE}
+  stop_line:
+    file: IBD_OBJECT_STOPLINE
+    list_sep: ";"
+    fields: {id: OBJECT_PID, lane_refs: LANE_REL, width: WIDTH}

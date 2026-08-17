@@ -26,6 +26,16 @@ class LaneRec:
     geometry: np.ndarray          # (n,2) lon/lat 度
     s_width_mm: int = 0           # 起点宽（IBD S_WIDTH，变宽车道用）
     e_width_mm: int = 0           # 终点宽（IBD E_WIDTH）
+    geometry_source: str = "field"
+    width_source: str = "field"
+
+
+@dataclass
+class StopLineRec:
+    object_pid: str
+    lane_pids: list[str]
+    geometry: np.ndarray          # (n,2) lon/lat 度
+    width_mm: int = 0
 
 
 @dataclass
@@ -100,6 +110,7 @@ class IbdSource:
         self._lanes_by_link: dict[str, list[LaneRec]] | None = None
         self._lane_by_pid: dict[str, LaneRec] | None = None
         self._topo_out: dict[str, list[str]] | None = None
+        self._stoplines_by_lane: dict[str, list[StopLineRec]] | None = None
 
     def _reader(self, layer: str) -> shapefile.Reader:
         return shapefile.Reader(str(self.dir / layer), encoding="gbk")
@@ -156,12 +167,16 @@ class IbdSource:
             fields = [f[0] for f in r.fields[1:]]
             for sr in r.iterShapeRecords():
                 m = dict(zip(fields, sr.record))
+                geom = np.asarray(sr.shape.points) if sr.shape.points else np.zeros((0, 2))
+                width = _i(m.get("WIDTH"))
+                sw, ew = _i(m.get("S_WIDTH")), _i(m.get("E_WIDTH"))
                 rec = LaneRec(
                     lane_pid=_s(m["LANE_PID"]), link_pid=_s(m.get("LINK_PID", "")),
-                    seq=_i(m.get("SEQ_NUM")), width_mm=_i(m.get("WIDTH")),
+                    seq=_i(m.get("SEQ_NUM")), width_mm=width,
                     lane_type=_i(m.get("LANE_TYPE")), max_speed_kmh=_i(m.get("MAX_SPEED")),
-                    geometry=np.asarray(sr.shape.points) if sr.shape.points else np.zeros((0, 2)),
-                    s_width_mm=_i(m.get("S_WIDTH")), e_width_mm=_i(m.get("E_WIDTH")))
+                    geometry=geom, s_width_mm=sw, e_width_mm=ew,
+                    geometry_source="field" if geom.shape[0] >= 2 else "missing",
+                    width_source="field" if (width or sw or ew) else "missing")
                 if layer == "IBD_LANE_LINK_MERGE":
                     self._merge_pids.add(rec.lane_pid)
                     by_pid.setdefault(rec.lane_pid, rec)      # MERGE 不覆盖普通层
@@ -190,6 +205,26 @@ class IbdSource:
         """是否路口内虚拟车道（IBD_LANE_LINK_MERGE 层）。"""
         self._load_lanes()
         return lane_pid in self._merge_pids
+
+    @property
+    def stoplines_by_lane(self) -> dict[str, list[StopLineRec]]:
+        """来源 lane ID → 关联停止线；停止线折线不改写成统一中点。"""
+        if self._stoplines_by_lane is None:
+            out: dict[str, list[StopLineRec]] = {}
+            r = self._reader("IBD_OBJECT_STOPLINE")
+            fields = [f[0] for f in r.fields[1:]]
+            for sr in r.iterShapeRecords():
+                m = dict(zip(fields, sr.record))
+                refs = [x for x in _s(m.get("LANE_REL", "")).split(";") if x]
+                rec = StopLineRec(
+                    object_pid=_s(m.get("OBJECT_PID", "")), lane_pids=refs,
+                    geometry=np.asarray(sr.shape.points) if sr.shape.points else np.zeros((0, 2)),
+                    width_mm=_i(m.get("WIDTH")),
+                )
+                for lane_pid in refs:
+                    out.setdefault(lane_pid, []).append(rec)
+            self._stoplines_by_lane = out
+        return self._stoplines_by_lane
 
     @property
     def roadcenters(self) -> dict[str, np.ndarray]:

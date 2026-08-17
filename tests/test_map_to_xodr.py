@@ -79,6 +79,11 @@ def test_junction_synthesized_full_coverage(xml, tmp_path):
     n_pave = 1 if st.get("paving") == "hull" else 0
     assert len(root.findall("road")) == st["links"] + st["conn_roads"] + n_pave
     assert root.findall("road/lanes/laneSection/left/lane")  # 左侧车道确实存在
+    provenance = [x.get("value") for x in root.findall(
+        ".//userData[@code='mapforge.provenance/v1']")]
+    assert any('"exclusion_code":"mirror-no-source-geometry"' in x for x in provenance)
+    manifest_ids = [x["source_lane_id"] for x in st["source_lane_manifest"]["lanes"]]
+    assert manifest_ids and len(manifest_ids) == len(set(manifest_ids))
     _validate(out)
     assert _worst_seam_kappa_gap(out) < 1e-6                 # 车道级曲率连续（G2 接缝）
 
@@ -89,8 +94,24 @@ def test_known_id_mismatch_skipped_not_invented(tmp_path):
     assert st["connections"] == n_xml - 1
 
 
+def test_lane_profile_clips_only_reference_endpoint_overhang():
+    from mapforge.ops.map_to_xodr import _lane_profile
+
+    ref = np.column_stack([np.arange(0.0, 101.0, 0.5), np.zeros(202)])
+    tang = np.tile([1.0, 0.0], (len(ref), 1))
+    points = np.array([[-20.0, 3.0], [0.0, 3.0], [50.0, 3.0],
+                       [100.0, 3.0], [120.0, 3.0]])
+
+    (stations, offsets), support = _lane_profile(
+        ref, tang, points, return_points=True)
+
+    assert stations.tolist() == [0.0, 50.0, 100.0]
+    assert np.allclose(offsets, 3.0)
+    assert np.allclose(support[:, 0], [0.0, 50.0, 100.0])
+
+
 def test_real_exits_from_multinode_frame(tmp_path):
-    """合帧（node4+node18+node3）：node4 的 west/south 出口用邻居真实 inLink 几何。"""
+    """合帧包含同号异 region 节点时，只绑定完整 (region,node) 与 upstream 均匹配的出口。"""
     from mapforge.adapters.v2xmap.xml_reader import parse_map_xml_all
     from mapforge.ops.map_to_xodr import build_xodr
     base = etree.parse(str(ROOT / "v2x_map_xml" / "map凤苑路-金玥路node4.xml"))
@@ -103,10 +124,21 @@ def test_real_exits_from_multinode_frame(tmp_path):
 
     nodes = parse_map_xml_all(str(merged))
     assert len(nodes) == 3
-    node = next(n for n in nodes if n.node_id == 4)
+    node = next(n for n in nodes if (n.region, n.node_id) == (500, 4))
     out = tmp_path / "m.xodr"
-    st = build_xodr(node, out, neighbors=[n for n in nodes if n.node_id != 4])
-    assert st["exit_real"] == 2 and st["exit_mirror"] == 2
+    st = build_xodr(node, out, neighbors=[n for n in nodes if n is not node])
+    assert st["exit_real"] == 1 and st["exit_mirror"] == 3
+    contexts = [x for x in st["source_lane_manifest"]["source_contexts"]
+                if x["role"] == "neighbor-real-exit"]
+    assert contexts == [{"region": 500, "node_id": 18, "role": "neighbor-real-exit"}]
+    manifest_ids = [x["source_lane_id"] for x in st["source_lane_manifest"]["lanes"]]
+    assert all(":from:" in x for x in manifest_ids)
+    assert not any(x.startswith("map:3:3:") for x in manifest_ids)
+    root = etree.parse(str(out)).getroot()
+    real_departures = [x.get("value") for x in root.findall(
+        ".//userData[@code='mapforge.provenance/v1']")
+        if '"policy_class":"map.point-list-departure"' in x.get("value", "")]
+    assert real_departures and all('"support_s":[' in x for x in real_departures)
     assert st["skipped"] == 0
     # west 链 s255-298 有数字化噪声（R=10m 级振荡），曲率封顶主动平滑——
     # 对原始（含噪）顶点的偏差 0.68m 是修复的代价而非回归；封顶行为本身锁死

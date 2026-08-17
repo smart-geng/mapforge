@@ -27,6 +27,7 @@ from mapforge.adapters.opendrive.writer import std_mark
 from mapforge.adapters.v2xmap.xml_reader import MapNode
 from mapforge.ops.refline_fit import (eval_planview, fc_clamp, fit_leg_refline,
                                       planview_prims, seg_kappa)
+from mapforge.validate.g8_model import make_manifest, source_lane
 
 R_EARTH = 6378137.0
 
@@ -52,10 +53,16 @@ def _lane_speed_kmh(ln) -> float | None:
     return None
 
 
-def _source_lane_key(link, lane) -> str:
-    """MAP 无显式 link ID，使用上游节点+名称+laneId 形成文件内稳定来源键。"""
+def _legacy_source_lane_key(link, lane) -> str:
     reg, nid = link.upstream or (None, None)
     return f"map:{reg}:{nid}:{link.name}:lane:{lane.lane_id}"
+
+
+def _source_lane_key(owner: MapNode, link, lane) -> str:
+    """包含 Link 所属节点的稳定来源键；冲突由 manifest collector 阻断。"""
+    reg, nid = link.upstream or (None, None)
+    return (f"map:{owner.region}:{owner.node_id}:from:{reg}:{nid}:"
+            f"{link.name}:lane:{lane.lane_id}")
 
 
 def _lane_kappa(k_ref: float, t: float) -> float:
@@ -69,27 +76,80 @@ def _shift(pose, t):
     return (x - t * math.sin(h), y + t * math.cos(h), h)
 
 
-def _lane_profile(ref, tang, lp, max_snap=30.0):
-    """车道点列 → 沿参考线的 (s, d) 实测轮廓（超出参考线覆盖的点剔除）。
-    抽稀点列逐点投影即可——MAP 附录 D 抽稀后每条 Link 车道通常十几到几十点。"""
+def _densify_polyline(pts_xy, step=0.5):
+    """沿 MAP 原始点列分段线性加密；不平滑、不外推。"""
+    pts = np.asarray(pts_xy, float)
+    if len(pts) < 2:
+        return pts.copy()
+    seg = np.linalg.norm(np.diff(pts, axis=0), axis=1)
+    ss = np.concatenate([[0.0], np.cumsum(seg)])
+    if ss[-1] <= 1e-9:
+        return pts[:1].copy()
+    q = np.arange(0.0, ss[-1], max(float(step), 1e-3))
+    q = np.append(q, ss[-1]) if not len(q) or ss[-1] - q[-1] > 1e-9 else q
+    return np.column_stack([np.interp(q, ss, pts[:, 0]),
+                            np.interp(q, ss, pts[:, 1])])
+
+
+def _lane_profile(ref, tang, lp, max_snap=30.0, return_points=False,
+                  densify_profile=False):
+    """车道点列 → 沿参考线的 (s, d) 实测轮廓。
+
+    最近参考点只给出初值；再叠加切向残量得到真实纵向位置。这样参考线端点外仍在
+    ``max_snap`` 半径内的点不会被压到同一个 s 并误计入可比较来源域。
+    """
+    lp = np.asarray(lp, float)
     if float(np.dot(lp[-1] - lp[0], ref[-1] - ref[0])) < 0:
         lp = lp[::-1]
-    dist = np.linalg.norm(ref[None, :, :] - lp[:, None, :], axis=2)
-    idx = np.argmin(dist, axis=1)
-    keep = dist[np.arange(len(lp)), idx] < max_snap
-    if keep.sum() < 2:
+    ref_s = np.concatenate([[0.0], np.cumsum(np.linalg.norm(np.diff(ref, axis=0), axis=1))])
+
+    def _project_profile(points):
+        dist = np.linalg.norm(ref[None, :, :] - points[:, None, :], axis=2)
+        idx = np.argmin(dist, axis=1)
+        longitudinal = np.sum((points - ref[idx]) * tang[idx], axis=1)
+        keep = dist[np.arange(len(points)), idx] < max_snap
+        keep &= ~((idx == 0) & (longitudinal < -1.5))
+        keep &= ~((idx == len(ref) - 1) & (longitudinal > 1.5))
+        if keep.sum() < 2:
+            return None
+        points2, idx2 = points[keep], idx[keep]
+        s2 = ref_s[idx2]
+        d2 = (tang[idx2, 0] * (points2[:, 1] - ref[idx2, 1])
+              - tang[idx2, 1] * (points2[:, 0] - ref[idx2, 0]))
+        order2 = np.argsort(s2)
+        return (s2[order2], d2[order2]), points2[order2]
+
+    raw = _project_profile(lp)
+    if raw is None:
         return None
-    lp2, idx2 = lp[keep], idx[keep]
-    s = (idx2 * 0.5).astype(float)
-    d = (tang[idx2, 0] * (lp2[:, 1] - ref[idx2, 1])
-         - tang[idx2, 1] * (lp2[:, 0] - ref[idx2, 0]))
-    order = np.argsort(s)
-    return s[order], d[order]
+    prof, support_points = raw
+    if densify_profile and len(support_points) <= 12:
+        # manifest/公共 API 仍保留原始支持点；只有目标横距轮廓使用等价折线
+        # 加密，避免审计时把推导采样点误报为 MAP 原始点。
+        dense = _project_profile(_densify_polyline(support_points, 0.5))
+        if dense is not None:
+            prof = dense[0]
+    return (prof, support_points) if return_points else prof
 
 
 def _prof_eval(prof, u, win=15.0):
     """轮廓在 s=u 处的 (值, 斜率)：±win 窗局部线性回归；窗内点不足取最近点保持。"""
     ps, pd = prof
+    ups = np.unique(ps)
+    dense_linearized = (len(ups) >= 2 and
+                        float(np.median(np.diff(ups))) <= 0.75)
+    if ((2 <= len(ups) <= 12 or dense_linearized)
+            and float(ups[-1] - ups[0]) > 1.0):
+        upd = np.asarray([np.median(pd[np.isclose(ps, value)]) for value in ups])
+        if u <= ups[0]:
+            return float(upd[0]), 0.0
+        if u >= ups[-1]:
+            return float(upd[-1]), 0.0
+        i = int(np.searchsorted(ups, u))
+        du = max(float(ups[i] - ups[i - 1]), 1e-9)
+        slope = float((upd[i] - upd[i - 1]) / du)
+        value = float(upd[i - 1] + (u - ups[i - 1]) * slope)
+        return value, float(min(max(slope, -0.25), 0.25))
     m = np.abs(ps - u) <= win
     if m.sum() >= 3 and float(ps[m].max() - ps[m].min()) > 1.0:
         b, a = np.polyfit(ps[m] - u, pd[m], 1)
@@ -158,7 +218,8 @@ def _emit_lanes(sec, lanes, B, sign, j, n_sec, Ls, med_off, stats):
         mw1 = sign * (B[j + 1][1][k + 1] - B[j + 1][1][k])
         mw0, mw1 = fc_clamp(w0, mw0, w1, mw1, Ls)
         lane_id = sign * (k + 1 + (med_off if sign > 0 else 0))
-        lane = W.Lane(lane_id, source_id=x.get("source_id"))
+        lane = W.Lane(lane_id, source_id=x.get("source_id"),
+                      provenance=x.get("provenance"))
         lane.add_width(w0, mw0,
                        (3 * (w1 - w0) - (2 * mw0 + mw1) * Ls) / Ls ** 2,
                        (-2 * (w1 - w0) + (mw0 + mw1) * Ls) / Ls ** 3)
@@ -189,41 +250,82 @@ def build_xodr(node: MapNode, out_path: str | Path,
     stats = {"links": 0, "exit_roads": 0, "exit_real": 0, "exit_mirror": 0,
              "conn_roads": 0, "connections": 0, "lanelinks": 0, "skipped": 0,
              "segs": 0, "fit_dev_max": 0.0}
+    manifest_lanes: dict[str, dict] = {}
+    source_contexts: dict[tuple, dict] = {
+        (node.region, node.node_id): {"region": node.region, "node_id": node.node_id,
+                                      "role": "main"}}
+
+    def _register_map_source(owner, link, lane, *, role, direction, stopline=False,
+                             points_override=None):
+        sid = _source_lane_key(owner, link, lane)
+        points = (np.asarray(points_override, float) if points_override is not None else
+                  _project(lane.points, lat0, lon0) if len(lane.points) else np.zeros((0, 2)))
+        stop = ({"availability": "anchor", "coordinates": [points[-1].tolist()],
+                 "semantic": "MAP lane last point is the stop-line end"}
+                if stopline and len(points) else
+                {"availability": "unavailable", "reason": "lane-point-list-missing"}
+                if stopline else {"availability": "not-applicable"})
+        rec = source_lane(
+            sid, points,
+            owner={"format": "map", "region": owner.region, "node": owner.node_id,
+                   "upstream": list(link.upstream or (None, None)),
+                   "link": link.name, "lane": lane.lane_id},
+            role=role, status="TRANSFORMED", support_kind="map-lane-point-list",
+            policy_class=f"map.point-list-{role}", travel_direction=direction,
+            stop_line=stop, legacy_source_key=_legacy_source_lane_key(link, lane),
+        )
+        if sid in manifest_lanes:
+            old = manifest_lanes[sid]
+            if old["geometry"]["geometry_sha256"] != rec["geometry"]["geometry_sha256"]:
+                raise ValueError(f"MAP source key 冲突: {sid}")
+        else:
+            manifest_lanes[sid] = rec
+        source_contexts[(owner.region, owner.node_id)] = {
+            "region": owner.region, "node_id": owner.node_id,
+            "role": "main" if owner is node else "neighbor-real-exit"}
+        return sid, rec
 
     links = [lk for lk in node.links if len(lk.points) >= 2]
     lk_by_name = {lk.name: lk for lk in links}
 
-    # —— 出口需求归结（remote node id → 目标车道数） ——
-    by_up, by_up_id = {}, {}
+    # —— 出口需求归结（remote (region,node) → 目标车道数） ——
+    by_up = {}
     for lk in links:
-        reg, nid = (lk.upstream or (None, None))
-        if nid is not None:
-            by_up[(reg, nid)] = lk.name
-            by_up_id.setdefault(nid, lk.name)
+        remote = lk.upstream or (None, None)
+        if remote[1] is not None:
+            by_up[remote] = lk.name
     need = {}
     for lk in links:
         for ln in lk.lanes:
             for c in ln.connects:
                 if c.node is not None:
-                    need[c.node] = max(need.get(c.node, 1), c.lane or 1)
+                    remote = (c.region, c.node)
+                    need[remote] = max(need.get(remote, 1), c.lane or 1)
 
-    def _real_exit_link(remote_nid):
+    def _real_exit_link(remote, ref, tang):
+        """只接受身份和空间都属于当前 leg 的邻居真实出口。"""
+        candidates = []
         for nb in (neighbors or []):
-            if nb.node_id == remote_nid:
-                cands = [lk for lk in nb.links
-                         if (lk.upstream or (None, None))[1] == node.node_id
-                         and len(lk.points) >= 2]
-                exact = [lk for lk in cands if lk.upstream[0] == node.region]
-                if exact or cands:
-                    return (exact or cands)[0]
-        return None
+            if (nb.region, nb.node_id) != remote:
+                continue
+            for candidate in nb.links:
+                if candidate.upstream != (node.region, node.node_id) or len(candidate.points) < 2:
+                    continue
+                link_prof = _lane_profile(ref, tang, proj(candidate.points))
+                if link_prof is None or float(np.median(link_prof[1])) <= 0:
+                    continue
+                candidates.append((abs(float(np.median(link_prof[1]))), nb, candidate))
+        if not candidates:
+            return None
+        _score, owner, link = min(candidates, key=lambda item: item[0])
+        return owner, link
 
-    # 出口 → 所属 leg（该出口通往的节点 = 某进口 Link 的上游 ⇒ 同一条街）
-    exit_of_leg = {}                                         # leg name → remote nid
-    for nid in need:
-        dname = by_up.get((node.region, nid)) or by_up_id.get(nid)
+    # 出口 → 所属 leg（完整 remote identity 必须与进口 Link 的 upstream 一致）
+    exit_of_leg = {}                                         # leg name → (region, node)
+    for remote in need:
+        dname = by_up.get(remote)
         if dname is not None:
-            exit_of_leg[dname] = nid
+            exit_of_leg[dname] = remote
 
     in_info, exits = {}, {}
     # —— 逐 leg：进口右侧 + 出口左侧（实测轮廓跟踪 + 站点网格多 laneSection） ——
@@ -240,15 +342,28 @@ def build_xodr(node: MapNode, out_path: str | Path,
         tang = np.gradient(ref, axis=0)
         tang /= np.linalg.norm(tang, axis=1, keepdims=True) + 1e-12
         # 站点网格（≈30m）：相邻 laneSection 共享站点边界 ⇒ 断面天然连续，无需事后调和
-        n_sec = max(1, int(round(L_leg / 30.0)))
+        n_sec = max(1, int(math.ceil(L_leg / 20.0)))
         stations = [L_leg * j / n_sec for j in range(n_sec + 1)]
 
         # —— 右侧：进口车道实测轮廓（任一条缺点列则整幅回退居中堆叠常量） ——
         rlanes = []
         for ln in lk.lanes:
-            prof = _lane_profile(ref, tang, proj(ln.points)) if len(ln.points) >= 2 else None
+            pdata = (_lane_profile(ref, tang, proj(ln.points), return_points=True,
+                                   densify_profile=True)
+                     if len(ln.points) >= 2 else None)
+            prof, support_points = pdata if pdata is not None else (None, None)
+            sid, sm = _register_map_source(node, lk, ln, role="approach",
+                                           direction="with_s", stopline=True,
+                                           points_override=support_points)
+            support_s = [float(prof[0].min()), float(prof[0].max())] if prof is not None else None
             x = {"ln": ln, "prof": prof, "w": (ln.width_cm or 350) / 100.0,
-                 "source_id": _source_lane_key(lk, ln),
+                 "source_id": sid,
+                 "provenance": {
+                     "eligibility": "comparable", "role": "approach",
+                     "status": sm["status"], "support_kind": sm["support_kind"],
+                     "policy_class": sm["policy_class"], "travel_direction": "with_s",
+                     "support_s": support_s,
+                 },
                  "kmh": _lane_speed_kmh(ln)}
             if prof is not None:                          # 进口车道按 MAP 语义必抵停止线，
                 lo = float(prof[0].min())                 # 远端起点按数据（口部展宽车道锥形展开）
@@ -266,40 +381,72 @@ def build_xodr(node: MapNode, out_path: str | Path,
         Br = [_bounds(rlanes, u, -1) for u in stations]
 
         # —— 左侧：本 leg 的出口（real 实测轮廓 / real 无点列堆叠 / mirror 镜像） ——
-        nid = exit_of_leg.get(lk.name)
+        remote = exit_of_leg.get(lk.name)
         llanes, Bl, med, has_med, kind = [], None, None, False, None
-        if nid is not None:
-            real = _real_exit_link(nid)
+        if remote is not None:
+            real_hit = _real_exit_link(remote, ref, tang)
             lane_ws = [x.width_cm for x in lk.lanes if x.width_cm]
             def_w = (sorted(lane_ws)[len(lane_ws) // 2] / 100.0) if lane_ws else 3.5
-            if real is not None:
-                for ln in real.lanes:
-                    if len(ln.points) < 2:
+            if real_hit is not None:
+                real_owner, real = real_hit
+                point_lanes = [ln for ln in real.lanes if len(ln.points) >= 2]
+                for ln in point_lanes:
+                    pdata = _lane_profile(ref, tang, proj(ln.points), return_points=True,
+                                          densify_profile=True)
+                    if pdata is None:
                         continue
-                    prof = _lane_profile(ref, tang, proj(ln.points))
-                    if prof is None or float(np.median(prof[1])) <= 0:
+                    prof, support_points = pdata
+                    if float(np.median(prof[1])) <= 0:
                         continue                          # 左侧车道必在参考线左
+                    sid, sm = _register_map_source(real_owner, real, ln, role="departure",
+                                                   direction="against_s",
+                                                   points_override=support_points[::-1])
                     lo, hi = float(prof[0].min()), float(prof[0].max())
                     llanes.append({"prof": prof, "lid": ln.lane_id,
-                                   "source_id": _source_lane_key(real, ln),
+                                   "source_id": sid,
+                                   "provenance": {
+                                       "eligibility": "comparable", "role": "departure",
+                                       "status": sm["status"], "support_kind": sm["support_kind"],
+                                       "policy_class": sm["policy_class"],
+                                       "travel_direction": "against_s",
+                                       "support_s": [lo, hi],
+                                   },
                                    "w": (ln.width_cm or 350) / 100.0,
                                    "kmh": _lane_speed_kmh(ln),
                                    # 出口两端均按数据覆盖（远端才加出的车道不得外推进口部）
                                    "cov": (-1e18 if lo < 20.0 else lo - 10.0,
                                            1e18 if hi > L_leg - 20.0 else hi + 10.0)})
                 llanes.sort(key=lambda x: _dv(x, L_leg)[0])   # 内→外
-                if not llanes:                            # 无逐车道点列：贴进口幅堆叠
-                    cum = 0.0                             # （车道数/宽/限速仍为真实数据）
+                if not llanes and not point_lanes:          # 源 lane 无点列：保留不可测事实
+                    cum = 0.0
                     for ln in real.lanes:
+                        sid, sm = _register_map_source(real_owner, real, ln, role="departure",
+                                                       direction="against_s")
                         w = (ln.width_cm or 350) / 100.0
                         llanes.append({"prof": None, "rel": cum + w / 2, "w": w,
-                                       "source_id": _source_lane_key(real, ln),
+                                       "source_id": sid,
+                                       "provenance": {
+                                           "eligibility": "comparable", "role": "departure",
+                                           "status": sm["status"],
+                                           "support_kind": sm["support_kind"],
+                                           "policy_class": sm["policy_class"],
+                                           "travel_direction": "against_s",
+                                       },
                                        "kmh": _lane_speed_kmh(ln)})
                         cum += w
-                kind = "real"
-            else:                                         # 单节点帧：镜像兜底（INFERRED）
+                if llanes:
+                    kind = "real"
+                else:
+                    stats["exit_real_rejected"] = stats.get("exit_real_rejected", 0) + 1
+            if not llanes:                                  # 无严格匹配实测出口：镜像兜底
                 llanes = [{"prof": None, "rel": def_w * (k + 0.5), "w": def_w,
-                           "kmh": None} for k in range(need[nid])]
+                           "kmh": None,
+                           "provenance": {
+                               "eligibility": "excluded", "role": "departure",
+                               "status": "INFERRED", "support_kind": "mirror",
+                               "travel_direction": "against_s",
+                               "exclusion_code": "mirror-no-source-geometry",
+                           }} for k in range(need[remote])]
                 kind = "mirror"
         if llanes:
             Bl = [_bounds(llanes, stations[j], +1,
@@ -331,7 +478,11 @@ def build_xodr(node: MapNode, out_path: str | Path,
                 g0, mg0 = med[j]
                 g1, mg1 = med[j + 1]
                 mg0, mg1 = fc_clamp(g0, mg0, g1, mg1, Ls)
-                mlane = W.Lane(1, "median")
+                mlane = W.Lane(1, "median", provenance={
+                    "eligibility": "excluded", "role": "median",
+                    "status": "TRANSFORMED", "support_kind": "median",
+                    "travel_direction": "against_s", "exclusion_code": "median-non-driving",
+                })
                 mlane.add_width(g0, mg0,
                                 (3 * (g1 - g0) - (2 * mg0 + mg1) * Ls) / Ls ** 2,
                                 (-2 * (g1 - g0) + (mg0 + mg1) * Ls) / Ls ** 3)
@@ -380,9 +531,9 @@ def build_xodr(node: MapNode, out_path: str | Path,
                 key = x.get("lid", k + 1)                 # 目标车道号（MAP 1 起）→ xodr id
                 exid[key] = kk + 1 + med_off
                 etmap[key] = ctr[kk]
-            exits[nid] = {"rid": rid, "xid": exid, "t": etmap, "pose": ep,
-                          "kappa": seg_kappa(pv, at_end=True), "n": len(llanes),
-                          "kind": kind, "contact": "end"}
+            exits[remote] = {"rid": rid, "xid": exid, "t": etmap, "pose": ep,
+                             "kappa": seg_kappa(pv, at_end=True), "n": len(llanes),
+                             "kind": kind, "contact": "end"}
             stats["exit_real" if kind == "real" else "exit_mirror"] += 1
             stats["exit_roads"] += 1
 
@@ -392,7 +543,8 @@ def build_xodr(node: MapNode, out_path: str | Path,
     pave_pts = []
     from pyclothoids import SolveG2
 
-    def _make_conn(cls, w, in_rid, in_xid, out_rid, out_xid, contact):
+    def _make_conn(cls, w, in_rid, in_xid, out_rid, out_xid, contact,
+                   exclusion_code="inferred-connector-no-source-geometry"):
         """一条连接路（G2 回旋链 + 单车道 + junction connection）。"""
         nonlocal rid_c
         road = W.Road(rid_c, junction=JID)
@@ -401,7 +553,11 @@ def build_xodr(node: MapNode, out_path: str | Path,
                               cl.length, cl.KappaStart, cl.KappaEnd)
         road.add_offset(0.0, w / 2)
         csec = W.LaneSection(0.0)
-        clane = W.Lane(-1)
+        clane = W.Lane(-1, provenance={
+            "eligibility": "excluded", "role": "connector", "status": "INFERRED",
+            "support_kind": "synthetic-connector", "travel_direction": "with_s",
+            "exclusion_code": exclusion_code,
+        })
         clane.add_width(w)
         clane.pred, clane.succ = in_xid, out_xid
         csec.right.append(clane)
@@ -424,7 +580,8 @@ def build_xodr(node: MapNode, out_path: str | Path,
         ii = in_info[lk.name]
         for ln in lk.lanes:
             for c in ln.connects:
-                e = exits.get(c.node)
+                remote = (c.region, c.node)
+                e = exits.get(remote)
                 if e is None or ln.lane_id not in ii["t"]:
                     stats["skipped"] += 1
                     continue
@@ -443,7 +600,7 @@ def build_xodr(node: MapNode, out_path: str | Path,
                 except Exception:
                     stats["skipped"] += 1
                     continue
-                filled_pairs.add(((lk.name, ln.lane_id), (c.node, kk)))
+                filled_pairs.add(((lk.name, ln.lane_id), (remote, kk)))
                 _make_conn(cls, (ln.width_cm or 350) / 100.0, ii["rid"],
                            ii["xid"][ln.lane_id], e["rid"], e["xid"].get(kk, kk),
                            e["contact"])
@@ -485,7 +642,7 @@ def build_xodr(node: MapNode, out_path: str | Path,
                 stats["conn_fill_skipped"] = stats.get("conn_fill_skipped", 0) + 1
                 continue                                  # 无解或 R<8m：判为不可行转向
             _make_conn(cls, en["w"], en["rid"], en["xid"], ex["rid"], ex["xid"],
-                       ex["contact"])
+                       ex["contact"], "filled-connector-no-source-geometry")
             stats["conn_filled"] = stats.get("conn_filled", 0) + 1
 
     # —— junction 铺面：MAP 无面数据 → 连接路几何凸包 +2.5m（INFERRED，type=none） ——
@@ -494,11 +651,25 @@ def build_xodr(node: MapNode, out_path: str | Path,
             from shapely.geometry import MultiPoint
             from mapforge.adapters.opendrive.writer import add_paving_road
             hull = MultiPoint(pave_pts).convex_hull.buffer(2.5)
-            if add_paving_road(doc, np.asarray(hull.exterior.coords), JID):
+            if add_paving_road(doc, np.asarray(hull.exterior.coords), JID, provenance={
+                    "eligibility": "excluded", "role": "paving", "status": "INFERRED",
+                    "support_kind": "convex-hull", "travel_direction": "with_s",
+                    "exclusion_code": "inferred-paving"}):
                 stats["paving"] = "hull"
         except Exception:
             stats["paving"] = "skip"
 
     doc.add_junction(junction)
     doc.write(out_path)
+    stats["source_lane_manifest"] = make_manifest(
+        source_format="map", source_profile="jinfeng-map-xml",
+        comparison_crs={
+            "id": "local-eqc", "units": "m", "axis_order": ["x", "y"],
+            "origin": {"lon": lon0, "lat": lat0}, "proj_string": doc.geo_reference,
+            "integrity": "internally-consistent",
+        },
+        source_contexts=[source_contexts[k] for k in sorted(source_contexts,
+                                                             key=lambda x: (str(x[0]), str(x[1])))],
+        lanes=[manifest_lanes[k] for k in sorted(manifest_lanes)],
+    )
     return stats

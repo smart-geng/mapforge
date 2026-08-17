@@ -22,7 +22,7 @@ import shapefile
 import yaml
 
 from mapforge.adapters.shp.ibd_reader import (JunctionRec, LaneRec, RoadLinkRec,
-                                              _chain_segments, _i, _s)
+                                              StopLineRec, _chain_segments, _i, _s)
 
 _LEN_TO_MM = {"mm": 1.0, "cm": 10.0, "m": 1000.0}
 _ROOT = Path(__file__).resolve().parents[3]
@@ -116,6 +116,7 @@ class ProfileSource:
         self._topo = None
         self._bnd = None
         self._origin = None
+        self._stoplines_by_lane = None
 
     # —— 基础 ——
     def _iter(self, spec, with_shape=True):
@@ -323,7 +324,9 @@ class ProfileSource:
                     s_width_mm=int(round(_f(m.get(LF["width_start"])) * self.mm))
                     if LF.get("width_start") else 0,
                     e_width_mm=int(round(_f(m.get(LF["width_end"])) * self.mm))
-                    if LF.get("width_end") else 0)
+                    if LF.get("width_end") else 0,
+                    geometry_source=(geom_mode if g.shape[0] >= 2 else "missing"),
+                    width_source=("field" if w > 0 and "field" in ladder else "missing"))
                 if merge:
                     self._merge_pids.add(pid)
                     by_pid.setdefault(pid, rec)
@@ -357,6 +360,7 @@ class ProfileSource:
                     w = self._width_from_boundaries(l.lane_pid)
                     if w:
                         l.width_mm = w
+                        l.width_source = "boundaries"
                         missing.remove(l)
                         self.derivation_stats["width"]["boundaries"] += 1
             if missing and "spacing" in ladder and len(uniq) >= 2:
@@ -374,10 +378,12 @@ class ProfileSource:
                     w = int(round(float(np.median(spac)) * 1000))
                     for l in list(missing):
                         l.width_mm = w
+                        l.width_source = "spacing"
                         missing.remove(l)
                         self.derivation_stats["width"]["spacing"] += 1
             for l in missing:
                 l.width_mm = default_mm
+                l.width_source = "default"
                 self.derivation_stats["width"]["default"] += 1
         self._lanes_by_link, self._lane_by_pid = by_link, by_pid
 
@@ -392,6 +398,27 @@ class ProfileSource:
     def is_merge(self, lane_pid: str) -> bool:
         self._load_lanes()
         return lane_pid in self._merge_pids
+
+    @property
+    def stoplines_by_lane(self) -> dict[str, list[StopLineRec]]:
+        if self._stoplines_by_lane is None:
+            out: dict[str, list[StopLineRec]] = {}
+            spec = self.L.get("stop_line")
+            if spec:
+                F = spec["fields"]
+                sep = spec.get("list_sep", ";")
+                for m, shp in self._iter(spec):
+                    refs = [x for x in _s(m.get(F.get("lane_refs"), "")).split(sep) if x]
+                    rec = StopLineRec(
+                        object_pid=_s(m.get(F.get("id"), "")), lane_pids=refs,
+                        geometry=np.asarray(shp.points) if shp and shp.points else np.zeros((0, 2)),
+                        width_mm=int(round(_f(m.get(F.get("width"))) * self.mm))
+                        if F.get("width") else 0,
+                    )
+                    for lane_pid in refs:
+                        out.setdefault(lane_pid, []).append(rec)
+            self._stoplines_by_lane = out
+        return self._stoplines_by_lane
 
     # —— 拓扑 ——
     def _load_topo(self):

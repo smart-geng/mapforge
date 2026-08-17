@@ -30,6 +30,11 @@ def test_direct_xodr_node4(ibd, tmp_path):
     assert dist < 30
     out = tmp_path / "node4.xodr"
     st = build_junction_xodr(ibd, junc, out)
+    manifest = st["source_lane_manifest"]
+    source_ids = [x["source_lane_id"] for x in manifest["lanes"]]
+    assert len(source_ids) == len(set(source_ids)) and len(source_ids) > 50
+    assert any(x["policy_class"].endswith("-approach") for x in manifest["lanes"])
+    assert any(x["role"] == "junction-via" for x in manifest["lanes"])
 
     # 结构：进/出口路全建；连接路全部实测几何（node4 无 TOPO 直连缺口）；laneLink 全覆盖
     assert st["roads_enter"] == 4 and st["roads_leave"] == 4
@@ -120,7 +125,7 @@ def test_lane_fidelity_and_no_hairpin(ibd, tmp_path):
     ref = parse_map_xml(str(ROOT / "v2x_map_xml" / "map凤苑路-金剑路node18.xml"))
     junc, _d = ibd.find_junction(ref.ref_lon, ref.ref_lat)
     out = tmp_path / "n18.xodr"
-    build_junction_xodr(ibd, junc, out)
+    st = build_junction_xodr(ibd, junc, out)
     lon0, lat0 = float(junc.center[0]), float(junc.center[1])
     src_lanes = {l.lane_pid: _proj(l.geometry, lat0, lon0)
                  for pid in set(junc.enter_roads) | set(junc.leave_roads)
@@ -132,6 +137,16 @@ def test_lane_fidelity_and_no_hairpin(ibd, tmp_path):
     assert fid["source_to_target"]["median"] < 0.6
     assert fid["source_to_target"]["p95"] < 1.5
     assert max(x["source_to_target"]["median"] for x in fid["per_lane"].values()) < 0.6
+
+    # 正式 G8：桥接 apron 不冒充实测 via；无法保留来源的拓扑冲突必须显式排除并进入 review。
+    from mapforge.validate.lane_fidelity import evaluate_g8
+    gate = evaluate_g8(out, st["source_lane_manifest"],
+                       ROOT / "profiles/validation/g8-opendrive-jinfeng-v1.yaml")
+    via_rows = [x for x in gate["per_lane"] if x["policy_class"] == "shp.field-via"]
+    assert via_rows
+    assert max(x["source_to_target"]["median_m"] for x in via_rows) < 0.6
+    assert any(x["code"] == "source-topology-gap-bridge" for x in gate["exclusions"])
+    assert not gate["issues"]["missing_source_ids"]
 
     # 故障注入：把一条来源 lane 的 provenance 绑到错误对象，G8 必须报告缺失；
     # 旧“到全路面最近距离”会被相邻车道掩盖，无法发现这种 lane 绑错。
