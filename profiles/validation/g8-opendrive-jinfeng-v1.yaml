@@ -1,0 +1,112 @@
+schema: mapforge/g8-policy/v1
+policy_id: g8-opendrive-jinfeng-v1
+version: '1.0'
+lifecycle: active
+applicability:
+  target_format: opendrive
+  target_versions:
+  - '1.5'
+  source_formats:
+  - shp
+  - map
+sampling:
+  step_m: 1.0
+  zero_width_epsilon_m: 0.05
+  outlier_limit_per_direction: 20
+allowed_exclusions:
+- zero-width
+- median-non-driving
+- source-polygon-paving
+- inferred-paving
+- mirror-no-source-geometry
+- inferred-connector-no-source-geometry
+- filled-connector-no-source-geometry
+- source-extension
+- source-support-unavailable
+- source-support-outside
+- source-topology-gap-bridge
+- lane-transition-taper
+review_exclusions:
+- mirror-no-source-geometry
+- source-support-unavailable
+- source-topology-gap-bridge
+classes:
+  shp.field-leg: &id001
+    source_to_target: &id002
+      median_max_m: 0.6
+      p95_max_m: 1.5
+      max_max_m: 3.0
+    target_to_source: &id003
+      median_max_m: 0.6
+      p95_max_m: 1.5
+      max_max_m: 3.0
+    endpoint_max_m: 1.5
+    stopline_delta_max_m: 1.5
+    require_stopline: false
+    coverage_radius_m: 1.5
+    source_coverage_min: 0.95
+    target_coverage_min: 0.95
+    length_ratio: &id004
+      min: 0.85
+      max: 1.15
+  shp.boundary-leg: *id001
+  shp.field-approach:
+    source_to_target: *id002
+    target_to_source: *id003
+    endpoint_max_m: 1.5
+    stopline_delta_max_m: 1.5
+    require_stopline: true
+    coverage_radius_m: 1.5
+    source_coverage_min: 0.95
+    target_coverage_min: 0.95
+    length_ratio: *id004
+  shp.boundary-approach:
+    source_to_target: *id002
+    target_to_source: *id003
+    endpoint_max_m: 1.5
+    stopline_delta_max_m: 1.5
+    require_stopline: true
+    coverage_radius_m: 1.5
+    source_coverage_min: 0.95
+    target_coverage_min: 0.95
+    length_ratio: *id004
+  shp.field-via: *id001
+  shp.boundary-via: *id001
+  map.point-list-approach:
+    source_to_target: *id002
+    target_to_source: *id003
+    endpoint_max_m: 1.5
+    stopline_delta_max_m: 1.5
+    require_stopline: true
+    coverage_radius_m: 1.5
+    source_coverage_min: 0.95
+    target_coverage_min: 0.95
+    length_ratio: *id004
+  map.point-list-departure: *id001
+calibration:
+  protocol_version: '1'
+  note: 现有14样本均有历史观察；locked_validation仅防本轮调参，不构成盲测
+  calibration_nodes:
+  - node3
+  - node4
+  - NODE5
+  - node13
+  locked_validation_nodes:
+  - node16
+  - node17
+  - node18
+  quantize_m: 0.05
+  margin_m: 0.1
+  engineering_ceiling:
+    median_max_m: 0.6
+    p95_max_m: 1.5
+    max_max_m: 3.0
+    endpoint_max_m: 1.5
+    stopline_delta_max_m: 1.5
+    coverage_min: 0.95
+  promotion:
+    method: unchanged-pre-registered-limits
+    threshold_fitting: false
+    engineering_ceiling_relaxation: false
+    source_policy_sha256: e16d583dbb71d30ec33ef008fa3fc5fe37613652313a77b927035b78eace71a7
+    input_index_sha256: 7526ab0c84cb2a1bac492a1ec723f8e2a1997cc5866635de2b8e745c11eff581

@@ -17,6 +17,7 @@
 """
 from __future__ import annotations
 
+import json
 import math
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -48,6 +49,7 @@ class Lane:
     pred: int | None = None
     succ: int | None = None
     source_id: str | None = None                         # mapforge provenance（userData）
+    provenance: dict | None = None                        # mapforge.provenance/v1
 
     def add_width(self, a, b=0.0, c=0.0, d=0.0, s_offset=0.0):
         self.widths.append((s_offset, a, b, c, d))
@@ -161,6 +163,12 @@ class XodrDoc:
         if ln.source_id:
             ET.SubElement(el, "userData", code="mapforge.source_lane",
                           value=str(ln.source_id))
+        if ln.provenance:
+            ET.SubElement(
+                el, "userData", code="mapforge.provenance/v1",
+                value=json.dumps(ln.provenance, ensure_ascii=False, sort_keys=True,
+                                 separators=(",", ":")),
+            )
         return el
 
     def _road_el(self, root, rd: Road):
@@ -233,7 +241,8 @@ class XodrDoc:
         out.write_text(pretty.toprettyxml(indent="    "), encoding="utf-8")
 
 
-def add_paving_road(doc: "XodrDoc", poly_xy, junction_id: int, road_id: int = 90):
+def add_paving_road(doc: "XodrDoc", poly_xy, junction_id: int, road_id: int = 90,
+                    *, provenance: dict | None = None):
     """junction 内部铺面 road：参考线沿多边形主轴（PCA），单条 type=none 车道的
     宽度轮廓逐站扫掠出多边形形状——查看器渲染为无标线沥青面，填补连接路带
     盖不住的路口角落；不入拓扑、无 connection 引用、不参与寻路。
@@ -284,7 +293,7 @@ def add_paving_road(doc: "XodrDoc", poly_xy, junction_id: int, road_id: int = 90
         # restricted：esmini 实测渲染为**沥青**(83,83,75)，与行车道同材质；
         # none/border 渲染浅灰(125,125,113)、curb/sidewalk 混凝土(170,170,154)。
         # 语义亦相符：铺装路面但不可行车（不入拓扑、无 connection 引用）
-        ln = Lane(-1, "restricted")
+        ln = Lane(-1, "restricted", provenance=provenance)
         w0, w1 = hi0 - lo0, hi1 - lo1
         ln.add_width(w0, (w1 - w0) / Ls)
         if i > 0:
