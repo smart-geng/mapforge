@@ -1,9 +1,165 @@
 # 地图格式转换工厂 · 会话交接文档
 
-> 更新日期：2026-08-14。项目已落位 `F:\MapFactory\`，方案升级至 **v1.25**（双侧 leg road + 自研 OpenDRIVE writer + 全网 G2 + 极小段 fail-closed 门禁 + esmini 独立验证）。
+> 更新日期：2026-08-14。项目已落位 `F:\MapFactory\`，方案升级至 **v1.26**（v1.25 几何基线 + 正式 G8 双向车道保真门禁）。
 > **完整交接见 [docs/交接文档-mapforge.md](docs/交接文档-mapforge.md)**（架构、验收方法、复跑命令、遗留事项）。
 > **遗留工作总排期见 [docs/遗留工作全面规划-2026-08-14.md](docs/遗留工作全面规划-2026-08-14.md)**。
 > **新会话请先读本文件，再按第三节的待办继续工作。**
+
+---
+
+## 〇、已完成：正式 G8 闭环（实时交接，2026-08-14）
+
+> 本节是当前会话的最终断点。v1.26 的技术门禁已经完成；下方 v1.25 历史记录仍有效。注意：**技术门禁 PASS 不等于生产交付获批**，当前金凤 CRS 只有 `internally-consistent`，14 个样本的交付决策仍按硬约束为 `BLOCKED`。
+
+### 当前结论
+
+- GUI-01 已完成信息架构评审；GUI 实现未开始。正式 G8 依赖已解除，GUI-02 仍须等待 B1–B4。
+- 正式 G8 的契约、来源 manifest、目标 occurrence/component、结构化 gate result、sidecar、交付阻断和机械校准脚本已落地。
+- 固定 7 路口 × MAP/SHP 两管道的 14 文件可以完整生成；正式 policy 为 version=`1.0`、lifecycle=`active`，14/14 G8 均为 `PASS`。
+- 最新正式全量结果：`scripts/gen_all.py --report-only` 生成矩阵 **14/14**、各 G8 sidecar 实际违规总数 **0**；随后 `scripts/calibrate_g8.py` **PASS**，calibration 8 文件/449 lanes 与 locked-validation 6 文件/320 lanes 的 ceiling 违规均为 **0**。实现过程中曾为 1298 项；没有提高或临时覆写阈值。
+- `out/g8-opendrive-jinfeng-v1.candidate.yaml` 已通过语义差异审查并提升为正式 `profiles/validation/g8-opendrive-jinfeng-v1.yaml`。`load_policy` 复核语义 SHA256=`3409f658101c7550ffa1481a12f5ceade5173ac8d60a249f312b5caa71d58b15`，与候选一致；classes/sampling/exclusions/ceiling 未改变。两文件仅换行符不同（候选 CRLF、仓库 policy LF）。
+- 全量 pytest：**66 passed in 94.32s**。
+- `scripts/closed_loop.py` 与 `scripts/closed_loop.py --no-regen` 均退出码 0：14 文件 G1–G5/G7/G8 全部 PASS，suite 级 G6 esmini RoadManager 14/14 PASS；XSD 由 G1 逐文件验证，`out/closed-loop-report.json` 状态为 `PASS`。
+- `scripts/visual_sweep.py` 已生成 14 张统一视角拼图并逐张人工检查；涉及本轮修复的 direct node3/node4/node13/node17 与 m2x node17 均平顺，全部 14 张未见新增孔洞、锯齿、合成振荡、断裂 taper 或明显路面不连续。
+- 闭环报告的 14 个 `delivery_decision` 均为 `BLOCKED`，唯一共同硬阻断是 `crs_not_absolutely_verified`（当前仅 `internally-consistent`）；部分 MAP 文件另有 `mirror-no-source-geometry` 人工复核项。这是既定 fail-closed 行为，不是 G8 失败，禁止绕过或把 v1.26 表述为可直接生产交付。
+- 正式 G8 技术闭环至此完成，版本基线更新为 **v1.26**；工作树仍未提交、未推送，R0 的恢复点/拆分提交事项仍未完成。
+
+### 独立复验与发布后补正（2026-08-14，另一会话复核）
+
+上述结论已由独立复跑逐条核对，**全部成立**：
+
+| 复验项 | 实测结果 |
+| --- | --- |
+| `pytest tests -q` | `66 passed`（补正后 `68 passed`） |
+| `scripts/closed_loop.py` | 14/14 文件 G1–G8 全 PASS，G6 esmini suite 级 PASS |
+| `scripts/closed_loop.py --no-regen` | 同上，PASS |
+| active policy 语义 SHA256 | `3409f658…d58b15`，与方案/README 声明一致 |
+| 校准双 split | calibration 8 文件/449 lanes、locked-validation 6 文件/320 lanes，ceiling 违规均 **0** |
+| 14 份 sidecar | 56 个 JSON 全部 `allow_nan=False` 解析通过；policy hash 与 active 全一致；`errors: []` |
+| exclusion codes | 11 类全部在 `allowed_exclusions` 内，无未知码 |
+| CLI 非 DELIVERABLE | `convert --to xodr` 打印 `G8: PASS` + `DELIVERY-STATUS: BLOCKED`，退出码 **2**，不打印最终 OK |
+| `git diff --check` | 通过；`.claude/worktrees/` 未进入 Git 状态 |
+
+**逼近上限的余量（后续数据/几何改动需盯住）**：769 条可比较 lane 的最坏值——endpoint `1.440 / 1.50`（余量 4%）、stopline `1.367 / 1.50`（9%）、s2t median `0.492 / 0.60`（18%）、p95 `1.080 / 1.50`、max `1.498 / 3.00`、coverage 全为 `1.000`。即 G8 是真通过，但 endpoint 一项余量很薄。
+
+**复验中发现并已修复的两个流程缺陷（`scripts/calibrate_g8.py`）**：
+
+1. policy 提升为 active 后再跑校准，会误报 `source_policy_not_draft`；
+2. 更严重：该失败分支会**删除 `out/g8-opendrive-jinfeng-v1.candidate.yaml`** 这一提升证据（复验时已实际触发删除）。
+
+现按 `lifecycle` 分两种模式：`draft → calibrate`（原行为，含候选清理）、`active → verify`（只读复验，绝不写/删候选，回归仍 FAIL）。报告新增 `mode` 字段。新增 2 项测试覆盖两种模式，`pytest 66 → 68`。当前复验输出：
+
+```text
+G8 verify: PASS
+  calibration: 8 files, 449 lanes, 0 ceiling violations
+  locked-validation: 6 files, 320 lanes, 0 ceiling violations
+  active policy 1.0 (3409f658101c…) 仍被当前 14 文件满足
+```
+
+**draft policy 的可复现性**：`profiles/validation/` 只保留 active，且该目录**未纳入 Git**，draft 原件已不存在。经实测，draft 可从 active **无损复原**——去掉 `calibration.promotion`、`lifecycle` 改 `draft`、`version` 改 `1.0-draft`，复原后的语义 SHA256 = `e16d583dbb71d30ec33ef008fa3fc5fe37613652313a77b927035b78eace71a7`，与 `promotion.source_policy_sha256` **完全一致**，提升链可审计。为避免 `profiles/validation/` 出现两个 policy 造成加载歧义，未把 draft 落回该目录；日常复验请直接用上面的 `verify` 模式。
+
+**遗留风险**：`profiles/validation/` 与 `out/` 均未入库，正式 policy 目前只存在于本地工作树；提交前若丢失，需按上述配方从方案文档记录的 hash 复原并核对。建议尽早把 `profiles/validation/` 纳入版本控制。
+
+### 已落地代码
+
+- 新增：
+  - `mapforge/validate/g8_model.py`
+  - `mapforge/report/decision.py`
+  - `profiles/validation/g8-opendrive-jinfeng-v1.yaml`
+  - `scripts/calibrate_g8.py`
+  - `tests/test_g8_manifest.py`
+  - `tests/test_g8_components.py`
+  - `tests/test_g8_faults.py`
+  - `tests/test_g8_delivery.py`
+  - `tests/test_calibrate_g8.py`
+- 主要修改：
+  - `mapforge/validate/lane_fidelity.py`
+  - `mapforge/adapters/opendrive/writer.py`
+  - `mapforge/adapters/shp/ibd_reader.py`
+  - `mapforge/adapters/shp/profile_source.py`
+  - `mapforge/ops/map_to_xodr.py`
+  - `mapforge/ops/shp_to_xodr.py`
+  - `mapforge/report/deliver.py`
+  - `mapforge/cli.py`
+  - `scripts/gen_all.py`
+  - `scripts/closed_loop.py`
+  - `tests/test_map_to_xodr.py`
+  - `tests/test_shp_to_xodr.py`
+
+### 已确认并修复的真实缺陷
+
+1. MAP real-exit 原来只按 node id 查邻居，导致 `(3,3)/(500,3)`、`(3,4)/(500,4)` 跨 region 串绑，出现 200m 级偏差；现已改为完整 `(region,node)` + upstream + 空间一致性匹配，不匹配时退显式 mirror exclusion。
+2. MAP/SHP 点列端点外仍在 snap 半径内的点曾被压到同一 s；现已按端点纵向支持域裁剪。
+3. SHP `eval_planview(0.5)` 的采样点距并非严格 0.5m，旧代码用 `index*0.5` 累计产生数米 support_s 漂移；现已改用真实累计弧长，并替换 `u/0.5` 索引。
+4. SHP via 的 G2 桥接 apron 原来整段冒充实测 via；现在只比较实测中段。无法保留来源的拓扑间隙使用 `source-topology-gap-bridge` 显式 exclusion，并强制进入 review。
+5. SHP 生灭/零宽车道 taper 原来参与完整中心线比较；现在用 `lane-transition-taper` 显式裁掉不可比较区间，来源 lane 仍保留在完整 manifest 分母中。
+6. SHP 跨 span 配对原来按整段 median 横距，现改为接缝 `v1↔v0` 配对；长 laneSection 等分到不超过 20m。
+7. G8 evaluator 现在强制采样每条 lane 的 `support_s` 精确边界，endpoint/stopline 不再受 1m 网格截断影响。
+8. SHP 稀疏 2–5 点轮廓、MAP 稀疏点列改用区间内分段线性插值；观测区间外保持端值，禁止斜率无限外推。
+9. SHP 端点纵向越界点此前虽已从 manifest/G8 支持域裁掉，却仍参与目标横向轮廓回归，形成不可审计的“幽灵影响”；现已让 `_prof_eval` 与 manifest 共用 `support_ps/support_pd`。定向重跑后 `2023061509384520037`、`2023061509384524082` 的端点、p95 和 coverage 违规全部消失。
+10. SHP laneOffset/median/相邻宽度为保持 C0 连续会覆盖来源中心端值，但此前仍把被连续化占用的整段算作可比较来源。现按最终写出 width 的文件语义计算来源端点横移，只在来源 lane 首/末 occurrence 裁掉超过固定 0.5m 构造容差的连续化子段，并使用既有 `lane-transition-taper` 记账；不读取 policy 阈值。node3/node4/node17 的剩余 SHP 违规归零，且未再制造 one-source-many-target。
+11. SHP 2–5 点来源在世界坐标中是分段直线，但相对弯曲参考线的 `d(s)` 并不线性；现先沿原折线 0.5m 加密再投影并分段插值，不平滑、不外推、端点和总长不变。node13 三条稀疏 lane 的 median 违规归零。`2023061416492734058` 经连续化裁剪后稳定域仅 1.85m（小于 3m），现整条以 `lane-transition-taper` 显式排除，来源仍保留在完整 manifest，`full_source_length_m=12.204`、`compared_length_m=0`。
+12. MAP 稀疏点列存在同一“世界坐标折线 ≠ 弯曲参考线中的端值线性 `d(s)`”问题。现将原始支持点/manifest 与目标重建轮廓分离：公共 `_lane_profile` 默认行为和 manifest 均保留原点列；生产写出显式启用 0.5m 等价折线加密后再投影。MAP/node17 的最后 2 项 median 违规归零，且相邻 lane 无新增违规。
+
+### 最近验证结果
+
+```text
+pytest tests/test_g8_manifest.py tests/test_g8_components.py tests/test_g8_faults.py
+       tests/test_g8_delivery.py tests/test_calibrate_g8.py -q
+=> 21 passed
+
+pytest tests/test_map_to_xodr.py -q
+=> 5 passed
+
+pytest tests/test_map_to_xodr.py tests/test_shp_to_xodr.py::test_lane_fidelity_and_no_hairpin -q
+=> 6 passed
+
+python scripts/gen_all.py --report-only
+=> 14/14 文件全部生成；draft policy 下均为 UNAVAILABLE（预期）
+
+python scripts/calibrate_g8.py
+=> FAIL；calibration 15 项 + locked-validation 5 项 ceiling 违规
+
+# 上述正式全量之后的本轮定向验证（仅 SHP node3/node4/node13/node17）
+=> node3 / node4 / node13 / node17 均无实际 G8 违规（仅 draft policy_not_active）
+=> tests/test_shp_to_xodr.py::test_lane_fidelity_and_no_hairpin：1 passed
+=> MAP/node17 无实际 G8 违规；tests/test_map_to_xodr.py：5 passed
+=> scripts/gen_all.py --report-only：14/14，输出矩阵完整，各 sidecar 实际违规总数 0
+=> scripts/calibrate_g8.py：PASS；calibration 8/449/0，locked-validation 6/320/0
+=> active candidate 已审查并提升；语义 hash 3409f658... 保持不变
+=> active policy 下 scripts/gen_all.py：14/14 G8 PASS，退出码 0
+=> 全量 pytest：66 passed in 94.32s
+=> scripts/closed_loop.py：G1–G8 + esmini 全部 PASS，报告 out/closed-loop-report.json
+=> scripts/closed_loop.py --no-regen：G1–G8 + esmini 全部 PASS
+=> scripts/visual_sweep.py：14 张统一视角拼图全部生成并人工检查通过
+=> out/closed-loop-report.json：技术闭环 PASS；14/14 交付仍因 CRS 未绝对核验而 BLOCKED
+=> 正式 G8 技术闭环完成，版本基线 v1.26
+```
+
+### 当前剩余 lane
+
+最近一次正式 active-policy 全量门禁中，**无剩余 G8 违规 lane**。不得因后续新样本失败而提高 ceiling；应按本轮相同方法定位来源/目标语义。
+
+### 下一接手动作
+
+1. 若继续做 GUI-02，先完成 B1–B4：统一 `ConversionJob/ConversionResult`、run 目录、结构化 gate JSON 与统一预览入口；正式 G8 已不再是阻塞项。
+2. 获取实测控制点并完成 CRS 绝对核验；在此之前保留 `crs_not_absolutely_verified` 交付硬阻断，禁止把 `internally-consistent` 改写成绝对正确。
+3. 按遗留规划建立可回退恢复点并拆分当前混合工作树。此项涉及提交/remote，由仓库负责人明确授权后执行；当前会话未提交、未推送。
+4. 后续代码改动的最小复跑命令：
+
+```bash
+.venv/Scripts/python -m pytest tests -q
+.venv/Scripts/python scripts/closed_loop.py
+.venv/Scripts/python scripts/closed_loop.py --no-regen
+.venv/Scripts/python scripts/visual_sweep.py
+```
+
+### 仓库与清理注意
+
+- 当前所有改动均未提交、未推送；原始 `shp_0222-0326/` 与 `v2x_map_xml/` 未修改。
+- 必须保留本轮之前已有的 GUI-01 文档改动，不得回退。
+- `out/debug-node18.*` 是本轮诊断产物，可删除；`out/` 不入 Git。
+- `.claude/worktrees/` 是代理隔离目录，禁止加入补丁或提交。
 
 ---
 
@@ -42,7 +198,9 @@ F:\MapFactory\
 
 ## 三、下一步待办（新会话从这里继续）
 
-**v1.25 极小段假平滑已收口（2026-08-14）**：v1.22 的中位段长门禁仍放过 0.667m 碎段，本轮改为最终 xodr 硬门禁：普通 leg 最短段 ≥3m、junction connecting road ≥1m；leg 同时要求来源偏差 ≤1.5m、|κ|≤0.04、|dκ/ds|≤0.0045、翻转≤8/100m。`fit_leg_refline` 只有全部条件同时通过才返回；无解抛 `ReflineFitError`，fallback 仅供诊断。SHP 拼链修正为比较真实连接端切向，候选自身绕街角则在完整 ROADLINK 边界停止；已删除静默裁源线的 `_trim_far_spikes`。车道写出新增 `mapforge.source_lane` provenance，并有按来源 lane 配对的保真/绑错故障测试。**验收：pytest 44/44 PASS；14/14 文件通过加强 G7、XSD、planView、G2、断面、换乘和 esmini；普通道路全局最短段约 3.2m。**尚未完成的更大范围工作仍以遗留工作总规划为准，尤其是把来源 lane 双向保真扩展为 14 文件的正式 G8 交付门禁。
+**v1.25 极小段假平滑已收口（2026-08-14，历史基线）**：v1.22 的中位段长门禁仍放过 0.667m 碎段，本轮改为最终 xodr 硬门禁：普通 leg 最短段 ≥3m、junction connecting road ≥1m；leg 同时要求来源偏差 ≤1.5m、|κ|≤0.04、|dκ/ds|≤0.0045、翻转≤8/100m。`fit_leg_refline` 只有全部条件同时通过才返回；无解抛 `ReflineFitError`，fallback 仅供诊断。SHP 拼链修正为比较真实连接端切向，候选自身绕街角则在完整 ROADLINK 边界停止；已删除静默裁源线的 `_trim_far_spikes`。车道写出新增 `mapforge.source_lane` provenance，并有按来源 lane 配对的保真/绑错故障测试。**当时验收：pytest 44/44 PASS；14/14 文件通过加强 G7、XSD、planView、G2、断面、换乘和 esmini；普通道路全局最短段约 3.2m。**该段的正式 G8 待办现已由本文件第〇节的 v1.26 闭环完成。
+
+**GUI G0 会话补录（会话 `516d0bd7-6af0-4429-94d2-f011b6aa7a69`，GUI-01 已于 2026-08-14 收口）**：该会话生成的 `docs/GUI方案-mapforge控制台.md` 和 `docs/gui_g0_wireframes.html` 已完成后续结构评审，结论为“修改后接受”；五屏顺序、connect-mode 主区、源/产物常驻叠加和质量页同页拆层已裁决，线框升为 v0.2，并补齐 G8、运行/门禁/交付三轴、`full REVIEW_REQUIRED`、v1.25 G7 阈值与红线来源。在线 Artifact 的 403 不再阻塞本地评审。**GUI 实现仍未开始**；正式 G8 依赖已解除，GUI-02 仍须等待 B1–B4（统一 Job/Result、run 目录、结构化 gate JSON、统一预览入口）。
 
 0. ~~参考线拟合 spike~~ **已完成（2026-08-13，结果见《Spike报告-参考线拟合验证》，方案已升 v1.5）**：A/B/C 全部通过——拟合路线验证成立（Town03 回拍类型零漏检、半径误差中位 6–15%；node16 端到端 XSD PASS + 连续性 0 违例；SolveG2 连接路可用；pyclothoids Windows wheel 直装成功）。**重大发现：IBD CURVATURE 字段核验不通过**（与几何不相关），曲率先验降级、字段核验升为强制门禁。已有代码资产：`mapforge/ops/refline_fit.py`、`mapforge/adapters/v2xmap/xml_reader.py`、`mapforge/validate/planview_check.py`、`.venv`（Python 3.10，正式环境换 3.11）。拟合器正式化待办：边界局部精修、段数最优化（Maier）、大半径假 arc 归直、spiral 档接入。
 1. ~~M0 四项无依赖作业~~ **已完成（2026-08-13，《M0作业报告-ASN编译与数据核验》，方案升 v1.6）**：

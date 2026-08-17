@@ -1,8 +1,12 @@
-# mapforge 控制台 GUI 方案（v0.1 规划稿）
+# mapforge 控制台 GUI 方案（v0.2 · GUI-01 评审稿）
 
-> 2026-08-14 · 本文只做**规划**，不含实现。前置事实以《地图格式转换工厂-首批三格式方案》(v1.24)
-> 与《资料盘点-金凤示范区数据与标准资料》为准；本文所列后端能力**全部已实现并有实测证据**，
-> 未实现的一律标注「待建」，不画饼。
+> 2026-08-14 · 本文只做**规划与信息架构裁决**，不含实现。前置事实以《地图格式转换工厂-首批三格式方案》和
+> 《遗留工作全面规划-2026-08-14》为准；后端能力以遗留规划中的当前能力矩阵为准，不能因本文或线框中出现某个入口就视为生产能力已经闭合。
+>
+> **GUI-01 评审结论（2026-08-14）**：五屏信息架构“修改后接受”。会话
+> `516d0bd7-6af0-4429-94d2-f011b6aa7a69` 生成的 v0.1 线框已完成结构、红线和能力边界复核，
+> 修订版见 `docs/gui_g0_wireframes.html` v0.2。GUI 实现仍未开始；正式 G8、统一
+> `ConversionJob` / `ConversionResult` / run 目录 / 结构化门禁 JSON（B1–B3）就绪前，不进入 GUI 编码。
 
 ---
 
@@ -48,25 +52,26 @@
 
 ## 3. 能力盘点 → 界面映射
 
-左列全部是**已实现**能力，右列是它在 GUI 里的落点。
+本表同时列出已实现原型与待建契约；“有入口”不等于“生产闭合”。当前能力边界以遗留规划第 3 节为准。
 
-| 后端能力（模块/脚本） | 已验证事实 | GUI 落点 |
+| 后端能力（模块/脚本） | 当前真实状态 | GUI 落点 |
 |---|---|---|
-| `cli.convert` 六方向 | MAP↔GeoJSON/UPER、SHP→MAP、SHP→xodr、MAP→xodr、xodr→MAP 全实跑 | 转换向导 |
-| `adapters/shp/profile_source` | YAML 驱动，双几何路线，宽度四级阶梯 | Profile 映射器 |
-| `cli.profile-check` | 图层/字段体检 + 降级预告，exit 1 | 映射器右侧实时体检面板 |
-| `mapir/crs_probe` | SHP↔MAP 同源核验、GCJ02 否定 | 数据源页 CRS 状态灯 |
-| `report/preview_geojson` | 车道/Link/相位属性 GeoJSON | 地图预览（矢量底图） |
-| `scripts/xodr_topdown` | 按查看器语义的填充俯视 PNG | 地图预览（xodr 2D） |
-| `scripts/visual_sweep` | 14 文件 ×4 机位 odrviewer 截帧 | 地图预览（3D 快照页） |
-| `validate/planview_check` | 位姿连续 <1mm/<0.001rad | 质量看板 G2 |
-| `validate/smoothness` | κ 连续 / 断面台阶 / 换乘 / 曲率品质 | 质量看板 G3–G5、G7 |
-| `scripts/esmini_rm_check` | 第三方引擎独立行驶，14/14 PASS | 质量看板 G6（异步任务） |
-| `scripts/closed_loop` | 七门禁一键跑分 | 批量回归页 |
-| `report/deliver` | 11 文件交付包 + DELIVERY-STATUS | 交付包页 |
-| `ledger/jinfeng-2026.yaml` | inherit-as-is 台账裁决 | 台账管理页 |
-| `ops/junction_fill` | connect-mode data/default/full + 曲率守卫 | 转换向导「路口补全」参数组 |
-| 八态枚举 + loss-report | EXACT…FAILED 全流程记账 | 质量看板损失面板 |
+| `cli.convert` 主路径 | SHP→MAP、SHP→xodr、MAP→xodr、xodr→MAP 等已有原型；六方向尚未正式闭合 | 转换向导按 source/target Profile 只显示受支持路径 |
+| `adapters/shp/profile_source` | YAML 驱动和宽度推导已有实现；字段别名/自动推断待第二家数据 | G0 只选已有 Profile；编辑器延期 G1 |
+| `cli.profile-check` | 图层/字段体检 + 降级预告已有实现 | 数据源体检；G1 映射器复用 |
+| `mapir/crs_probe` | 金凤仅证明 SHP↔MAP 内部自洽，绝对 CRS 控制点待补 | 数据源页同时显示检测状态与生产裁决 |
+| `report/preview_geojson` | MAP/SHP 预览骨架可用；统一预览契约待 B4 | 地图预览（矢量） |
+| `scripts/xodr_topdown` | 按查看器语义的填充俯视 PNG 已有实现 | 地图预览（xodr 2D） |
+| `scripts/visual_sweep` | 14 文件 ×4 机位 odrviewer 截帧已有实现 | 地图预览（3D 快照；非交互式） |
+| `validate/planview_check` | 位姿连续检查已有实现 | OpenDRIVE 质量 Profile 的 G2 |
+| `validate/smoothness` | κ 连续 / 断面台阶 / 换乘 / 曲率品质已有实现 | OpenDRIVE 质量 Profile 的 G3–G5、G7 |
+| `scripts/esmini_rm_check` | 第三方引擎独立行驶已有实现 | OpenDRIVE 质量 Profile 的 G6（异步） |
+| `validate/lane_fidelity.paired_deviation` | 按来源 lane 的双向诊断已有实现；尚未覆盖两管道 14 文件，也未进入闭环/报告/交付阻断 | G8 目标卡片，当前显示“待正式接入” |
+| `scripts/closed_loop` | 当前只打印 G1–G7 表格，无结构化 JSON | 质量页依赖 B3 后接入 |
+| `report/deliver` | M1 骨架；phase 阻断可用，真实 CRS/ledger/G8/尺寸/UPER 语义等红线未闭合 | G0 只显示转换与质量状态；正式交付页延期 G1 |
+| `ledger/jinfeng-2026.yaml` | 金凤 `inherit-as-is` 现状台账，不等于新站点正式 ledger 流程 | G0 只读状态；裁决延期 G1 |
+| `ops/junction_fill` | `data/default/full` 已实现；对象级 provenance 与 `full REVIEW_REQUIRED` 交付守卫待补 | 转换向导「路口转向拓扑来源」 |
+| 八态与 loss | 报告层已有部分状态；完整对象级八态依赖 MapIR/provenance | 质量页完整列出八态，并标出当前覆盖边界 |
 
 ---
 
@@ -120,8 +125,9 @@ python -m mapforge.gui          # 起本地服务，自动开 http://127.0.0.1:8
 
 **关键约定**
 
-- 每次转换 = 一个 `run_id`，产物落 `out/runs/<run_id>/`（xodr、报告、预览图、参数快照）；
+- `[待建 B2]` 每次转换 = 一个 `run_id`，产物落 `out/runs/<run_id>/`（xodr、报告、预览图、参数快照）；
   GUI 只读该目录 → 界面刷新不重算，历史可回看。
+- `[待建 B1/B3]` CLI 与 GUI 共用 `ConversionJob` / `ConversionResult` 和结构化 gate JSON，界面不得从终端文本反向解析状态。
 - 长任务（esmini 门禁、SHP 大目录首次索引）走任务队列，SSE 推进度，可取消。
 - **GUI 不写业务分支**：`connect_mode` 这类参数原样透传给后端函数。
 
@@ -133,18 +139,24 @@ python -m mapforge.gui          # 起本地服务，自动开 http://127.0.0.1:8
 最近 run 列表（时间/源/目标/门禁色块/耗时）、快捷入口、环境自检（esmini 是否就位、XSD 是否在位、venv 依赖）。
 
 ### 6.2 数据源与 CRS
-登记 SHP 目录 / MAP XML / xodr；显示图层清单、要素量、编码；**CRS 状态灯**（green=已核验 /
-amber=internally-consistent / red=suspect）。红灯时转换按钮**禁用**并给出原因链接——
-对应硬约束「CRS 缺失/可疑即停止生产转换」。
+登记 SHP 目录 / MAP XML / xodr；显示图层清单、要素量、编码。CRS 分成两条轴展示：
+
+- **检测状态**：verified / internally-consistent / suspect / not-scanned；
+- **生产裁决**：DELIVERABLE / BLOCKED / PENDING_DECISION，并显示证据文件、PROJ pipeline、who/when/basis。
+
+`internally-consistent` 只允许算法验证，绝对控制点或合规依据未补齐前不可生产交付；`suspect` 禁止生产转换。G0 只读显示证据和阻断原因，人工签认属于 G1 决策台，不能在 G0 用一个按钮把 amber 点绿。
 
 ### 6.3 转换向导（P0 核心）
 四步：**源 → 目标 → 参数 → 预检**。
 
-- 源：数据源 + 路口定位（`--like` 参考 XML / `--at lon,lat` / 从路口列表点选）
-- 目标：geojson / uper / map-xml / map(交付包) / xodr
-- 参数（按目标动态显示）：Profile、UPER 编码模式、xodr 版本、
-  **路口补全 connect-mode（data/default/full + 允许掉头）**、`--allow-no-phase` 显式降级
-- 预检：干跑（不写文件）给出"预计车道数/连接数/是否触红线"，再执行
+- 源：数据源 + 路口定位；路口列表为默认，`--at` 为精确入口，`--like` 明确标为兼容/迁移通道；
+- 目标：只显示当前 source/target Profile 声明支持的路径和版本；
+- 参数：Profile 只选不编辑；**路口转向拓扑来源** `data/default/full` 必须留在主区；
+- `data` 是生产首选；`default` 明示会产生 INFERRED；`full` 标为仿真/审查专用和 `REVIEW_REQUIRED`，不得直接生产交付；
+- 红线预检按目标 Profile 动态显示：phase/ledger/AID 等不适用于 OpenDRIVE 时显示 N/A，不能画成通用绿灯；
+- `[待建 B1–B3]` 干跑在内存中给出结构预估、推断数量、红线和预期损失，不写正式产物；未干跑或红线失败时禁用“运行转换”。
+
+执行后进入任务状态：QUEUED / RUNNING / SUCCEEDED / FAILED / CANCELLED，可取消并查看日志；成功后默认进入地图预览，同时保留质量摘要入口。
 
 ### 6.4 Profile 映射器（P1，最大价值点）
 左：源图层与字段（含样值、类型、值域探测）；中：拖拽映射到 mapforge 语义槽位；
@@ -155,29 +167,33 @@ amber=internally-consistent / red=suspect）。红灯时转换按钮**禁用**�
 > 引擎足够通用，缺的只是编辑体验。
 
 ### 6.5 地图预览
-三个标签页共用一个路口选择器：
+三个标签页共用当前上下文 `source_id / run_id / node / source→target / connect-mode`：
 
-1. **矢量**（MapLibre + GeoJSON）：车道中心线、Link、连接关系、停止线；点选看属性与八态
-2. **xodr 俯视**（`xodr_topdown` PNG）：按查看器语义填充，用于看边缘/断面/铺面
-3. **3D 快照**（`visual_sweep` odrviewer 截帧四格）：无 esmini 时该页降级并提示
+1. **矢量**：车道、Link、连接、停止线与来源/目标配对；
+2. **xodr 俯视**：按查看器语义填充，用于看边缘、断面和铺面；
+3. **3D 快照**：复用 `visual_sweep`；缺 esmini 时显示 UNAVAILABLE，不伪装成 PASS。
 
-叠加开关：源数据 vs 生成结果对照（本会话多次靠叠画定位问题，值得固化成常驻功能）。
+源/产物叠加是 G0 常驻能力，有可比源时默认开启，提供透明度、线型和差异高亮；源名称按格式动态显示。点选对象展示 source↔target 稳定键、已具备的 provenance，以及 G8 的 matched/missing/orphan、双向偏差、端点/停止线偏差。phase 只显示在适用的 MAP movement/connection 上，不挂在普通 OpenDRIVE lane 属性中。完整对象级八态尚待 MapIR，界面必须标明“部分路径已有 / 完整契约待建”。
+
+从质量页进入时自动定位 `road/s/lane/source_id` 并开启相关图层。浏览器内交互式 3D 延期，G0 只用快照。
 
 ### 6.6 质量看板
-七门禁色块 + 明细：
+质量页使用**同页双层**，不是再拆一个顶级页面：
 
-| 门禁 | 展示 |
-|---|---|
-| G1 XSD | 通过/错误清单 |
-| G2 planView | 最差位置/航向缝 |
-| G3 曲率连续 | κ 断差最大值 + 定位到 road/几何段 |
-| G4 断面台阶 | 最大台阶 + 定位到 road/s |
-| G5 换乘 | 进/出侧缝隙、航向差 |
-| G6 esmini 行驶 | 穿越数/跳变/并线（异步） |
-| G7 曲率品质 | 蛇行率、侧向 jerk、段长中位 |
+1. **执行者摘要层**：运行生命周期、目标 Profile 的 gate 摘要、生产红线、阻断原因和下一步动作；
+2. **诊断明细层**：选中门禁的指标、完整八态计数、推导统计和可展开失败列表。
 
-另含：**损失报告**（八态分布 + 逐项可展开）、**推导统计**（宽度来源阶梯、INFERRED 计数、
-`conn_filled`/`conn_fill_skipped`）。失败项**可点击跳转到地图预览对应位置**。
+状态必须分三条轴，不能用一个绿色 PASS 混在一起：
+
+- 运行：QUEUED / RUNNING / SUCCEEDED / FAILED / CANCELLED；
+- 门禁：PASS / FAIL / NOT_RUN / UNAVAILABLE；
+- 交付：DELIVERABLE / BLOCKED / REVIEW_REQUIRED。
+
+OpenDRIVE 质量 Profile 的目标门禁为 G1–G8；G8 当前显示“待正式接入 / 阻断发布”，直到双向 lane 配对覆盖 14 文件两管道并进入 `closed_loop` JSON、quality-report 和交付阻断。MAP 等其他目标使用各自 Profile 的 phase、ledger、UPER 语义回环、尺寸预算、AID/Priority/周期等门禁，工作台不能给所有格式画同一组八个点。
+
+G7 指标必须从同一版本化 Profile/后端结果读取，至少显示 `flips_per_100m_max`、`sharpness_max`、`jerk_max`、`seg_median_len`、`seg_min_len`；v1.25 当前基线为 leg `8 / 0.0045 / 21 / 3m / 3m`，conn `30 / 0.70 / 400 / 2m / 1m`。界面不得手写另一套阈值。
+
+八态必须完整列出 EXACT / TRANSFORMED / APPROXIMATED / INFERRED / EXTENSION / PASSTHROUGH / DROPPED / FAILED，并注明对象级覆盖边界。失败项能一键跳地图；PASS 示例不能同时混入“失败样例”。
 
 ### 6.7 人工决策工作台（三条红线，G1 重点）
 裁决为**界面内直接操作**，因此每条红线都要满足 10.1 的三条防线。
@@ -217,7 +233,7 @@ amber=internally-consistent / red=suspect）。红灯时转换按钮**禁用**�
 
 | 阶段 | 内容 | 价值 | 完成判据 |
 |---|---|---|---|
-| **G0** | B1–B3 前置 + **工作台 / 数据源与 CRS / 转换向导 / 地图预览 / 质量看板** | 转换执行者不再敲命令行，结果看得见 | 金凤 7 路口两条主线**全程不碰终端**跑完，看板七门禁与 `closed_loop` 结论逐项一致 |
+| **G0** | B1–B4 前置 + **工作台 / 数据源与 CRS / 转换向导 / 地图预览 / 质量看板** | 转换执行者不再敲命令行，结果看得见 | 金凤 7 路口两条 xodr 主线全程不碰终端跑完；结构化 G1–G8 与后端逐项一致，运行/门禁/交付三轴状态不混淆 |
 | **G1** | **人工决策工作台**（红线三防线）+ Profile 映射器 + 交付包页 | 红线流程与接新图商进界面 | 决策台产出的文件能被现有管线直接消费；映射器导出的 YAML 与手写版产物一致 |
 | **G2** | 批量与回归看板、台账管理、版本 diff | 规模化 | 一键跑 14 文件矩阵并留历史 |
 
@@ -259,8 +275,85 @@ amber=internally-consistent / red=suspect）。红灯时转换按钮**禁用**�
 
 > 换言之：GUI 让红线**更好操作**，但不让红线**更好绕过**。
 
-### 10.2 仍待确认（不阻塞 G0）
+### 10.2 GUI-01 新增裁决
 
-- **3D 预览深度**：G0 先用 `visual_sweep` 的 odrviewer 截图快照（已实现、成本为零）；
-  是否需要浏览器内可交互 3D 留到 G1 末评估——成本显著更高，且当前 2D 俯视 + 四机位快照
-  在本会话已足以定位所有几何问题。
+- **3D 预览深度**：G0 采用 `visual_sweep` 的 odrviewer 快照；浏览器内交互式 3D 延期到 G1 末再评估。
+- **桌面优先**：目标是单机工程操作台，基准视口 1280×800；不设计手机操作流。窄窗口允许应用画布横向滚动，但说明、错误和关键动作不能被裁掉。
+- **视觉方向**：保留“测绘/道路工程验收图纸”语言、低饱和纸色、墨绿通过、琥珀待决、暗红阻断，以及右上角验收戳记。编号 01–05 表达真实工作顺序，不作装饰。状态必须同时有文字/图形，不能只靠红绿。
+
+---
+
+## 11. GUI-01 五屏线框评审裁决（2026-08-14）
+
+### 11.1 总裁决
+
+**修改后接受。** 五屏顺序和主闭环成立：
+
+```text
+工作台新建
+  → 选择数据源并看 CRS/体检
+  → 转换向导预检并运行
+  → 任务进度（可取消/看日志）
+  → 默认进入地图预览
+  → 质量摘要与诊断
+  → 失败项回跳地图定位
+```
+
+G0 主导航只保留五屏。G1/G2 的决策台、Profile、交付包和批量回归不显示为灰色“诱饵”，只在规划说明中出现。每屏顶部固定当前上下文：`source_id / run_id / node / source→target / target profile / connect-mode`。
+
+### 11.2 全局状态契约
+
+对象八态与界面状态是两件事，不得混用：
+
+| 维度 | 状态 | 用途 |
+|---|---|---|
+| 任务生命周期 | QUEUED / RUNNING / SUCCEEDED / FAILED / CANCELLED | 说明任务有没有跑完 |
+| 门禁结果 | PASS / FAIL / NOT_RUN / UNAVAILABLE | 说明所选质量 Profile 是否验证完整 |
+| 交付裁决 | DELIVERABLE / BLOCKED / REVIEW_REQUIRED | 说明能否生产交付 |
+| 对象转换状态 | EXACT / TRANSFORMED / APPROXIMATED / INFERRED / EXTENSION / PASSTHROUGH / DROPPED / FAILED | 说明单个语义对象如何转换 |
+
+规则：
+
+1. `SUCCEEDED` 只表示转换程序完成，不代表门禁通过或可交付；
+2. `UNAVAILABLE`、`NOT_RUN` 都不能汇总成“全部 PASS”；
+3. `allow-no-phase` 必须显示 DROPPED 与 BLOCKED/非生产语义，不能叫“黄色降级放行”；
+4. `connect-mode=full` 即使 G1–G8 全绿，也保持 `REVIEW_REQUIRED`，未经人工依据不得变成 DELIVERABLE；
+5. gate 集合由目标 Profile 决定，SHP→MAP 不能复用 OpenDRIVE 的 G1–G8 圆点。
+
+### 11.3 逐屏裁决
+
+| 屏幕 | 裁决 | 保留 | 必须修改 | 延期 |
+|---|---|---|---|---|
+| 工作台 | 修改后接受 | 环境自检、最近 run、新建转换 | 隐藏 G1/G2 导航；最近 run 显示目标 Profile 的 `x/y gates`、交付状态和“看预览/看质量”；`full` 显示 INFERRED 数与 REVIEW_REQUIRED；`out/runs`、B1–B3 标待建；补空态/目录不可读/依赖缺失 | 批量回归、趋势、安装修复向导 |
+| 数据源与 CRS | 修改后接受 | 数据源清单、图层/编码/规模、证据入口、red 阻断 | 增加“使用此数据源继续转换”；把检测状态与生产裁决分开；amber=可算法验证但不可生产交付；G0 人工签认只读/置灰；预留 PROJ pipeline、证据、who/when/basis；补扫描/索引/编码/无 CRS 等状态 | G1 人工签认、字段级 drill-down、交互 CRS 对比图 |
+| 转换向导 | 接受并强化红线 | 四步结构、干跑、connect-mode 主区 | `--like` 标兼容/迁移；目标/红线动态；`data` 生产首选，`default` 显示 INFERRED 与 filled/skipped，`full` 标仿真审查/REVIEW_REQUIRED；执行前必须完成预检；增加排队/运行/取消/失败/日志 | 存为预设、Profile 编辑、复杂模板 |
+| 地图预览 | 接受 | 矢量/俯视/快照三视图、源产物常驻叠加、失败回跳 | 源名随格式变化；增加透明度/线型/差异高亮；phase 只挂适用 movement/connection；展示 source↔target 配对与 G8 双向偏差、missing/orphan、端点/停止线；完整八态标待 MapIR | 交互式 3D、高级图层样式 |
+| 质量看板 | 修改，必须同页拆层 | 门禁、八态、推导统计、定位地图 | 上层只放运行/门禁/交付摘要与阻断动作；下层按所选 gate 展开；新增 G8；G7 使用 v1.25 后端阈值并显示 min/sharpness；列全八态；生产红线与几何门禁分区；PASS 场景不混失败样例 | 趋势、批量矩阵、历史版本比较、正式交付放行页 |
+
+### 11.4 原线框三问的最终裁决
+
+1. **connect-mode 放主区：接受。** 它改变拓扑真值，不是高级性能参数；名称改为“路口转向拓扑来源”。
+2. **源/产物叠加常驻：接受。** 有可比源时默认开启，没有时显示禁用原因；这是判断“转得对不对”的核心工具。
+3. **质量看板拆层：接受拆层，但不拆路由。** 同一页面分“执行者摘要 / 诊断明细”，失败项保持一键回跳地图。
+
+### 11.5 空态、运行态与失败态最低集合
+
+G0 实现时每屏至少覆盖：
+
+- 工作台：暂无 run、run 目录不可读、环境依赖不完整；
+- 数据源：首次扫描、索引构建、无数据源、编码失败、`.prj` 缺失、CRS suspect；
+- 向导：未预检、预检 BLOCKED、排队、运行、取消、失败；
+- 预览：无产物、源不可叠加、CRS 不一致、esmini 不可用、未选择对象；
+- 质量：未跑、部分未跑、外部门禁不可用、阈值/Profile 缺失、结构化结果缺失、FAIL。
+
+错误文案必须说明原因和修复动作，不写“发生错误”或“请重试”这类无信息提示。
+
+### 11.6 GUI-01 完成定义与后继边界
+
+GUI-01 在以下条件满足后关闭：
+
+- 本节逐屏裁决已落盘；
+- `gui_g0_wireframes.html` 更新为 v0.2，修正 UTF-8、G8、G7、红线、`full` 和状态三轴；
+- 遗留规划把 GUI-01 标为完成，并把 GUI-02 继续阻塞在正式 G8 与 B1–B4 之后。
+
+GUI-01 完成只代表**信息架构通过评审**，不代表后端契约或 GUI 功能已经实现。

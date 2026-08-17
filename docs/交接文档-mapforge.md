@@ -1,6 +1,6 @@
 # mapforge 交接文档
 
-> 版本：2026-08-14 · 对应方案 v1.25 · 已补极小段 fail-closed 收口
+> 版本：2026-08-14 · 对应方案 v1.26 · 正式 G8 双向车道保真闭环已完成
 > 读完本文即可独立接手：知道项目做什么、代码怎么组织、质量怎么保证、哪里还没做完。
 > 逐轮开发流水见 [HANDOFF.md](../HANDOFF.md)，设计决策的完整论证见
 > [地图格式转换工厂-首批三格式方案.md](地图格式转换工厂-首批三格式方案.md)。
@@ -30,8 +30,8 @@
 ```bash
 python -m venv .venv
 .venv/Scripts/pip install numpy scipy pyshp lxml pyclothoids pycrate typer pyyaml pytest matplotlib shapely
-.venv/Scripts/python -m pytest tests -q          # 44 项，含金凤黄金回归
-.venv/Scripts/python scripts/closed_loop.py      # 全流程闭环七门禁（约 3 分钟）
+.venv/Scripts/python -m pytest tests -q          # 66 项，含金凤黄金回归与 G8 故障注入
+.venv/Scripts/python scripts/closed_loop.py      # 全流程闭环 G1–G8 + esmini
 ```
 
 数据放置（只读原料，不入库）：IBD SHP 交付放 `shp_0222-0326/`；现网 MAP XML 放
@@ -41,7 +41,7 @@ python -m venv .venv
 
 ```bash
 .venv/Scripts/python scripts/gen_all.py                    # 再生成金凤 14 个 xodr
-.venv/Scripts/python scripts/closed_loop.py                # 七门禁跑分（验收闸门）
+.venv/Scripts/python scripts/closed_loop.py                # G1–G8 + esmini 技术验收闸门
 .venv/Scripts/python scripts/visual_sweep.py               # 14 文件 × 4 机位截帧拼图
 .\esmini\bin\odrviewer.exe --odr out\direct_xodr\node4.xodr --density 2 --ground_plane
 ```
@@ -111,17 +111,18 @@ planview_prims         → writer 几何原语
 
 | 脚本 | 用途 |
 |---|---|
-| `closed_loop.py` | **验收闸门**：再生成 14 文件 × 七门禁 |
+| `closed_loop.py` | **技术验收闸门**：再生成 14 文件 × G1–G8 |
 | `gen_all.py` | 批量再生成金凤 7 路口 × 两条管道 |
+| `calibrate_g8.py` | 机械校准 G8 policy，分离 calibration / locked-validation |
 | `esmini_rm_check.py` | esmini RoadManager 独立消费端验证 |
 | `visual_sweep.py` | odrviewer 无窗截帧 × 4 机位拼图 |
 | `xodr_topdown.py` / `xodr_diag.py` | 自研俯视渲染 / 缺陷定位器 |
 
 ---
 
-## 5. 质量保证体系（七门禁）
+## 5. 质量保证体系（G1–G8）
 
-`scripts/closed_loop.py` 一条命令跑完，**全绿才算交付**：
+`scripts/closed_loop.py` 一条命令跑完，**全绿才算技术验收通过**；生产交付还必须单独通过 CRS、phase/ID 等红线决策：
 
 | 门禁 | 判据 | 当前实测（14 文件） |
 |---|---|---|
@@ -132,6 +133,12 @@ planview_prims         → writer 几何原语
 | G5 换乘连续 | 进/出侧 <1cm | 全部 **0.0cm** |
 | G6 esmini 独立行驶 | 缝隙 <15cm、零跳变、可穿越 | 14/14 PASS |
 | G7 曲率品质 | 最短段/sharpness/蛇行/jerk | leg min≥3m、flip≤8/100m、sharp≤0.0045；conn min≥1m |
+| G8 车道对应保真 | provenance 对应、双向距离、端点/停止线、覆盖率 | active policy 下 14/14 PASS |
+
+当前正式 G8 policy：`g8-opendrive-jinfeng-v1` version 1.0、lifecycle `active`，语义 SHA256
+`3409f658101c7550ffa1481a12f5ceade5173ac8d60a249f312b5caa71d58b15`。校准集 8 文件/449 lanes、
+锁定验证集 6 文件/320 lanes 均为 0 ceiling 违规。14 个技术样本虽通过 G1–G8，但因 CRS 尚未绝对核验，
+交付决策仍统一为 `BLOCKED(crs_not_absolutely_verified)`；这是红线门禁的预期结果。
 
 三层验证哲学（缺一不可）：
 
@@ -173,6 +180,15 @@ python -m mapforge.cli convert <SHP目录> --to xodr --profile <名字> --at <lo
 ---
 
 ## 7. 遗留事项
+
+**GUI G0（GUI-01 信息架构评审已完成，功能未实现）**：
+- 单机本地部署、G0 服务转换执行者、五屏范围已裁决，规划见
+  [GUI方案-mapforge控制台.md](GUI方案-mapforge控制台.md) v0.2。
+- 五屏低保真线框 [gui_g0_wireframes.html](gui_g0_wireframes.html) 已完成“修改后接受”评审：保留五屏顺序、
+  connect-mode 主区、源/产物常驻叠加和失败回跳；补入 G8、三轴状态、`full REVIEW_REQUIRED`、
+  v1.25 G7 阈值、完整八态和红线来源。
+- 当前准确状态是：**GUI-01 已完成，GUI 实现未开始**。正式 G8 依赖已解除；GUI-02 仍阻塞于
+  ConversionJob/ConversionResult、run 目录、结构化 gate JSON 和统一预览入口（B1–B4）。
 
 **需要外部输入**（阻塞相应功能）：
 - 真实配时表 → phaseId 绑定（当前无 phase 即 BLOCKED，这是设计红线不是缺陷）

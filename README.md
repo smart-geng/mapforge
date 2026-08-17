@@ -3,7 +3,7 @@
 面向车路协同与自动驾驶的语义地图编译工厂：**OpenDRIVE / 车道级 SHP / V2X MAP 消息**互转，
 每次转换强制输出质量报告、损失报告、ID 映射与来源清单。交叉口是第一公民。
 
-方案与决策见 [docs/地图格式转换工厂-首批三格式方案.md](docs/地图格式转换工厂-首批三格式方案.md)（当前 v1.25）；
+方案与决策见 [docs/地图格式转换工厂-首批三格式方案.md](docs/地图格式转换工厂-首批三格式方案.md)（当前 v1.26）；
 接手开发先读 [HANDOFF.md](HANDOFF.md)。
 
 OpenDRIVE 写出为**自研规范级 writer**（`mapforge/adapters/opendrive/writer.py`，
@@ -14,8 +14,8 @@ OpenDRIVE 写出为**自研规范级 writer**（`mapforge/adapters/opendrive/wri
 ```bash
 python -m venv .venv
 .venv/Scripts/pip install numpy scipy pyshp lxml pyclothoids pycrate typer pyyaml pytest matplotlib
-.venv/Scripts/python -m pytest tests -q          # 44 项（含金凤黄金回归）
-.venv/Scripts/python scripts/closed_loop.py      # 14 文件七门禁 + esmini
+.venv/Scripts/python -m pytest tests -q          # 68 项（含金凤黄金回归与 G8 故障注入）
+.venv/Scripts/python scripts/closed_loop.py      # 14 文件 G1–G8 + esmini
 ```
 
 数据放置（不入库）：IBD 规格 SHP 交付放 `shp_0222-0326/`；现网 MAP XML 放 `v2x_map_xml/`。
@@ -70,6 +70,8 @@ docs/          方案 · 调研 ×3 · 资料盘点 · 评审 · 文献 · Spike
 - 金凤 7 路口 SHP→xodr 直转：213 条 junction 连接路全部实测几何，XSD 全 PASS、连续性 0 违例
   （新图商接入与数据需求见 docs/接入指南）；
 - v1.25 普通道路禁止极小段假平滑：最终 xodr leg 最短段 ≥3m、连接路 ≥1m；无合格拟合候选直接阻断；
+- v1.26 正式 G8 policy 已激活：金凤 7 路口 × MAP/SHP 两管道共 14 文件双向车道保真均 PASS；
+- 技术门禁 PASS 与交付放行分离：金凤 CRS 当前仅 `internally-consistent`，未完成绝对核验前交付保持 BLOCKED；
 - MAP XML 与 IBD SHP 已核验同源；GCJ02 错配假设被数据否定（crs=internally-consistent）；
 - IBD 的 CURVATURE 字段与几何不相关（核验不通过，不作先验）；HEADING 可用；
 - UPER 大小基线：绝对分支 678–1373 B/路口，逐点最小档偏移分支再省 32%。

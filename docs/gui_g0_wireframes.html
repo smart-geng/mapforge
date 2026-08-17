@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>mapforge 控制台 · G0 界面线框</title>
 <style>
   :root{
@@ -130,17 +135,20 @@
   .foot h3{margin:0 0 7px;font-size:.92rem;color:var(--ink)}
   .foot ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px}
 </style>
+</head>
+<body>
 
 <div class="wrap">
 
   <header class="masthead">
     <div>
       <h1>mapforge 控制台 · G0 界面线框</h1>
-      <p>五屏低保真线框，供结构评审。内容取自真实产物（金凤 7 路口、七门禁实测值），
-         每个元件都对应已实现的后端能力；标 <span class="tag">待建</span> 的是需要新写的。</p>
+      <p>五屏低保真线框，供结构与状态契约评审。v0.2 已补入 G8、生产红线、
+         <code class="mono">full REVIEW_REQUIRED</code> 与运行/门禁/交付三轴状态；标 <span class="tag">待建</span> 的能力必须先完成后端契约。</p>
     </div>
     <div class="stamp">
-      版本 <b>v0.1</b><br>
+      版本 <b>v0.2</b><br>
+      评审状态 <b>结构裁决完成</b><br>
       形态 <b>单机本地</b><br>
       服务角色 <b>转换执行者</b>
     </div>
@@ -170,20 +178,18 @@
           </div>
           <div class="app-body">
             <div class="side">
-              <small>G0</small>
+              <small>G0 · 操作闭环</small>
               <i class="on">工作台</i><i>数据源</i><i>转换</i><i>预览</i><i>质量</i>
-              <hr>
-              <small>G1 / G2</small>
-              <i class="off">决策台</i><i class="off">Profile</i><i class="off">交付包</i><i class="off">批量回归</i>
             </div>
             <div class="pane">
 
               <div>
                 <span class="lbl">环境自检 <span class="marker">1</span></span>
                 <div class="row">
-                  <span class="gate"><span class="dot p"></span>依赖 numpy/shapely/pyclothoids</span>
+                  <span class="gate"><span class="dot w"></span>Python 3.11+ / 锁文件 <span class="tag">待建</span></span>
                   <span class="gate"><span class="dot p"></span>OpenDRIVE_1.5M.xsd</span>
-                  <span class="gate"><span class="dot w"></span>esmini v3.6.0 未就位 → G6 降级</span>
+                  <span class="gate"><span class="dot w"></span>esmini 未就位 · G6 UNAVAILABLE</span>
+                  <span class="gate"><span class="dot w"></span>B1–B4 运行契约 <span class="tag">待建</span></span>
                 </div>
               </div>
 
@@ -191,21 +197,24 @@
                 <span class="lbl">最近运行 <span class="marker">2</span></span>
                 <div class="solid" style="padding:0">
                   <table>
-                    <tr><th>run</th><th>源 → 目标</th><th>参数</th><th>门禁</th><th class="num">耗时</th></tr>
+                    <tr><th>run</th><th>源 → 目标</th><th>参数</th><th>质量 Profile</th><th>交付</th><th>去向</th></tr>
                     <tr>
                       <td>r-0814-1732</td><td>金凤 node4 · SHP→xodr</td><td>connect=full</td>
-                      <td><span class="dot p"></span><span class="dot p"></span><span class="dot p"></span><span class="dot p"></span><span class="dot p"></span><span class="dot p"></span><span class="dot p"></span></td>
-                      <td class="num">8.2s</td>
+                      <td>G1–G7 PASS · G8 <span class="tag w">待接</span></td>
+                      <td><span class="tag w">REVIEW_REQUIRED</span></td>
+                      <td><span class="btn">预览</span> <span class="btn">质量</span></td>
                     </tr>
                     <tr>
                       <td>r-0814-1715</td><td>金凤 node18 · MAP→xodr</td><td>connect=data</td>
-                      <td><span class="dot p"></span><span class="dot p"></span><span class="dot p"></span><span class="dot p"></span><span class="dot p"></span><span class="dot r"></span><span class="dot p"></span></td>
-                      <td class="num">6.4s</td>
+                      <td>G1–G5/G7 PASS · G6 UNAVAILABLE</td>
+                      <td><span class="tag b">NOT VERIFIED</span></td>
+                      <td><span class="btn">预览</span> <span class="btn">质量</span></td>
                     </tr>
                     <tr>
                       <td>r-0814-1656</td><td>金凤 NODE5 · SHP→MAP</td><td>allow-no-phase</td>
-                      <td><span class="dot p"></span><span class="dot p"></span><span class="dot w"></span><span class="dot p"></span><span class="dot p"></span><span class="dot p"></span><span class="dot p"></span></td>
-                      <td class="num">3.1s</td>
+                      <td>MAP Profile · phase DROPPED</td>
+                      <td><span class="tag b">BLOCKED</span></td>
+                      <td><span class="btn">预览</span> <span class="btn">质量</span></td>
                     </tr>
                   </table>
                 </div>
@@ -213,8 +222,7 @@
 
               <div class="row">
                 <span class="btn pri">新建转换</span>
-                <span class="btn">批量回归 <span class="tag">G2</span></span>
-                <span class="mono dim">产物目录 out/runs/ <span class="marker">3</span></span>
+                <span class="mono dim">out/runs/&lt;run_id&gt;/ <span class="tag">B2 待建</span> <span class="marker">3</span></span>
               </div>
 
             </div>
@@ -222,9 +230,9 @@
         </div>
       </div>
       <ol class="notes">
-        <li><span class="mk">1</span><span><b>环境自检常驻。</b>esmini 是外部二进制，缺失时 G6 与 3D 页降级而非报错——本会话踩过这个坑，值得前置提示。</span></li>
-        <li><span class="mk">2</span><span><b>门禁七色块即行摘要。</b>空心点=未跑（如 esmini 缺失），黄=降级放行。点击整行进质量看板。</span></li>
-        <li><span class="mk">3</span><span><b>每次转换一个 run 目录</b>（前置工作项 B2）。界面只读该目录，刷新不重算、历史可回看。</span></li>
+        <li><span class="mk">1</span><span><b>环境自检常驻，但不伪装完成。</b>Python 3.11、锁文件、esmini 与 B1–B4 分开显示；UNAVAILABLE 不能汇总成 PASS。</span></li>
+        <li><span class="mk">2</span><span><b>最近运行按目标 Profile 摘要。</b>OpenDRIVE 与 MAP 不共用一组圆点；同时展示门禁与交付裁决，<code class="mono">full</code> 永远可见 REVIEW_REQUIRED。</span></li>
+        <li><span class="mk">3</span><span><b>run 目录是待建契约。</b>完成 B2 后界面只读该目录；空目录、不可读和无历史都要有明确空态。</span></li>
       </ol>
     </div>
   </section>
@@ -266,15 +274,20 @@
                   <div class="row">
                     <span class="dot w"></span>
                     <b class="mono">internally-consistent</b>
-                    <span class="tag w">待人工签认</span>
+                    <span class="tag w">可算法验证 · 生产 BLOCKED</span>
                   </div>
                   <div class="mono dim" style="line-height:1.75">
                     .prj = 自定义 WKT，无 EPSG，仅声称 WGS84<br>
-                    逐点核验：SHP ↔ MAP 同源同系（H0 全胜）<br>
-                    GCJ02 假设：已否定<br>
-                    绝对校验（实测控制点）：<span style="color:var(--warn)">缺</span>
+                    内部证据：SHP ↔ MAP 逐点同源同系；GCJ02 已否定<br>
+                    绝对控制点：<span style="color:var(--warn)">缺</span><br>
+                    PROJ pipeline：<span style="color:var(--warn)">待确认并留痕</span><br>
+                    生产依据 who / when / basis：<span style="color:var(--warn)">缺</span>
                   </div>
-                  <div class="row"><span class="btn">查看核验证据</span><span class="btn">人工签认 <span class="tag">G1</span></span></div>
+                  <div class="row">
+                    <span class="btn pri">使用此数据源继续试跑</span>
+                    <span class="btn">查看核验证据</span>
+                    <span class="btn dis">人工签认 <span class="tag">G1</span></span>
+                  </div>
                 </div>
               </div>
 
@@ -305,9 +318,9 @@
         </div>
       </div>
       <ol class="notes">
-        <li><span class="mk">1</span><span><b>CRS 状态灯三态</b>：已核验 / 内部自洽 / 可疑。数据来自 <code class="mono">mapir/crs_probe</code> 的既有结论。</span></li>
-        <li><span class="mk">2</span><span><b>大表要缓存。</b>IBD_POSITION 达 470 MB，首次扫描进后台任务并建索引（前置 B5），否则界面必卡。</span></li>
-        <li><span class="mk">3</span><span><b>阻断是硬的。</b>红灯时转换按钮禁用且界面不提供"忽略"——对应"CRS 缺失/可疑即停止生产转换"。</span></li>
+        <li><span class="mk">1</span><span><b>检测状态与生产裁决分开。</b>内部自洽只允许算法验证；绝对依据、PROJ pipeline 与签认留痕齐全后才能生产交付。</span></li>
+        <li><span class="mk">2</span><span><b>扫描有过程状态。</b>470 MB 大表首次扫描走后台索引；同时覆盖无数据源、编码失败、.prj 缺失和索引失败。</span></li>
+        <li><span class="mk">3</span><span><b>G0 只读红线。</b>suspect 禁止生产转换且无“忽略”；人工签认在 G1，不能在本页点一下把 amber 变绿。</span></li>
       </ol>
     </div>
   </section>
@@ -333,7 +346,7 @@
                 <div class="grow"><span class="lbl">源</span>
                   <div class="field"><span>shp_0222-0326</span><span class="dim">IBD 44 图层</span></div></div>
                 <div class="grow"><span class="lbl">路口定位 <span class="marker">1</span></span>
-                  <div class="field"><span>凤苑路-金玥路 node4</span><span class="dim">--like</span></div></div>
+                  <div class="field"><span>凤苑路-金玥路 node4</span><span class="dim">从路口列表</span></div></div>
               </div>
 
               <div class="row">
@@ -346,45 +359,50 @@
               <div>
                 <span class="lbl">路口转向来源 · connect-mode <span class="marker">2</span></span>
                 <div class="solid col">
-                  <div class="radio sel"><span></span><div><b>data</b> — 仅源数据 TOPO<br>
-                    <span class="dim">默认。不发明拓扑。</span></div></div>
-                  <div class="radio"><span></span><div><b>default</b> — 补每条车道位置应有的转向<br>
-                    <span class="dim">治个别漏录。最左→左、最右→右、其余→直行。</span></div></div>
-                  <div class="radio"><span></span><div><b>full</b> — 全连接<br>
-                    <span class="dim">治整片缺录，同时铺满路口。补出的标 INFERRED。</span></div></div>
+                  <div class="radio sel"><span></span><div><b>data</b> — 仅使用源数据拓扑<br>
+                    <span class="dim">默认 · 生产首选 · INFERRED=0。</span></div></div>
+                  <div class="radio"><span></span><div><b>default</b> — 补应有而缺失的转向<br>
+                    <span class="dim">按几何与车道位置推导；显示 filled / skipped，新增项为 INFERRED。</span></div></div>
+                  <div class="radio"><span></span><div><b>full</b> — 生成全连接行车连接 <span class="tag w">REVIEW_REQUIRED</span><br>
+                    <span class="dim">仿真/审查专用，不代表真实交通组织，不可直接生产交付。</span></div></div>
                   <div class="mono dim"><span class="chk"></span>允许掉头（默认排除）</div>
                 </div>
               </div>
 
-              <div class="box">
-                <span class="lbl">红线预检 <span class="marker">3</span></span>
-                <div class="mono"><span class="dot p"></span> CRS 已核验　<span class="dot p"></span> phase 已绑定（现网 XML）　<span class="dot p"></span> 台账无冲突</div>
+              <div class="box" style="border-color:var(--warn)">
+                <span class="lbl">目标 Profile 红线预检 <span class="marker">3</span></span>
+                <div class="mono">
+                  <span class="dot w"></span> CRS 内部自洽 · 仅试跑
+                  <span class="dot r"></span> phase N/A（目标 xodr）
+                  <span class="dot r"></span> MAP ledger N/A<br>
+                  <span class="dot w"></span> G8 将在写出后执行；正式接入前交付 BLOCKED
+                </div>
               </div>
 
             </div>
             <div class="side" style="padding:12px;gap:11px;border-left:1px solid var(--rule);border-right:none">
-              <span class="lbl">干跑预检 <span class="marker">4</span></span>
+              <span class="lbl">干跑预检 <span class="marker">4</span> <span class="tag">B1–B3 待建</span></span>
               <div class="box" style="font-family:var(--mono);font-size:.7rem;line-height:1.85">
-                进口路 <b>4</b> · 出口路 <b>4</b><br>
-                双向腿 <b>4</b><br>
+                进口/出口路 <b>4 / 4</b><br>
                 laneSection <b>27</b><br>
-                连接路 <b>24</b>（实测几何 24）<br>
+                数据连接 <b>24</b><br>
+                预计新增 INFERRED <b>0</b><br>
                 拟合偏差峰值 <b>0.27 m</b><br>
-                <span class="dim">未写文件</span>
+                <span class="dim">内存预估 · 未写正式产物</span>
               </div>
               <div class="col">
-                <span class="btn pri">执行转换</span>
-                <span class="btn">存为预设</span>
+                <span class="btn pri">运行试转换</span>
+                <span class="btn dis">存为预设 <span class="tag">G2</span></span>
               </div>
             </div>
           </div>
         </div>
       </div>
       <ol class="notes">
-        <li><span class="mk">1</span><span><b>三种定位方式</b>：参考 XML（--like）、经纬度（--at）、从路口列表点选。后者对不熟悉数据的人最友好。</span></li>
-        <li><span class="mk">2</span><span><b>三档并列展示而非藏进高级选项。</b>它直接决定产物是否含推断拓扑，交付时要说得清。</span></li>
-        <li><span class="mk">3</span><span><b>红线前移到执行前。</b>避免跑完才发现 BLOCKED。无 phase 时这里给显式降级入口，并说明会记 DROPPED。</span></li>
-        <li><span class="mk">4</span><span><b>干跑不写文件</b>，只出结构预估——参数选错能立刻看出来（如连接路数为 0）。</span></li>
+        <li><span class="mk">1</span><span><b>路口列表是默认入口。</b><code class="mono">--at</code> 保留精确定位；<code class="mono">--like</code> 明确标成兼容/迁移通道，不能冒充新站点生产输入。</span></li>
+        <li><span class="mk">2</span><span><b>connect-mode 留在主区。</b>它改变拓扑真值；default/full 显示 INFERRED，full 始终带 REVIEW_REQUIRED。</span></li>
+        <li><span class="mk">3</span><span><b>红线随目标 Profile 变化。</b>phase、ledger 对 xodr 显示 N/A；对 MAP 则必须显示来源与依据，缺失即 BLOCKED。</span></li>
+        <li><span class="mk">4</span><span><b>先预检再运行。</b>干跑与任务进度依赖 B1–B3；未预检、红线失败或契约未就绪时禁用正式运行。</span></li>
       </ol>
     </div>
   </section>
@@ -400,8 +418,8 @@
       <div class="canvas">
         <div class="app">
           <div class="app-top">
-            <span class="brand">预览 · r-0814-1732 · node4</span>
-            <span class="mono dim">node3 · <b>node4</b> · NODE5 · node13 · node16 · node17 · node18</span>
+            <span class="brand">预览 · r-0814-1732 · node4 · SHP→xodr</span>
+            <span class="mono dim">profile=ibd-smarteditor-v1 · connect=data</span>
           </div>
           <div class="app-body" style="grid-template-columns:148px 1fr 190px">
             <div class="side" style="padding:11px;gap:9px">
@@ -414,8 +432,9 @@
               <div class="mono"><span class="chk"></span>路口铺面</div>
               <hr style="border:0;border-top:1px dashed var(--rule);width:100%">
               <span class="lbl">叠加对照 <span class="marker">2</span></span>
-              <div class="mono"><span class="chk" style="background:var(--accent);border-color:var(--accent)"></span>源 SHP 车道线</div>
-              <div class="mono dim">红=产物 蓝=源</div>
+              <div class="mono"><span class="chk" style="background:var(--accent);border-color:var(--accent)"></span>源 SHP 车道点列</div>
+              <div class="mono"><span class="chk" style="background:var(--warn);border-color:var(--warn)"></span>G8 差异/离群点</div>
+              <div class="mono dim">产物=实线 · 源=虚线 · 透明度 70%</div>
             </div>
 
             <div class="pane" style="padding:11px">
@@ -443,26 +462,32 @@
             <div class="side" style="padding:11px;gap:8px;border-right:none;border-left:1px solid var(--rule)">
               <span class="lbl">要素属性</span>
               <div class="box" style="font-family:var(--mono);font-size:.68rem;line-height:1.8">
-                lane_id <b>12-3</b><br>
+                target <b>road 10 / lane -2</b><br>
                 width <b>3.45 m</b><br>
-                maneuvers <b>直行+右转</b><br>
                 speed <b>60 km/h</b><br>
-                phaseId <b>3</b><br>
-                状态 <span class="tag p">TRANSFORMED</span>
+                对象状态 <span class="tag p">TRANSFORMED</span><br>
+                <span class="dim">phase：N/A（普通 xodr lane）</span>
               </div>
               <div class="box" style="font-family:var(--mono);font-size:.68rem;line-height:1.8">
-                来源 <b>LANE_LINK</b><br>
+                source <b>IBD_LANE_LINK:12-3</b><br>
+                映射 <b>mapforge.source_lane</b><br>
                 宽度来源 <b>字段</b><br>
-                <span class="dim">非字段来源会标 APPROXIMATED</span>
+                <span class="dim">完整对象级八态依赖 MapIR</span>
+              </div>
+              <div class="box" style="font-family:var(--mono);font-size:.68rem;line-height:1.8;border-color:var(--warn)">
+                G8 <span class="tag w">待正式接入</span><br>
+                matched / missing / orphan<br>
+                source→target / target→source<br>
+                端点 / 停止线偏差
               </div>
             </div>
           </div>
         </div>
       </div>
       <ol class="notes">
-        <li><span class="mk">1</span><span><b>三种视图各有分工</b>：矢量看语义与拓扑、俯视看边缘与断面、快照看真实渲染。缺 esmini 时第三页降级置灰。</span></li>
-        <li><span class="mk">2</span><span><b>源与产物叠加设为常驻功能。</b>本会话多次靠临时叠画脚本定位问题（重叠 2.9 m、边缘钩子），不该每次现写。</span></li>
-        <li><span class="mk">3</span><span><b>点选即看八态。</b>把 EXACT/TRANSFORMED/APPROXIMATED/INFERRED 落到每个要素上，交付评审时能逐个追问。</span></li>
+        <li><span class="mk">1</span><span><b>三视图保留，交互 3D 延期。</b>矢量看语义与拓扑、俯视看边缘与断面、快照看消费者渲染；esmini 缺失显示 UNAVAILABLE。</span></li>
+        <li><span class="mk">2</span><span><b>源/产物叠加常驻。</b>源名随格式变化，并提供透明度、线型和 G8 差异高亮；没有可比源时说明禁用原因。</span></li>
+        <li><span class="mk">3</span><span><b>从质量页带定位上下文回跳。</b>自动定位 road/s/lane/source_id，并展示双向配对；phase 只在适用 movement/connection 上显示。</span></li>
       </ol>
     </div>
   </section>
@@ -472,14 +497,14 @@
     <div class="titleblock">
       <span class="no">图 05</span>
       <h2>质量看板</h2>
-      <span class="meta">七门禁 · 损失八态 · 失败可定位</span>
+      <span class="meta">G1–G8 · 生产红线 · 损失八态 · 失败可定位</span>
     </div>
     <div class="sheet-body">
       <div class="canvas">
         <div class="app">
           <div class="app-top">
-            <span class="brand">质量 · r-0814-1732 · node4 · SHP→xodr</span>
-            <span class="mono" style="color:var(--pass)">全部门禁 PASS</span>
+            <span class="brand">质量 · r-0814-1732 · node4 · SHP→xodr · connect=data</span>
+            <span class="mono"><span class="tag p">SUCCEEDED</span> <span class="tag w">门禁 INCOMPLETE</span> <span class="tag b">交付 BLOCKED</span></span>
           </div>
           <div class="pane">
 
@@ -491,47 +516,55 @@
               <span class="gate"><span class="dot p"></span>G5 换乘</span>
               <span class="gate"><span class="dot p"></span>G6 esmini 行驶</span>
               <span class="gate"><span class="dot p"></span>G7 曲率品质</span>
+              <span class="gate"><span class="dot w"></span>G8 lane 配对 <span class="tag w">NOT_RUN</span></span>
+            </div>
+
+            <div class="box" style="border-color:var(--warn)">
+              <div class="row" style="justify-content:space-between">
+                <span class="mono"><b>执行者摘要</b> · G1–G7 PASS；G8 未接闭环；CRS 仅内部自洽</span>
+                <span class="mono"><b>下一步：</b>完成 G8 + 补绝对 CRS 依据</span>
+              </div>
             </div>
 
             <div class="row" style="align-items:flex-start">
               <div class="grow" style="min-width:330px">
-                <span class="lbl">门禁明细 <span class="marker">1</span></span>
+                <span class="lbl">诊断明细 · 已选 G8 <span class="marker">1</span></span>
                 <div class="solid" style="padding:0">
                   <table>
-                    <tr><th>门禁 · 指标</th><th class="num">实测</th><th class="num">阈值</th><th>结论</th></tr>
-                    <tr><td>G3 κ 断差最大</td><td class="num">0.0e+00</td><td class="num">&lt;1e-6</td><td><span class="tag p">PASS</span></td></tr>
-                    <tr><td>G4 断面台阶最大</td><td class="num">0.005 m</td><td class="num">&lt;0.05</td><td><span class="tag p">PASS</span></td></tr>
-                    <tr><td>G5 换乘缝隙 进/出</td><td class="num">0.0 / 0.0 cm</td><td class="num">&lt;1 cm</td><td><span class="tag p">PASS</span></td></tr>
-                    <tr><td>G6 行驶跳变</td><td class="num">0</td><td class="num">0</td><td><span class="tag p">PASS</span></td></tr>
-                    <tr><td>G7 蛇行 leg</td><td class="num">5.8 /100m</td><td class="num">≤18</td><td><span class="tag p">PASS</span></td></tr>
-                    <tr><td>G7 侧向 jerk leg</td><td class="num">15.2</td><td class="num">≤200</td><td><span class="tag p">PASS</span></td></tr>
-                    <tr><td>G7 段长中位 leg</td><td class="num">8.2 m</td><td class="num">≥2.5</td><td><span class="tag p">PASS</span></td></tr>
+                    <tr><th>G8 指标</th><th>当前结果</th><th>要求</th><th>结论</th></tr>
+                    <tr><td>两管道 × 7 路口</td><td>仅局部测试</td><td>14/14</td><td><span class="tag w">NOT_RUN</span></td></tr>
+                    <tr><td>source → target</td><td>paired_deviation 已有</td><td>Profile 阈值</td><td><span class="tag w">待接入</span></td></tr>
+                    <tr><td>target → source</td><td>paired_deviation 已有</td><td>Profile 阈值</td><td><span class="tag w">待接入</span></td></tr>
+                    <tr><td>missing / orphan</td><td>诊断字段已有</td><td>故障注入稳定失败</td><td><span class="tag w">待闭环</span></td></tr>
+                    <tr><td>端点 / 停止线偏差</td><td>尚未完整</td><td>版本化 Profile</td><td><span class="tag b">BLOCKED</span></td></tr>
                   </table>
                 </div>
+                <div class="box" style="margin-top:9px">
+                  <span class="mono">G7 摘要 · leg flips≤8 · sharp≤0.0045 · jerk≤21 · median/min≥3m</span><br>
+                  <span class="mono dim">conn flips≤30 · sharp≤0.70 · jerk≤400 · median≥2m · min≥1m</span>
+                </div>
                 <div class="box" style="margin-top:9px;border-color:var(--warn)">
-                  <span class="mono">失败样例 · G4 断面台阶 1.13 m @ road 11 s=161</span>
-                  <span class="btn" style="margin-left:7px">定位到地图 <span class="marker">2</span></span>
+                  <span class="mono">阻断项 · G8 尚未进入结构化闭环与交付判定</span>
+                  <span class="btn" style="margin-left:7px">查看 G8 覆盖 <span class="marker">2</span></span>
                 </div>
               </div>
 
               <div style="width:262px;flex:none">
-                <span class="lbl">损失八态 <span class="marker">3</span></span>
-                <div class="solid col" style="gap:7px">
-                  <div class="mono">EXACT <span class="dim">· 车道几何/宽度/限速</span></div>
-                  <div class="bar"><i style="width:74%"></i></div>
-                  <div class="mono">TRANSFORMED <span class="dim">· 参考线拟合</span></div>
-                  <div class="bar"><i style="width:18%"></i></div>
-                  <div class="mono">APPROXIMATED <span class="dim">· 锥形收放/标线</span></div>
-                  <div class="bar"><i style="width:6%"></i></div>
-                  <div class="mono">INFERRED <span class="dim">· 铺面/补全转向</span></div>
-                  <div class="bar"><i style="width:2%"></i></div>
+                <span class="lbl">对象转换八态 <span class="marker">3</span></span>
+                <div class="solid" style="font-family:var(--mono);font-size:.68rem;line-height:1.85">
+                  <span class="tag p">EXACT</span>　<span class="tag p">TRANSFORMED</span><br>
+                  <span class="tag w">APPROXIMATED</span>　<span class="tag w">INFERRED</span><br>
+                  <span class="tag">EXTENSION</span>　<span class="tag">PASSTHROUGH</span><br>
+                  <span class="tag b">DROPPED</span>　<span class="tag b">FAILED</span><br>
+                  <span class="dim">完整对象级计数依赖 MapIR / provenance 契约</span>
                 </div>
-                <span class="lbl" style="margin-top:11px">推导统计</span>
+                <span class="lbl" style="margin-top:11px">推导与红线</span>
                 <div class="box" style="font-family:var(--mono);font-size:.68rem;line-height:1.8">
-                  宽度来源 字段 <b>96%</b> / 边界 <b>4%</b><br>
-                  锥形收放 <b>21</b><br>
-                  补全转向 <b>0</b>（connect=data）<br>
-                  铺面 <b>polygon</b>（交叉口面）
+                  connect-mode <b>data</b><br>
+                  conn_filled / skipped <b>0 / 0</b><br>
+                  topology <b>源数据</b><br>
+                  CRS <span class="tag w">PENDING_DECISION</span><br>
+                  phase / ledger <span class="dim">N/A（目标 xodr）</span>
                 </div>
               </div>
             </div>
@@ -540,20 +573,24 @@
         </div>
       </div>
       <ol class="notes">
-        <li><span class="mk">1</span><span><b>阈值与 closed_loop 同源。</b>界面不重定义常量，从同一处读——否则会出现"界面绿、CI 红"两份真相。</span></li>
-        <li><span class="mk">2</span><span><b>失败项必须可定位</b>到 road / s，并一键跳地图预览。只报数字的看板等于没有。</span></li>
-        <li><span class="mk">3</span><span><b>八态是交付语言。</b>评审看的不是"成功了吗"，而是"哪些是真数据、哪些是推的"。</span></li>
+        <li><span class="mk">1</span><span><b>同页双层。</b>顶部是执行者摘要；下方只展开当前选中 gate。运行成功、门禁完整和可交付分三条轴，不能合成一个绿字。</span></li>
+        <li><span class="mk">2</span><span><b>G8 当前诚实显示 NOT_RUN。</b>正式接入 14 文件两管道、结构化 JSON、报告与交付阻断前，发布状态保持 BLOCKED。</span></li>
+        <li><span class="mk">3</span><span><b>八态必须列全。</b>对象级覆盖尚不完整就写明依赖；质量失败时携 road/s/lane/source_id 回跳地图。</span></li>
       </ol>
     </div>
   </section>
 
   <footer class="foot">
-    <h3>评审时请重点看这三处</h3>
+    <h3>GUI-01 结构裁决 · 修改后接受</h3>
     <ol>
-      <li><b>转换向导的参数分组</b>（图 03）——connect-mode 放在主区还是收进高级选项？它决定产物是否含推断拓扑。</li>
-      <li><b>地图预览的叠加对照</b>（图 04）——是否值得做成常驻功能？本会话它抓出过 2.9 m 重叠这类真问题。</li>
-      <li><b>质量看板的信息密度</b>（图 05）——七门禁 + 八态 + 推导统计同屏，是否过密？可拆成摘要页与明细页。</li>
+      <li><b>connect-mode 保留主区</b>——它改变拓扑真值；data 为生产首选，default 产生 INFERRED，full 永远 REVIEW_REQUIRED。</li>
+      <li><b>源/产物叠加常驻</b>——有可比源时默认开启，并增加透明度、线型与 G8 差异高亮。</li>
+      <li><b>质量页同页拆层</b>——执行者摘要在上、选中 gate 的诊断在下；不新增第六个顶级页面。</li>
+      <li><b>实现仍未开始</b>——GUI-02 继续阻塞于正式 G8 与 B1–B4，本文只完成信息架构裁决。</li>
     </ol>
   </footer>
 
 </div>
+
+</body>
+</html>
