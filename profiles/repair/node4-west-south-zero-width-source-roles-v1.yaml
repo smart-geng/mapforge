@@ -1,0 +1,24 @@
+schema: mapforge.source-role-decision/v1
+id: node4-west-south-zero-width-source-roles
+version: 1
+authorization:
+  basis: user-confirmed-in-current-thread
+  date: '2026-09-14'
+  scope: '仅下列西road11两处、南road12一处原始start端。原左右边界定义物理道路，原车道线完整保留为通行路径另验。不删原点、不改原件、TOPO、源限速、CRS，不扩大到其他车道或MAP；不代表几何、动态或整图验收通过。'
+  prompt: '是否仅对这三处采用此前的处理方式：原左右边界定义物理道路，原车道线完整保留为通行路径另验？这只解除来源解释阻断，后续仍须完成全路口共同求解和平滑验收。'
+  response: '继续'
+  evidence_report: out/node4-whole-source-role-binding-20260914/report.json
+source_contact_sha256: 88dab542381e54b7b5e89c274b164561e925b0efe9758bd15feda4164cff5c34
+decisions:
+  - source_lane_id: '2023041111104060474'
+    contact: start
+    physical_authority: original_left_right_boundaries
+    lane_path_role: movement_path_observation
+  - source_lane_id: '2023041111104128071'
+    contact: start
+    physical_authority: original_left_right_boundaries
+    lane_path_role: movement_path_observation
+  - source_lane_id: '2023041810470164021'
+    contact: start
+    physical_authority: original_left_right_boundaries
+    lane_path_role: movement_path_observation

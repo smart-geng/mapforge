@@ -28,6 +28,17 @@ class LaneRec:
     e_width_mm: int = 0           # 终点宽（IBD E_WIDTH）
     geometry_source: str = "field"
     width_source: str = "field"
+    # Zero may be an observed taper tip; the historical default zero also
+    # represented a missing column. Keep the distinction through the adapter.
+    s_width_known: bool = False
+    e_width_known: bool = False
+
+
+def _known_width(value) -> bool:
+    try:
+        return math.isfinite(float(value)) and float(value) >= 0
+    except (ValueError, TypeError):
+        return False
 
 
 @dataclass
@@ -175,6 +186,8 @@ class IbdSource:
                     seq=_i(m.get("SEQ_NUM")), width_mm=width,
                     lane_type=_i(m.get("LANE_TYPE")), max_speed_kmh=_i(m.get("MAX_SPEED")),
                     geometry=geom, s_width_mm=sw, e_width_mm=ew,
+                    s_width_known=_known_width(m.get("S_WIDTH")),
+                    e_width_known=_known_width(m.get("E_WIDTH")),
                     geometry_source="field" if geom.shape[0] >= 2 else "missing",
                     width_source="field" if (width or sw or ew) else "missing")
                 if layer == "IBD_LANE_LINK_MERGE":

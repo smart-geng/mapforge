@@ -1,0 +1,29 @@
+schema: mapforge.source-role-decision/v1
+id: node4-east-zero-width-source-roles
+version: 1
+revision: 2
+authorization:
+  basis: user-confirmed-in-current-thread
+  date: '2026-09-13'
+  scope: '仅node4东侧列明的四处零宽端点：前三处沿用v1批准，本次仅新增2023061915261945676起端。原左右边界定义物理道路，原车道线完整保留为通行路径另验；不删点、不改TOPO/源限速/其他车道/MAP。'
+  previous_decision_file: profiles/repair/node4-east-zero-width-source-roles-v1.yaml
+  additional_prompt: '原件已查全：node4 东侧 57 条源车道、114 个端点中，仅多出一处同类情况（车道 2023061915261945676 起端）：原宽度为 0，左右边界同节点收合，但原车道线端点相距 1.863m。是否将这一处也按已批准三处处理：边界定义物理道路，原车道线完整保留为通行路径另验，不改原件？'
+  additional_response: '同意，仅补这一处'
+source_contact_sha256: f45c41aa5fbd53117fe3ab00c3f82a1412b932d9bca81657245c4bcb12b2379b
+decisions:
+  - source_lane_id: '2023041111113051690'
+    contact: start
+    physical_authority: original_left_right_boundaries
+    lane_path_role: movement_path_observation
+  - source_lane_id: '2023041111104112823'
+    contact: start
+    physical_authority: original_left_right_boundaries
+    lane_path_role: movement_path_observation
+  - source_lane_id: '2023041810460339677'
+    contact: end
+    physical_authority: original_left_right_boundaries
+    lane_path_role: movement_path_observation
+  - source_lane_id: '2023061915261945676'
+    contact: start
+    physical_authority: original_left_right_boundaries
+    lane_path_role: movement_path_observation

@@ -1,0 +1,6 @@
+# Optional whole-road geometry experiment only, not the production default.
+# OSQP: Apache-2.0; https://osqp.org/docs/
+osqp==1.1.3
+# Optional independent interior-point cross-check, Apache-2.0.
+# https://clarabel.org/stable/python/getting_started_py/
+clarabel==0.11.1

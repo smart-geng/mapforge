@@ -12,3 +12,8 @@ v2x_map_xml/xml2xodr/
 
 # 第三方验证工具二进制（esmini 官方 Release，本地下载不入库）
 esmini/
+
+# 本地阶段归档（代码用 Git 版本化；素材/运行证据不提交）
+/archives/
+# 历史脚本误把 --help 当输出目录，保留原文件但不入库
+/--help/

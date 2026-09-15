@@ -1,0 +1,17 @@
+schema: mapforge.source-role-decision/v1
+id: node4-zero-width-source-roles
+version: 1
+authorization:
+  basis: user-confirmed-in-current-thread
+  date: '2026-09-11'
+  scope: '仅对下列两处SHP零宽支路，以实测边界确定物理道路，车道线保留为通行路径观测；不删原点、不改TOPO、不扩大到MAP。'
+source_contact_sha256: 88917afb1d17875109a60933ccba39d5dd6eb007d5b34fffc90b2a3539662840
+decisions:
+  - source_lane_id: '2023081117223317273'
+    contact: start
+    physical_authority: original_left_right_boundaries
+    lane_path_role: movement_path_observation
+  - source_lane_id: '2023081117251327605'
+    contact: start
+    physical_authority: original_left_right_boundaries
+    lane_path_role: movement_path_observation

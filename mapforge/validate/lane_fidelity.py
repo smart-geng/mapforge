@@ -214,8 +214,14 @@ def _section_samples(s0, s1, ds, include_end):
 
 
 def extract_target_components(root, *, ds: float = 1.0,
-                              zero_width_epsilon_m: float = 0.05) -> dict:
-    """枚举目标 occurrence，并仅合并可证明连续的正宽 component。"""
+                              zero_width_epsilon_m: float = 0.05,
+                              include_excluded: bool = False) -> dict:
+    """枚举目标 occurrence，并仅合并可证明连续的正宽 component。
+
+    ``include_excluded`` 只供诊断叠图使用：正式 G8 保持默认 ``False``，排除项
+    不进入门禁统计；局部目检则需要把源端状态冲突、渐变车道等排除项也画出来，
+    防止“排除”变成隐藏肉眼可见失真的手段。
+    """
     root = _as_root(root)
     raw, exclusions, unprovenanced, metadata_errors = [], [], [], []
     occurrence_ids, duplicate_occurrences = set(), []
@@ -309,8 +315,9 @@ def extract_target_components(root, *, ds: float = 1.0,
                                            "role": meta.get("role"),
                                            "support_kind": meta.get("support_kind"),
                                            "source_lane_id": source_id})
-                        edge = next_edge
-                        continue
+                        if not include_excluded:
+                            edge = next_edge
+                            continue
                     if not source_id:
                         unprovenanced.append(oid)
                         edge = next_edge

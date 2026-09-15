@@ -1,0 +1,5 @@
+# Optional local repair workbench, tested on the existing Python 3.10 venv.
+fastapi==0.141.1
+uvicorn==0.53.0
+pyproj>=3.6,<4
+# Tests only: httpx (Starlette TestClient).

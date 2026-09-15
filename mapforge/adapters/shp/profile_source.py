@@ -22,7 +22,7 @@ import shapefile
 import yaml
 
 from mapforge.adapters.shp.ibd_reader import (JunctionRec, LaneRec, RoadLinkRec,
-                                              StopLineRec, _chain_segments, _i, _s)
+                                              StopLineRec, _chain_segments, _i, _s, _known_width)
 
 _LEN_TO_MM = {"mm": 1.0, "cm": 10.0, "m": 1000.0}
 _ROOT = Path(__file__).resolve().parents[3]
@@ -54,6 +54,9 @@ def midline_of(left_m: np.ndarray, right_m: np.ndarray, step: float = 1.0) -> np
 
 def validate_profile(p: dict) -> list[str]:
     errs = []
+    if (p or {}).get('lane_identity', 'reject-cross-layer-duplicates') not in (
+            'reject-cross-layer-duplicates', 'primary-with-supplement-records'):
+        errs.append('lane_identity 未知：必须明确跨层同ID规则')
     layers = (p or {}).get("layers", {})
     lane = layers.get("lane")
     if not lane or not lane.get("file"):
@@ -243,6 +246,97 @@ class ProfileSource:
         return self._roadcenters
 
     # —— 边界（路线 B / 宽度推导） ——
+    def fresh_reader(self):
+        """Reopen original files; do not reuse cached rows for replay proof."""
+        return type(self)(str(self.dir), self.p['_path'])
+
+    def layer_raw_records(self, name):
+        """Readonly mapped rows, including duplicates and multipart boundaries.
+
+        Strict source-domain audits must not reconstruct the expected graph
+        from an already exported XODR or a deduplicated topology cache.
+        """
+        import copy
+        if name not in self.L:
+            raise ValueError('unmapped source layer: ' + name)
+        if not hasattr(self, '_raw_layer_rows'):
+            self._raw_layer_rows = {}
+        if name not in self._raw_layer_rows:
+            spec = self.L[name]
+            self._raw_layer_rows[name] = tuple({
+                'layer': spec['file'], 'record_index': i, 'attributes': fields,
+                'parts': self._raw_parts(shape)}
+                for i, (fields, shape) in enumerate(self._iter(spec)))
+        return copy.deepcopy(self._raw_layer_rows[name])
+
+    @staticmethod
+    def _raw_parts(shape):
+        """Keep part boundaries; concatenating parts invents connecting segments."""
+        if shape is None or not shape.points:
+            return ()
+        points = tuple(tuple(float(v) for v in p) for p in shape.points)
+        starts = tuple(getattr(shape, 'parts', ())) or (0,)
+        ends = starts[1:] + (len(points),)
+        return tuple(points[a:b] for a, b in zip(starts, ends))
+
+    def lane_raw_records(self, lane_pid: str) -> tuple[dict, ...]:
+        """Unmerged source rows for admission checks, not the legacy lane cache.
+
+        Record index is zero-based in its original layer. Duplicate identities,
+        multipart and raw attributes are retained. Returned containers are copies.
+        """
+        import copy
+        if not hasattr(self, '_raw_lane_rows'):
+            rows = {}
+            for name in ('lane', 'lane_merge'):
+                spec = self.L.get(name)
+                if not spec:
+                    continue
+                for index, (fields, shape) in enumerate(self._iter(spec)):
+                    sid = _s(fields.get(spec['fields']['id'], ''))
+                    rows.setdefault(sid, []).append({
+                        'layer': spec['file'], 'record_index': index,
+                        'source_lane_id': sid, 'attributes': fields,
+                        'geometry_origin': spec.get('geometry', 'field'),
+                        'parts': self._raw_parts(shape)})
+            self._raw_lane_rows = rows
+        return tuple(copy.deepcopy(self._raw_lane_rows.get(lane_pid, ())))
+
+    def lane_boundary_records(self, lane_pid: str) -> tuple[dict, ...]:
+        """Original boundary references without chaining, ordering or ID loss.
+
+        SIDE is the Profile declaration, not a world-coordinate left/right
+        judgement. Unknown SIDE and missing/duplicate features remain visible.
+        This new strict API does not change the legacy conversion path.
+        """
+        import copy
+        if not hasattr(self, '_raw_boundary_rows'):
+            features, relations = {}, {}
+            bs, rs = self.L.get('boundary'), self.L.get('lane_boundary_rel')
+            if bs and rs:
+                for index, (fields, shape) in enumerate(self._iter(bs)):
+                    bid = _s(fields.get(bs['fields']['id'], ''))
+                    features.setdefault(bid, []).append({
+                        'layer': bs['file'], 'record_index': index,
+                        'boundary_id': bid, 'attributes': fields,
+                        'parts': self._raw_parts(shape)})
+                side_of = {str(v): k for k, v in
+                           (rs.get('side_values') or {'left': 1, 'right': 2}).items()}
+                rf = rs['fields']
+                for index, (fields, _) in enumerate(self._iter(rs, with_shape=False)):
+                    sid = _s(fields.get(rf['lane'], ''))
+                    raw_side = _s(fields.get(rf['side'], ''))
+                    relations.setdefault(sid, []).append({
+                        'relation_layer': rs['file'], 'relation_index': index,
+                        'source_lane_id': sid,
+                        'boundary_id': _s(fields.get(rf['boundary'], '')),
+                        'declared_side': side_of.get(raw_side), 'raw_side': raw_side,
+                        'attributes': fields})
+            self._raw_boundary_rows = features, relations
+        features, relations = self._raw_boundary_rows
+        return tuple(dict(copy.deepcopy(r), records=tuple(copy.deepcopy(
+            features.get(r['boundary_id'], ())))) for r in relations.get(lane_pid, ()))
+
     def _load_boundaries(self):
         if self._bnd is not None:
             return
@@ -269,6 +363,27 @@ class ProfileSource:
         bids = rel.get(lane_pid, {}).get(side, [])
         segs = [g for b in bids for g in geom.get(b, [])]
         return segs or None
+
+    def lane_boundary_geometries(self, lane_pid: str) -> list[np.ndarray]:
+        """返回车道关联的两条真实边界折线。
+
+        图商的 left/right 枚举可能随车道记录方向变化，调用方不应依赖列表顺序；
+        应在自身参考线坐标系中按横距重新判定内/外侧。分段边界在这里先按端点
+        拼成连续折线，避免转换器退回“中心线 ± 半宽”的合成边缘。
+        """
+        self._load_boundaries()
+        out = []
+        for side in ("left", "right"):
+            segs = self._side_pts(lane_pid, side)
+            if not segs:
+                continue
+            valid = [np.asarray(g, float) for g in segs if np.asarray(g).shape[0] >= 2]
+            if not valid:
+                continue
+            geom = _chain_segments(valid)
+            if geom.shape[0] >= 2:
+                out.append(geom)
+        return out
 
     def _width_from_boundaries(self, lane_pid) -> int | None:
         self._load_boundaries()
@@ -325,6 +440,8 @@ class ProfileSource:
                     if LF.get("width_start") else 0,
                     e_width_mm=int(round(_f(m.get(LF["width_end"])) * self.mm))
                     if LF.get("width_end") else 0,
+                    s_width_known=bool(LF.get("width_start")) and _known_width(m.get(LF.get("width_start"))),
+                    e_width_known=bool(LF.get("width_end")) and _known_width(m.get(LF.get("width_end"))),
                     geometry_source=(geom_mode if g.shape[0] >= 2 else "missing"),
                     width_source=("field" if w > 0 and "field" in ladder else "missing"))
                 if merge:

@@ -242,6 +242,7 @@ class PlanView:
     y0: float
     hdg: float
     segs: list[PlanSeg] = field(default_factory=list)
+    fit_meta: dict = field(default_factory=dict)
 
 
 def fit_pieces(pts: np.ndarray, pieces: list[Piece]) -> None:
@@ -562,6 +563,342 @@ class ReflineFitError(ValueError):
     """参考线无法同时满足来源偏差与可驾驶几何硬门禁。"""
 
 
+@dataclass
+class MinimalConnectorFit:
+    """路口连接线的少段约束拟合结果。
+
+    ``primitives`` 使用 writer 的 ``(kind, x, y, hdg, L, k0, k1)`` 契约；
+    ``metrics`` 同时保留双向来源偏差和动力学相关的曲率指标，避免调用侧只看
+    “端点接上了”便把几何误判为合格。
+    """
+
+    planview: PlanView
+    primitives: list[tuple]
+    method: str
+    metrics: dict
+
+
+def _angle_delta(a: float, b: float) -> float:
+    return math.atan2(math.sin(a - b), math.cos(a - b))
+
+
+def _resample_count(pts: np.ndarray, count: int) -> np.ndarray:
+    pts = np.asarray(pts, float)
+    s = arclength(pts)
+    if s[-1] <= 1e-9:
+        return np.repeat(pts[:1], count, axis=0)
+    q = np.linspace(0.0, float(s[-1]), count)
+    return np.column_stack([np.interp(q, s, pts[:, 0]),
+                            np.interp(q, s, pts[:, 1])])
+
+
+def _planview_at_s(pv: PlanView, query_s: np.ndarray) -> np.ndarray:
+    """在给定弧长位置解析求值；优化器使用，不能依赖离散点索引对应。"""
+    from pyclothoids import Clothoid
+
+    qs = np.asarray(query_s, float)
+    bounds = np.concatenate([[0.0], np.cumsum([x.length for x in pv.segs])])
+    x, y, h = pv.x0, pv.y0, pv.hdg
+    curves = []
+    for seg in pv.segs:
+        k0 = 0.0 if seg.kind == "line" else float(seg.curvature)
+        k1 = (float(seg.curvature_end) if seg.kind == "spiral"
+              else k0)
+        cl = Clothoid.StandardParams(x, y, h, k0,
+                                     (k1 - k0) / max(seg.length, 1e-12),
+                                     seg.length)
+        curves.append(cl)
+        x, y, h = float(cl.XEnd), float(cl.YEnd), float(cl.ThetaEnd)
+    out = []
+    for s in qs:
+        i = int(np.searchsorted(bounds, s, side="right") - 1)
+        i = min(max(i, 0), len(curves) - 1)
+        u = min(max(float(s - bounds[i]), 0.0), pv.segs[i].length)
+        out.append((float(curves[i].X(u)), float(curves[i].Y(u))))
+    return np.asarray(out)
+
+
+def _chain_from_knots(p0, lengths: np.ndarray, kappas: np.ndarray) -> PlanView:
+    segs = []
+    for length, k0, k1 in zip(lengths, kappas[:-1], kappas[1:]):
+        if abs(k1 - k0) <= 1e-11:
+            segs.append(PlanSeg("line" if abs(k0) <= 1e-11 else "arc",
+                                float(length), float(k0), None))
+        else:
+            segs.append(PlanSeg("spiral", float(length), float(k0), float(k1)))
+    return PlanView(float(p0[0]), float(p0[1]), float(p0[2]), segs)
+
+
+def _canonicalize_connector(pv: PlanView) -> PlanView:
+    """仅合并数学上完全等价的相邻曲率线性段，不做近似删段。"""
+    out: list[PlanSeg] = []
+    for seg in pv.segs:
+        k0 = 0.0 if seg.kind == "line" else float(seg.curvature)
+        k1 = float(seg.curvature_end) if seg.kind == "spiral" else k0
+        if out:
+            prev = out[-1]
+            p0 = 0.0 if prev.kind == "line" else float(prev.curvature)
+            p1 = float(prev.curvature_end) if prev.kind == "spiral" else p0
+            slope0 = (p1 - p0) / max(prev.length, 1e-12)
+            slope1 = (k1 - k0) / max(seg.length, 1e-12)
+            if abs(p1 - k0) <= 1e-10 and abs(slope0 - slope1) <= 1e-10:
+                L = prev.length + seg.length
+                if abs(k1 - p0) <= 1e-11:
+                    out[-1] = PlanSeg("line" if abs(p0) <= 1e-11 else "arc",
+                                      L, p0, None)
+                else:
+                    out[-1] = PlanSeg("spiral", L, p0, k1)
+                continue
+        out.append(PlanSeg(seg.kind, float(seg.length), float(seg.curvature),
+                           (None if seg.curvature_end is None
+                            else float(seg.curvature_end))))
+    return PlanView(pv.x0, pv.y0, pv.hdg, out)
+
+
+def _connector_fidelity(pv: PlanView, src_pts: np.ndarray, *,
+                        source_support_only: bool = False) -> dict:
+    src = np.asarray(src_pts, float)
+    total = sum(x.length for x in pv.segs)
+    target = _planview_at_s(pv, np.linspace(0.0, total,
+                                            max(41, int(total / 0.25) + 1)))
+    # 源数据通常已是 0.5m 级密采样；仍统一重采样，避免不同图商点密度改变统计权重。
+    source = _resample_count(src, max(41, int(arclength(src)[-1] / 0.25) + 1))
+    pair_distance = np.linalg.norm(source[:, None, :] - target[None, :, :], axis=2)
+    s2t = np.min(pair_distance, axis=1)
+    support_s = None
+    measured_target = target
+    if source_support_only and len(target) >= 2:
+        # IBD 路口内连接车道常只覆盖完整 connecting road 的中段。来源首末点
+        # 在目标曲线上的最近投影定义可比较支持域；两端口部桥接仍由 G2/曲率/
+        # 最短段门禁负责，不能把没有来源点的桥接区反向计成 t2s 失真。
+        i0 = int(np.argmin(pair_distance[0]))
+        i1 = int(np.argmin(pair_distance[-1]))
+        lo, hi = sorted((i0, i1))
+        if hi > lo:
+            measured_target = target[lo:hi + 1]
+            support_s = [total * lo / (len(target) - 1),
+                         total * hi / (len(target) - 1)]
+    t2s = np.min(np.linalg.norm(
+        measured_target[:, None, :] - source[None, :, :], axis=2), axis=1)
+
+    def stats(a):
+        return {"median_m": float(np.median(a)),
+                "p95_m": float(np.percentile(a, 95)),
+                "max_m": float(np.max(a))}
+
+    q = planview_quality(pv)
+    return {
+        "source_to_target": stats(s2t),
+        "target_to_source": stats(t2s),
+        "start_m": (float(s2t[0]) if source_support_only
+                    else float(np.linalg.norm(source[0] - target[0]))),
+        "end_m": (float(s2t[-1]) if source_support_only
+                  else float(np.linalg.norm(source[-1] - target[-1]))),
+        "source_support_s": support_s,
+        "length_m": float(total),
+        "n_primitives": int(len(pv.segs)),
+        "min_primitive_m": float(q["seg_min_len"]),
+        "sharpness_max": float(q["sharpness_max"]),
+        "sharp_sign_flips": int(q["sharp_sign_flips"]),
+        "kappa_max": float(q["kappa_max"]),
+    }
+
+
+def _connector_metrics_ok(m: dict, *, max_segments: int, max_kappa: float,
+                          sharpness_cap: float, endpoint_tol: float,
+                          median_tol: float, p95_tol: float,
+                          max_dev_tol: float,
+                          min_segment_m: float = 3.0) -> bool:
+    total = m["length_m"]
+    # 连接路也禁止用 0.x m 回旋子段制造“数值上 G2、消费端看起来抖动”的
+    # 假平滑。相对门限约束长连接，3 m 绝对下限用于阻断端部“急调航向”碎片。
+    hard_min = max(float(min_segment_m), 0.03 * total)
+    return (
+        m["n_primitives"] <= max_segments
+        and m["min_primitive_m"] + 1e-9 >= hard_min
+        and m["kappa_max"] <= max_kappa + 1e-9
+        and m["sharpness_max"] <= sharpness_cap + 1e-12
+        and m["start_m"] <= endpoint_tol
+        and m["end_m"] <= endpoint_tol
+        and all(m[d]["median_m"] <= median_tol
+                and m[d]["p95_m"] <= p95_tol
+                and m[d]["max_m"] <= max_dev_tol
+                for d in ("source_to_target", "target_to_source"))
+    )
+
+
+def _g2_seed(p0, p1, k0: float, k1: float, n_segments: int):
+    from pyclothoids import SolveG2
+
+    cls = SolveG2(float(p0[0]), float(p0[1]), float(p0[2]), float(k0),
+                  float(p1[0]), float(p1[1]), float(p1[2]), float(k1))
+    total = float(sum(c.length for c in cls))
+    s0 = np.concatenate([[0.0], np.cumsum([c.length for c in cls])])
+    kk = np.asarray([c.KappaStart for c in cls] + [cls[-1].KappaEnd], float)
+    lengths = np.full(n_segments, total / n_segments, dtype=float)
+    knots = np.interp(np.linspace(0.0, total, n_segments + 1), s0, kk)
+    knots[0], knots[-1] = k0, k1
+    return cls, lengths, knots
+
+
+def _optimize_connector(p0, p1, k0: float, k1: float, src_pts: np.ndarray,
+                        n_segments: int, max_kappa: float,
+                        sharpness_cap: float | None = None,
+                        min_segment_m: float = 3.0) -> PlanView | None:
+    """固定段数、固定两端曲率的联合拟合；SLSQP 等式约束保证终点 G2。"""
+    from scipy.optimize import minimize
+
+    try:
+        _base, lengths, knots = _g2_seed(p0, p1, k0, k1, n_segments)
+    except Exception:
+        return None
+    source = np.asarray(src_pts, float)
+    target = _resample_count(np.vstack([np.asarray(p0[:2]), source,
+                                        np.asarray(p1[:2])]), 41)
+    frac = np.linspace(0.0, 1.0, target.shape[0])
+    z0 = np.concatenate([lengths, knots[1:-1]])
+    chord = float(np.linalg.norm(np.asarray(p1[:2]) - np.asarray(p0[:2])))
+    max_length = max(8.0, 3.0 * chord)
+
+    def unpack(z):
+        return z[:n_segments], np.concatenate([[k0], z[n_segments:], [k1]])
+
+    def objective(z):
+        lens, ks = unpack(z)
+        pv = _chain_from_knots(p0, lens, ks)
+        pred = _planview_at_s(pv, frac * float(np.sum(lens)))
+        err = np.linalg.norm(pred - target, axis=1)
+        huber = np.where(err <= 1.0, 0.5 * err * err, err - 0.5)
+        sharp = np.diff(ks) / np.maximum(lens, 1e-12)
+        # 来源保真是首要连续目标；小正则只在同等保真时抑制高频曲率变化。
+        return float(np.mean(huber) + 0.02 * np.mean(sharp * sharp)
+                     * float(np.sum(lens)) ** 2)
+
+    def endpoint_constraint(z):
+        lens, ks = unpack(z)
+        _p, end = planview_prims(_chain_from_knots(p0, lens, ks))
+        return np.asarray([end[0] - p1[0], end[1] - p1[1],
+                           _angle_delta(end[2], p1[2])])
+
+    def sharpness_constraint(z):
+        lens, ks = unpack(z)
+        return float(sharpness_cap) - np.abs(np.diff(ks)) / np.maximum(lens, 1e-12)
+
+    bounds = ([(float(min_segment_m), max_length)] * n_segments
+              + [(-max_kappa, max_kappa)] * (n_segments - 1))
+    constraints = [{"type": "eq", "fun": endpoint_constraint}]
+    if sharpness_cap is not None:
+        constraints.append({"type": "ineq", "fun": sharpness_constraint})
+    sol = minimize(objective, z0, method="SLSQP", bounds=bounds,
+                   constraints=constraints,
+                   options={"maxiter": 450, "ftol": 1e-10, "disp": False})
+    if not sol.success or float(np.linalg.norm(endpoint_constraint(sol.x))) > 1e-5:
+        return None
+    lens, ks = unpack(sol.x)
+    return _canonicalize_connector(_chain_from_knots(p0, lens, ks))
+
+
+def fit_connector_minimal(src_pts: np.ndarray, p0, p1, *, k0: float = 0.0,
+                          k1: float = 0.0, max_segments: int = 5,
+                          max_kappa: float = 0.20,
+                          sharpness_cap: float = 0.20,
+                          endpoint_tol: float = 1.5,
+                          median_tol: float = 0.5,
+                          p95_tol: float = 1.45,
+                          max_dev_tol: float = 2.8,
+                          source_covers_endpoints: bool = True,
+                          min_segment_m: float = 3.0) -> MinimalConnectorFit | None:
+    """实测点列→少段 G2 连接路。
+
+    候选按段数 1→3→4→5 的字典序搜索；只有满足端点、来源偏差、曲率、
+    ``dκ/ds`` 和相对短段全部硬约束的候选才进入排序。``dκ/ds`` 上限是几何
+    病态熔断，不代替按实际转向限速计算的动力学门禁。找不到解返回 ``None``，
+    调用侧必须显式记录失败，禁止退回逐点/桥接碎片链。
+    """
+    src = np.asarray(src_pts, float)
+    if src.ndim != 2 or src.shape[0] < 2 or src.shape[1] != 2:
+        return None
+    p0, p1 = tuple(map(float, p0[:3])), tuple(map(float, p1[:3]))
+    candidates: list[tuple] = []
+
+    # 单回旋线只在天然满足两端曲率时成立；不为“少一段”牺牲 G2。
+    try:
+        from pyclothoids import Clothoid
+        cl = Clothoid.G1Hermite(*p0, *p1)
+        if (abs(cl.KappaStart - k0) <= 1e-6
+                and abs(cl.KappaEnd - k1) <= 1e-6):
+            one = _chain_from_knots(p0, np.asarray([cl.length]),
+                                    np.asarray([k0, k1]))
+            m = _connector_fidelity(
+                one, src, source_support_only=not source_covers_endpoints)
+            if _connector_metrics_ok(m, max_segments=max_segments,
+                                     max_kappa=max_kappa,
+                                     sharpness_cap=sharpness_cap,
+                                     endpoint_tol=endpoint_tol,
+                                     median_tol=median_tol, p95_tol=p95_tol,
+                                     max_dev_tol=max_dev_tol,
+                                     min_segment_m=min_segment_m):
+                candidates.append((1, "single-clothoid", one, m))
+    except Exception:
+        pass
+
+    if candidates:
+        chosen = min(candidates, key=lambda x: (
+            x[0], x[3]["sharp_sign_flips"], x[3]["sharpness_max"],
+            x[3]["source_to_target"]["p95_m"],
+            x[3]["target_to_source"]["p95_m"]))
+        prims, _ = planview_prims(chosen[2])
+        return MinimalConnectorFit(chosen[2], prims, chosen[1], chosen[3])
+
+    for n in (3, 4, 5):
+        if n > max_segments:
+            continue
+        # 同段数内同时比较权威 SolveG2 解与来源约束优化解。
+        same_n = []
+        try:
+            cls, _lens, _knots = _g2_seed(p0, p1, k0, k1, n)
+            if n == 3:
+                base = _canonicalize_connector(PlanView(
+                    p0[0], p0[1], p0[2],
+                    [PlanSeg("spiral", c.length, c.KappaStart, c.KappaEnd)
+                     for c in cls]))
+                same_n.append(("solve-g2", base))
+        except Exception:
+            pass
+        optimized = _optimize_connector(
+            p0, p1, k0, k1, src, n, max_kappa,
+            sharpness_cap=sharpness_cap,
+            min_segment_m=min_segment_m)
+        if optimized is not None:
+            same_n.append((f"constrained-{n}-clothoid", optimized))
+        feasible = []
+        for method, pv in same_n:
+            m = _connector_fidelity(
+                pv, src, source_support_only=not source_covers_endpoints)
+            if _connector_metrics_ok(m, max_segments=max_segments,
+                                     max_kappa=max_kappa,
+                                     sharpness_cap=sharpness_cap,
+                                     endpoint_tol=endpoint_tol,
+                                     median_tol=median_tol, p95_tol=p95_tol,
+                                     max_dev_tol=max_dev_tol,
+                                     min_segment_m=min_segment_m):
+                feasible.append((method, pv, m))
+        if feasible:
+            # 同一最小段数内，先选最贴近来源的曲线。一次 ``dκ/ds`` 正负变化
+            # 只是正常的“进入转弯—退出转弯”曲率单峰，不能排在来源保真前面；
+            # 旧排序因此会把偏差超过 1m 的对称 SolveG2 误选在 3 段优化解之前。
+            # 高频翻转和 sharpness 已分别受硬门限约束，只作为保真近似时的次序项。
+            method, pv, metrics = min(feasible, key=lambda x: (
+                x[2]["source_to_target"]["p95_m"],
+                x[2]["target_to_source"]["p95_m"],
+                x[2]["source_to_target"]["max_m"]
+                + x[2]["target_to_source"]["max_m"],
+                x[2]["sharp_sign_flips"], x[2]["sharpness_max"]))
+            prims, _ = planview_prims(pv)
+            return MinimalConnectorFit(pv, prims, method, metrics)
+    return None
+
+
 def planview_quality(pv: PlanView) -> dict:
     """直接审计中间 PlanView，供候选选择和写出后的 G7 使用同一语义。
 
@@ -588,70 +925,347 @@ def planview_quality(pv: PlanView) -> dict:
             "kappa_max": max_kappa(pv)}
 
 
-def fit_leg_refline(pts: np.ndarray, kappa_cap: float = 1.0 / 30.0,
+def solve_g2_balanced(p0, p1, k0: float = 0.0, k1: float = 0.0, *,
+                      length_growth_cap: float = 0.10,
+                      kappa_growth_cap: float = 0.10,
+                      dmax_candidates=(0.0, 0.10, 0.20, 0.30, 0.40,
+                                       0.50, 0.70, 1.00)):
+    """返回动力学更温和的 Bertolazzi--Frego 三回旋线 G2 解。
+
+    ``SolveG2`` 的默认解满足端点位置、航向和曲率，但三段长度可能很不均衡，
+    使很短的首/末段承担过大的 ``dκ/ds``。官方求解器的 ``dmax`` 参数用于
+    限制解相对初始猜测的角度偏离；这里仅在仍满足精确 G2 边界条件的候选中，
+    以最小最大 sharpness 为第一目标、较长的最短段为第二目标择优。
+
+    总长和最大曲率只允许小幅增长；返回 ``(clothoids, diagnostics)``，便于
+    provenance 明确记录调参及前后指标。
+    """
+    from pyclothoids import SolveG2
+
+    p0 = tuple(map(float, p0[:3]))
+    p1 = tuple(map(float, p1[:3]))
+    k0, k1 = float(k0), float(k1)
+
+    def as_planview(cls):
+        return PlanView(p0[0], p0[1], p0[2], [
+            PlanSeg("spiral", float(c.length), float(c.KappaStart),
+                    float(c.KappaEnd)) for c in cls
+        ])
+
+    base = tuple(SolveG2(*p0, k0, *p1, k1))
+    base_q = planview_quality(as_planview(base))
+    length_cap = base_q["length"] * (1.0 + float(length_growth_cap))
+    kappa_cap = max(base_q["kappa_max"] * (1.0 + float(kappa_growth_cap)),
+                    base_q["kappa_max"] + 1e-12)
+    candidates = []
+    seen = set()
+    for dmax in dmax_candidates:
+        try:
+            cls = tuple(SolveG2(*p0, k0, *p1, k1, 0.0, float(dmax)))
+        except Exception:
+            continue
+        key = tuple(round(float(c.length), 10) for c in cls)
+        if key in seen:
+            continue
+        seen.add(key)
+        if any(not math.isfinite(float(c.length)) or float(c.length) <= 0.0
+               for c in cls):
+            continue
+        q = planview_quality(as_planview(cls))
+        if (q["length"] > length_cap + 1e-9
+                or q["kappa_max"] > kappa_cap + 1e-9):
+            continue
+        candidates.append((q["sharpness_max"], -q["seg_min_len"],
+                           q["kappa_max"], q["length"], float(dmax), cls, q))
+    if not candidates:
+        candidates.append((base_q["sharpness_max"], -base_q["seg_min_len"],
+                           base_q["kappa_max"], base_q["length"], 0.0,
+                           base, base_q))
+    chosen = min(candidates, key=lambda item: item[:5])
+    cls, q = chosen[5], chosen[6]
+    return cls, {
+        "method": "solve-g2-balanced",
+        "dmax": chosen[4],
+        "base": {
+            "length_m": base_q["length"],
+            "segment_lengths_m": [float(c.length) for c in base],
+            "min_primitive_m": base_q["seg_min_len"],
+            "kappa_max_per_m": base_q["kappa_max"],
+            "sharpness_max_per_m2": base_q["sharpness_max"],
+        },
+        "selected": {
+            "length_m": q["length"],
+            "segment_lengths_m": [float(c.length) for c in cls],
+            "min_primitive_m": q["seg_min_len"],
+            "kappa_max_per_m": q["kappa_max"],
+            "sharpness_max_per_m2": q["sharpness_max"],
+        },
+    }
+
+
+def _robust_endpoint_heading(pts: np.ndarray, at_start: bool,
+                             window_m: float = 30.0) -> float:
+    """用端部长窗口 PCA 求航向，避免 0.1～3m 重复/短弦支配参考线。"""
+    src = np.asarray(pts, float)
+    ss = arclength(src)
+    span = min(float(window_m), max(5.0, 0.35 * float(ss[-1])))
+    q = src[ss <= span + 1e-9] if at_start else src[ss >= ss[-1] - span - 1e-9]
+    if len(q) < 2:
+        q = src[:2] if at_start else src[-2:]
+    centered = q - q.mean(axis=0)
+    _u, _s, vh = np.linalg.svd(centered, full_matrices=False)
+    direction = vh[0]
+    forward = q[-1] - q[0]
+    if float(direction @ forward) < 0.0:
+        direction = -direction
+    return math.atan2(float(direction[1]), float(direction[0]))
+
+
+def _single_arc_candidate(src: np.ndarray) -> PlanView | None:
+    """过首/末/最大弦垂点的单圆弧候选；三点近共线时不臆造大圆。"""
+    a, b = np.asarray(src[0], float), np.asarray(src[-1], float)
+    chord = b - a
+    chord_len = float(np.linalg.norm(chord))
+    if chord_len <= 1e-6 or len(src) < 3:
+        return None
+    rel = src - a
+    cross = chord[0] * rel[:, 1] - chord[1] * rel[:, 0]
+    i = int(np.argmax(np.abs(cross)))
+    cpt = np.asarray(src[i], float)
+    if abs(float(cross[i])) / chord_len < 0.05:
+        return None
+    ax, ay = a
+    bx, by = cpt
+    cx, cy = b
+    det = 2.0 * (ax * (by - cy) + bx * (cy - ay) + cx * (ay - by))
+    if abs(det) < 1e-9:
+        return None
+    aa, bb, cc = ax * ax + ay * ay, bx * bx + by * by, cx * cx + cy * cy
+    center = np.array([
+        (aa * (by - cy) + bb * (cy - ay) + cc * (ay - by)) / det,
+        (aa * (cx - bx) + bb * (ax - cx) + cc * (bx - ax)) / det,
+    ])
+    radius = float(np.linalg.norm(a - center))
+    if not math.isfinite(radius) or radius < 1.0:
+        return None
+    angles = np.unwrap(np.arctan2(src[:, 1] - center[1],
+                                  src[:, 0] - center[0]))
+    delta = float(angles[-1] - angles[0])
+    if abs(delta) < 1e-7 or abs(delta) > math.pi:
+        return None
+    sign = 1.0 if delta > 0.0 else -1.0
+    hdg = float(angles[0] + sign * math.pi / 2.0)
+    return PlanView(float(a[0]), float(a[1]), hdg,
+                    [PlanSeg("arc", abs(delta) * radius, sign / radius)])
+
+
+def _remove_impulse_outliers(src: np.ndarray) -> tuple[np.ndarray, dict]:
+    """只删除折线中的孤立横向脉冲，不平滑真实缓弯。
+
+    MAP Link 偶尔含有“前后总体航向不变、单个顶点却形成相反急转”的坏点。
+    若逐点追随，会把坏点放大成 OpenDRIVE 蛇形。判据同时要求：
+
+    * 顶点到相邻点弦线距离至少 1m；
+    * 顶点转角至少 15°；
+    * 顶点两侧的背景航向差不超过 4°；
+    * 进入/离开脉冲相对背景都至少偏转 5°。
+
+    因此渐变圆曲线、回旋线和真正的折角不会被本规则吞掉。每 8 个点最多
+    删除 1 个，且首末两点及其直接邻点永不删除。
+    """
+    pts = np.asarray(src, float)
+    if len(pts) < 7:
+        return pts, {"removed_count": 0, "removed_indices": [],
+                     "max_residual_m": 0.0}
+    work = pts.copy()
+    original_indices = list(range(len(pts)))
+    removed: list[int] = []
+    residuals: list[float] = []
+    max_remove = max(1, len(pts) // 8)
+
+    def hdg(a, b):
+        d = b - a
+        return math.atan2(float(d[1]), float(d[0]))
+
+    for _ in range(max_remove):
+        candidates = []
+        for i in range(2, len(work) - 2):
+            h_before = hdg(work[i - 2], work[i - 1])
+            h_in = hdg(work[i - 1], work[i])
+            h_out = hdg(work[i], work[i + 1])
+            h_after = hdg(work[i + 1], work[i + 2])
+            turn = abs(_angle_delta(h_out, h_in))
+            background = abs(_angle_delta(h_after, h_before))
+            shoulder_in = abs(_angle_delta(h_in, h_before))
+            shoulder_out = abs(_angle_delta(h_after, h_out))
+            chord = work[i + 1] - work[i - 1]
+            den = float(chord @ chord)
+            if den <= 1e-12:
+                continue
+            u = float(np.clip((work[i] - work[i - 1]) @ chord / den, 0.0, 1.0))
+            residual = float(np.linalg.norm(
+                work[i] - (work[i - 1] + u * chord)))
+            if (residual >= 1.0 and turn >= math.radians(15.0)
+                    and background <= math.radians(4.0)
+                    and shoulder_in >= math.radians(5.0)
+                    and shoulder_out >= math.radians(5.0)):
+                candidates.append((residual, i))
+        if not candidates:
+            break
+        residual, i = max(candidates)
+        removed.append(original_indices[i])
+        residuals.append(residual)
+        work = np.delete(work, i, axis=0)
+        del original_indices[i]
+    return work, {
+        "removed_count": len(removed),
+        "removed_indices": removed,
+        "max_residual_m": max(residuals, default=0.0),
+    }
+
+
+def _leg_candidate_ok(pv: PlanView, src: np.ndarray, *, tol: float,
+                      kappa_cap: float, sharp_cap: float,
+                      median_tol: float = 0.60,
+                      p95_tol: float = 1.25) -> tuple[bool, dict]:
+    metrics = _connector_fidelity(pv, src)
+    ok = _connector_metrics_ok(
+        metrics, max_segments=5, max_kappa=kappa_cap,
+        sharpness_cap=sharp_cap, endpoint_tol=0.10,
+        median_tol=min(median_tol, tol), p95_tol=min(p95_tol, tol),
+        max_dev_tol=tol)
+    return ok, metrics
+
+
+def fit_leg_refline(pts: np.ndarray, kappa_cap: float = 0.009,
                     resample_step: float = 2.0, min_seg_len: float = 6.0,
-                    dev_tol: float | None = None, sharp_cap: float = 0.0045,
+                    dev_tol: float | None = None, sharp_cap: float = 0.000216,
                     min_output_seg_len: float = 3.0,
                     flips_per_100m_cap: float = 8.0,
                     hard_dev_cap: float = 1.5):
-    """leg 参考线拟合 + 曲率封顶 + 全程 G2 化。
-    封顶：|κ|>cap 的中段折角是数字化噪声（城市路段中途不存在 R<30m 的物理弯），
-    渐进滑动平均后重拟合直到达标——双侧车道模型里 1−tκ→0 会让车道中心驻点/回卷；
-    G2 化：line-arc 结点 SolveG2 过渡（消 v²Δκ 侧向加速度阶跃）。
-    返回 (PlanView, 对原始顶点偏差, smoothed: bool)。"""
-    src = np.asarray(pts, float)
-    if src.ndim != 2 or src.shape[0] < 2 or src.shape[1] != 2:
+    """普通道路少段 G2 拟合。
+
+    输入点列只是误差约束，不逐点插值。候选按字典序搜索：
+
+    1. 单段 ``line`` / ``arc`` / ``spiral``；
+    2. 固定 3、4、5 段的共享曲率节点 clothoid 链。
+
+    所有候选先同时通过双向来源偏差、G2、最短相对段长、曲率与
+    ``dκ/ds`` 硬约束，再选段数最少者。默认曲率与曲率变化率分别对应
+    60km/h 下 2.5m/s² 横向加速度和 1.0m/s³ 横向加加速度上限。
+    五段内无解必须显式失败，不恢复米级碎片链。
+
+    返回 ``(PlanView, 双向最大来源偏差, approximated)``。
+    ``resample_step/min_seg_len/min_output_seg_len`` 仅保留 API 兼容。
+    """
+    raw_src = np.asarray(pts, float)
+    if raw_src.ndim != 2 or raw_src.shape[0] < 2 or raw_src.shape[1] != 2:
         raise ReflineFitError("参考线源点至少需要两个二维点")
+    src, clean_meta = _remove_impulse_outliers(raw_src)
+
+    def done(pv: PlanView, dev: float, approximated: bool, selection: str,
+             metrics: dict | None = None):
+        pv.fit_meta.update({"impulse_filter": clean_meta,
+                            "fit_selection": selection})
+        if metrics is not None:
+            pv.fit_meta["source_fidelity"] = metrics
+        return pv, dev, approximated or bool(clean_meta["removed_count"])
     tol = hard_dev_cap if dev_tol is None else float(dev_tol)
     if tol <= 0.0 or tol > hard_dev_cap + 1e-9:
         raise ValueError(f"dev_tol 必须在 (0, {hard_dev_cap}] m 内，收到 {tol}")
 
-    pv, dev = fit_polyline_auto(src, resample_step, min_seg_len)
-    smoothed = False
-    if max_kappa(pv) > kappa_cap:
-        base = resample_polyline(src, 2.0)
-        for w in (3, 5, 9, 15):
-            sm = _movavg_keep_ends(base, w)
-            pv, _d = fit_polyline_auto(sm, resample_step, min_seg_len)
-            if max_kappa(pv) <= kappa_cap:
-                break
-        smoothed = True
-    # 曲率域段精简：把逐顶点碎段还原成有物理长度的 line/arc/clothoid（消费端要求）
-    # 容差：参考线**不是交付物**——车道按实测横距相对它写出，差量由 laneOffset/width
-    # 吸收，故容差可远大于车道精度要求；换来的是曲率不跟数字化噪声抖（蛇行↓）。
-    # 车道保真由 validate/lane_fidelity 独立把关，不靠"参考线贴得紧"这个间接指标。
-    # 1.5m 是金凤 14 条主线对拍后的硬上限。旧实现按 base_dev 无界放大，会在
-    # "平滑失败"时悄悄牺牲来源几何；现在显式参数也不得越过 hard_dev_cap。
-    total_src = float(arclength(src)[-1])
-    hard_min = min(float(min_output_seg_len), total_src / 3.0)
-    kappa_limit = kappa_cap * 1.2                 # 输出硬界 R≥25m（默认参数）
+    # 端点完全一致的单直线只在 0.35m 内才认为“真直线”；
+    # 否则 1.5m 的总容差会把真实缓弯过度压成直线。
+    chord = src[-1] - src[0]
+    chord_len = float(np.linalg.norm(chord))
+    if chord_len <= 1e-6:
+        raise ReflineFitError("参考线首末点重合")
+    chord_h = math.atan2(float(chord[1]), float(chord[0]))
+    line = PlanView(float(src[0, 0]), float(src[0, 1]), chord_h,
+                    [PlanSeg("line", chord_len)])
+    line_ok, line_m = _leg_candidate_ok(
+        line, src, tol=min(0.35, tol), kappa_cap=kappa_cap,
+        sharp_cap=sharp_cap, median_tol=0.20, p95_tol=0.30)
+    if line_ok:
+        dev = max(line_m["source_to_target"]["max_m"],
+                  line_m["target_to_source"]["max_m"])
+        return done(line, dev, False, "single-line", line_m)
 
-    got = simplify_planview(
-        pv, src, dev_tol=tol, min_seg_len=12.0,
-        hard_min_seg_len=hard_min, sharp_cap=sharp_cap,
-        flips_per_100m_cap=flips_per_100m_cap, kappa_cap=kappa_limit)
+    h0 = _robust_endpoint_heading(src, True)
+    h1 = _robust_endpoint_heading(src, False)
+    one_segment: list[tuple[str, PlanView, dict]] = []
+
+    arc = _single_arc_candidate(src)
+    if arc is not None:
+        ok, m = _leg_candidate_ok(arc, src, tol=tol, kappa_cap=kappa_cap,
+                                  sharp_cap=sharp_cap)
+        if ok:
+            one_segment.append(("single-arc", arc, m))
+
+    try:
+        from pyclothoids import Clothoid
+        cl = Clothoid.G1Hermite(float(src[0, 0]), float(src[0, 1]), h0,
+                                float(src[-1, 0]), float(src[-1, 1]), h1)
+        spiral = PlanView(float(src[0, 0]), float(src[0, 1]), h0, [
+            PlanSeg("spiral", float(cl.length), float(cl.KappaStart),
+                    float(cl.KappaEnd))])
+        ok, m = _leg_candidate_ok(spiral, src, tol=tol,
+                                  kappa_cap=kappa_cap, sharp_cap=sharp_cap)
+        if ok:
+            one_segment.append(("single-spiral", spiral, m))
+    except Exception:
+        pass
+
+    # 先追求“少而准”：最多仍只有 5 个长 G2 原语，但只要增加一两个长段能把
+    # P95 从约 1m 降到 0.75m 内，就不应因为更粗候选勉强通过 1.5m 上限而提前
+    # 返回。该搜索保留 3% 总长的相对最短段硬约束，不会退化为逐点碎片链。
+    strict = fit_connector_minimal(
+        src, (src[0, 0], src[0, 1], h0), (src[-1, 0], src[-1, 1], h1),
+        k0=0.0, k1=0.0, max_segments=5, max_kappa=kappa_cap,
+        sharpness_cap=sharp_cap, endpoint_tol=0.10,
+        median_tol=min(0.35, tol), p95_tol=min(0.75, tol),
+        max_dev_tol=min(1.0, tol))
+    if strict is not None:
+        m = strict.metrics
+        dev = max(m["source_to_target"]["max_m"],
+                  m["target_to_source"]["max_m"])
+        return done(strict.planview, dev, True,
+                    f"strict-{strict.method}", m)
+
+    if one_segment:
+        # 严格保真无解时才接受仍在硬上限内的一段式近似，并显式记为 fallback。
+        _method, pv, m = min(one_segment, key=lambda item: (
+            item[2]["sharp_sign_flips"], item[2]["sharpness_max"],
+            item[2]["source_to_target"]["p95_m"],
+            item[2]["target_to_source"]["p95_m"],
+            item[2]["source_to_target"]["max_m"]
+            + item[2]["target_to_source"]["max_m"]))
+        dev = max(m["source_to_target"]["max_m"],
+                  m["target_to_source"]["max_m"])
+        return done(pv, dev, True, f"fallback-{_method}", m)
+
+    # 单段无解才允许 3→4→5 段。两端零曲率使道路口部与连接路
+    # 天然 G2；内部段共享曲率节点，不存在隐性 Δκ。
+    got = fit_connector_minimal(
+        src, (src[0, 0], src[0, 1], h0), (src[-1, 0], src[-1, 1], h1),
+        k0=0.0, k1=0.0, max_segments=5, max_kappa=kappa_cap,
+        sharpness_cap=sharp_cap, endpoint_tol=0.10,
+        median_tol=min(0.60, tol), p95_tol=min(1.25, tol),
+        max_dev_tol=tol)
     if got is None:
-        # fallback 只用于生成诊断，绝不再把“相对最好但不合格”的曲线交付。
-        fallback = weld_g2(g2ify_planview(pv)[0])
-        q = planview_quality(fallback)
-        d = _dev_to_src(fallback, src)
         raise ReflineFitError(
-            "参考线拟合无合格候选："
-            f"dev={d:.3f}m/{tol:.3f}m, min_seg={q['seg_min_len']:.3f}m/"
-            f"{hard_min:.3f}m, sharp={q['sharpness_max']:.6f}/{sharp_cap:.6f}, "
-            f"flips={q['sharp_sign_flips_per_100m']:.2f}/{flips_per_100m_cap:.2f}, "
-            f"kappa={q['kappa_max']:.6f}/{kappa_limit:.6f}")
-    pv = got[0]
-    # 偏差始终对原始顶点报告（平滑/G2 过渡/精简是修复，不是新的真值）
-    dev = _dev_to_src(pv, src)
-    q = planview_quality(pv)
-    # 双重后置条件：未来任何候选搜索改动都不能绕过交付硬门禁。
-    if (dev > tol + 1e-9 or q["seg_min_len"] < hard_min - 1e-9
-            or q["sharpness_max"] > sharp_cap + 1e-12
-            or q["sharp_sign_flips_per_100m"] > flips_per_100m_cap + 1e-9
-            or q["kappa_max"] > kappa_limit + 1e-12):
-        raise ReflineFitError(f"参考线候选后置检查失败：dev={dev:.3f}, quality={q}")
-    return pv, dev, smoothed
+            "参考线拟合无合格候选：1–5 段内无法同时满足 "
+            f"dev≤{tol:.3f}m, |κ|≤{kappa_cap:.6f}, "
+            f"|dκ/ds|≤{sharp_cap:.6f}")
+    q = planview_quality(got.planview)
+    if q["sharp_sign_flips_per_100m"] > flips_per_100m_cap + 1e-9:
+        raise ReflineFitError(
+            f"参考线候选曲率变化反复：{q['sharp_sign_flips_per_100m']:.2f}/"
+            f"{flips_per_100m_cap:.2f} per 100m")
+    m = got.metrics
+    dev = max(m["source_to_target"]["max_m"],
+              m["target_to_source"]["max_m"])
+    return done(got.planview, dev, True, f"fallback-{got.method}", m)
 
 
 def _prim_pose_at(prim, ell):

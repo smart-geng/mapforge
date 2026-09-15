@@ -1,0 +1,81 @@
+schema: mapforge/g11-policy/v1
+id: g11-opendrive-v1
+version: 0.1-draft
+lifecycle: draft
+description: >-
+  OpenDRIVE 少段结构、横断面复杂度、构造连续性、实际车道动力学及
+  来源/消费端兼容性门禁。首版阈值来自专家评审，须由合成真值、跨区域
+  黄金集和压力集校准，不能宣称为行业通用标准。
+
+consumer_profile:
+  id: odr15-sim
+  opendrive_version: "1.5M"
+  allowed_planview_primitives: [line, arc, spiral]
+  allow_param_poly3: false
+  allow_auxiliary_paving: true
+  require_provenance: true
+
+reference_line:
+  short_warning_m: 5.0
+  absolute_degenerate_m: 0.5
+  relative_degenerate_ratio: 0.03
+  relative_review_ratio: 0.10
+  ordinary_density_warning_per_100m: 8.0
+  ordinary_density_fail_per_100m: 10.0
+  density_hard_fail_enabled: false
+  density_min_road_length_m: 50.0
+  inferred_connector_max_primitives: 3
+  measured_connector_warning_primitives: 3
+  measured_connector_max_primitives: 5
+  sliding_windows_m: [20.0, 25.0]
+  sliding_boundary_warning: 3
+  sliding_boundary_fail: 4
+  sliding_hard_fail_enabled: false
+  merge_curvature_tolerance: 1.0e-9
+  merge_sharpness_tolerance: 1.0e-9
+
+cross_section:
+  lane_section_density_warning_per_100m: 8.0
+  lane_offset_density_warning_per_100m: 12.0
+  width_record_density_warning_per_lane_100m: 12.0
+  value_jump_fail_m: 0.02
+  first_derivative_jump_fail: 0.01
+  second_derivative_jump_warning: 0.05
+  complexity_transfer_warning: true
+
+continuity:
+  internal_position_fail_m: 1.0e-6
+  internal_heading_fail_rad: 1.0e-7
+  internal_curvature_fail_per_m: 1.0e-9
+  road_interface_position_fail_m: 0.01
+  road_interface_heading_fail_deg: 0.1
+  road_interface_curvature_fail_per_m: 1.0e-7
+
+dynamics:
+  sample_step_m: 0.25
+  # 对实际驾驶车道的多项式/section 接缝做单侧极限检查，防止粗采样掩盖跳变。
+  lane_curvature_jump_fail_per_m: 1.0e-7
+  warning:
+    lateral_acceleration_mps2: 1.5
+    lateral_jerk_mps3: 0.5
+  fail:
+    lateral_acceleration_mps2: 2.5
+    lateral_jerk_mps3: 1.0
+  default_target_speed_kmh:
+    ordinary: 60.0
+    connector: 15.0
+  fallback_speed_is_warning: true
+  # 来源/渐变标签不是 driving lane 的运动学豁免。只按实际 lane.type 区分。
+  excluded_provenance_codes: []
+
+provenance:
+  accepted_statuses:
+    - EXACT
+    - TRANSFORMED
+    - FITTED
+    - APPROXIMATED
+    - INFERRED
+    - PARAMPOLY3_FALLBACK
+    - SHORT_SEGMENT_EXCEPTION
+  inferred_statuses: [INFERRED]
+  measured_statuses: [EXACT, TRANSFORMED, FITTED, APPROXIMATED]

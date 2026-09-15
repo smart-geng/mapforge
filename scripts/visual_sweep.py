@@ -9,6 +9,7 @@ import os
 import subprocess
 import sys
 import tempfile
+import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -20,6 +21,10 @@ FILES = [("direct", f"out/direct_xodr/{n}.xodr") for n in
          ("node3", "node4", "NODE5", "node13", "node16", "node17", "node18")]
 
 SHOTS = [
+    # 用户实际复核命令：无车辆、无地面，600m 固定俯视，最容易暴露道路外缘蛇形。
+    ("user", ["--density", "0", "--ground_plane", "off",
+              "--camera_mode", "custom_fixed",
+              "--custom_fixed_camera", "0,-50,600,1.5708,1.45"]),
     ("top", ["--camera_mode", "top"]),
     ("p1", ["--camera_mode", "custom_fixed",
             "--custom_fixed_camera", "70,-100,60,2.2,0.5"]),
@@ -33,13 +38,26 @@ SHOTS = [
 def capture(xodr: Path, args, workdir: Path):
     for f in workdir.glob("*.tga"):
         f.unlink()
-    cmd = [str(ODRV), "--odr", str(xodr), "--headless", "--capture_screen",
-           "--density", "1.0", "--ground_plane", "on"] + args
-    try:
-        subprocess.run(cmd, cwd=str(workdir), timeout=7,
-                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    except subprocess.TimeoutExpired:
-        pass
+    # Never supply conflicting options: caller's no-vehicle/no-ground review
+    # must not depend on the consumer's first/last-option precedence.
+    defaults=[]
+    for flag,value in (("--density","0"),("--ground_plane","off")):
+        if flag not in args:defaults.extend([flag,value])
+    cmd = [str(ODRV), "--odr", str(xodr), "--headless", "--capture_screen"] + defaults + args
+    proc = subprocess.Popen(cmd, cwd=str(workdir),
+                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    deadline = time.monotonic() + 12.0
+    while time.monotonic() < deadline:
+        if len(list(workdir.glob("*.tga"))) >= 3 or proc.poll() is not None:
+            break
+        time.sleep(0.1)
+    if proc.poll() is None:
+        proc.terminate()
+        try:
+            proc.wait(timeout=2)
+        except subprocess.TimeoutExpired:
+            proc.kill()
+            proc.wait(timeout=2)
     frames = sorted(workdir.glob("*.tga"))
     return frames[len(frames) // 2] if frames else None
 
@@ -62,9 +80,12 @@ def main():
             tiles.append(im)
         if not tiles:
             continue
-        sheet = Image.new("RGB", (960 * 2, 540 * 2), (20, 20, 20))
-        for i, t in enumerate(tiles[:4]):
-            sheet.paste(t, ((i % 2) * 960, (i // 2) * 540))
+        shown = tiles[:6]
+        columns = min(3, len(shown))
+        rows = (len(shown) + columns - 1) // columns
+        sheet = Image.new("RGB", (960 * columns, 540 * rows), (20, 20, 20))
+        for i, t in enumerate(shown):
+            sheet.paste(t, ((i % columns) * 960, (i // columns) * 540))
         dst = out_dir / f"{pipe}_{Path(rel).stem}.png"
         sheet.save(dst)
         print(dst)

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>mapforge · 本地修形</title><link rel="stylesheet" href="/assets/style.css"></head>
+<body>
+<header><div class="brand"><span>m↗</span> <strong>mapforge</strong><small>本地修形</small></div><span class="badge">研究候选 · 未交付</span><span class="local">仅本机 · 原件只读</span></header>
+<div class="toolbar"><button id="toggleLeft" aria-controls="leftPanel" aria-expanded="false">☰ 图层 / 道路</button><strong id="projectName">载入地图…</strong><div class="actions"><button id="undo" title="Ctrl+Z">↶ 撤销</button><button id="redo" title="Ctrl+Y">↷ 重做</button><button id="save" title="Ctrl+S">保存</button><button id="export">导出候选</button></div></div>
+<main>
+<button id="panelShade" aria-label="关闭侧栏" hidden></button>
+<aside class="left" id="leftPanel"><div class="panel-title"><h2>图层与道路</h2><button id="closeLeft" aria-label="关闭图层侧栏">×</button></div>
+<label><input id="sourceEdges" type="checkbox" checked><i class="swatch orange"></i>SHP 原始边界</label>
+<label><input id="sourcePaths" type="checkbox"><i class="swatch green"></i>SHP 原始车道路径</label>
+<label><input id="baseline" type="checkbox"><i class="swatch gray"></i>修改前 XODR</label>
+<label><input id="candidate" type="checkbox" checked><i class="swatch blue"></i>当前 XODR 读回</label>
+<label><input id="centers" type="checkbox"><i class="swatch blue dashed"></i>当前车道中心</label>
+<label><input id="connectors" type="checkbox" checked>显示连接路</label>
+<h2>定位道路</h2><select id="road" aria-label="选择道路"></select><button id="fitRoad" class="wide">定位整条道路</button>
+<h2>本路可编辑分界线</h2><div id="handleList"></div><button id="fitAll" class="wide">查看全路口</button>
+<details><summary>操作说明与范围</summary><p>点青色线选中 → 放大 → 拖动双箭头柄。紫色为待应用预览，不会自动保存。</p><p>滚轮缩放，空白拖动画布。F 放大选中，Home 全图，Tab 切换本路分界线，Esc 取消。按住空格临时查看源图。</p><div class="locked">🔒 口部 / 外缘 / 参考轴 / 拓扑仍锁定。本版只开放 7 条共享分界线的既有长区间，不支持任意位置加点。</div></details>
+</aside>
+<section class="viewport">
+<div class="canvas-top"><div class="segments" role="group" aria-label="对比视图"><button id="modeOverlay" aria-pressed="true">叠图</button><button id="modeSource" aria-pressed="false">源图</button><button id="modeResult" aria-pressed="false">结果</button></div><span id="zoomLabel">米制坐标</span></div>
+<div class="selection-bar"><div><strong id="selectionTitle">点青色分界线选中</strong><small id="selectionHint">选线 → 放大 → 拖双箭头柄</small></div><button id="focusSelected" title="F">放大编辑</button><button id="toggleRight" aria-controls="rightPanel" aria-expanded="false">参数</button></div>
+<svg id="map" tabindex="0" role="img" aria-label="地图修形画布，点击青色分界线选择，拖动双箭头控制柄"><g id="world"></g><g id="controls"></g></svg>
+<div id="pickMenu" role="group" aria-label="附近分界线，选择要编辑的对象" hidden></div>
+<div class="zoom-tools"><button id="zoomIn" aria-label="放大地图">＋</button><button id="zoomOut" aria-label="缩小地图">−</button><button id="homeView" title="Home">全图</button></div>
+<div class="legend"><span class="orange">━ 源边界</span><span class="blue">━ 当前结果</span><span class="cyan">━ 可选分界线</span></div><div class="scale" id="scale">20 m</div>
+<div id="previewDock"><div class="dock-info"><div id="status" role="status">载入中</div><strong id="liveValue">未修改</strong></div><div class="dock-actions"><button id="applyDock" class="primary" disabled>应用 ↵</button><button id="cancelDock" disabled>取消 Esc</button></div></div>
+</section>
+<aside class="right" id="rightPanel"><div class="panel-title"><h2>精确调整</h2><button id="closeRight" aria-label="关闭参数侧栏">×</button></div>
+<div id="selected">尚未选择</div><div id="handleInfo" class="details"></div>
+<label class="numeric">控制柄横向位移（m）<div class="number-row"><button id="minusCm" aria-label="位移减一厘米">−1cm</button><input id="delta" type="number" min="-2" max="2" step="0.01" value="0"><button id="plusCm" aria-label="位移加一厘米">+1cm</button></div></label>
+<button id="preview" class="wide">更新预览</button><button id="apply" class="primary wide" disabled>应用预览到副本</button><button id="discard" class="wide" disabled>取消预览</button><div id="previewInfo" class="details">未计算预览，不会自动应用。</div>
+<details id="checks"><summary>版本、检查与导出</summary><div id="version" class="details"></div><div id="metrics" class="details"></div><button id="reopen" class="wide">恢复磁盘已保存版本…</button><div id="exportResult" class="details"></div><button id="download" class="wide" hidden>下载本次候选</button></details>
+<div class="warning">整图仍 BLOCKED。源保真、路面、动力学、绝对 CRS 未通过；交互改善不等于地图修复完成。</div>
+</aside>
+</main>
+<dialog id="restoreDialog"><h2>恢复磁盘版本？</h2><p>当前未保存的修改将被已保存版本替换。可先取消并保存。</p><div class="actions"><button id="cancelRestore">取消</button><button id="confirmRestore">恢复已保存版本</button></div></dialog>
+<script type="module" src="/assets/app.js"></script></body></html>

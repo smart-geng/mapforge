@@ -23,13 +23,20 @@ allowed_exclusions:
 - filled-connector-no-source-geometry
 - source-extension
 - source-support-unavailable
+- source-support-too-short
 - source-support-outside
 - source-topology-gap-bridge
 - lane-transition-taper
+- physical-edge-fill
+- minimal-chain-source-fidelity-unmet
+- source-end-state-conflict
 review_exclusions:
 - mirror-no-source-geometry
 - source-support-unavailable
+- source-support-too-short
 - source-topology-gap-bridge
+- minimal-chain-source-fidelity-unmet
+- source-end-state-conflict
 classes:
   shp.field-leg: &id001
     source_to_target: &id002

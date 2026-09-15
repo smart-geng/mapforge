@@ -1,0 +1,23 @@
+schema: mapforge.source-role-decision/v1
+id: node4-east-zero-width-source-roles
+version: 1
+authorization:
+  basis: user-confirmed-in-current-thread
+  date: '2026-09-12'
+  scope: '仅东侧下列三处SHP零宽端点，以原左右边界确定物理道路；原车道线保留为通行路径观测另行验证。不删原点、不改TOPO、源限速或MAP，不推广其他车道。'
+  prompt: '是否仅对这三处沿用北侧已批准的处理：以实测左右边界确定物理道路，原车道线保留为通行路径单独验证？'
+  response: '继续'
+source_contact_sha256: d0ecca3b7554da7f6d257853e3e7ead45a2e408f8e524da5e41ba3172cfb15d3
+decisions:
+  - source_lane_id: '2023041111113051690'
+    contact: start
+    physical_authority: original_left_right_boundaries
+    lane_path_role: movement_path_observation
+  - source_lane_id: '2023041111104112823'
+    contact: start
+    physical_authority: original_left_right_boundaries
+    lane_path_role: movement_path_observation
+  - source_lane_id: '2023041810460339677'
+    contact: end
+    physical_authority: original_left_right_boundaries
+    lane_path_role: movement_path_observation

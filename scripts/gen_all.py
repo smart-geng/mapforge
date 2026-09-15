@@ -107,7 +107,7 @@ def main(report_only=False):
             out = ROOT / "out/m2x" / f"{label}.xodr"
             stats = build_xodr(main_node, out, neighbors=neigh)
             final = finalize_opendrive_g8(
-                out, stats["source_lane_manifest"], POLICY, connect_mode="data")
+                out, stats["source_lane_manifest"], POLICY, connect_mode="data", raw_map_paths=xmls)
             entries.append(_entry(label, "map-to-opendrive", path, out, stats, final, xml_hash))
             print(f"m2x {label:7s} conn={stats['connections']} real={stats.get('exit_real', 0)} "
                   f"mirror={stats.get('exit_mirror', 0)} G8={final['gate']['status']}")

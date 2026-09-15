@@ -1,12 +1,52 @@
-# mapforge 控制台 GUI 方案（v0.2 · GUI-01 评审稿）
+# mapforge 控制台 GUI 方案（v0.5 · 约束式修形设计）
 
-> 2026-08-14 · 本文只做**规划与信息架构裁决**，不含实现。前置事实以《地图格式转换工厂-首批三格式方案》和
+> **2026-09-15 实现状态覆盖下文历史快照**：已实现并实际操作一个本地受限编辑纵切：node4 SHP叠图、7个共享分界线长区间手柄、相邻宽度联动、预览/应用/撤销/重做/保存重开、最终候选XML与XSD/esmini位置读回。它不是完整控制台，也不是整图修复完成；外缘/口部/轴/拓扑锁定，MAP未接入页面。详见[使用与证据](本地修形台-E0受限纵切.md)。E0只完成锁端共享分界线子集，完整R1/R2/E0门禁仍未关闭。
+
+> **2026-09-15 执行优先级调整**：用户批准先试现成编辑器，目标是实际修形文件而非扩检查器。固定 ORBIT 的无编辑往返核心实测失败（大量短 line、宽度/站位失真），停止该工具适配；见[准入记录](实施记录-现成编辑器ORBIT准入试验-2026-09-15.md)。尚无GUI/人工拖动闭环。后续仅实施一个 node4 本地长曲线编辑、保存重开、最终XML复验纵切，暂缓完整控制台；既有来源、共享边界/口部、速度和原件只读约束保留，不以拖动预览冒充导出修复。
+
+> **2026-09-10 当前事实**：GUI/Web 编辑器尚未实现。两条 xodr 转换路径已有代码，但完整来源、非碎段、世界边缘及动力学的当前严格验收尚未全部通过，不能再沿用旧“14 文件技术闭环完成”的结论。当前证据以 HANDOFF 和总方案为准。
+>
+> **新增范围**：按用户“哪里不满意改哪里”的要求，规划受约束的局部几何编辑，不做无约束绘图器。旧版“所有几何修形一律交商业工具”的限制被本版取代。自动转换和手动编辑必须复用同一约束内核，先完成真实数据的编辑—保存—重开—导出—独立读回纵切。完整算法、文献、接口和验收见 [全局重建与约束式交互修形方案.md](全局重建与约束式交互修形方案.md)。
+
+### v0.5 变更摘要
+
+- 地图预览扩展为来源/候选/最终读回叠合的工程画布；增加边界、曲率、共享口部和锁定区手柄，修改必须联动依赖对象。
+- 拖动虚影、约束求解、导出验收分开；失败保留上一版本并解释冲突，不能“一拖就绿”。
+- 统一 G8 原件完整性、G11 A–E、世界边缘、动力学与消费端证据；G1–G10 历史 PASS 不代表当前完成。
+- 增加 revision、EditIntent、过期任务拒绝、撤销/重做和审计契约；服务仅本地，仍须防跨站请求与任意路径写入。
+- 下列 v0.4/v0.3 状态段是**历史快照**，与本版冲突时不再作为实现/验收依据。
+
+> 2026-08-20 · 本文完成**规划、信息架构裁决与 GUI-02 实施基线同步**，尚不含 GUI 代码实现。前置事实以《地图格式转换工厂-首批三格式方案》和
 > 《遗留工作全面规划-2026-08-14》为准；后端能力以遗留规划中的当前能力矩阵为准，不能因本文或线框中出现某个入口就视为生产能力已经闭合。
 >
 > **GUI-01 评审结论（2026-08-14）**：五屏信息架构“修改后接受”。会话
 > `516d0bd7-6af0-4429-94d2-f011b6aa7a69` 生成的 v0.1 线框已完成结构、红线和能力边界复核，
-> 修订版见 `docs/gui_g0_wireframes.html` v0.2。GUI 实现仍未开始；正式 G8、统一
-> `ConversionJob` / `ConversionResult` / run 目录 / 结构化门禁 JSON（B1–B3）就绪前，不进入 GUI 编码。
+> 修订版见 `docs/gui_g0_wireframes.html` v0.2。该 HTML 保留作**结构线框**，其中“G8 待接入/NOT_RUN”等运行状态示例是 v1.25 时点快照，
+> 与当前事实冲突时以本文 v0.3 为准，GUI-02 编码时不得照抄旧状态。
+>
+> **v0.4 后端基线（2026-08-21）**：mapforge v1.31 已完成正式 G8、路面连续性 G9、最终世界边缘形态/物理边界保真 G10、结构化 sidecar、交付裁决和
+> `closed-loop-report/v1`；金凤 7 路口 × SHP/MAP 两管道共 14 文件的 G1–G10 与 esmini 已全部 PASS，pytest 75/75。
+> 这代表 OpenDRIVE 技术门禁闭环，不代表生产交付获批：金凤 CRS 仍只有 `internally-consistent`，14 个样本继续
+> `BLOCKED`。GUI 实现仍未开始；进入页面编码前必须完成 B1、B2，并把现有 B3 结果接入统一契约，B4 可并行推进。
+>
+> **v1.32 后端提案提示（2026-08-21）**：v1.31 仍是当前已实现基线；最新结构审计发现 SHP connecting road 存在大量 1～5m geometry。少段平滑重构与 G11 尚待专家评审和实施，GUI 后续应显示 geometry 碎片度、短段例外和动力学门禁，不得把 G1～G10 PASS 展示为“无碎段完成”。详见 [专家评审稿-OpenDRIVE少段平滑重构方案.md](专家评审稿-OpenDRIVE少段平滑重构方案.md)。
+>
+> **v1.33 专家意见整合提示（2026-08-21）**：G11 已规划为 A～E 五组。GUI 不仅显示 geometry 数/段长，还必须显示 laneOffset/width/laneSection 复杂度、内部与接口连续性、每条可行驶车道及边缘的 `v_supported`、来源/例外状态和消费端 Profile。自动驾驶 Profile 默认隐藏/禁止 auxiliary paving road 与 `paramPoly3`，仿真 Profile 则按消费者实测能力显示；二者不得共用一个模糊的 PASS 状态。代码仍未实施。
+
+### v0.4 变更摘要
+
+- 质量看板从 G1–G8 同步到 G1–G10；G9 展示铺面连通/孔洞/口部重叠，G10 展示最坏 road/section/edge、边缘二阶变化、世界曲率、切向跳变和 SHP 物理边界双向误差；
+- 预览页固定提供“用户 600m 无车俯视 + 动态顶视 + 双斜视 + 低机位”五视角，并把 SHP 外边界/目标外缘叠图作为 SHP→xodr 的验收工件；
+- 历史产物必须显示生成时间、artifact hash 与 backend version，避免把 `manual_g0_*` 旧文件误认成当前正式输出；
+- GUI 仍不承担几何修形；G10 失败时定位到 road/section/edge，并导出源边界与目标边缘，交由 Profile/算法修复后重跑。
+
+### v0.3 变更摘要
+
+- 将 G8、结构化闭环 JSON、交付裁决和 `full REVIEW_REQUIRED` 从“待建”同步为 v1.26 已实现能力；
+- 将“七门禁”统一改为 OpenDRIVE **G1–G8**，明确 G6 是 suite 级、其余是文件级；
+- 将 B3 调整为“核心已实现、通用任务契约待接入”，避免重复开发现有闭环报告；
+- 统一交付状态为 `DELIVERABLE / BLOCKED / REVIEW_REQUIRED`；`PENDING_DECISION` 只作为决策任务状态/原因；
+- 补充本地大目录选择、子进程任务取消、能力注册表和原子化 run 目录要求。
 
 ---
 
@@ -23,14 +63,13 @@
 | 结果**看得见** | 质量报告是 JSON、几何要自己跑脚本截图 |
 | 接新图商不写 YAML | 现在得手写 `profiles/shp/*.yaml` 再 `profile-check` 试错 |
 | 三条人工红线有工位 | phaseId 绑定 / ID 台账裁决 / CRS 确认现在靠改文件 |
-| 门禁结果可追溯 | 七门禁跑分只在终端里，历史无留存 |
+| 门禁结果可追溯 | G1–G10 已有结构化闭环报告，但尚未纳入统一 run 历史与 GUI 索引 |
 
-### 不做什么（明确划界，避免范围膨胀）
+### 做到什么程度（v0.5 更新）
 
-- **不做几何编辑器**。方案 7.5 已裁决：人工介入走「决策文件契约 → 轻量标注页」，
-  几何修形交给商业工具（RoadRunner 等），自研几何编辑器是无底洞。
+- **做受约束的道路局部修形，不做通用 CAD**：少量边界/切向/曲率/口部手柄表达意图；后端联动相邻车道、连接和面域。原件只读，改动进独立 EditIntent 层；未通过完整门禁不允许提升交付状态。
 - **不做在线地图服务**。工具定位是纯离线（方案 v1.7），GUI 同样离线可用。
-- **不替代门禁**。`pytest` 与 `scripts/closed_loop.py` 仍是权威闸门，GUI 只是**触发器和显示器**——
+- **不替代门禁**。复用结构化校验与独立消费端检查，单元测试通过不是产品完成；GUI 负责**表达意图、触发和显示**——
   避免出现"界面显示绿、CI 红"的双份真相。
 - **不在 GUI 里重写业务逻辑**。所有计算调 `mapforge` 包既有函数，GUI 层零算法。
 
@@ -46,7 +85,7 @@
 | **裁决者**（项目方/运营） | 少但关键 | 相位绑定、ID 台账、CRS 确认签字 | 人工决策工作台 |
 
 **贯穿场景（金凤为例）**：登记 SHP 目录 → CRS 体检（suspect 则阻断）→ 选路口 →
-选目标格式与参数 → 转换 → 地图预览比对 → 七门禁跑分 → 红线决策 → 生成交付包 → 归档。
+选目标格式与参数 → 转换 → 地图预览比对 → G1–G10 跑分 → 红线决策 → 生成交付包 → 归档。
 
 ---
 
@@ -56,21 +95,23 @@
 
 | 后端能力（模块/脚本） | 当前真实状态 | GUI 落点 |
 |---|---|---|
-| `cli.convert` 主路径 | SHP→MAP、SHP→xodr、MAP→xodr、xodr→MAP 等已有原型；六方向尚未正式闭合 | 转换向导按 source/target Profile 只显示受支持路径 |
+| `cli.convert` 主路径 | SHP→xodr、MAP→xodr 已实现；当前严格完整来源/整图平滑仍存在失败，部分通过仅限冻结候选 | 转换向导区分原型能力、局部门禁与完整交付；不得显示“完美转换” |
 | `adapters/shp/profile_source` | YAML 驱动和宽度推导已有实现；字段别名/自动推断待第二家数据 | G0 只选已有 Profile；编辑器延期 G1 |
 | `cli.profile-check` | 图层/字段体检 + 降级预告已有实现 | 数据源体检；G1 映射器复用 |
 | `mapir/crs_probe` | 金凤仅证明 SHP↔MAP 内部自洽，绝对 CRS 控制点待补 | 数据源页同时显示检测状态与生产裁决 |
 | `report/preview_geojson` | MAP/SHP 预览骨架可用；统一预览契约待 B4 | 地图预览（矢量） |
 | `scripts/xodr_topdown` | 按查看器语义的填充俯视 PNG 已有实现 | 地图预览（xodr 2D） |
-| `scripts/visual_sweep` | 14 文件 ×4 机位 odrviewer 截帧已有实现 | 地图预览（3D 快照；非交互式） |
+| `scripts/visual_sweep` | 14 文件 ×5 机位 odrviewer 截帧已有实现 | 地图预览（3D 快照；非交互式） |
 | `validate/planview_check` | 位姿连续检查已有实现 | OpenDRIVE 质量 Profile 的 G2 |
-| `validate/smoothness` | κ 连续 / 断面台阶 / 换乘 / 曲率品质已有实现 | OpenDRIVE 质量 Profile 的 G3–G5、G7 |
+| `validate/smoothness` | κ 连续 / 断面台阶 / 换乘 / 曲率品质 / 路面 G9 / 世界边缘 G10 已实现 | OpenDRIVE 质量 Profile 的 G3–G5、G7、G9、G10 |
+| `validate/g11`、原件完整性及内外边缘复核 | G11 A–E、实际车道动力学和独立原件复核已实现，实际结果有 FAIL；共享断面联动仍属隔离内核试验 | 精确定位失败对象，完整显示 reference/width/offset/section 复杂度；不只统计 geometry |
+| `validate/shp_boundary_fidelity` | SHP 物理边界与目标外缘同身份双向对拍已实现 | G10 详情与 SHP/xodr 叠图 |
 | `scripts/esmini_rm_check` | 第三方引擎独立行驶已有实现 | OpenDRIVE 质量 Profile 的 G6（异步） |
-| `validate/lane_fidelity.paired_deviation` | 按来源 lane 的双向诊断已有实现；尚未覆盖两管道 14 文件，也未进入闭环/报告/交付阻断 | G8 目标卡片，当前显示“待正式接入” |
-| `scripts/closed_loop` | 当前只打印 G1–G7 表格，无结构化 JSON | 质量页依赖 B3 后接入 |
-| `report/deliver` | M1 骨架；phase 阻断可用，真实 CRS/ledger/G8/尺寸/UPER 语义等红线未闭合 | G0 只显示转换与质量状态；正式交付页延期 G1 |
+| `validate/lane_fidelity` + `validate/g8_model` + `validate/map_source` | G8 结构化校验已实现；必须同时回查完整原件，旧 manifest 被裁可导致假 PASS，当前批次不能继承旧结果 | 原件覆盖/G8 几何分别列状态、hash 和身份；失败点可定位，不删点 |
+| `scripts/closed_loop` | 已写 `out/closed-loop-report.json`（`mapforge/closed-loop-report/v1`）：文件级 G1–G5/G7/G8、suite 级 G6、交付裁决与汇总均可机读 | B3 直接适配该 schema，再归一到 `ConversionResult`，不得从终端文本解析或重写门禁 |
+| `report/decision` + `report/deliver` | OpenDRIVE 已有 G8/CRS/`full` 的结构化交付裁决；MAP 的 phase/ledger/UPER/尺寸/AID 等继续按目标 Profile 收口 | G0 显示三轴状态；正式人工裁决和交付包页延期 G1 |
 | `ledger/jinfeng-2026.yaml` | 金凤 `inherit-as-is` 现状台账，不等于新站点正式 ledger 流程 | G0 只读状态；裁决延期 G1 |
-| `ops/junction_fill` | `data/default/full` 已实现；对象级 provenance 与 `full REVIEW_REQUIRED` 交付守卫待补 | 转换向导「路口转向拓扑来源」 |
+| `ops/junction_fill` | `data/default/full` 已实现；`full` 已由交付裁决强制加入 `connect_mode_full` review reason | 转换向导「路口转向拓扑来源」；`full` 始终显示 REVIEW_REQUIRED |
 | 八态与 loss | 报告层已有部分状态；完整对象级八态依赖 MapIR/provenance | 质量页完整列出八态，并标出当前覆盖边界 |
 
 ---
@@ -80,7 +121,7 @@
 ### 推荐：FastAPI + 本地浏览器前端（单机启动，浏览器即界面）
 
 ```
-python -m mapforge.gui          # 起本地服务，自动开 http://127.0.0.1:8765
+python -m mapforge.gui          # 设计中的入口，尚未实现，当前不可运行
 ```
 
 | 维度 | 理由 |
@@ -112,7 +153,7 @@ python -m mapforge.gui          # 起本地服务，自动开 http://127.0.0.1:8
 ┌───────────────┴──────────────────────▼───────────────────┐
 │ mapforge/gui/  (FastAPI)                                 │
 │  ├ api/        转换 / 校验 / Profile / 台账 / 产物         │
-│  ├ jobs.py     任务队列（后台线程 + 进度事件 + 取消）      │
+│  ├ jobs.py     单机任务队列（受控子进程 + 进度 + 取消）    │
 │  ├ runs.py     run_id 目录管理与结果索引                   │
 │  └ static/     前端静态资源                               │
 └───────────────┬──────────────────────────────────────────┘
@@ -127,8 +168,12 @@ python -m mapforge.gui          # 起本地服务，自动开 http://127.0.0.1:8
 
 - `[待建 B2]` 每次转换 = 一个 `run_id`，产物落 `out/runs/<run_id>/`（xodr、报告、预览图、参数快照）；
   GUI 只读该目录 → 界面刷新不重算，历史可回看。
-- `[待建 B1/B3]` CLI 与 GUI 共用 `ConversionJob` / `ConversionResult` 和结构化 gate JSON，界面不得从终端文本反向解析状态。
-- 长任务（esmini 门禁、SHP 大目录首次索引）走任务队列，SSE 推进度，可取消。
+- `[待建 B1/B3 接入]` CLI 与 GUI 共用 `ConversionJob` / `ConversionResult`；B3 复用现有
+  `closed-loop-report/v1`、G8 sidecar 与 delivery-decision，不得从终端文本反向解析状态。
+- 长任务（转换、esmini 门禁、SHP 大目录首次索引）使用**受控子进程**，SSE 推进度；取消时终止对应进程树并原子写入
+  `CANCELLED`，不承诺用 Python 后台线程强行中断 C 扩展。
+- 本地浏览器不上传/复制 470MB 级 SHP 数据；数据源路径通过后端目录浏览 API 或本机目录选择对话框登记，手填路径作为兼容入口。
+- 路由能力由后端机器可读注册表提供（source、target、Profile、版本、参数、门禁集合），前端不硬编码“六方向”。
 - **GUI 不写业务分支**：`connect_mode` 这类参数原样透传给后端函数。
 
 ---
@@ -142,7 +187,9 @@ python -m mapforge.gui          # 起本地服务，自动开 http://127.0.0.1:8
 登记 SHP 目录 / MAP XML / xodr；显示图层清单、要素量、编码。CRS 分成两条轴展示：
 
 - **检测状态**：verified / internally-consistent / suspect / not-scanned；
-- **生产裁决**：DELIVERABLE / BLOCKED / PENDING_DECISION，并显示证据文件、PROJ pipeline、who/when/basis。
+- **生产裁决**：DELIVERABLE / BLOCKED / REVIEW_REQUIRED，并显示证据文件、PROJ pipeline、who/when/basis。
+
+`PENDING_DECISION` 仅用于描述尚未完成的人工裁决任务，作为 blocker/review reason 展示，不是第四种交付状态。
 
 `internally-consistent` 只允许算法验证，绝对控制点或合规依据未补齐前不可生产交付；`suspect` 禁止生产转换。G0 只读显示证据和阻断原因，人工签认属于 G1 决策台，不能在 G0 用一个按钮把 amber 点绿。
 
@@ -154,7 +201,7 @@ python -m mapforge.gui          # 起本地服务，自动开 http://127.0.0.1:8
 - 参数：Profile 只选不编辑；**路口转向拓扑来源** `data/default/full` 必须留在主区；
 - `data` 是生产首选；`default` 明示会产生 INFERRED；`full` 标为仿真/审查专用和 `REVIEW_REQUIRED`，不得直接生产交付；
 - 红线预检按目标 Profile 动态显示：phase/ledger/AID 等不适用于 OpenDRIVE 时显示 N/A，不能画成通用绿灯；
-- `[待建 B1–B3]` 干跑在内存中给出结构预估、推断数量、红线和预期损失，不写正式产物；未干跑或红线失败时禁用“运行转换”。
+- `[待建 B1/B2 + B3 归一]` 干跑给出结构预估、推断数量、红线和预期损失，不写正式产物；未干跑或红线失败时禁用“运行转换”。
 
 执行后进入任务状态：QUEUED / RUNNING / SUCCEEDED / FAILED / CANCELLED，可取消并查看日志；成功后默认进入地图预览，同时保留质量摘要入口。
 
@@ -189,9 +236,13 @@ python -m mapforge.gui          # 起本地服务，自动开 http://127.0.0.1:8
 - 门禁：PASS / FAIL / NOT_RUN / UNAVAILABLE；
 - 交付：DELIVERABLE / BLOCKED / REVIEW_REQUIRED。
 
-OpenDRIVE 质量 Profile 的目标门禁为 G1–G8；G8 当前显示“待正式接入 / 阻断发布”，直到双向 lane 配对覆盖 14 文件两管道并进入 `closed_loop` JSON、quality-report 和交付阻断。MAP 等其他目标使用各自 Profile 的 phase、ledger、UPER 语义回环、尺寸预算、AID/Priority/周期等门禁，工作台不能给所有格式画同一组八个点。
+OpenDRIVE 质量 Profile 的目标门禁为 G1–G8。v1.26 已完成双向 lane 配对、14 文件两管道覆盖、
+`closed-loop-report/v1`、quality-report 和交付阻断；GUI 必须显示真实 G8 结果。G6 是 suite 级 esmini 门禁，
+G1–G5/G7/G8 是文件级门禁，汇总时不得伪造每文件 G6。当前金凤技术门禁全绿，但生产交付因 CRS 未绝对核验而
+`BLOCKED`，界面必须同时呈现这两个事实。MAP 等其他目标使用各自 Profile 的 phase、ledger、UPER 语义回环、
+尺寸预算、AID/Priority/周期等门禁，工作台不能给所有格式画同一组八个点。
 
-G7 指标必须从同一版本化 Profile/后端结果读取，至少显示 `flips_per_100m_max`、`sharpness_max`、`jerk_max`、`seg_median_len`、`seg_min_len`；v1.25 当前基线为 leg `8 / 0.0045 / 21 / 3m / 3m`，conn `30 / 0.70 / 400 / 2m / 1m`。界面不得手写另一套阈值。
+G7 指标必须从同一版本化 Profile/后端结果读取，至少显示 `flips_per_100m_max`、`sharpness_max`、`jerk_max`、`seg_median_len`、`seg_min_len`；v1.26 沿用的当前基线为 leg `8 / 0.0045 / 21 / 3m / 3m`，conn `30 / 0.70 / 400 / 2m / 1m`。界面不得手写另一套阈值。
 
 八态必须完整列出 EXACT / TRANSFORMED / APPROXIMATED / INFERRED / EXTENSION / PASSTHROUGH / DROPPED / FAILED，并注明对象级覆盖边界。失败项能一键跳地图；PASS 示例不能同时混入“失败样例”。
 
@@ -205,27 +256,27 @@ G7 指标必须从同一版本化 Profile/后端结果读取，至少显示 `fli
 | CRS 确认 | 核验证据（`crs_probe` 结论 + 对比图）+ 人工签认 | provenance 记 who/when/basis | suspect 未签认前，转换按钮保持禁用 |
 
 ### 6.8 交付包与台账
-交付包页：11 文件清单、`DELIVERY-STATUS`（OK/BLOCKED）、损失摘要、一键打包下载、
+交付包页：11 文件清单、`DELIVERY-STATUS`（DELIVERABLE/BLOCKED/REVIEW_REQUIRED）、损失摘要、一键打包下载、
 **id-diff 与上一版对比**（ID 稳定性 = 下游兼容性）。台账页：region/node 分配现状、占用与冲突。
 
 ### 6.9 批量与回归
-勾选多路口批量转换；一键跑 `closed_loop` 七门禁，出**矩阵表**（文件 × 门禁）与历史趋势——
+勾选多路口批量转换；一键跑 OpenDRIVE G1–G8，出**矩阵表**（文件 × 门禁）与历史趋势——
 把本会话反复手跑的东西变成常驻页面。
 
 ---
 
 ## 7. 前置工作项（GUI 之前必须先做的后端整理）
 
-| # | 工作项 | 原因 |
-|---|---|---|
-| B1 | **统一结果契约**：各 `build_*` 返回的 stats 现在是零散 dict，需规范成 `ConversionResult` JSON（run/source/params/stats/gates/artifacts/provenance） | 前端否则要针对每种转换写特判 |
-| B2 | **run 目录规范**：`out/runs/<run_id>/`，含参数快照与产物索引 | 历史可回看、界面免重算 |
-| B3 | **门禁结果结构化**：`closed_loop` 现在打印表格，需同时落 JSON | 看板与趋势都要机读 |
-| B4 | **预览产物标准化**：GeoJSON + 俯视 PNG + 3D 快照统一生成入口与缓存 | 避免界面里现调脚本 |
-| B5 | **SHP 索引缓存**：IBD_POSITION.dbf 达 470MB，首次扫描慢 | 交互卡顿的主要来源 |
-| B6 | **编码统一**：脚本输出有 GBK（Windows 控制台），API 层统一 UTF-8 | 本会话已多次踩到 |
+| # | 工作项 | v0.3 当前状态 | 原因/实施要求 |
+|---|---|---|---|
+| B1 | **统一结果契约**：`ConversionJob` / `ConversionResult` + 机器可读能力注册表 | **未开始** | 统一 run/source/params/stats/gates/artifacts/provenance/capabilities，前端不得按转换方向写特判 |
+| B2 | **run 目录规范**：`out/runs/<run_id>/`，含 `job.json`、状态、日志、参数快照、产物索引和 `result.json` | **未开始** | 使用临时文件 + 原子 rename；历史可回看，应用重启后不重算、不把残缺 run 伪装成功 |
+| B3 | **门禁结果归一** | **核心已完成，通用接入待做** | 直接适配 `closed-loop-report/v1`、G8 sidecar、quality-report、delivery-decision；补单次 run 归一层，不重写门禁 |
+| B4 | **预览产物标准化**：GeoJSON + 俯视 PNG + 3D 快照统一生成入口与缓存 | **分散能力已有，统一入口未开始** | 复用 `preview_geojson`、`xodr_topdown`、`visual_sweep`，按输入 hash/run_id 缓存 |
+| B5 | **SHP 索引缓存**：IBD_POSITION.dbf 达 470MB，首次扫描慢 | **未开始** | 首次扫描进子进程，缓存须绑定源目录指纹/Profile 版本 |
+| B6 | **编码统一**：API、SSE、日志与 JSON 统一 UTF-8 | **API 层未开始** | 核心 JSON 多数已是 UTF-8；GUI 不依赖 Windows 控制台编码 |
 
-> B1–B3 是硬前置；B4–B6 可与 G0 并行。
+> **GUI-02 硬前置是 B1、B2 与 B3 通用接入。** B4 可与页面壳并行，但地图预览验收前必须完成；B5、B6 随 G0 实施。
 
 ---
 
@@ -233,7 +284,7 @@ G7 指标必须从同一版本化 Profile/后端结果读取，至少显示 `fli
 
 | 阶段 | 内容 | 价值 | 完成判据 |
 |---|---|---|---|
-| **G0** | B1–B4 前置 + **工作台 / 数据源与 CRS / 转换向导 / 地图预览 / 质量看板** | 转换执行者不再敲命令行，结果看得见 | 金凤 7 路口两条 xodr 主线全程不碰终端跑完；结构化 G1–G8 与后端逐项一致，运行/门禁/交付三轴状态不混淆 |
+| **G0** | B1–B4 + **工作台 / 数据源与 CRS / 转换向导 / 地图预览 / 质量看板** | 转换执行者不再敲命令行，结果看得见 | 金凤 7 路口的 SHP→xodr、MAP XML→xodr 全程不碰终端跑完；结构化 G1–G8 与后端逐项一致，运行/门禁/交付三轴状态不混淆 |
 | **G1** | **人工决策工作台**（红线三防线）+ Profile 映射器 + 交付包页 | 红线流程与接新图商进界面 | 决策台产出的文件能被现有管线直接消费；映射器导出的 YAML 与手写版产物一致 |
 | **G2** | 批量与回归看板、台账管理、版本 diff | 规模化 | 一键跑 14 文件矩阵并留历史 |
 
@@ -247,9 +298,12 @@ G7 指标必须从同一版本化 Profile/后端结果读取，至少显示 `fli
 |---|---|
 | esmini 是外部二进制，用户机器可能没有 | G6 与 3D 页做**可降级**：缺失时置灰并提示安装路径，其余门禁照常 |
 | 大数据源交互卡顿 | B5 索引缓存 + 首次扫描进后台任务 |
-| GUI 与 CI 门禁出现"两份真相" | GUI 只调同一套 `validate/*` 函数与同一份阈值常量，阈值集中定义 |
+| GUI 与 CI 门禁出现"两份真相" | GUI 读取同一次 run 的结构化 gate sidecar/闭环报告，并调用同一后端入口；不复制阈值、不从文本解析 |
+| 浏览器无法直接选择本机大目录 | 使用后端目录浏览/本机目录选择对话框登记路径；不把 470MB DBF 上传到本机服务 |
+| “取消”按钮不能真正终止任务 | 转换与外部验证走受控子进程，记录 PID/进程组并终止进程树；run 状态原子落盘 |
 | 红线被"点两下绕过" | phaseId/ID/CRS 三处**只允许记录决策**，不允许自动填值；BLOCKED 状态不可在界面强制改绿 |
-| 范围膨胀成地图编辑器 | 第 1 节边界写进验收标准；任何几何修形需求一律导向商业工具 |
+| 范围膨胀成通用 CAD | 首版只做受约束的边界/曲率/口部编辑纵切；不先扩展任意对象绘制和完整三维建模 |
+| 编辑仅改变屏幕或破坏邻道 | 前端不拟合；提交同一内核、计算依赖闭包、导出读回后再显示最终结果；失败回退 |
 
 ---
 
@@ -257,7 +311,7 @@ G7 指标必须从同一版本化 Profile/后端结果读取，至少显示 `fli
 
 | # | 决定 | 对方案的影响 |
 |---|---|---|
-| 1 | **部署形态 = 单机本地** | 不做鉴权/多用户隔离/台账并发锁；服务只监听 `127.0.0.1`。服务化留作 G2 可选项，**但不预先埋抽象**（避免为不确定的未来付复杂度） |
+| 1 | **部署形态 = 单机本地** | 不做多租户平台；服务只监听 `127.0.0.1`。v0.5 增补 Host/Origin、会话令牌/CSRF、已登记路径及 revision 校验，本地服务也不能裸露写入接口 |
 | 2 | **G0 优先服务转换执行者** | G0 页面锁定：工作台 / 数据源与 CRS / 转换向导 / 地图预览 / 质量看板。Profile 映射器推到 G1 |
 | 3 | **三条红线在 GUI 内直接操作** | 决策台进 G1 且为**重点**；必须落三条防线（见 10.1），红线语义不得被界面稀释 |
 
@@ -324,11 +378,11 @@ G0 主导航只保留五屏。G1/G2 的决策台、Profile、交付包和批量�
 
 | 屏幕 | 裁决 | 保留 | 必须修改 | 延期 |
 |---|---|---|---|---|
-| 工作台 | 修改后接受 | 环境自检、最近 run、新建转换 | 隐藏 G1/G2 导航；最近 run 显示目标 Profile 的 `x/y gates`、交付状态和“看预览/看质量”；`full` 显示 INFERRED 数与 REVIEW_REQUIRED；`out/runs`、B1–B3 标待建；补空态/目录不可读/依赖缺失 | 批量回归、趋势、安装修复向导 |
+| 工作台 | 修改后接受 | 环境自检、最近 run、新建转换 | 隐藏 G1/G2 导航；最近 run 显示目标 Profile 的 `x/y gates`、交付状态和“看预览/看质量”；`full` 显示 INFERRED 数与 REVIEW_REQUIRED；B1/B2 标待建，B3 标“已有闭环 JSON、待归一”；补空态/目录不可读/依赖缺失 | 批量回归、趋势、安装修复向导 |
 | 数据源与 CRS | 修改后接受 | 数据源清单、图层/编码/规模、证据入口、red 阻断 | 增加“使用此数据源继续转换”；把检测状态与生产裁决分开；amber=可算法验证但不可生产交付；G0 人工签认只读/置灰；预留 PROJ pipeline、证据、who/when/basis；补扫描/索引/编码/无 CRS 等状态 | G1 人工签认、字段级 drill-down、交互 CRS 对比图 |
 | 转换向导 | 接受并强化红线 | 四步结构、干跑、connect-mode 主区 | `--like` 标兼容/迁移；目标/红线动态；`data` 生产首选，`default` 显示 INFERRED 与 filled/skipped，`full` 标仿真审查/REVIEW_REQUIRED；执行前必须完成预检；增加排队/运行/取消/失败/日志 | 存为预设、Profile 编辑、复杂模板 |
 | 地图预览 | 接受 | 矢量/俯视/快照三视图、源产物常驻叠加、失败回跳 | 源名随格式变化；增加透明度/线型/差异高亮；phase 只挂适用 movement/connection；展示 source↔target 配对与 G8 双向偏差、missing/orphan、端点/停止线；完整八态标待 MapIR | 交互式 3D、高级图层样式 |
-| 质量看板 | 修改，必须同页拆层 | 门禁、八态、推导统计、定位地图 | 上层只放运行/门禁/交付摘要与阻断动作；下层按所选 gate 展开；新增 G8；G7 使用 v1.25 后端阈值并显示 min/sharpness；列全八态；生产红线与几何门禁分区；PASS 场景不混失败样例 | 趋势、批量矩阵、历史版本比较、正式交付放行页 |
+| 质量看板 | 修改，必须同页拆层 | 门禁、八态、推导统计、定位地图 | 上层只放运行/门禁/交付摘要与阻断动作；下层按所选 gate 展开；读取正式 G8；G7 使用 v1.26 后端阈值并显示 min/sharpness；列全八态；生产红线与几何门禁分区；PASS 场景不混失败样例 | 趋势、批量矩阵、历史版本比较、正式交付放行页 |
 
 ### 11.4 原线框三问的最终裁决
 
@@ -353,7 +407,36 @@ G0 实现时每屏至少覆盖：
 GUI-01 在以下条件满足后关闭：
 
 - 本节逐屏裁决已落盘；
-- `gui_g0_wireframes.html` 更新为 v0.2，修正 UTF-8、G8、G7、红线、`full` 和状态三轴；
-- 遗留规划把 GUI-01 标为完成，并把 GUI-02 继续阻塞在正式 G8 与 B1–B4 之后。
+- `gui_g0_wireframes.html` 更新为 v0.2，修正 UTF-8、G8、G7、红线、`full` 和状态三轴；该文件的运行结果示例现为历史快照，GUI-02 以本文 v0.3/v1.26 状态为准；
+- 遗留规划把 GUI-01 标为完成；当时记录的“正式 G8 阻塞”已由 v1.26 解除。GUI-02 当前只阻塞于 B1、B2、B3 通用接入，B4 随 G0 并行完成。
 
 GUI-01 完成只代表**信息架构通过评审**，不代表后端契约或 GUI 功能已经实现。
+
+---
+
+## 12. v0.3 当前完成度与 GUI-02 启动顺序
+
+### 12.1 完成度口径
+
+| 层级 | 当前完成度 | 说明 |
+|---|---:|---|
+| 两条 G0 转换后端及 OpenDRIVE 技术闭环 | 已完成 | 14 文件 G1–G8 + esmini PASS；生产交付仍因 CRS BLOCKED |
+| GUI-01 信息架构与五屏线框 | 已完成 | 线框结构可用，运行状态示例需按 v1.26 替换 |
+| B1 统一 Job/Result/能力注册 | 未开始 | GUI-02 第一工作包 |
+| B2 run 目录与任务恢复 | 未开始 | GUI-02 第二工作包 |
+| B3 结构化门禁 | 核心完成、归一待做 | 复用现有 JSON schema |
+| B4 统一预览 | 分散能力已有 | 在地图页验收前完成 |
+| 可运行 GUI | 未开始 | 当前没有 `mapforge/gui/`、FastAPI 入口或前端代码 |
+
+按 G0 的最终验收定义（而不是底层算法工作量）估算，当前约完成 **20%**：设计与后端门禁基础已经具备，
+但统一任务契约、run 持久化和全部页面代码尚未开始。
+
+### 12.2 启动顺序
+
+1. **B1**：定义并测试 `ConversionJob`、`ConversionResult`、`GateResult`、`ArtifactRef`、`CapabilityDescriptor`；
+2. **B2**：建立 `out/runs/<run_id>/` 状态机、原子 JSON、日志和重启恢复；
+3. **B3 归一**：把现有 `closed-loop-report/v1`、G8/quality/delivery sidecar 映射到统一结果；
+4. 建 FastAPI 本地壳、目录选择、任务子进程与 SSE；
+5. 先开放 **SHP→xodr、MAP XML→xodr**，其他路径未注册即不显示；
+6. 完成工作台、数据源/CRS、转换向导，再接 B4 地图预览和质量看板；
+7. 用金凤 7 路口两条主线执行 14 个 GUI run，并与命令行 `closed_loop` 逐项对拍。

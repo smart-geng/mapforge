@@ -54,9 +54,11 @@ def node4_ref():
 
 @pytest.mark.slow
 def test_profile_engine_supersedes_builtin(node4_ref, tmp_path):
-    """超集契约：YAML 引擎与内置读取器结构全等、非宽度内容逐字节全等；
-    宽度只允许在**内置缺数据处**分歧（WIDTH=0 脏数据由 boundaries 阶梯救回——
-    金凤实锤 6 条车道，引擎行为优于内置）。"""
+    """超集契约：Profile 保持道路/拓扑结构，同时可消费内置 reader 看不到的真实边界。
+
+    WIDTH=0 仍只允许由 boundary 阶梯救回；v1.28 起 Profile 还会用 LANE_BOUNDARY
+    锚定道路物理外缘，所以 laneOffset/width/provenance 不再要求与内置 reader 逐字节相同。
+    """
     from mapforge.adapters.shp.ibd_reader import IbdSource
     from mapforge.adapters.shp.profile_source import ProfileSource
     from mapforge.ops.shp_to_xodr import build_junction_xodr
@@ -69,29 +71,26 @@ def test_profile_engine_supersedes_builtin(node4_ref, tmp_path):
     jb, _ = b.find_junction(node4_ref.ref_lon, node4_ref.ref_lat)
     sb = build_junction_xodr(b, jb, tmp_path / "profile.xodr")
 
-    for k in ("roads_enter", "roads_leave", "sections", "conn_via", "conn_g2",
+    for k in ("roads_enter", "roads_leave", "conn_via", "conn_g2",
               "connections", "lanelinks"):
         assert sa[k] == sb[k], k
+    assert sb["sections"] >= sa["sections"]
 
-    def norm(p, drop_width):
-        txt = re.sub(r'date="[^"]*"', 'date=""', p.read_text(encoding="utf-8"))
-        if not drop_width:
-            return txt
-        # laneOffset 与 width 同源：v1.19 起车道边界由实测轮廓导出（边界=相邻中心中点、
-        # laneOffset=最左车道左缘），故宽度救回**必然**传导到 laneOffset——两者一起剔除后
-        # 再比"其余内容逐字节全等"，laneOffset 的分歧幅度另行有界检查
-        txt = re.sub(r"<width [^/]*/>", "", txt)
-        return re.sub(r"<laneOffset [^/]*/>", "", txt)
-
-    # 非宽度/非 laneOffset 内容逐字节全等
-    assert norm(tmp_path / "builtin.xodr", True) == norm(tmp_path / "profile.xodr", True)
-    # laneOffset 分歧有界：只应源自被救回的宽度（半个车道宽以内）
-    oa = [float(m) for m in re.findall(r'<laneOffset s="[^"]*" a="([^"]*)"',
-                                       (tmp_path / "builtin.xodr").read_text(encoding="utf-8"))]
-    ob = [float(m) for m in re.findall(r'<laneOffset s="[^"]*" a="([^"]*)"',
-                                       (tmp_path / "profile.xodr").read_text(encoding="utf-8"))]
-    assert len(oa) == len(ob)
-    assert max((abs(x - y) for x, y in zip(oa, ob)), default=0.0) < 2.5
+    from lxml import etree
+    ra_xml = etree.parse(str(tmp_path / "builtin.xodr")).getroot()
+    rb_xml = etree.parse(str(tmp_path / "profile.xodr")).getroot()
+    # 参考线和 junction 拓扑不受 Profile 边界增强影响；变化只在横断面表达。
+    legs_a = [x for x in ra_xml.findall("road") if x.get("junction") in (None, "-1")]
+    legs_b = [x for x in rb_xml.findall("road") if x.get("junction") in (None, "-1")]
+    assert [etree.tostring(x.find("planView")) for x in legs_a] == [
+        etree.tostring(x.find("planView")) for x in legs_b]
+    assert [(x.get("incomingRoad"), x.get("connectingRoad"), x.get("contactPoint"))
+            for x in ra_xml.findall("junction/connection")] == [
+        (x.get("incomingRoad"), x.get("connectingRoad"), x.get("contactPoint"))
+        for x in rb_xml.findall("junction/connection")]
+    assert sb.get("source_boundary_endpoints", 0) > 0
+    assert sb.get("boundary_section_step_m") == 10.0
+    assert sb.get("physical_edge_fill_max_m", 0.0) > 0.0
     # 语义契约：Profile 只救回内置 reader 中 WIDTH=0 的记录，绝不改写已有宽度；
     # 输出差异可传播到同 section 的相邻边界/median，以及调和后的相邻 section。
     rescued = set()
@@ -106,8 +105,6 @@ def test_profile_engine_supersedes_builtin(node4_ref, tmp_path):
             assert (old.s_width_mm, old.e_width_mm) == (new.s_width_mm, new.e_width_mm)
             rescued.add(sid)
     assert rescued
-
-    from lxml import etree
 
     def lane_rows(path):
         root = etree.parse(str(path)).getroot()
@@ -124,13 +121,12 @@ def test_profile_engine_supersedes_builtin(node4_ref, tmp_path):
 
     ra = lane_rows(tmp_path / "builtin.xodr")
     rb = lane_rows(tmp_path / "profile.xodr")
-    assert ra.keys() == rb.keys()
-    affected = {(road, si) for (road, si, _lid), (sid, _w) in rb.items()
-                if sid in rescued}
-    affected |= {(road, si + d) for road, si in list(affected) for d in (-1, 1)}
-    changed = [key for key in ra if ra[key][1] != rb[key][1]]
-    assert changed
-    assert all((road, si) in affected for road, si, _lid in changed)
+    # 边界增强会增加 laneSection 控制站，不能再按 section 索引逐项对拍；
+    # 但来源 lane 集合必须守恒，且确实产生不同的横断面表达。
+    src_a = {sid for sid, _widths in ra.values() if sid}
+    src_b = {sid for sid, _widths in rb.values() if sid}
+    assert src_a == src_b
+    assert (tmp_path / "builtin.xodr").read_bytes() != (tmp_path / "profile.xodr").read_bytes()
     assert b.derivation_stats["width"]["boundaries"] > 0     # 阶梯确实启用了
 
 

@@ -9,7 +9,7 @@
 - header(revMajor=1, revMinor=5) + geoReference（PROJ 管线落盘，CRS 硬约束 3）；
 - road[@rule=RHT]：link(pred/succ + contactPoint) / planView(line|arc|spiral)
   / lanes(laneOffset*, laneSection(left|center|right))；
-- lane 子元素顺序 link → width+ → roadMark* → speed*（XSD sequence）；
+- lane 子元素顺序 link → (width+|border+) → roadMark* → speed*（XSD sequence）；
   左侧车道按 id 降序、右侧按 id 升序绝对值（外→内/内→外的文档惯例）；
 - junction/connection/laneLink。
 
@@ -44,6 +44,7 @@ class Lane:
     lane_id: int
     lane_type: str = "driving"                           # driving | median | ...
     widths: list = field(default_factory=list)           # [(sOffset, a, b, c, d)]
+    borders: list = field(default_factory=list)          # 绝对外边界 t(s)，与 widths 互斥
     mark: tuple | None = None                            # (type, color, width_m)
     speed_ms: float | None = None
     pred: int | None = None
@@ -53,6 +54,15 @@ class Lane:
 
     def add_width(self, a, b=0.0, c=0.0, d=0.0, s_offset=0.0):
         self.widths.append((s_offset, a, b, c, d))
+        return self
+
+    def add_border(self, a, b=0.0, c=0.0, d=0.0, s_offset=0.0):
+        """增加 OpenDRIVE `<border>` 多项式。
+
+        border 是相对 road reference line 的绝对外边界，不是车道宽度；ASAM
+        要求它与 width 互斥，且使用 border 的 road 不得再写 laneOffset。
+        """
+        self.borders.append((s_offset, a, b, c, d))
         return self
 
 
@@ -151,8 +161,12 @@ class XodrDoc:
                 ET.SubElement(lk, "predecessor", id=str(ln.pred))
             if ln.succ is not None:
                 ET.SubElement(lk, "successor", id=str(ln.succ))
-        for (so, a, b, c, d) in sorted(ln.widths):
-            ET.SubElement(el, "width", sOffset=_f(so), a=_f(a), b=_f(b), c=_f(c), d=_f(d))
+        if ln.widths and ln.borders:
+            raise ValueError(f"lane {ln.lane_id}: width and border are mutually exclusive")
+        geometry_tag = "border" if ln.borders else "width"
+        for (so, a, b, c, d) in sorted(ln.borders or ln.widths):
+            ET.SubElement(el, geometry_tag, sOffset=_f(so), a=_f(a), b=_f(b),
+                          c=_f(c), d=_f(d))
         if ln.mark is not None:
             typ, color, w = ln.mark
             ET.SubElement(el, "roadMark", sOffset="0", type=typ,
@@ -195,6 +209,9 @@ class XodrDoc:
             else:
                 raise ValueError(f"unknown geometry kind: {kind}")
             s += L
+        has_border = any(ln.borders for sec in rd.sections for ln in sec.left + sec.right)
+        if has_border and rd.offsets:
+            raise ValueError(f"road {rd.road_id}: laneOffset cannot coexist with lane border")
         lanes = ET.SubElement(el, "lanes")
         for (so, a, b, c, d) in sorted(rd.offsets):
             ET.SubElement(lanes, "laneOffset", s=_f(so), a=_f(a), b=_f(b), c=_f(c), d=_f(d))
@@ -242,7 +259,12 @@ class XodrDoc:
 
 
 def add_paving_road(doc: "XodrDoc", poly_xy, junction_id: int, road_id: int = 90,
-                    *, provenance: dict | None = None):
+                    *, smooth_profile: bool = False,
+                    single_section: bool = False,
+                    preferred_axis=None,
+                    overlap_m: float = 0.0,
+                    lane_type: str = "restricted",
+                    provenance: dict | None = None):
     """junction 内部铺面 road：参考线沿多边形主轴（PCA），单条 type=none 车道的
     宽度轮廓逐站扫掠出多边形形状——查看器渲染为无标线沥青面，填补连接路带
     盖不住的路口角落；不入拓扑、无 connection 引用、不参与寻路。
@@ -250,17 +272,33 @@ def add_paving_road(doc: "XodrDoc", poly_xy, junction_id: int, road_id: int = 90
     import numpy as np
     from shapely.geometry import LineString, Polygon
 
+    if lane_type not in {"restricted", "median"}:
+        raise ValueError("auxiliary surface must not be a routable driving lane")
+
     pg = Polygon(poly_xy).buffer(0)
-    if pg.is_empty or pg.area < 10:
+    if pg.is_empty or pg.area < (0.05 if lane_type == "median" else 10):
         return False
     pts = np.asarray(pg.exterior.coords)
     c = pts.mean(axis=0)
     q = pts - c
-    _u, _s, vt = np.linalg.svd(q, full_matrices=False)
-    ax = vt[0]
+    if preferred_axis is not None:
+        ax = np.asarray(preferred_axis, float)
+        an = float(np.linalg.norm(ax))
+        ax = ax / an if an > 1e-9 else None
+    else:
+        ax = None
+    if ax is None:
+        _u, _s, vt = np.linalg.svd(q, full_matrices=False)
+        ax = vt[0]
     nrm = np.array([-ax[1], ax[0]])
     s_all = q @ ax
-    s0, s1 = float(s_all.min()) + 0.05, float(s_all.max()) - 0.05
+    # MAP 推断面必须与两端道路口部有确定的面积重叠；仅仅“接触”会因查看器
+    # 独立三角化/浮点取样出现像素级裂缝。SHP 实测面默认 overlap=0，维持原语义。
+    if overlap_m > 0.0:
+        s0 = float(s_all.min()) - overlap_m
+        s1 = float(s_all.max()) + overlap_m
+    else:
+        s0, s1 = float(s_all.min()) + 0.05, float(s_all.max()) - 0.05
     L = s1 - s0
     if L < 4.0:
         return False
@@ -268,7 +306,10 @@ def add_paving_road(doc: "XodrDoc", poly_xy, junction_id: int, road_id: int = 90
     road = Road(road_id, name="junction_paving", junction=junction_id)
     road.add_geometry("line", float(start[0]), float(start[1]),
                       math.atan2(float(ax[1]), float(ax[0])), L)
-    K = max(3, int(L / 4) + 2)
+    # MAP 推断铺面用 1m 断面采样 + PCHIP，使 curb-return 外缘连续圆滑；
+    # SHP 实测面默认仍保留原 4m 线性扫掠行为，避免无依据改写源多边形。
+    step = 1.0 if smooth_profile else 4.0
+    K = max(3, int(L / step) + 2)
     us = np.linspace(0.0, L, K)
     prof = []
     for u in us:
@@ -284,23 +325,58 @@ def add_paving_road(doc: "XodrDoc", poly_xy, junction_id: int, road_id: int = 90
                          sorted(range(K), key=lambda j: abs(j - i))
                          if prof[j] is not None), (0.0, 0.0))
             prof[i] = near
-    for i in range(K - 1):
-        u0 = float(us[i])
-        Ls = float(us[i + 1] - us[i])
-        (lo0, hi0), (lo1, hi1) = prof[i], prof[i + 1]
-        road.add_offset(u0, hi0, (hi1 - hi0) / Ls)
-        sec = LaneSection(u0)
+    if smooth_profile:
+        from scipy.interpolate import PchipInterpolator
+        hi_vals = np.asarray([x[1] for x in prof], float)
+        width_vals = np.asarray([x[1] - x[0] for x in prof], float)
+        hi_curve = PchipInterpolator(us, hi_vals)
+        width_curve = PchipInterpolator(us, width_vals)
+    if smooth_profile:
+        # 一个 laneSection + 多个 width 记录：OpenDRIVE 原生允许 width 在同一
+        # laneSection 内分段。旧实现每 1m 新建 laneSection，odrviewer 会对每段
+        # 独立三角化，在完全连续的多项式交界也可能留下细裂缝。
+        sec = LaneSection(0.0)
+        ln = Lane(-1, lane_type, provenance=provenance)
+        for i in range(K - 1):
+            u0 = float(us[i])
+            hc, wc = hi_curve.c[:, i], width_curve.c[:, i]
+            road.add_offset(u0, hc[3], hc[2], hc[1], hc[0])
+            ln.add_width(wc[3], wc[2], wc[1], wc[0], s_offset=u0)
+        sec.right.append(ln)
+        road.sections.append(sec)
+    elif single_section:
+        # SHP 路口面保持源多边形的分段线性轮廓，但只写一个 laneSection。
+        # OpenDRIVE 允许同一 laneSection 内存在多条 laneOffset/width 记录；这样
+        # odrviewer 不会在每个采样断面分别封口、三角化并留下像素级裂缝。
+        sec = LaneSection(0.0)
+        ln = Lane(-1, lane_type, provenance=provenance)
+        for i in range(K - 1):
+            u0 = float(us[i])
+            Ls = float(us[i + 1] - us[i])
+            (lo0, hi0), (lo1, hi1) = prof[i], prof[i + 1]
+            road.add_offset(u0, hi0, (hi1 - hi0) / Ls)
+            w0, w1 = hi0 - lo0, hi1 - lo1
+            ln.add_width(w0, (w1 - w0) / Ls, s_offset=u0)
+        sec.right.append(ln)
+        road.sections.append(sec)
+    else:
+        for i in range(K - 1):
+            u0 = float(us[i])
+            Ls = float(us[i + 1] - us[i])
+            (lo0, hi0), (lo1, hi1) = prof[i], prof[i + 1]
+            road.add_offset(u0, hi0, (hi1 - hi0) / Ls)
+            sec = LaneSection(u0)
         # restricted：esmini 实测渲染为**沥青**(83,83,75)，与行车道同材质；
         # none/border 渲染浅灰(125,125,113)、curb/sidewalk 混凝土(170,170,154)。
         # 语义亦相符：铺装路面但不可行车（不入拓扑、无 connection 引用）
-        ln = Lane(-1, "restricted", provenance=provenance)
-        w0, w1 = hi0 - lo0, hi1 - lo1
-        ln.add_width(w0, (w1 - w0) / Ls)
-        if i > 0:
-            ln.pred = -1
-        if i < K - 2:
-            ln.succ = -1
-        sec.right.append(ln)
-        road.sections.append(sec)
+            ln = Lane(-1, lane_type, provenance=provenance)
+            w0, w1 = hi0 - lo0, hi1 - lo1
+            ln.add_width(w0, (w1 - w0) / Ls)
+            if i > 0:
+                ln.pred = -1
+            if i < K - 2:
+                ln.succ = -1
+            sec.right.append(ln)
+            road.sections.append(sec)
     doc.add_road(road)
     return True

@@ -1,0 +1,35 @@
+{
+  "schema": "mapforge/checkpoint-validation/v1",
+  "date": "2026-09-15",
+  "baseline_commit": "89dda0a",
+  "revision_reference": "the checkpoint commit containing this file",
+  "status": "CODE_REGRESSION_PASS_NOT_MAP_DELIVERY",
+  "python": {
+    "command": ".venv/Scripts/python.exe -m pytest tests -q --tb=short --maxfail=8 --junitxml=out/checkpoint-20260915/validation/pytest.xml",
+    "collected": 871,
+    "passed": 871,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "warnings": 2,
+    "console_duration_seconds": 659.08,
+    "junit_duration_seconds": 659.001,
+    "junit_path": "out/checkpoint-20260915/validation/pytest.xml",
+    "junit_sha256": "8251c7bac66c5007896b0bf44fb40ac5cd6c2ccf15be2b8b038d2b90ff24f797"
+  },
+  "frontend": {
+    "command": "node --test tests/repair_ui_math.test.mjs",
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0
+  },
+  "compileall": "PASS",
+  "git_diff_cached_check": "PASS",
+  "warning_notes": [
+    "Starlette TestClient httpx deprecation",
+    "anyio.abc.BlockingPortal alias deprecation"
+  ],
+  "acceptance_boundary": "Unit, contract and local real-evidence regression includes expected rejection of invalid candidates. Not source fidelity, dynamics, whole-map, MAP delivery or controller safety approval.",
+  "browser_evidence": "out/node4-repair-ui-v2-20260915/ui-evidence (previous completed UI verification; no user session was edited for this archive)",
+  "live_services_preserved": [8765, 8766]
+}

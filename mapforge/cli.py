@@ -27,14 +27,18 @@ def _msgframe_type():
     return msglayer_draft.MsgLayerDraft.MessageFrame
 
 
-def _finalize_xodr(path: Path, stats: dict, connect_mode: str):
+def _finalize_xodr(path: Path, stats: dict, connect_mode: str, *, raw_map_paths=None):
     from mapforge.report.decision import finalize_opendrive_g8
     policy = _ROOT / "profiles" / "validation" / "g8-opendrive-jinfeng-v1.yaml"
     result = finalize_opendrive_g8(
-        path, stats.get("source_lane_manifest"), policy, connect_mode=connect_mode)
+        path, stats.get("source_lane_manifest"), policy, connect_mode=connect_mode,
+        raw_map_paths=raw_map_paths)
     gate, decision = result["gate"], result["decision"]
     typer.echo(f"  G8: {gate['status']}（matched {gate.get('scope', {}).get('matched_source_lanes', 0)}，"
                f"exclusions {len(gate.get('exclusions', []))}）")
+    typer.echo(f"  G11: {result['g11']['status']}（少段、连续性、驾驶车道动力学）")
+    if 'G8-source-integrity' in result['quality']['gates']:
+        typer.echo(f"  原始MAP来源完整性: {result['quality']['gates']['G8-source-integrity']['status']}")
     typer.echo(f"  DELIVERY-STATUS: {decision['status']}")
     if decision["status"] != "DELIVERABLE":
         raise typer.Exit(2)
@@ -252,7 +256,8 @@ def convert(input_path: Path,
                    f"，拟合偏差峰值 {stats['fit_dev_max']:.2f}m"
                    + (f"，skipped {stats['skipped']}" if stats["skipped"] else ""))
         typer.echo(f"  {base.with_suffix('.xodr').name}")
-        _finalize_xodr(base.with_suffix(".xodr"), stats, connect_mode)
+        _finalize_xodr(base.with_suffix(".xodr"), stats, connect_mode,
+                       raw_map_paths=[input_path] if input_path.suffix.lower() == '.xml' else None)
     else:
         typer.echo(f"未知目标 {to}")
         raise typer.Exit(1)

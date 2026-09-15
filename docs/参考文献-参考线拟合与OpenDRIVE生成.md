@@ -88,3 +88,33 @@
 ```
 
 **三条最有实现价值的组合**：① pyclothoids(MIT)+Clothoids(BSD-2) 省去自研 Fresnel 积分层，spiral 段直接得 curvStart/curvEnd/length；② Camacho-Torregrosa 航向图分段法与之互补成完整流水线；③ Maier 最优性框架 + scipy GCV 预平滑解决"精度-段数-平滑"三方权衡。
+
+## 七、2026-09-11补充：联合拟合与形状保持的边界
+
+Cudrano等，*Clothoid-Based Lane-Level High-Definition Maps: Unifying Sensing and Control Models*，IEEE Vehicular Technology Magazine，2022年12月。期刊全文确认：以线标记为观测进行图优化，再删除不必要原语，结果为**G1**连续样条。本项目借鉴联合模型/压缩思路，但其G1和加权误差不能替代我们硬性G2、真实速度、多车道正宽及来源门禁。[期刊全文](https://read.nxtbook.com/ieee/vehicular_technology/vehiculartechnology_dec_2022/clothoid_based_lane_level_hig.html)
+
+v1.47真实对照进一步表明：自由3回旋线可以贴近点列，却在长直段产生额外波浪；增加Line优先和直线保护比单纯多加原语更符合形状意图。两处分合流仍在原60km/h条件下拒绝，**不是采用上述文献后整图已通过**。代码、图和限制见[完整源路径与直线保护复核](复核补充-完整源路径少原语与直线保护-2026-09-11.md)。本轮不复用论文附带代码。
+
+此前章节属于历史调研，不作为当前完成声明；实际writer和默认paramPoly3政策以最新总方案/Profile为准，“未检索到先例”也不能据此证明全世界不存在先例或首创。
+
+### v1.51核对：应优化事件/弧长，而不是只调固定结点的系数
+
+Zhao、Farrell，*Optimization-based Road Curve Fitting*，CDC-ECC 2011，5293–5298，DOI `10.1109/CDC.2011.6161024`。[会议论文镜像](https://folk.ntnu.no/skoge/prost/proceedings/cdc-ecc-2011/data/papers/1492.pdf)。检索所得论文内容描述将弧长、曲率切换和数据拟合联立，利用L1正则促进曲率变化稀疏。镜像直读未成功，本轮非全文逐页核验。其分段常曲率不是本项目G2成品；借鉴的是可变站位和稀疏切换的建模思路，不照搬最终曲线或声称会自动解决当前路网。
+
+McCrae、Singh，*Sketching piecewise clothoid curves*，Computers & Graphics 33(4)，2009，452–461，DOI `10.1016/j.cag.2009.05.006`。[期刊页](https://www.sciencedirect.com/science/article/pii/S0097849309000843)、[作者项目与2008会议版本](https://www.dgp.toronto.edu/~mccrae/projects/clothoid/)。期刊检索摘要确认G2回旋线拟合与误差控制，作者页明确适用概念设计、形状公平性优先于精确插值；两版本不可混作同一书目。不能把视觉公平性当0.35m硬来源、真实速度或OpenDRIVE读回的替代。只核查算法思想，未引入未核许可证的作者代码。
+
+上述方法仅用于后续候选建模选择。v1.51真实固定轴长三次联合块仍被拒绝；完整证据和规范边界见[实施计划](实施计划-整路联动重建与编辑闭环.md)，本轮没有新XODR。
+
+### v1.52核对：长过渡的自由度与目标格式的表示能力分开
+
+*Planar G2 transition with a fair Pythagorean hodograph quintic curve*，Journal of Computational and Applied Mathematics 138(1)，2002，109–126，DOI `10.1016/S0377-0427(01)00359-4`。[期刊页](https://www.sciencedirect.com/science/article/pii/S0377042701003594)。期刊摘要确认五次PH过渡/G2/曲率形态控制；未逐页复现论文算法。本轮借鉴提高长过渡自由度的思路，采用普通五次B样条联合边界，**不是PH曲线，不继承其特殊弧长和offset性质**，未复用作者代码。
+
+多项式/B样条/Bernstein运算参考[SciPy官方文档](https://docs.scipy.org/doc/scipy/tutorial/interpolate/splines_and_polynomials.html)，以独立BPoly和极值负例对拍。原46长区间未缩短，内部保持C2。它仅解决该固定三次模型的几何不可行，不等于源速度动态或OpenDRIVE可写出：width/border仍三次，后续编译误差不能突破总0.35m来源预算。
+
+[CommonRoad官方OpenDRIVE转换说明](https://commonroad-scenario-designer.readthedocs.io/en/latest/details/open_drive/)包含分合流零宽处通行lanelet边界重建说明；这是反向转换，不能据此修改本项目源点或拓扑。v1.52仅区分通行/物理关系，不调用或引入其GPL实现。最终真实边界子块可行、原60km/h动态仍失败，详见实施计划，仍无新XODR。
+
+### v1.56核对：线性化失败与原问题不可行须分开
+
+[Stanford SNOPT官方约束不可行性处理](https://web.stanford.edu/group/SOL/software/snoptHelp/Description_of_method/Treatment_of_constraint_infeasibilities.htm)描述保持线性约束、对非线性约束采用弹性处理；[UCSD官方SNOPT](https://ccom.ucsd.edu/~optimizers/solvers/snopt/)提供SQP说明及论文目录。本轮读取官方说明，只借鉴硬线性/弹性非线性的分层思想：项目采用最大超限LP和第二层平顺QP，不是SNOPT算法复现，也未安装或复用其代码。
+
+本项目的弹性只在搜索中间态存在，来源/宽度/结构保持硬约束，最终端点/G2/动态仍须满足原门禁。NODE5/node16可恢复一部分残差但最终拒绝，不代表原地图全局无解；node13对照复现旧候选，没有新增合格地图。具体实现、数值问题和下步轴/事件联合边界见[复核记录](复核补充-联合可行性恢复与来源参考轴-2026-09-11.md)。
