@@ -1,0 +1,35 @@
+schema: mapforge/research-long-layout-trial/v1
+status: RESEARCH_NOT_MAP_APPROVAL
+reference_sha256: 5d1cec2baea21200fbdcf78ca9267bfe7bb94e9cf441539d759370fffdaaea98
+control:
+  source_key: IBD_LANE_BOUNDARY:2023041110502726490
+  record: 0
+  part: 0
+  edge: 3
+  station: 178.0
+target: original_source_at_same_station_no_target_shrink
+source_envelope_m: 0.75
+layout:
+  count: 10
+  movable_indices: [7, 8]
+  minimum_span_m: 6.0
+  same_chart_ports_scope_births_and_source_occurrences: true
+  alternatives:
+    - source-plateau-long-support
+    - balanced-long-support
+  extra_independent_knots: 0
+reference_contract:
+  noop: original_xml_bytes
+  undo: original_xml_bytes
+  projection: numerical_seed_only_never_apply_or_export
+  objective: integrated_minimum_deformation_against_original_xml_split_at_all_old_and_new_breaks
+  strain_length_m: 10.0
+  caps: all_original_r6_curvature_rate_total_variation_reversal_caps_unchanged
+budget:
+  maximum_layout_candidates: 2
+  max_iterations_per_candidate: 80
+  max_total_iterations: 160
+  max_total_solve_seconds: 90
+  stop_on_first_verified_candidate: true
+on_failure: preserve_all_rejections_no_seed_or_weight_scan_no_relaxed_map
+acceptance: local_candidate_only_requires_written_xml_review_not_whole_map
