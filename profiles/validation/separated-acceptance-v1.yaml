@@ -1,0 +1,46 @@
+schema: mapforge/separated-acceptance-policy/v1
+id: separated-static-operating-acceptance
+version: 1
+authorization:
+  date: '2026-09-15'
+  basis: user-confirmed-in-current-thread
+  response: '分开验收：地图保真和平滑独立检查；动态按明确的通行路径、速度工况检查。原限速不改、旧失败保留，缺工况仍阻断交付。'
+  scope: acceptance-separation-only-not-case-or-map-approval
+legacy_policy:
+  path: profiles/validation/g11-opendrive-v1.draft.yaml
+  sha256: 6905b51c91694f5db10fdb012e572201a462efd7d6a91fb901a761e55768d089
+static:
+  inherited_groups: [G11-A, G11-B, G11-C, G11-E]
+  retained_speed_independent_d_codes:
+    - non_finite_lane_curvature
+    - driving_lane_curvature_jump
+  require_world_edges: true
+  require_full_source_coverage: true
+  require_source_fidelity: true
+  require_shape_and_curvature_variation_review: true
+  require_surface_and_topology: true
+  require_absolute_crs: true
+  require_final_xml_consumer_and_screenshots: true
+operating_dynamics:
+  require_explicit_path: true
+  require_explicit_speed_profile: true
+  bind_final_xodr_sha256: true
+  bind_source_manifest_sha256: true
+  require_complete_coverage: true
+  missing_conditions: BLOCKED
+  unapproved_conditions: BLOCKED
+  unevaluated_conditions: BLOCKED
+  infer_speed_from_geometry: false
+  infer_operating_speed_from_limit: false
+  modify_written_speed_limits: false
+  lateral_acceleration_mps2: 2.5
+  lateral_demand_rate_mps3: 1.0
+  variable_speed_requires_longitudinal_term: true
+legacy_stress:
+  preserve_original_files: true
+  preserve_failures: true
+  role: retained-limit-stress-not-operating-case
+delivery:
+  static_only_release: false
+  conditions_registered_only_release: false
+  automatic_driving_safety_certification: false
