@@ -4,19 +4,21 @@ from __future__ import annotations
 
 import math
 import sys
+from pathlib import Path
 
 import numpy as np
 import shapefile
 
-sys.path.insert(0, r"F:\MapFactory")
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 
-SHP = r"F:\MapFactory\shp_0222-0326"
+SHP = ROOT / "shp_0222-0326"
 REF = (106.3183590, 29.5161415)     # node16 refPos (lon, lat)
 
 
 def rd(name, fields=None):
     # IBD 的 DBF LDID=0x57、中文实为 GBK（资料盘点 2.1）
-    return shapefile.Reader(SHP + "\\" + name, encoding="gbk")
+    return shapefile.Reader(str(SHP / name), encoding="gbk")
 
 
 def main():

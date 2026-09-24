@@ -8,11 +8,12 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-sys.path.insert(0, r"F:\MapFactory")
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 
-ASN = Path(r"F:\MapFactory\mapforge\adapters\v2xmap\asn\msglayer-draft.asn")
-GEN = Path(r"F:\MapFactory\mapforge\adapters\v2xmap\asn\msglayer_draft.py")
-OUT = Path(r"F:\MapFactory\out")
+ASN = ROOT / "mapforge" / "adapters" / "v2xmap" / "asn" / "msglayer-draft.asn"
+GEN = ROOT / "mapforge" / "adapters" / "v2xmap" / "asn" / "msglayer_draft.py"
+OUT = ROOT / "out"
 
 
 def main():

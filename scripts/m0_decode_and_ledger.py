@@ -12,13 +12,14 @@ import json
 import sys
 from pathlib import Path
 
-sys.path.insert(0, r"F:\MapFactory")
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 from mapforge.adapters.v2xmap.xml_reader import parse_map_xml
 from mapforge.report.preview_geojson import to_geojson  # noqa: F401  已入包，re-export 兼容旧 import
 
-SRC = Path(r"F:\MapFactory\v2x_map_xml")
-OUT = Path(r"F:\MapFactory\out")
-LEDGER = Path(r"F:\MapFactory\ledger")
+SRC = ROOT / "v2x_map_xml"
+OUT = ROOT / "out"
+LEDGER = ROOT / "ledger"
 
 
 def main():

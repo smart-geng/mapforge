@@ -14,11 +14,12 @@ from pathlib import Path
 
 import numpy as np
 
-sys.path.insert(0, r"F:\MapFactory")
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 from mapforge.ops.refline_fit import fit_polyline, eval_planview, lateral_deviation, ARC, LINE
 
 XODR = Path(r"F:\资料\SUMO\MapFormat-main\OpenDRIVE_data\OpenDRIVE数据\Town\Town03.xodr")
-OUT = Path(r"F:\MapFactory\out")
+OUT = ROOT / "out"
 SIG_ARC_LEN = 8.0      # “显著 arc”判定长度（真值）
 SAMPLE_STEP = 2.0
 

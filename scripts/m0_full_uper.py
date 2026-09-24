@@ -8,14 +8,15 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-sys.path.insert(0, r"F:\MapFactory")
-sys.path.insert(0, r"F:\MapFactory\mapforge\adapters\v2xmap\asn")
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "mapforge" / "adapters" / "v2xmap" / "asn"))
 
 from mapforge.adapters.v2xmap.xml_reader import parse_map_xml
 from mapforge.adapters.v2xmap.to_asn import node_to_messageframe_val, _i7, _OFFSET_TIERS
 
-SRC = Path(r"F:\MapFactory\v2x_map_xml")
-OUT = Path(r"F:\MapFactory\out")
+SRC = ROOT / "v2x_map_xml"
+OUT = ROOT / "out"
 
 
 def restore_points(val):

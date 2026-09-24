@@ -12,8 +12,9 @@ from pathlib import Path
 
 import numpy as np
 
-sys.path.insert(0, r"F:\MapFactory")
-sys.path.insert(0, r"F:\MapFactory\mapforge\adapters\v2xmap\asn")
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "mapforge" / "adapters" / "v2xmap" / "asn"))
 
 from mapforge.adapters.shp.ibd_reader import IbdSource
 from mapforge.adapters.v2xmap.xml_reader import parse_map_xml
@@ -21,9 +22,9 @@ from mapforge.adapters.v2xmap.to_asn import node_to_messageframe_val
 from mapforge.ops.shp_to_map import rebuild_from_ibd, phase_table_from_xml, id_table_from_xml
 from mapforge.report.preview_geojson import to_geojson
 
-SHP_DIR = r"F:\MapFactory\shp_0222-0326"
-SRC = Path(r"F:\MapFactory\v2x_map_xml")
-OUT = Path(r"F:\MapFactory\out")
+SHP_DIR = str(ROOT / "shp_0222-0326")
+SRC = ROOT / "v2x_map_xml"
+OUT = ROOT / "out"
 R_EARTH = 6378137.0
 
 

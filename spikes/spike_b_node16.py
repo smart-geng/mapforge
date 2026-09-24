@@ -12,15 +12,16 @@ from pathlib import Path
 
 import numpy as np
 
-sys.path.insert(0, r"F:\MapFactory")
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 from mapforge.adapters.v2xmap.xml_reader import parse_map_xml
 from mapforge.ops.refline_fit import fit_polyline, eval_planview, lateral_deviation, PlanView, PlanSeg
 from mapforge.validate.planview_check import check_file
 
 from scenariogeneration import xodr
 
-XML = Path(r"F:\MapFactory\v2x_map_xml\map凤阁路-金剑路路口node16.xml")
-OUT = Path(r"F:\MapFactory\out")
+XML = ROOT / "v2x_map_xml" / "map凤阁路-金剑路路口node16.xml"
+OUT = ROOT / "out"
 R_EARTH = 6378137.0
 
 
@@ -174,7 +175,7 @@ def main():
             f"最差位置差 {chk['worst_pos_gap_m']*1000:.3f} mm / 最差航向差 {chk['worst_hdg_gap_rad']*1000:.3f} mrad"]
     try:
         from lxml import etree
-        schema = etree.XMLSchema(etree.parse(r"F:\MapFactory\OpenDRIVE_1.5M.xsd"))
+        schema = etree.XMLSchema(etree.parse(str(ROOT / "OpenDRIVE_1.5M.xsd")))
         doc = etree.parse(str(out_path))
         ok = schema.validate(doc)
         rep.append(f"- XSD 1.5M：{'PASS' if ok else 'FAIL'}"

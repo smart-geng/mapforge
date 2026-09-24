@@ -13,8 +13,9 @@ from pathlib import Path
 
 MD = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(
     r"C:\Users\geng\AppData\Local\Temp\claude\F--MapFactory\a3fd49b9-d29a-42ba-b5c6-d4e1aecefa8b\scratchpad\msglayer.md")
-ASN_DIR = Path(r"F:\MapFactory\mapforge\adapters\v2xmap\asn")
-OUT = Path(r"F:\MapFactory\out")
+ROOT = Path(__file__).resolve().parents[1]
+ASN_DIR = ROOT / "mapforge" / "adapters" / "v2xmap" / "asn"
+OUT = ROOT / "out"
 
 MODULE_HEAD = """-- 消息层数据集 ASN.1（自动提取自《基于LTE的车联网无线通信技术 消息层技术要求》送审稿 docx）
 -- 提取工具：scripts/m0_extract_asn.py；人工校对状态见 out/asn_extract_report.md

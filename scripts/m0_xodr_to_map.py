@@ -10,9 +10,10 @@ import json
 import sys
 from pathlib import Path
 
-sys.path.insert(0, r"F:\MapFactory")
-sys.path.insert(0, r"F:\MapFactory\mapforge\adapters\v2xmap\asn")
-sys.path.insert(0, r"F:\MapFactory\scripts")
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "mapforge" / "adapters" / "v2xmap" / "asn"))
+sys.path.insert(0, str(ROOT / "scripts"))
 
 from mapforge.adapters.opendrive.reader import parse_xodr
 from mapforge.ops.junction_to_map import rebuild_junction, _incoming_dirs
@@ -20,7 +21,7 @@ from mapforge.adapters.v2xmap.to_asn import node_to_messageframe_val
 from m0_decode_and_ledger import to_geojson
 
 XODR = Path(r"F:\资料\SUMO\MapFormat-main\OpenDRIVE_data\OpenDRIVE数据\Town\Town03.xodr")
-OUT = Path(r"F:\MapFactory\out")
+OUT = ROOT / "out"
 
 
 def main():

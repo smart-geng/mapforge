@@ -63,6 +63,8 @@ def test_profile_engine_supersedes_builtin(node4_ref, tmp_path):
     from mapforge.adapters.shp.profile_source import ProfileSource
     from mapforge.ops.shp_to_xodr import build_junction_xodr
 
+    if not (ROOT / "shp_0222-0326" / "IBD_LANE_LINK.shp").exists():
+        pytest.skip("original SHP delivery not installed")
     a = IbdSource(str(ROOT / "shp_0222-0326"))
     ja, _ = a.find_junction(node4_ref.ref_lon, node4_ref.ref_lat)
     sa = build_junction_xodr(a, ja, tmp_path / "builtin.xodr")
@@ -135,6 +137,8 @@ def test_route_b_width_from_boundaries(node4_ref):
     from mapforge.adapters.shp.ibd_reader import IbdSource
     from mapforge.adapters.shp.profile_source import ProfileSource
 
+    if not (ROOT / "shp_0222-0326" / "IBD_LANE_LINK.shp").exists():
+        pytest.skip("original SHP delivery not installed")
     truth_src = IbdSource(str(ROOT / "shp_0222-0326"))
     junc, _ = truth_src.find_junction(node4_ref.ref_lon, node4_ref.ref_lat)
     c = ProfileSource(str(ROOT / "shp_0222-0326"), "ibd-boundary-demo")

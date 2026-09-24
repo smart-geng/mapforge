@@ -16,13 +16,14 @@ from pathlib import Path
 import numpy as np
 import shapefile
 
-sys.path.insert(0, r"F:\MapFactory")
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 from mapforge.adapters.v2xmap.xml_reader import parse_map_xml
 from mapforge.mapir.crs_probe import wgs2gcj
 
-SRC = Path(r"F:\MapFactory\v2x_map_xml")
-SHP = Path(r"F:\MapFactory\shp_0222-0326")
-OUT = Path(r"F:\MapFactory\out")
+SRC = ROOT / "v2x_map_xml"
+SHP = ROOT / "shp_0222-0326"
+OUT = ROOT / "out"
 R_EARTH = 6378137.0
 FILES = ["map凤阁路-金剑路路口node16.xml", "map凤苑路-金玥路node4.xml", "map含金路-金剑路路口node17.xml"]
 
