@@ -8,7 +8,7 @@ from mapforge.adapters.v2xmap.xml_reader import parse_map_xml
 from mapforge.adapters.v2xmap.xml_writer import node_to_xml
 from mapforge.adapters.v2xmap.to_asn import node_to_messageframe_val
 
-SRC = Path(r"F:\MapFactory\v2x_map_xml")
+SRC = Path(__file__).resolve().parents[1] / "v2x_map_xml"
 XMLS = sorted(SRC.glob("map*.xml"))
 
 

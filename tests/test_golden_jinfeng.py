@@ -11,20 +11,23 @@ import pytest
 
 pytestmark = pytest.mark.slow
 
-SRC = Path(r"F:\MapFactory\v2x_map_xml")
-SHP = r"F:\MapFactory\shp_0222-0326"
+ROOT = Path(__file__).resolve().parents[1]
+SRC = ROOT / "v2x_map_xml"
+SHP = ROOT / "shp_0222-0326"
 
 
 @pytest.fixture(scope="module")
 def ibd():
+    if not (SHP / "IBD_LANE_LINK.shp").exists():
+        pytest.skip("original SHP delivery not installed")
     from mapforge.adapters.shp.ibd_reader import IbdSource
-    return IbdSource(SHP)
+    return IbdSource(str(SHP))
 
 
 @pytest.mark.parametrize("xml", sorted(SRC.glob("map*.xml")), ids=lambda x: x.stem[-8:])
 def test_shp_to_map_matches_live(xml, ibd, tmp_path):
     import sys
-    sys.path.insert(0, r"F:\MapFactory\scripts")
+    sys.path.insert(0, str(ROOT / "scripts"))
     from m1_shp_to_map import process
     node, r = process(xml, ibd, tmp_path)
     # 结构：Link 4/4；车道差 ≤1（node16 已知版本差异）

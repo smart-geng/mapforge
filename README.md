@@ -25,7 +25,7 @@ OpenDRIVE 写出为**自研规范级 writer**（`mapforge/adapters/opendrive/wri
 
 ```bash
 python -m venv .venv
-.venv/Scripts/pip install numpy scipy pyshp lxml pyclothoids pycrate typer pyyaml pytest matplotlib
+.venv/Scripts/pip install numpy scipy pyshp shapely lxml pyclothoids pycrate typer pyyaml pytest matplotlib
 .venv/Scripts/pip install -r spikes/requirements-boundary-qp.txt  # 运行源几何共同求解/相关测试所需的研究依赖
 .venv/Scripts/python -m pytest tests -q          # 含 G8/G10/G11 与少段故障注入
 .venv/Scripts/python scripts/closed_loop.py      # 14 文件 G1–G11（含外缘/路面/动力学）+ esmini
