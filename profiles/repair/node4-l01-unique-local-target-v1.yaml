@@ -1,0 +1,19 @@
+schema: mapforge/unique-local-target-trial/v1
+status: RESEARCH_NOT_MAP_APPROVAL
+s1_contract_sha256: 661e581edb2ed6fffb28125faddbb13044175ffd42ed7380bc5db5ecdbda259a
+reference_sha256: 5d1cec2baea21200fbdcf78ca9267bfe7bb94e9cf441539d759370fffdaaea98
+source_boundary: IBD_LANE_BOUNDARY:2023041110502726490
+road: '11'
+edge: 3
+station_m: 178.0
+interval_m: [157.6089, 201.7074107]
+target: original_boundary_at_same_registered_station
+representation: frozen_S1_one_dimensional_space
+guard_policy: profiles/repair/node4-l01-curvature-fairing-v1.yaml
+guard_changes: none
+nonzero_target_candidates: 1
+max_total_iterations: 160
+max_wall_seconds: 90
+optimizer: none_unique_scalar_equality
+execution_directory: out/node4-unique-local-target-s2-20260915-r1
+on_failure: stop_retain_reference_and_rejected_coefficients_no_retry_or_scope_expansion
