@@ -1,0 +1,42 @@
+schema: mapforge/coupled-event-scope/v1
+status: SCOPE_CONFIRMED_NOT_TRIAL_OR_MAP_APPROVAL
+decision_date: '2026-09-17'
+user_reply: 继续
+decision_context: 主路与106–111六条关联转向纳入同一次共同修形，长曲线，先保持口部位置、原件和限速不变
+reference_sha256: 5d1cec2baea21200fbdcf78ca9267bfe7bb94e9cf441539d759370fffdaaea98
+parent: '11'
+parent_edit_interval_m: [61.8028, 211.7074107]
+physical_edges: [0, 1, 2, 3, 4]
+connectors: ['106', '107', '108', '109', '110', '111']
+incoming_mouth:
+  positions_and_cross_section: fixed_to_reference
+  edge_tangents_and_curvatures: shared_parent_and_all_incident_turns
+  independent_connector_port_adjustment: forbidden
+outgoing_mouths: fixed_full_world_jets_to_unchanged_other_parents
+frozen_parent_axis: true
+frozen_upstream_interval_m: [0.0, 61.8028]
+frozen_births: [[3, 131.0543], [4, 151.6089]]
+source_role_changes: 0
+source_speed_changes: 0
+other_road_changes: forbidden
+parent_layout_proposal:
+  knots_m: [61.8028, 110.0, 120.0, 131.0543, 140.0, 151.6089, 160.9542, 173.3754, 181.7074107, 211.7074107]
+  origin: existing_semantic_stations_covering_full_split_shift_settling_event
+  minimum_independent_span_m: 6.0
+  coefficients: five_shared_C2_cubic_boundaries
+  status: STRUCTURE_ONLY_NOT_SHAPE_FEASIBILITY
+connector_layout_proposal:
+  reference_primitives: 5
+  core_spirals: 3
+  endpoint_caps: [true, true]
+  minimum_independent_span_m: 6.0
+  transverse_intervals: reference_primitives_only_no_half_caps
+  internal_continuity: world_edges_and_center_G2_explicit_constraints
+  status: STRUCTURE_ONLY_NOT_SHAPE_FEASIBILITY
+execution:
+  optimizer_authorized_by_this_file: false
+  new_xodr_authorized_by_this_file: false
+  old_S2_R2_restarts: forbidden
+  required_before_trial: full_source_shape_surface_and_actual_written_layout_admission
+  web_changes: forbidden
+  commit_push: forbidden
