@@ -1,0 +1,21 @@
+schema: mapforge/research-fairing-trial/v1
+status: RESEARCH_NOT_MAP_APPROVAL
+parent_trial: node4-l01-curvature-fairing-v1
+reason: direct_target_failed_keep_failure_try_verified_state_continuation_not_new_seeds
+reference_sha256: 5d1cec2baea21200fbdcf78ca9267bfe7bb94e9cf441539d759370fffdaaea98
+source_boundary: IBD_LANE_BOUNDARY:2023041110502726490
+road: '11'
+edge: 3
+station_m: 178.0
+target: original_boundary_at_same_registered_station
+representation: existing_54_variable_common_long_cubic_event
+position: hard_equality
+objective: same_original_reference_minimum_deformation_and_curvature_caps
+budget:
+  nonzero_target_candidates: 1
+  fixed_target_fractions: [0.25, 0.5, 0.75, 1.0]
+  max_slsqp_iterations_per_step: 40
+  max_total_slsqp_iterations: 160
+  max_wall_seconds: 90
+on_failure: no_partial_success_no_failed_state_as_seed_no_intermediate_xodr
+unchanged_guards: all_original_source_width_birth_port_and_reference_world_geometry_guards

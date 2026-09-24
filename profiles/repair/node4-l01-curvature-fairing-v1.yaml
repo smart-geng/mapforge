@@ -1,0 +1,29 @@
+schema: mapforge/research-fairing-trial/v1
+status: RESEARCH_NOT_MAP_APPROVAL
+reference_sha256: 5d1cec2baea21200fbdcf78ca9267bfe7bb94e9cf441539d759370fffdaaea98
+source_boundary: IBD_LANE_BOUNDARY:2023041110502726490
+road: '11'
+edge: 3
+station_m: 178.0
+target: original_boundary_at_same_registered_station
+representation: existing_54_variable_common_long_cubic_event
+position: hard_equality
+objective: integrated_squared_displacement_and_tangent_change_from_reference
+strain_length_m: 10.0
+guards:
+  original_source_envelope_m: 0.75
+  unchanged_reference_ports_births_topology_speeds: true
+  width_nonnegative_whole_span: true
+  each_boundary_source_direction_reversal: no_increase_from_reference
+  each_boundary_world_curvature_peak: no_increase_from_reference
+  each_boundary_world_curvature_rate_peak: no_increase_from_reference
+  each_boundary_world_curvature_total_variation: no_increase_from_reference
+  parameter_derivative_proxy_caps: not_used
+budget:
+  reference_noop_control: 1
+  nonzero_target_candidates: 1
+  max_critical_point_exchanges: 4
+  max_total_slsqp_iterations: 160
+  max_wall_seconds: 90
+on_failure: retain_original_and_full_rejection_report_no_relaxed_map
+acceptance: local_nonregression_only_not_whole_static_or_operating_dynamics
