@@ -1,0 +1,75 @@
+# 实验登记
+
+`registry.jsonl` 每行登记一次评分板运行，由 `python -m mapforge.score ... --register "<说明>"` 自动追加，**只追加不改写**。运行目录在 `out/scoreboard/<run>/`（不入库），其中有 `scoreboard.json`、`scoreboard.md`、各文件的 G8/G11/边缘接触结果和后处理报告。
+
+同一个运行目录可能被登记多次，例如策略升级后重新评分。以最后一行为准，前面的行保留用于追溯。2026-10-03 当天的几处说明：
+
+- `20261003-mouth-frame-align`（v1）和 `-v3`：v1 的连接路宽度曾鼓出到 6.5 m，当时评分板还没有宽度鼓包指标，所以没被发现；v3 在打分时因代码与策略版本错配，T1 显示为 0/14。两者都已被 `-v4` 取代。
+- 策略版本：0.1-draft（初版）→ 0.2-draft（T1 加入 esmini）→ 0.3-draft（T1 加入连接路宽度鼓包 ≤0.30 m）→ 0.4-draft（T2 加入路口接口曲率跳变：车道中心、车道边缘各 ≤1e-3 /m）。
+- `20261003-baseline-cli-v2`：取代 `20261003-baseline-cli` 作为后续变体的输入。唯一差别是 map-node18 按已批准的源修正剔除 1 个离群点，见 `profiles/source-corrections/`。
+- `20261003-mouth-frame-align-v5`：v4 的同版本做法，输入改为基线 v2。
+- `20261003-lane-g2-a` 系列：阶段 2 第 1 步，**以 `20261003-lane-g2-a-v4` 为定版**，前面三次都已被取代（v2 的登记说明里写的“定版”以 v4 为准）。
+  - 首轮：没有短链、出生消失、口部 8 m 规则，也没有 G8 天花板保护。
+  - v2：补上这些规则和保护。但渐变区删掉折角点后不补点，源里一出现就有宽度的车道被拉成慢斜坡，node18 偏差 2 m。
+  - v3：在出生、消失和口部区都补点，并加入 ≤15 cm 的车道交叉修补。保真最好（node4 逐边界 P95 0.05 m），但口部位置随之移动，shp-node17 的 G8 回退。
+  - v4：只在出生和消失处补点，口部区不补。
+- T1 收尾（阶段 2）：**以 `20261003-lane-g2-a-curb-pick` 为定版**。
+  - `20261003-lane-g2-a-curb`：只加路缘外展路肩，连接路被保护拦下，T1 仍是 11/14。
+  - `20261003-lane-g2-a-curb-local`：连接路口部横移一律局部过渡，T1 14/14，但 node4 车道中心 P95 变差（0.40→0.46 m），被 curb-pick 取代。
+  - `20261003-shp-envelope-m3`、`-m8` 及其 `-g2a`：生成器的来源包络口部候选（口部前移 3 m / 8 m），只跑 SHP。3 m 时 node3、node13、node17 因路面缝隙生成不了，8 m 时另加 node4 会切掉种子道路；不作定版。
+- 口部前移与路面重建（阶段 2）：**以 `20261003-envelope-m3-curb-guided-v2` 为定版**（是否取代现行口部定版待用户确认）。
+  - `20261003-envelope-m3-surface`：口部前移 3 m + 新路面重建的生成结果（14 份，MAP 为默认 CLI），未后处理。
+  - `20261003-envelope-m3-curb-pick`：叠加 T1 收尾定版后处理，T1 12/14（node13 G8 失败、node16 错开 0.061 m），被 guided 取代。
+  - `20261003-envelope-m3-curb-guided`：加入贴源候选，T1 14/14，但 9 条连接路用了 3 m 段，被 `-v2` 取代（v2 只在别无选择时用短段，剩 3 条）。
+  - `20261003-lane-g2-a-curb-guided`：现行口部的对照（同一变体，按 v1 的择优规则），T1 14/14。
+- 默认管道与平滑化（阶段 2）：以 `20261004-default-c2-mono` 为定版（默认 CLI 端到端，策略 0.4-draft）；之后由下面的连接路坐标框架取代。
+  - `20261003-envelope-m3-c2`、`-v2`、`-v3`：在 `20261003-envelope-m3-surface` 上试 C2 后处理。v1 的单段过渡在 shp-node16 路 12 算出 −2.69 m 宽度，该路因此跳过重拟合；v2 改了出生/消失的续接方向，但同一条链两端都有事件时形成循环依赖，node18 外缘出现 1.9° 台阶；v3 加入连接路车道中心曲率跳变择优，台阶仍在。循环依赖的修正（同一条链两端都有事件时不交换）从 `20261003-default-c2` 起才生效。三次都已被默认运行取代。
+  - `20261003-default-c2`：默认 CLI 第一次端到端运行。按 0.3-draft 平滑类全过，但路口接口处的曲率跳变（0.3 没有测）车道中心最大 0.013 /m、边缘 0.0176 /m。被下面两次取代。
+  - `20261003-default-c2-iface`：车道中心接口曲率精确一致。但修正用的过渡长度与原有过渡不一致，连接路 laneOffset 出现毫米级片段（145 段短于 0.5 m），记录数 652/328 → 2352/2028（laneOffset/宽度）。被 `20261004-default-c2-iface-v2` 和 `-v3` 取代。
+  - `20261004-default-c2-iface-v2`：改为共用结点后，连接路短于 0.5 m 的片段从 145 段降到 2 段（最短 0.20 m）。但为对齐结点，把车道中心横移过渡也拉长到 10 m，shp-node3 路 113 的车道中心因此离源最远到 1.508 m，超出 G8 覆盖半径 1.5 m，T1 掉到 13/14。被 `-v3` 取代（只拉长短于 3 m 的过渡；择优护栏补上 G8 的反方向和覆盖率）。
+  - `20261004-default-c2-iface-v3`：T1 14/14，接口处车道中心精确。登记了两次：第二次是同一批输出重新评分，加入路内车道边缘曲率跳变（报告指标）。之后发现 SHP 有 11 条转弯连接路在转弯途中反打（车道中心反向曲率最大 0.064 /m），被 `20261004-default-c2-mono` 取代。
+- 连接路坐标框架（阶段 2）：**以 `20261004-default-c2-aligned-v3` 为定版**。
+  - `20261004-default-c2-aligned`：加入对齐参考线候选，但择优把内部边缘跳变按 1e-3 分档、排在 3 m 段规则和离源中位之前，为千分之一级的差异选了离源更远的候选（node13 路 107 最大偏差 0.80 → 1.44 m），3 m 段也变多。被 `-v2` 取代。
+  - `20261004-default-c2-aligned-v2`：边缘跳变判据挪到 6 m 段规则之后、按 5e-3 分档。结果与 `-v3` 基本相同，但转换慢一倍（SHP 一轮 2437 s）。
+  - `20261004-default-c2-aligned-v3`：同 `-v2`，两端横移都小于 1 cm 的连接路不做对齐重拟合，择优只在参考线拼接点算边缘跳变（SHP 一轮 2165 s，第五版 1285 s）。
+  - 注意：从 `20261003-mouth-frame-align` 起，所有做过口部对齐的运行都有这个接口曲率回退（车道中心最大 0.019 /m、边缘 0.0375 /m），当时的评分板看不出来。用 0.4-draft 重新评分，它们都会在 T2 不过。
+- MAP 道路侧重拟合（阶段 2）：**以 `20261004-default-c2-mapfit-v4` 为定版**（默认 CLI 端到端，策略 0.4-draft）。
+  - `20261004-default-c2-mapfit`：T1 14/14、T2 5/14（MAP 5/7）；SHP 7 份与 `20261004-default-c2-aligned-v3` 逐字节相同。
+  - `20261004-default-c2-mapfit-v2`：按用户确认剔除 map-node4 西进口 2、3 车道的单点横向尖刺（决定文件 `profiles/source-corrections/map-node4-west-lane2-lane3-p5-drop-v1.yaml`）。T2 6/14；只有 map-node4 变了，其余 13 份与 mapfit 逐字节相同。评分板报告项 `source_review_open`（每次转换的源点复核）从这次之后的运行才有。
+  - `20261004-default-c2-mapfit-v3`：MAP 口部移到各进口最靠前的停止线（`mapforge/ops/map_stop_line_mouth.py`：道路延长、连接路截到新口部线、铺面重建），来源支撑区间端点容差改为 1 mm。T2 7/14（MAP 7/7）；只有 map-node18、node3、NODE5、node17 变了，其余 10 份与 v2 逐字节相同。从这次起有 `source_review_open`（MAP 全为 0）。
+  - `20261004-default-c2-mapfit-v4`：取代 `-v3`，做法相同。口部步骤先在原几何上确认每条连接路都能截到新口部线再移动道路（不能就不移、记原因），新口部位置按延长后的参考线解析计算。各项指标与 `-v3` 相同；map-node18、node3、node17 输出有亚毫米级差别，其余 11 份与 `-v3` 逐字节相同。
+  - 调参用的是暂存区里的端到端小批量（MAP 7 份，后处理与默认 CLI 相同），没有登记：B 档、A 档 6 m、两侧平均观测、首点前引入 12 m、末点后也引入、离去侧渐变车道也连接，各自的问题见 `docs/阶段2-MAP道路侧重拟合-2026-10-04.md` 第三节。
+  - 从这一版起评分板多出 `lane_center_poly_median_m / _p95_m / _max_m`（点到折线，报告项）；更早的运行没有这三项。
+- SHP 连接路保真（阶段 2）：**以 `20261004-default-c2-shpfit-v2` 为定版**（默认 CLI 端到端，策略 0.4-draft）。
+  - `20261004-default-c2-shpfit-v2`：择优改为“离源 P95 + 0.01 m × 基本段数”最小，拟合内部的节点合并用同一交换比；修正保真链和 source-guided 候选漏掉的口部倾角三次式。可比连接路车道 P95 ≤ 0.15 的 88 → 125 / 183 条，连接路基本段数 1222 → 1145。SHP 7 份与暂存区小批量 sf8 逐字节相同，MAP 与 v4 逐字节相同。登记同样用 `--no-generate`；生成那次的结果另存为运行目录里的 `scoreboard.generated.json`（含生成耗时，SHP 合计 2752 s）。
+  - `20261004-default-c2-shpfit-v2` 又登记一次：几何未变，加入两项报告指标 `boundary_inside_p95_m / _max_m`、`lane_endpoint_lateral_max_m`（见 `docs/阶段2-SHP道路边界与车道端点-2026-10-04.md`）；以最后一行为准。
+  - `20261004-default-c2-shpfit`：第一版，被 `-v2` 取代。以下几条是第一版的说明。
+  - 做法：SHP 连接路按源 via 线做保真拟合（`mapforge/ops/connector_source_fit.py`），只用于 G8 可比车道。T1 14/14、T2 7/14 不变；MAP 7 份与 `20261004-default-c2-mapfit-v4` 逐字节相同。
+  - 调参用的是暂存区里的 SHP 7 份小批量（sf3–sf7，后处理与默认 CLI 相同），没有登记。依次试过：不区分可比与排除车道、口部变化率向 0 收、不罚内部变化率跳变、惩罚权重 0/5/10/20、合并容差、固定分桶、软端点权重 30、求解容差 1e-6、同档容差 0.05 m、排除车道也按离源择优。各自的问题见 `docs/阶段2-SHP连接路保真-2026-10-04.md` 第三节。
+  - 从这一版起，后处理报告里每条连接路的 `mouth_blend.pick_flags` 多出 `edge_residual_per_m`、`p95_steps`、`primitives` 三项，可以离线重放择优。
+  - 这一版先生成并评分，检查后再用 `--no-generate --register` 重新评分登记，各项指标与生成那次相同。因此登记行和现在的 `scoreboard.json` 都不含生成耗时；耗时见文档第四节（SHP 7 份合计 2425 s，同机另跑了全量测试）。
+- SHP 道路边界与车道端点（阶段 2）：**以 `20261004-default-c2-bnd` 为定版**（默认 CLI 端到端，策略 0.5-draft）。
+  - `20261004-default-c2-bnd`：按用户确认，SHP 的边界、端点改用报告项口径，渐变起点选 C，源冲突边界优先。SHP 道路侧：车道出生/消失提前（`mapforge/ops/lane_birth_advance.py`），短段规则 `short_kappa`，顶点值最小二乘 `lsq_refine`；每次 SHP 转换写 `.source-review.json`。T1 14/14、T2 8/14；MAP 7 份与 `20261004-default-c2-shpfit-v2` 逐字节相同。生成那次的结果另存为运行目录里的 `scoreboard.generated.json`（SHP 生成合计 3017 s）；源复核旁文件按最终模块重写后，用 `--no-generate --register` 重新评分登记，几何未变。
+  - 同一目录此前跑过两次，都没有登记，已删除。第一次：部分转换用的是改动中途的代码，node13 esmini 不过。第二次：最小二乘只固定了口部端点，没固定口部直段起点，node17 连接路 123 的车道中心 P95 为 0.139 → 0.277 m。
+  - 调参用的是暂存区里只跑道路侧重拟合的小批量（7 份，起点 `20261003-envelope-m3-surface`），没有登记。各次试验与取舍见 `docs/阶段2-SHP道路边界与车道端点-2026-10-04.md` 第六节。
+- SHP 连接路车道中心（阶段 2）：**以 `20261005-default-c2-conn` 为定版**（默认 CLI 端到端，策略 0.5-draft）。
+  - `20261005-default-c2-conn`：转弯连接路两端各 10 m 内允许 ≤ 0.02 /m 的回打（用户决定，`turn_end_zone`；连接路拟合加 `-ends` 候选）；间隙车道（`mapforge/ops/lane_gap.py`，`link_gaps`）；源复核加 `lane-object-kink`。T1 14/14、T2 8/14；MAP 7 份与 `20261004-default-c2-bnd` 逐字节相同。可比连接路 P95 ≤ 0.15 的 126 → 140 / 183 条。生成那次的结果另存为运行目录里的 `scoreboard.generated.json`。
+  - 同一目录此前跑过一次，没有登记，已删除：间隙车道写了 `type="none"` 的 roadMark 却没写颜色，node13 的 XSD 不过（T1 13/14）。改为不写 roadMark 后重跑，几何与那次相同。
+  - 调参：暂存区里 node3、node17、node18 的端到端单份转换（两端区回打），以及 node13 的间隙车道单份转换，都没有登记。
+- SHP 出口道口部（阶段 2）：**以 `20261005-default-c2-mouth` 为定版**（默认 CLI 端到端，策略 0.5-draft）。
+  - `20261005-default-c2-mouth`：单独的离去车行道起点挪到最远 via 接头与路缘外展结束处两者中更远者之后 3 m（`mapforge/ops/shp_leave_mouth.py`，`pipeline.convert_shp` 的 `leave_mouths`，默认开）。T1 14/14、T2 9/14（SHP node4 转为通过）；MAP 7 份和 SHP NODE5、node13、node16、node17、node18 与 `20261005-default-c2-conn` 逐字节相同。生成那次的结果另存为运行目录里的 `scoreboard.generated.json`，与登记时重新评分的结果逐项相同。
+  - 口部规则的选择：暂存区里 node3、node4 的端到端单份转换，比较了“接头后 3 m”“接头后 6 m”“外展结束处”“接头或外展后 3 m”四种，都没有登记。对比表见 `docs/阶段2-SHP出口道口部-2026-10-05.md` 第三节。
+- SHP 口部路缘外展（阶段 2）：**以 `20261005-default-c2-flare` 为定版**（默认 CLI 端到端，策略 0.5-draft）。
+  - `20261005-default-c2-flare`：几何不改（用户决定：外展记为源特征）；SHP 源复核新增 `mouth-curb-flare`，评分板新增报告项 `lane_center_noflare_median_m / _p95_m / _max_m`、`mouth_curb_flares`、`lane_center_flare_samples_left_out`（`mapforge/validate/lane_centre_flare.py`，不分级）。14 份 XODR 与 `20261005-default-c2-mouth` 逐字节相同，等级不变（T1 14/14、T2 9/14）。生成那次的结果另存为运行目录里的 `scoreboard.generated.json`。
+  - 诊断与原型：暂存区里的离线拟合实验（端部方向取源方向）和 node17、node18、node3 的端到端原型（道路外侧边界跟着外展进口部，变体 `g2-k04-c2-flare`），都没有登记；原型代码已撤回，复原后重跑 NODE5、node17 与定版逐字节相同。见 `docs/阶段2-SHP口部路缘外展-2026-10-05.md` 第二节。
+- SHP 道路车道与比较窗口（阶段 2）：**以 `20261005-default-c2-window` 为定版**（默认 CLI 端到端，策略 0.5-draft）。
+  - `20261005-default-c2-window`：几何不改；SHP 的 G8 比较窗口在后处理之后、门禁之前对齐到写出车道的道路端断面（`mapforge/ops/window_align.py`，`pipeline.postprocess(align_windows=True)`；用户决定）。14 份 XODR 与 `20261005-default-c2-flare` 逐字节相同；T2 9/14 → 11/14。**从这一版起 SHP 的 G8 数字（及由窗口算出的报告项：点到折线、端点横向、去外展区）与以前各版不直接可比。** 生成那次的结果另存为运行目录里的 `scoreboard.generated.json`。
+  - 诊断与估算：暂存区里用定版输出离线对齐窗口后重算 G8（与正式 G8 同一函数），没有登记。
+- node17 口部边缘接触曲率（阶段 2）：**以 `20261005-default-c2-edge` 为定版**（默认 CLI 端到端，策略 0.5-draft）。
+  - `20261005-default-c2-edge`：口部对齐的择优加“边缘残差修整”（`mapforge/ops/mouth_frame_align.py` 的 `_end_rate_trim` / `edge_trim`）：选中候选某口部边缘残差超过 1e-3 时，那一端末段曲率变化率朝相邻道路的拉到残差为上限 0.9 倍，链重解后作为新候选。只触发于 node17 路 107；其余 13 份与 `20261005-default-c2-window` 逐字节相同。node17 边缘接触曲率 1.007e-3 → 0.942e-3，等级不变（T1 14/14、T2 11/14）。生成那次的结果另存为运行目录里的 `scoreboard.generated.json`。
+  - 调试：暂存区里 node17、NODE5 的单份转换（NODE5 用来核对未触发修整时逐字节不变），没有登记。
+- SHP 中心线源问题的比较口径（阶段 2）：**以 `20261005-default-c2-midpoint` 为定版**（默认 CLI 端到端，策略 0.5-draft）。
+  - `20261005-default-c2-midpoint`：几何不改；源复核记为“中心线偏离边界中点”的 G8 可比道路车道，比较窗口在偏离段（≥ 0.15 m）改用源两边界中点，两侧 5 m 平滑过渡（`mapforge/ops/window_midpoint.py`，用户决定）。14 份 XODR 与 `20261005-default-c2-edge` 逐字节相同；比较窗口只改了 node3、node18、NODE5 各一条。node18 端点横向 0.508 → 0.145、node3 0.310 → 0.103；等级不变（T1 14/14、T2 11/14）。生成那次的结果另存为运行目录里的 `scoreboard.generated.json`。
+  - 先试过整条窗口换成中点：node13 路 10 车道 −3 的 G8 P95 0.057 → 0.111（共用内缘落在两车道边界之间），改为只换偏离段。暂存区离线核对，没有登记。
+- 评分板策略 0.6-draft（2026-10-05，用户决定）：SHP 的 T2 车道中心改用 `lane_center_noflare_p95_m` / `_max_m`（去掉口部路缘外展区，阈值不变），MAP 不变。
+  - `20261005-default-c2-midpoint` 按 0.6-draft 重新评分并登记（同一运行目录，几何、输出、指标都不变）：T1 14/14，T2 11/14 → 14/14。按 0.5-draft 的评分另存为运行目录里的 `scoreboard.policy-0.5.json` / `.md`；生成那次的结果仍是 `scoreboard.generated.json`（0.5-draft）。

@@ -45,6 +45,20 @@ def _finalize_xodr(path: Path, stats: dict, connect_mode: str, *, raw_map_paths=
     return result
 
 
+def _echo_gates(result: dict):
+    """Gate summary of a post-processed XODR (same lines and exit code as _finalize_xodr)."""
+    gate, decision = result["gate"], result["decision"]
+    typer.echo(f"  G8: {gate['status']}（matched {gate.get('scope', {}).get('matched_source_lanes', 0)}，"
+               f"exclusions {len(gate.get('exclusions', []))}）")
+    typer.echo(f"  G11: {result['g11']['status']}（少段、连续性、驾驶车道动力学）")
+    if 'G8-source-integrity' in result['quality']['gates']:
+        typer.echo(f"  原始MAP来源完整性: {result['quality']['gates']['G8-source-integrity']['status']}")
+    typer.echo(f"  DELIVERY-STATUS: {decision['status']}")
+    if decision["status"] != "DELIVERABLE":
+        raise typer.Exit(2)
+    return result
+
+
 @app.command()
 def preview(xml_path: Path, out: Path = typer.Option(None, "-o", help="输出 GeoJSON 路径")):
     """MAP XML → GeoJSON 预览（refPos/Link/Lane，含 phase、maneuvers 属性）。"""
@@ -112,7 +126,14 @@ def convert(input_path: Path,
                                              help="补全时允许掉头（默认排除）"),
             region: int = typer.Option(500), node_id: int = typer.Option(9901),
             allow_no_phase: bool = typer.Option(False, "--allow-no-phase",
-                                                help="显式降级：生成无 phase 的诊断产物，生产状态仍 BLOCKED")):
+                                                help="显式降级：生成无 phase 的诊断产物，生产状态仍 BLOCKED"),
+            shp_mouth: str = typer.Option("envelope", "--shp-mouth",
+                                          help="SHP→xodr 路口口部：envelope=放在最早真实车道端点之前（默认，"
+                                               "源尾段归入连接路，路面按源重建）| legacy=旧的最远车道端点"),
+            mouth_margin: float = typer.Option(3.0, "--mouth-margin", help="envelope 口部前移距离 [m]"),
+            post: str = typer.Option("c2", "--post",
+                                     help="→xodr 生成后的后处理变体（mapforge.ops.lane_refit.VARIANTS，默认 "
+                                          "c2）；none=不做后处理（复现旧证据/研究用）")):
     """统一转换入口：MAP XML / OpenDRIVE / IBD SHP 目录 → geojson / uper / map-xml / map / xodr。"""
     from mapforge.adapters.v2xmap.xml_reader import parse_map_xml
     from mapforge.report.preview_geojson import to_geojson
@@ -149,8 +170,32 @@ def convert(input_path: Path,
         junc, dist = src.find_junction(lon_, lat_)
         base = out if out else (_ROOT / "out" / "convert" / f"ibd_{junc.pid[-8:]}")
         base.parent.mkdir(parents=True, exist_ok=True)
-        st = build_junction_xodr(src, junc, base.with_suffix(".xodr"),
-                                 connect_mode=connect_mode, allow_uturn=allow_uturn)
+        from mapforge import pipeline
+        variant = pipeline.variant_name(post)
+        out_x = base.with_suffix(".xodr")
+        if shp_mouth == "envelope":
+            if connect_mode != "data" or allow_uturn:
+                typer.echo("口部前移路线只按源数据连接（--connect-mode data、不掉头）；需要补全转向请加 --shp-mouth legacy")
+                raise typer.Exit(1)
+            res = pipeline.convert_shp(input_path, out_x, like=like, at=None if like is not None else (lon_, lat_),
+                                       margin_m=mouth_margin, variant=variant,
+                                       profile=shp_profile or "ibd-smarteditor-v1")
+            rec = res["record"]
+            typer.echo(f"直转 {rec['junction']}（ref 距 {dist:.0f}m）：口部前移 {rec['margin_m']:g} m，"
+                       f"路口路面 {rec.get('surface', {}).get('source_surface_status', '—')}，后处理 {variant or '无'}")
+            typer.echo(f"  {out_x.name}")
+            if variant is None:
+                typer.echo(f"  G8: {rec['g8']}  G11: {rec['g11']}  DELIVERY-STATUS: {rec['decision']}")
+                if rec["decision"] != "DELIVERABLE":
+                    raise typer.Exit(2)
+            else:
+                _echo_gates(res)
+            typer.echo("OK")
+            return
+        if shp_mouth != "legacy":
+            typer.echo(f"未知 --shp-mouth {shp_mouth}（envelope | legacy）")
+            raise typer.Exit(1)
+        st = build_junction_xodr(src, junc, out_x, connect_mode=connect_mode, allow_uturn=allow_uturn)
         typer.echo(f"直转 {st['junction']}（ref 距 {dist:.0f}m）: 进口路 {st['roads_enter']} + "
                    f"出口路 {st['roads_leave']} + 连接路 {st['conn_via'] + st['conn_g2']}"
                    f"（实测几何 {st['conn_via']} / G2 合成 {st['conn_g2']}），"
@@ -159,7 +204,14 @@ def convert(input_path: Path,
         if getattr(src, "derivation_stats", None):
             typer.echo(f"  推导统计: {src.derivation_stats}")
         typer.echo(f"  {base.with_suffix('.xodr').name}")
-        _finalize_xodr(base.with_suffix(".xodr"), st, connect_mode)
+        if variant is None:
+            _finalize_xodr(out_x, st, connect_mode)
+        else:
+            raw_x = out_x.with_name(out_x.stem + ".raw.xodr")
+            out_x.replace(raw_x)
+            res = pipeline.postprocess(raw_x, out_x, st["source_lane_manifest"], variant)
+            pipeline._drop(raw_x)
+            _echo_gates(res)
         typer.echo("OK")
         return
     if input_path.is_dir():                                  # SHP 目录 → MAP 系目标
@@ -195,7 +247,15 @@ def convert(input_path: Path,
                    f"connectsTo {rep.n_conn}（虚拟台账 {rep.virtual_nodes}）")
     else:                                                    # MAP XML（可为多节点帧）
         from mapforge.adapters.v2xmap.xml_reader import parse_map_xml_all
-        all_nodes = parse_map_xml_all(str(input_path))
+        map_source = input_path
+        if to == "xodr":
+            from mapforge import pipeline
+            stem = out if out else (_ROOT / "out" / "convert" / Path(input_path).stem)
+            stem.parent.mkdir(parents=True, exist_ok=True)
+            map_source, correction = pipeline.corrected_map_source(input_path, stem.with_suffix(".xodr"))
+            if correction:
+                typer.echo(f"源数据修正（已批准）：{correction['summary']}，派生件 {map_source.name}，原件不改")
+        all_nodes = parse_map_xml_all(str(map_source))
         sel = [n for n in all_nodes if n.node_id == node_id]
         node = sel[0] if sel else all_nodes[0]
         neighbors = [n for n in all_nodes if n is not node]
@@ -248,7 +308,11 @@ def convert(input_path: Path,
             raise typer.Exit(2)
     elif to == "xodr":
         from mapforge.ops.map_to_xodr import build_xodr
-        stats = build_xodr(node, base.with_suffix(".xodr"), neighbors=neighbors or None,
+        from mapforge import pipeline
+        variant = pipeline.variant_name(post)
+        out_x = base.with_suffix(".xodr")
+        target = out_x.with_name(out_x.stem + ".raw.xodr") if variant else out_x
+        stats = build_xodr(node, target, neighbors=neighbors or None,
                            connect_mode=connect_mode, allow_uturn=allow_uturn)
         typer.echo(f"  进口路 {stats['links']} + 出口路 {stats['exit_roads']}"
                    f"（真实 {stats['exit_real']} / 镜像 INFERRED {stats['exit_mirror']}）+ "
@@ -256,8 +320,13 @@ def convert(input_path: Path,
                    f"，拟合偏差峰值 {stats['fit_dev_max']:.2f}m"
                    + (f"，skipped {stats['skipped']}" if stats["skipped"] else ""))
         typer.echo(f"  {base.with_suffix('.xodr').name}")
-        _finalize_xodr(base.with_suffix(".xodr"), stats, connect_mode,
-                       raw_map_paths=[input_path] if input_path.suffix.lower() == '.xml' else None)
+        raw_paths = [map_source] if input_path.suffix.lower() == '.xml' else None
+        if variant is None:
+            _finalize_xodr(out_x, stats, connect_mode, raw_map_paths=raw_paths)
+        else:
+            res = pipeline.postprocess(target, out_x, stats["source_lane_manifest"], variant, raw_map_paths=raw_paths)
+            pipeline._drop(target)
+            _echo_gates(res)
     else:
         typer.echo(f"未知目标 {to}")
         raise typer.Exit(1)

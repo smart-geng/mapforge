@@ -1,0 +1,76 @@
+schema: mapforge/static-acceptance-policy/v1
+id: static-acceptance-v1
+version: 0.6-draft
+lifecycle: draft
+description: >-
+  静态地图分级验收草案（2026-10-03，D1/D2）。未经用户确认，只用于比较方案、
+  看清差距，不用于交付放行，也不替代 G8/G11 现行策略。动力学按 2026-09-15
+  的分开验收决定单列为工况组，不进入静态等级。数值是建议值，确认前会根据
+  评分板基线和下游消费端要求再审，不能为了让某个候选通过而调整。
+
+tiers:
+  T1:
+    name: 仿真底图级
+    intent: 能加载、拓扑完整、看不到缝和台阶；保真先沿用现行 G8 active 策略。
+    checks:
+      - {metric: xsd_valid, op: eq, value: true}
+      # 0.2：独立消费端（esmini RoadManager）加载、换乘缝隙与穿越行驶
+      - {metric: esmini_pass, op: eq, value: true}
+      - {metric: planview_violations, op: le, value: 0}
+      # G5 现行阈值
+      - {metric: route_gap_max_m, op: le, value: 0.01}
+      # G11 现行道路接口阈值（位置/航向）
+      - {metric: road_interface_position_max_m, op: le, value: 0.01}
+      - {metric: road_interface_heading_max_deg, op: le, value: 0.1}
+      # 车道边缘在接口处的可见台阶/折角（建议值）
+      - {metric: edge_contact_position_max_m, op: le, value: 0.05}
+      - {metric: edge_contact_heading_max_deg, op: le, value: 1.0}
+      # 0.3：连接路车道宽度不得在两端宽度之外鼓出或收窄超过 0.3 m（建议值；后处理不能用鼓包换口部连续）
+      - {metric: connector_width_bulge_max_m, op: le, value: 0.30}
+      # G4 现行阈值
+      - {metric: lane_edge_step_max_m, op: le, value: 0.05}
+      # G9 现行要求
+      - {metric: paving_holes_gt1cm2, op: le, value: 0}
+      - {metric: g8_status, op: eq, value: PASS}
+  T2:
+    name: 保真平滑级
+    requires: T1
+    intent: >-
+      相对源数据的偏差和转换新增的折角/跳变受控。D2：车道边缘允许 G1 加有上限的
+      曲率跳变；渐变/出生事件区单列门槛将在阶段 2 加入（v0.2），本版先用全局最大值。
+    checks:
+      # 车道中心线（G8 同身份双向）建议值
+      - {metric: lane_center_p95_m, op: le, value: 0.15, applies_to: [map]}
+      - {metric: lane_center_max_m, op: le, value: 0.35, applies_to: [map]}
+      # 0.6（2026-10-05，用户确认，阈值不变）：SHP 车道中心去掉口部路缘外展区，即源复核 mouth-curb-flare 记录的外展车道
+      # 及挂在该口部的连接路，离外展口部车道中心点 10 m 内的样点（lane_centre_flare）。外展是源特征，用户决定不追；
+      # 原 lane_center_p95_m / lane_center_max_m 继续报告
+      - {metric: lane_center_noflare_p95_m, op: le, value: 0.15, applies_to: [shp]}
+      - {metric: lane_center_noflare_max_m, op: le, value: 0.35, applies_to: [shp]}
+      - {metric: lane_endpoint_max_m, op: le, value: 0.20, applies_to: [map]}
+      # 0.5（2026-10-04，用户确认，阈值不变）：SHP 口部前移 3 m 后，G8 源窗口按转换器原始里程裁切，比道路长 0.2-0.48 m，
+      # 端点差多为纵向；SHP 改按端点差垂直于源线的分量判定，纵向到位仍由 G8 覆盖与原端点指标报告
+      - {metric: lane_endpoint_lateral_max_m, op: le, value: 0.20, applies_to: [shp]}
+      # SHP 物理外边界（G10 同身份双向）建议值；事件区单列前先用全局值
+      # 0.5：只计投影落在对方线内部的点（boundary_inside）。原口径把路端外延续 3 m 的源边界也算进来，
+      # 每个口部多出 0.5-0.75 m；原 boundary_p95_m / boundary_max_m 继续报告
+      - {metric: boundary_inside_p95_m, op: le, value: 0.10, applies_to: [shp]}
+      - {metric: boundary_inside_max_m, op: le, value: 0.35, applies_to: [shp]}
+      - {metric: map_source_integrity, op: eq, value: PASS, applies_to: [map]}
+      # 接口处车道边缘：沿用 G11 位置/航向阈值
+      - {metric: edge_contact_position_max_m, op: le, value: 0.01}
+      - {metric: edge_contact_heading_max_deg, op: le, value: 0.1}
+      # 参考线 G2（G3 现行阈值）
+      - {metric: ref_kappa_step_max_per_m, op: le, value: 1.0e-6}
+      # D2：车道 width 拼接曲率跳变有上限（替代 1e-7/m）
+      - {metric: lane_join_curvature_jump_max_per_m, op: le, value: 1.0e-3}
+      # 0.4：路口 laneLink 接口处的曲率跳变，同一上限（车道中心即 G11-C 接口曲率，严格值 1e-7/m；
+      # 车道边缘即边缘接触曲率）。0.3 没有测这一项，口部对齐引入的 0.01/m 跳变因此漏检
+      - {metric: road_interface_curvature_max_per_m, op: le, value: 1.0e-3}
+      - {metric: edge_contact_curvature_max_per_m, op: le, value: 1.0e-3}
+      # 专家 G11-A：<5m 为短段警告；连接路沿用闭环 1m 下限
+      - {metric: leg_seg_min_m, op: ge, value: 5.0}
+      - {metric: conn_seg_min_m, op: ge, value: 1.0}
+      # 闭环 G10 外缘形态现行阈值
+      - {metric: outer_curvature_flips_per_100m_max, op: le, value: 5.0}
+      - {metric: outer_heading_step_max_deg, op: le, value: 5.0}

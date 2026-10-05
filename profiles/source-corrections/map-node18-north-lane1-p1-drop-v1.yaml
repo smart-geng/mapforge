@@ -1,0 +1,26 @@
+schema: mapforge/source-correction/v1
+id: map-node18-north-lane1-p1-drop-v1
+approved:
+  by: 用户
+  date: "2026-10-03"
+  decision: 离群点按建议剔除并记录（原件不改，派生清洗件参与转换，损失报告记 DROPPED）
+source:
+  file: v2x_map_xml/map凤苑路-金剑路node18.xml
+  sha256: 51380de2a39551d3842d06f43075b8a0f14aea3c94b0db5aa0d055e0d016c4df
+corrections:
+  - action: drop_point
+    status: DROPPED
+    target:
+      node: {region: 500, id: 18}
+      link: {name: north, upstream: {region: 500, id: 20}}
+      lane: 1
+      point_index_0based: 1
+      raw: {lon: 1063346865, lat: 295139806}
+    # 应用时按同一规则重新计算并核对；与下列数值不符即拒绝应用（不静默修改）。
+    evidence:
+      rule: isolated-detour（scripts/map_raw_geometry_review.py：偏离邻点弦 >100 m 且绕行比 >10）
+      distance_to_neighbor_chord_m: 1719.94
+      neighbor_chord_length_m: 49.955
+      detour_ratio: 69.346
+      first_reported: docs/复核补充-MAP真实出口覆盖与坐标轴联合候选-2026-09-10.md 第 5 节
+    reason: 孤立的公里级离群点：前后邻点相距约 50 m，该点偏离两者连线约 1.72 km；同 Link 其他车道没有同样的跳变。七份 MAP 原件中只有这一点触发该规则。

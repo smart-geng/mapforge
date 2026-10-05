@@ -1,31 +1,29 @@
 # mapforge — 地图格式转换工厂
 
-> 本文件为新项目的 Claude 指引草案，随项目推进增补。
-
 ## 项目定位
 
 面向车路协同与自动驾驶的语义地图编译工厂：源格式 → 统一中间表示 MapIR → 目标格式/版本/Profile，每次转换强制输出质量报告、损失报告、ID 映射与来源清单。**交叉口是第一公民**。
 
 首批格式：OpenDRIVE（读 1.4–1.8，写 1.5/1.6/1.7）、SHP（Schema Profile 驱动，Profile v1 = ibd-smarteditor-v1）、V2X MAP（T/CSAE 53-2020 / YD/T 3709 体系，UPER 编码 + XER 风格 XML 明文双载体）。
 
+当前主线（用户目标）：纯离线把 **SHP→XODR、MAP XML→XODR** 做好——忠实原件、世界车道边缘与路口平滑、不用密集短段冒充平滑（消费者含自动驾驶）；MAP 缺真实出口按同一进口左右镜像并标 INFERRED。
+
+## 当前入口
+
+- 接手先读 `HANDOFF.md`（一页）。执行顺序和验收口径见 `docs/优化方向计划-2026-10-03.md`。
+- 默认转换流程（2026-10-03 起）：`python -m mapforge.cli convert` → `mapforge/pipeline.py`。SHP 用口部前移 3 m 和路面重建（`shp_mouth_envelope`、`envelope_surface`），MAP 自动应用已批准的源修正（`profiles/source-corrections/`，每次转换另写源点复核报告 `.source-review.json`），两条管道都做后处理 `g2-k04-c2`（车道边界处处 C2、口部边缘精确对齐、口部车道中心曲率与相邻车道一致、转弯连接路曲率单向、连接路参考线可直接落在相邻车道中心、逐条择优；SHP 连接路按源 via 线保真拟合（`connector_source_fit`：段长 ≥3 m 的回旋线链，罚曲率变化率跳变，择优取离源 P95 + 每段 1 cm 最小，只用于 G8 可比车道）；MAP 道路侧按 MAP 车道点列重拟合，自由远端延到车道首点，口部移到各进口最靠前的停止线，离去侧按进口侧精确镜像；SHP 道路侧车道出生/消失提前半个转角（`lane_birth_advance`，零宽段标 INFERRED）、短段转角能按曲率目标放下就保留、顶点值最小二乘（口部端点固定），两条并行 link 的车道之间有间隙时补一条 restricted 车道（`lane_gap`），转弯连接路两端 10 m 内允许 ≤0.02 /m 的回打，选中的连接路在口部边缘曲率超过 1e-3 时把那一端曲率变化率朝相邻道路修整（`_end_rate_trim`），单独的离去车行道起点挪到最远 via 接头与路缘外展结束处之后 3 m（`shp_leave_mouth`），每次 SHP 转换另写源复核 `.source-review.json`（边界优先，源冲突只记录；口部路缘外展记为源特征 `mouth-curb-flare`，评分板另报去掉外展区的车道中心 `lane_center_noflare_*`；SHP 的 G8 比较窗口在门禁前对齐到写出车道的道路端，`window_align`；源中心线偏离边界中点的道路车道在偏离段按两边界中点比较，`window_midpoint`；2026-10-05 起 G8 数字与以前各版不直接可比））。复现旧证据用 `--shp-mouth legacy --post none`。评分板策略 0.4-draft 起在 T2 检查路口接口曲率，0.5-draft 起 SHP 的边界和端点按报告项口径（内段、横向分量）判，0.6-draft 起 SHP 的车道中心去掉口部路缘外展区判。
+- 方案正文以 `docs/地图格式转换工厂-首批三格式方案.md` 为权威；`docs/archive/` 里的逐轮状态是历史，不是当前指令。
+
 ## 基本规则
 
-- **2026-09-15阶段归档**：用户授权本次整理/commit/本地归档，不是地图发布或远端推送。当前继续点统一为精简HANDOFF和`docs/遗留工作-阶段收口-2026-09-15.md`；旧HANDOFF全文在`docs/archive/2026-09-15/HANDOFF-history.md`。7条共享分界线Web和UI v2可运行，但外缘/口部/MAP未开放、整图仍BLOCKED。下一步收敛到真实外缘事件人工修形，不恢复无限自动研究，后续不自动提交。
-
-- **当前继续点（覆盖下面旧点）**：`out/node4-whole-dynamics-r1-20260914/`及HANDOFF顶部。长曲线动态检查已接同一5父路/24转向状态，924检查区间591 BOUNDED/333实际超限；11混速转向为最大源限速包络，真实速度域未完。初值不变、零拟合/零新XODR、281哈希未变；不是地图交付/形式安全认证。下一步实际写出域/全源所有权、混速映射、面域和动态残差接完整求解器；不重复1676列扫描，不冻结父路逐条拟合，不改源速度/9处批准，不commit。
-
-- **最新继续点**：`out/node4-whole-joint-step-r2-20260914/`与HANDOFF顶部。全部1676自由列已算、左右矩阵1724×1676；240列差分分歧、77列单侧有效，不是光滑Jacobian认证。5父路＋24转向原子联合微扰与整图独立重算差0，仍507组不等式失败；零拟合/零新XODR。系数差分用全部源仿射见证和精确端口依赖加速，轴/口部/布局仍完整重建，不能固定C/CZ。下一步全源写出端域/区间、动态/面域及非光滑共同求解；不是重复抽查或冻结父路逐条补解。278哈希不变，172＋3测试；9处批准不扩/不重问，源数据/速度不改，MAP等仍未完，未commit。
-
-- 最新全图实施见HANDOFF顶部与`out/node4-whole-source-model-r4-20260914/`：用户本轮“继续”已仅确认西2南1，决策`profiles/repair/node4-west-south-zero-width-source-roles-v1.yaml`；与既有北2东4共9处，物理边界和完整movement路径分离，不再重问这9处、不扩大到其他输入。原件/TOPO/速度/CRS不改。
-
-- 完整5父路与24长连接路已在同一1681维状态实算（含5个固定0的非路口cut槽），共享轴/口部/边界及源尾段随同一状态变化。西11微扰影响106–111六个转向而不改其他；每转向5长原语、每段≥6m，普通width跨度≥5.5m。只是状态和形状核接通，初值仍明显失败；未进行数值优化、无新XODR、未交付。
-
-- **2026-09-14当前执行顺序**：用户要求停止局部补丁。先完成可保持结构的原件残差/Jacobian、全源所有权与实际写出外端/区间、动态和面域约束，再按全局方案预登记最多3个完整候选及计算预算。不能套旧固定C/CZ的GN-QP、冻结父路逐条拟合、盲加种子或放宽门槛。123相关回归＋3真实复核不是整图/MAP验收，不推广CLI、不commit。
-
 - **始终使用中文回复用户**
-- 方案与决策以 `docs/地图格式转换工厂-首批三格式方案.md`（v1.74及2026-09-14顶部全路口共同状态补充）为唯一权威版本；接手先读`HANDOFF.md`顶部。下文/历史v1.71–v1.74数值试验均非交付；保留v1.71研究件，新r4仅JSON状态。原7.526348m多要素域分配、完整非线性求解/面域/动态/MAP/CRS/movement/Web仍未完成，不把组件或局部PASS当整图完成。
-- 事实性调研结论（标准条款、开源项目状态、政策）以 `docs/调研报告-*.md` 为准；**本地数据/资料的事实以 `docs/资料盘点-金凤示范区数据与标准资料.md` 为准**——不要凭记忆重新断言；确需更新时先核查再改文档
-- 技术栈：Python 3.11+；GDAL/GeoPandas/Shapely/pyproj（GIS）、pycrate（ASN.1/UPER）、libOpenDRIVE+lxml（xodr 解析/拓扑）、scenariogeneration（xodr 写出）、asam-qc-opendrive + esmini（门禁）
+- 不自动 commit、不 push，除非用户明确要求。
+- 几何质量以评分板为准：`python -m mapforge.score --out out/scoreboard/<名称>`。改几何要给出评分板前后对比，不能用单点、单项检查或"测试数量"宣称完成；草案阈值不能为让候选通过而改。
+- 2026-10-03 冻结（D1）：L01 的 E3 登记与 E1/E2 准入链、L07 整图求解器、"相对 r6 不退步"护栏。旧证据、旧 FAIL 原样保留，用户不要求就不重启。
+- **证据绑定**：`out/` 研究证据按字节哈希锁定了大量代码（包括 `cli.py`、`shp_to_xodr.py`、`map_to_xodr.py`、`writer.py`、`refline_fit.py`、`smoothness.py`、`g11.py`、`decision.py`、`tests/conftest.py`）。新功能写进新模块；改受绑定文件前先查影响。不要用 `git checkout/restore/stash/reset` 改写工作区文件——本机 `core.autocrlf=true` 会把 LF 换成 CRLF，破坏绑定。
+- 本机 `F:` 是 `E:` 的 subst，旧证据里的 `F:\MapFactory` 路径靠它解析。
+- 事实性调研结论（标准条款、开源项目状态、政策）以 `docs/调研报告-*.md` 为准；**本地数据/资料的事实以 `docs/资料盘点-金凤示范区数据与标准资料.md` 为准**——不要凭记忆重新断言；确需更新时先核查再改文档。
+- 技术栈：Python 3.11（uv，`pyproject.toml` + `uv.lock`，版本锁定在 2026-09 归档值；3.12 的 `sum()` 改了浮点求和，会改变冻结证据的数值，暂不升级）；numpy/scipy/shapely/pyproj/lxml/pyshp（几何与 GIS）、pyclothoids、pycrate（ASN.1/UPER）；OpenDRIVE 用自研 writer（`mapforge/adapters/opendrive/writer.py`，不用 scenariogeneration）；门禁 XSD + esmini（asam-qc-opendrive 尚未接入）。
 
 ## 本地数据资产（只读原料，勿修改原件）
 
@@ -35,6 +33,7 @@
 - `v2x_map_xml/*.asn`：TCI 一致性测试控制协议（**不是**消息层本体，作核对参照/FusionTest 资产）
 - `v2x_map_xml/xml2xodr/`：既有 MAP→xodr 参考代码（只吸收思路，代码不入库）
 - `OpenDRIVE_1.4H.xsd` / `OpenDRIVE_1.5M.xsd`：VIRES 官方 XSD（validate/ 门禁资产）
+- 注意：GitHub 远端 `smart-geng/mapforge` 当前为 public，已含上面的 MAP XML 和送审稿 docx；改私有/清理历史由用户决定，不要代为操作。
 
 ## 硬约束（写代码/改方案时不可违反）
 
@@ -46,19 +45,23 @@
 6. 未识别的图层/字段/扩展一律 PASSTHROUGH 进扩展区，不丢弃；转换状态用八态枚举（EXACT/TRANSFORMED/APPROXIMATED/INFERRED/EXTENSION/PASSTHROUGH/DROPPED/FAILED）
 7. 许可证：GPL 组件（CommonRoad 系）只能进程隔离调用或离线对拍；LGPL（pycrate/vanetza）库引用不改源码；GitHub cv2x 仓库无许可证，仅作 asn 核对参照不得复用代码
 
+另：9 处已批准的零宽出生来源角色（北2、东4、西2、南1，`profiles/repair/`）只在原对象生效，不扩大、不再重问；原限速、TOPO、原件不改。
+
 ## 目录约定（方案 7.3）
 
 ```text
 mapforge/
-├─ mapir/        # model / geometry / crs / provenance / idmap
+├─ mapir/        # model / geometry / crs / provenance / idmap（目前只有 crs_probe）
 ├─ adapters/     # opendrive/ shp/ v2xmap/
-├─ profiles/     # shp/*.yaml v2xmap/*.yaml opendrive/*.yaml（版本化）
-├─ ops/          # junction_discovery / approach / connect_infer / simplify / budget / repair
-├─ validate/     # roundtrip / topo_metrics / size_budget / asam_qc / esmini_load
-├─ report/       # loss / quality / preview_geojson / id_diff
-├─ ledger/       # region/node ID 分配台账
-├─ cli.py
-└─ tests/golden/ # 黄金测试集（交叉口场景）
+├─ ops/          # 转换与研究内核（部分研究模块仍 import spikes/、scripts/）
+├─ validate/     # 门禁与评分板（scoreboard.py、replay.py）
+├─ report/       # 交付裁决 / 预览
+├─ repair_web/   # 本地受限修形台
+├─ score.py      # python -m mapforge.score
+└─ cli.py
+profiles/        # shp/ validation/ repair/（版本化）
+ledger/          # region/node ID 分配台账
+experiments/     # registry.jsonl：评分板实验登记
 ```
 
 ## 关联项目

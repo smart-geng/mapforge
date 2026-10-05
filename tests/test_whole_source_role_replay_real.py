@@ -7,6 +7,7 @@ import pytest
 from lxml import etree as ET
 
 from mapforge.ops.source_roles import replay_source_role_packet
+from mapforge.validate.replay import equivalent
 from scripts.fit_source_boundary_block import unchanged
 from scripts.prepare_whole_source_roles import independent_pending
 from spikes.source_contact_fit import SourceBoundaryBlock
@@ -69,7 +70,7 @@ def test_full_original_inventory_replays_exactly_six_not_all_nine_conflicts(pack
 def test_three_pending_tips_reproduce_from_raw_shp_and_block_before_geometry(packet):
     root, scope, domain, contacts, roles, config, report = packet
     rows = independent_pending(scope, domain, contacts, roles, config['source_dir'])
-    assert rows == report['pending']
+    assert equivalent(rows, report['pending'])  # recomputed floats: tolerance, not bit-exact
     for row in rows:
         owners, gap = PENDING[row['source_lane_id']]
         assert row['logical_consumers'] == owners

@@ -1,0 +1,45 @@
+schema: mapforge/source-correction/v1
+id: map-node4-west-lane2-lane3-p5-drop-v1
+approved:
+  by: 用户
+  date: "2026-10-04"
+  decision: 西进口 2、3 车道 s≈276 m 处的横向离群点按建议剔除并记录（原件不改，派生清洗件参与转换，损失报告记 DROPPED）
+source:
+  file: v2x_map_xml/map凤苑路-金玥路node4.xml
+  sha256: 4ccd15ab7d38a54789f207022d773c5d65931f5169ba8bcf0f4a61dff89da80d
+corrections:
+  - action: drop_point
+    status: DROPPED
+    target:
+      node: {region: 500, id: 4}
+      link: {name: west, upstream: {region: 500, id: 18}}
+      lane: 2
+      point_index_0based: 5
+      raw: {lon: 1063219141, lat: 295200529}
+    # 应用时按同一规则重新计算并核对；与下列数值不符即拒绝应用（不静默修改）。
+    evidence:
+      rule: lateral-spike（mapforge/validate/map_source_review.py：该点处转角 ≥15°、删去后两侧邻点转角 ≤4°、偏离邻点弦 ≥1 m）
+      distance_to_neighbor_chord_m: 2.558
+      neighbor_chord_length_m: 30.308
+      detour_ratio: 1.0162
+      turn_deg: 21.94
+      neighbour_turn_without_point_deg: 2.90
+      first_reported: docs/阶段2-MAP道路侧重拟合-2026-10-04.md 第六节；全量复核 out/map-source-review-20261004.json
+    reason: 单点横向离群：前后邻点相距约 30 m、方向一致，该点向右偏离两者连线 2.56 m，车道在此一点折出又折回（转角 22°，删去后邻点转角 2.9°）；同断面的 3 车道同样偏离、再下一个点又回到原位，不是持续的车道平移。七份 MAP 原件中只有本条与下一条触发该规则。重拟合跟随它时该车道偏 0.33 m，离去侧镜像的车道中心在参考线拼接处曲率跳变 1.14e-3。
+  - action: drop_point
+    status: DROPPED
+    target:
+      node: {region: 500, id: 4}
+      link: {name: west, upstream: {region: 500, id: 18}}
+      lane: 3
+      point_index_0based: 5
+      raw: {lon: 1063219142, lat: 295200231}
+    evidence:
+      rule: lateral-spike（mapforge/validate/map_source_review.py：该点处转角 ≥15°、删去后两侧邻点转角 ≤4°、偏离邻点弦 ≥1 m）
+      distance_to_neighbor_chord_m: 2.377
+      neighbor_chord_length_m: 30.194
+      detour_ratio: 1.0142
+      turn_deg: 20.64
+      neighbour_turn_without_point_deg: 2.52
+      first_reported: docs/阶段2-MAP道路侧重拟合-2026-10-04.md 第六节；全量复核 out/map-source-review-20261004.json
+    reason: 与 2 车道同一断面的单点横向离群：前后邻点相距约 30 m，该点向右偏离两者连线 2.38 m（转角 21°，删去后邻点转角 2.5°），下一个点又回到原位。
