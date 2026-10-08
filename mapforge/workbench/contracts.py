@@ -120,7 +120,7 @@ def validate_command(command: Any, snapshot: dict, base_revision: int, *,
         if version != base_revision:
             raise StoreConflict("命令版本与请求版本不一致")
     kind = command.get("type")
-    if kind not in ("annotation", "shared_boundary_c2_normal_delta"):
+    if kind not in ("annotation", "shared_boundary_c2_normal_delta", "source_supported_surface_tracks_v2"):
         raise StoreValidation("尚未开放该编辑能力")
     ids = {obj["id"] for obj in snapshot["objects"]}
     ref = command.get("source_ref")
@@ -136,6 +136,9 @@ def validate_command(command: Any, snapshot: dict, base_revision: int, *,
             or len(features) != len(set(features)) or ref not in features):
         raise StoreValidation("作用域必须包含目标，且全部引用当前工程中的唯一源对象")
     params = command.get("parameters")
+    if kind == "source_supported_surface_tracks_v2":
+        from .surface_contracts import validate_command as validate_surface_command
+        return validate_surface_command(command, snapshot, capabilities=capabilities, context=context)
     if kind == "shared_boundary_c2_normal_delta":
         capability_id = identifier(scope.get("capability_id"), "capability_id")
         capability = (capabilities or {}).get(capability_id)
@@ -176,6 +179,9 @@ def validate_command(command: Any, snapshot: dict, base_revision: int, *,
 def validate_capability(spec: Any, snapshot: dict, context: dict) -> dict:
     """Validate server-supplied capability metadata; registration is not an HTTP edit."""
     require_json(spec, "capability")
+    if isinstance(spec, dict) and spec.get("type") == "source_supported_surface_tracks_v2":
+        from .surface_contracts import validate_capability as validate_surface_capability
+        return validate_surface_capability(spec, snapshot, context)
     required = {"capability_id", "type", "source_ref", "feature_ids", "baseline_sha256", "normal_delta_m"}
     if not isinstance(spec, dict) or set(spec) != required:
         raise StoreValidation("服务器能力登记字段不完整或包含未知字段")
