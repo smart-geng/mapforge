@@ -83,3 +83,7 @@
   - 结果：等级不变；14 份的普通道路与 `20261007-default-c2-fair` 逐字节相同，只改 24 条连接路，G8 不变；边缘拼接跳变最大 0.021 → 0.0027，超过 1e-3 的 54 → 43 处。生成那次的结果另存为 `scoreboard.generated.json`。
   - `20261007-default-c2-edges-wrongtau`：第一次全量运行误把 MAP 弦带留在试验值 0.10 m（MAP 的 G8 变差，与 `20261007-map-fair-try2` 相同），未登记。
   - 同日另两项取舍的试验（MAP 带宽 0.10 m 加点约束、SHP 连接路在离源 max(5 cm, 现距离) 内重拟合、MAP 与 SHP 真值对照）都是离线或只跑 MAP 的试跑，未登记，见光顺文档第五节。
+- 泛化稳健性（2026-10-08，策略 0.7-draft）：**以 `20261008-robust-legs-surface` 为定版**（默认 CLI 端到端；14 份 XODR、源清单与全部指标与 `20261007-default-c2-edges` 逐字节相同）。
+  - 新模块 `mapforge/ops/leg_fit_fallback.py`（进口道路参考线兜底）和 `envelope_surface.py` 的三条铺面规则，都只在原逻辑失败时接手，评分板路口从不走到。生成那次的结果另存为 `scoreboard.generated.json`。
+  - 泛化集（`python -m mapforge.validate.generalization`）登记在 `experiments/generalization.jsonl`，不进本表：`20261008-sample1`（修复前：转出 1/16，T1/T2 都是 0）、`20261008-robust-legs-surface`（修复后：转出 10/16，T1 7，T2 2）。见 `docs/阶段2-泛化测试与转换稳健性-2026-10-08.md`。
+  - `out/generalize/20261008-all-gen`：全量 163 个路口生成阶段的半途运行（修复前代码，17 个后停掉，9 个通过），未登记。

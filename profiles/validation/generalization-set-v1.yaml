@@ -1,0 +1,27 @@
+schema: mapforge/generalization-set/v1
+id: generalization-set-v1
+created: 2026-10-08
+description: >-
+  SHP junctions the scoreboard never sees, to measure how the default pipeline generalises. Chosen once
+  (2026-10-08) from the 156 junctions of shp_0222-0326 that are not scoreboard junctions: grouped by
+  (enter roads, leave roads), each group sorted by junction pid and taken at even steps, 6 of 4x4, 4 of 3x3,
+  2 of 8x8, 2 of 2x2, 1 of 6x4, 1 of 3x2. Fixed: never re-chosen to suit a result.
+source: shp_0222-0326
+profile: ibd-smarteditor-v1
+junctions:
+  - {pid: '2023041111160971268', kind: '4x4', lon: 106.33976447476824, lat: 29.518457970283993}
+  - {pid: '2023061310244790027', kind: '4x4', lon: 106.31586320301415, lat: 29.527374102902616}
+  - {pid: '2023062713394062899', kind: '4x4', lon: 106.28795654765104, lat: 29.586654720188477}
+  - {pid: '2023063015350832057', kind: '4x4', lon: 106.30743738897712, lat: 29.590862936706447}
+  - {pid: '2023070710412621654', kind: '4x4', lon: 106.31411600801903, lat: 29.586641338727574}
+  - {pid: '2023080118313036830', kind: '4x4', lon: 106.3116874768002, lat: 29.53228482686577}
+  - {pid: '2023041216222042093', kind: '3x3', lon: 106.3302113472452, lat: 29.514175622654253}
+  - {pid: '2023062110304177600', kind: '3x3', lon: 106.31944755053289, lat: 29.521379228865595}
+  - {pid: '2023070118182048481', kind: '3x3', lon: 106.29723463957413, lat: 29.609834076493176}
+  - {pid: '2023080810023203229', kind: '3x3', lon: 106.31946939196747, lat: 29.52964774947495}
+  - {pid: '2023062913464138453', kind: '8x8', lon: 106.30377120648608, lat: 29.609983129853003}
+  - {pid: '2023072914272536839', kind: '8x8', lon: 106.30635633482996, lat: 29.514164380875094}
+  - {pid: '2023041810414040830', kind: '2x2', lon: 106.32525232024989, lat: 29.51778681859646}
+  - {pid: '2023070710324132429', kind: '2x2', lon: 106.31426762832261, lat: 29.588286172219583}
+  - {pid: '2023081110220126408', kind: '6x4', lon: 106.31568803764125, lat: 29.51419919328685}
+  - {pid: '2023071109582525264', kind: '3x2', lon: 106.30394972266781, lat: 29.605715799233423}

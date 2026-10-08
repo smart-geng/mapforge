@@ -13,7 +13,9 @@ rebuilt from the source surface plus the real lane tails. This module only runs 
 with the CLI's own finalization (same G8 policy, same sidecars); it changes no converter
 code. The junction paving is then rebuilt by mapforge.ops.envelope_surface (gap-aware: separate
 carriageways are paved apart, gaps inside the source junction polygon are not holes); any other
-unexplained gap still fails loudly and is never passed off as a result.
+unexplained gap still fails loudly and is never passed off as a result. Legs whose reference line the
+converter's own fit rejects are fitted by mapforge.ops.leg_fit_fallback (2026-10-08); a junction whose legs all fit
+is built exactly as before.
 
     python -m mapforge.ops.shp_mouth_envelope shp_0222-0326 --like v2x_map_xml/<case>.xml \
         --margin 3 -o out/<name>.xodr
@@ -41,8 +43,8 @@ def convert(shp_dir, like, out, margin_m=3.0, profile="ibd-smarteditor-v1", rebu
     import xml.etree.ElementTree as ET
     from mapforge.adapters.shp.profile_source import ProfileSource
     from mapforge.adapters.v2xmap.xml_reader import parse_map_xml
-    from mapforge.ops import envelope_surface
-    from mapforge.ops.shp_to_xodr import CandidateSurfaceError, _proj, build_junction_xodr
+    from mapforge.ops import envelope_surface, leg_fit_fallback
+    from mapforge.ops.shp_to_xodr import CandidateSurfaceError, _proj
     from mapforge.report.decision import finalize_opendrive_g8
 
     out = Path(out)
@@ -57,8 +59,11 @@ def convert(shp_dir, like, out, margin_m=3.0, profile="ibd-smarteditor-v1", rebu
     record = {"schema": CODE, "mouth_policy": "source-envelope-candidate", "margin_m": float(margin_m),
               "junction": junc.pid, "locator_distance_m": round(float(distance), 1)}
     try:
-        stats = build_junction_xodr(src, junc, out, connect_mode="data", allow_uturn=False,
-                                    mouth_policy="source-envelope-candidate", mouth_margin_m=float(margin_m))
+        # legs the converter's own reference fit rejects get mapforge.ops.leg_fit_fallback (2026-10-08); a junction
+        # whose legs all fit is built exactly as before
+        stats, _legs = leg_fit_fallback.build(src, junc, out, connect_mode="data", allow_uturn=False,
+                                              mouth_policy="source-envelope-candidate",
+                                              mouth_margin_m=float(margin_m))
         record["converter_surface"] = "GENERATED"
     except CandidateSurfaceError as exc:
         stats = exc.stats

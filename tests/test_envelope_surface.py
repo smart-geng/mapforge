@@ -61,3 +61,44 @@ def test_real_node3_envelope_surface_is_generated_without_holes(tmp_path):
     surface = surface_continuity(ET.parse(out).getroot())
     assert surface["paving_holes_gt1cm2"] == 0 and surface["paving_components"] == 1
     assert surface["paving_leg_overlap_min"] > 1.0
+
+
+def _bridge(base, tail):
+    from mapforge.ops import junction_surface as JS
+    mouths = [{"road_id": "10", "pose": [0.0, 0.0, 0.0]}]
+    pieces = [{"road_id": "10", "geometry": tail}]
+    old = JS.bridge_source_tails(base, pieces, mouths)
+    new = ES._bridge_tails(base, base.buffer(ES.COVER_TOL_M), pieces, mouths)
+    return old, new
+
+
+def test_end_cap_reached_everywhere_is_bridged_as_the_converter_does():
+    base = box(1.0, -2.0, 20.0, 12.0)
+    (t_old, i_old), (t_new, i_new) = _bridge(base, box(-3.0, 0.0, 0.5, 9.0))
+    assert i_old == i_new == []
+    assert [t["geometry"].wkb for t in t_old] == [t["geometry"].wkb for t in t_new]
+    assert "end_cap_misses" not in t_new[0]
+
+
+def test_an_end_cap_corner_facing_a_polygon_notch_is_bridged_without_a_hole():
+    # the polygon is cut back 5 m at its upper corner (a curb return): the tail's top corner faces open ground
+    base = Polygon([(1.0, -2.0), (20.0, -2.0), (20.0, 12.0), (6.0, 12.0), (6.0, 8.0), (1.0, 8.0)])
+    tail = box(-3.0, 0.0, 0.5, 9.0)
+    (t_old, i_old), (t_new, i_new) = _bridge(base, tail)
+    assert [i["reason"] for i in i_old] == ["end-cap-outside-repair-budget"]
+    assert i_new == [] and t_new[0]["end_cap_misses"] > 0
+    joined = unary_union([t_new[0]["geometry"], base])
+    assert joined.geom_type == "Polygon" and len(joined.interiors) == 0
+
+
+def test_an_end_cap_passing_the_polygon_edge_by_a_few_cm_is_bridged():
+    base = box(1.0, -2.0, 20.0, 8.97)
+    (t_old, i_old), (t_new, i_new) = _bridge(base, box(-3.0, 0.0, 0.5, 9.0))
+    assert [i["reason"] for i in i_old] == ["end-cap-outside-repair-budget"]
+    assert i_new == []
+
+
+def test_a_tail_mostly_away_from_the_polygon_still_fails():
+    base = Polygon([(1.0, -2.0), (20.0, -2.0), (20.0, 12.0), (6.0, 12.0), (6.0, 2.0), (1.0, 2.0)])
+    (t_old, i_old), (t_new, i_new) = _bridge(base, box(-3.0, 0.0, 0.5, 9.0))
+    assert [i["reason"] for i in i_new] == ["end-cap-outside-repair-budget"]
