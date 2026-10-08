@@ -19,6 +19,8 @@ ROOT = Path(__file__).resolve().parents[1]
 def ibd():
     # 与 CLI 正式路径一致：ProfileSource 会按用户字段映射读取，并在 WIDTH=0
     # 等脏数据处使用可信边界证据补宽；绕过 Profile 的 IbdSource 只保留作底层读入器。
+    if not (ROOT / "shp_0222-0326" / "IBD_LANE_LINK.shp").exists():
+        pytest.skip("original SHP delivery not installed")
     from mapforge.adapters.shp.profile_source import ProfileSource
     return ProfileSource(str(ROOT / "shp_0222-0326"), "ibd-smarteditor-v1")
 

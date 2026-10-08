@@ -54,7 +54,9 @@ def test_missing_topology_keeps_explicit_inference_accounting():
 
 
 def test_real_node4_source_width_and_declared_fork():
-    from scripts.gen_all import shp_source
+    from scripts.gen_all import ROOT, shp_source
+    if not (ROOT/'shp_0222-0326/IBD_LANE_LINK.shp').exists():
+        pytest.skip('original SHP delivery not installed')
     source=shp_source()
     mother=source.lane('2023081117282865661')
     cont=source.lane('2023081117251325687')
