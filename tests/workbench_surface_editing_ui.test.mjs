@@ -18,6 +18,13 @@ const runningJob=(id="compile-1",operation="compile_surface",base=1,content="bas
 const completedJob=()=>({...runningJob(),state:"succeeded",archive:{state:"persisted",recorded_state:"succeeded"},result:{status:"COMPILED",candidate:candidate(),evidence:{candidate_sha256:"a".repeat(64)}}});
 const polygon=()=>({type:"Polygon",coordinates:[[[0,0],[20,0],[20,20],[0,20],[0,0]],[[5,5],[10,5],[10,10],[5,10],[5,5]]]});
 function geometry(accepted=false,id="p1"){return {available:true,candidate_id:"fresh-candidate",candidate_stale:false,candidate_accepted:accepted,preview:!accepted,formal_export_available:false,report:{layers:[{id:"source",title:"来源面",geometry:polygon()},{id:"candidate",title:"实际辅助面",geometry:polygon()}],issues:[{id:"void",title:"来源空区",detail:"保留，不能直接填面",geometry:polygon()}],context:{project_id:id,candidate_id:"fresh-candidate",candidate_sha256:"a".repeat(64),source_snapshot_id:"snapshot",source_content_hash:"s".repeat(64),candidate_accepted:accepted,formal_release_verified:false,frame:{kind:"local-eqc",unit:"m",origin:[106.2,29.6],absolute_crs_status:"unverified"}}}};}
+function fidelity(){
+  const lane=(id,p95,missing=false)=>({id:"fidelity:"+id,source_lane_id:id,policy_class:"shp.field-approach",target:{road_id:"10",side:"right",lane_id:-Number(id),section_first:0,section_last:1},source_to_target:{p95_m:p95,max_m:p95+.1,median_m:p95/2,count:12},target_to_source:{p95_m:p95/2,max_m:p95,median_m:p95/3,count:12},stop_line:{availability:missing?"unavailable":"not-applicable",reason:missing?"source-stopline-not-linked":null},source_geometry:{type:"LineString",coordinates:[[Number(id)*100,0],[Number(id)*100+20,0]]},target_geometry:{type:"LineString",coordinates:[[Number(id)*100,1],[Number(id)*100+20,1]]},issues:missing?[{code:"stopline-unmeasurable",reason:"source-stopline-not-linked",message:"来源停止线不可测；不能按邻近位置补绑。"}]:[]});
+  const lanes=[lane("1",.1),lane("2",.3,true),lane("3",.2)];
+  for(const item of lanes){item.primary_source_ref={id:"raw:"+item.source_lane_id,role:"lane",source_ref:{snapshot_id:"snapshot",layer:"IBD_LANE_LINK",record_index:Number(item.source_lane_id),part_index:0}};item.source_refs=[item.primary_source_ref,{id:"merge:"+item.source_lane_id,role:"lane_merge",source_ref:{snapshot_id:"snapshot",layer:"IBD_LANE_LINK_MERGE",record_index:Number(item.source_lane_id)+20,part_index:null}}];}
+  return {schema:"mapforge/workbench-fidelity-inspection/v1",status:"AVAILABLE",gate_status:"UNAVAILABLE",scope:{matched_source_lanes:3,eligible_source_lanes:3,target_components:3},summary:{lane_count:3,stopline_unavailable_count:1},lanes};
+}
+function geometryWithFidelity(value=fidelity()){const result=geometry();result.report.fidelity=value;return result;}
 
 async function environment(){
   const elements=new Map(),requests=[],listeners=new Map(),timers=[],calls=[],downloads=[];
@@ -219,4 +226,53 @@ for(const failure of ["hash","purpose","version"]){
 
 test("modal Escape never clears an unconfirmed note in the source workspace",async()=>{
   const e=await environment();await e.ready();e.element("note").value="保留未确认待办";e.element("note").oninput();e.listeners.get("keydown")({key:"Escape",preventDefault(){}});assert.equal(e.run("pendingNote"),true);assert.equal(e.element("note").value,"保留未确认待办");
+});
+
+test("fidelity keeps original G8 unavailable while sorting all lane observations and separating stopline gaps",async()=>{
+  const e=await environment();await e.ready();await e.startPreview();const value=geometryWithFidelity(),before=JSON.stringify(value);await e.finishPreview(completedJob(),value);
+  const lanes=e.element("surface-fidelity-lanes").children,stops=e.element("surface-fidelity-stops").children;
+  assert.deepEqual(lanes.map(item=>item.dataset.laneId),["fidelity:2","fidelity:3","fidelity:1"]);assert.deepEqual(stops.map(item=>item.dataset.laneId),["fidelity:2"]);
+  assert.match(e.element("surface-fidelity-status").textContent,/原 G8：UNAVAILABLE/);assert.match(e.element("surface-fidelity-status").textContent,/不判单车道通过或失败/);assert.equal(JSON.stringify(value),before);assert.equal(e.element("surface-fit").disabled,false);
+});
+
+test("fidelity selection shows only one paired lane and zooms without modifying project or invoking writes",async()=>{
+  const e=await environment();await e.ready();await e.startPreview();await e.finishPreview(completedJob(),geometryWithFidelity());const before=e.run("JSON.stringify(project)"),requests=e.requests.length;
+  const lanes=e.element("surface-fidelity-lanes").children;lanes[0].click();assert.match(e.element("surface-fidelity-selection").textContent,/来源车道 2/);assert.equal(lanes[0].attributes["aria-pressed"],"true");assert.equal(e.element("surface-fidelity-stops").children[0].attributes["aria-pressed"],"true");
+  const begin=e.calls.length;lanes[1].click();const drawn=e.calls.slice(begin).filter(item=>item.id==="surface-map");
+  // Two polygon layers, one polygon issue, exactly two selected lines, and scale bar.
+  assert.equal(drawn.filter(item=>item.name==="stroke").length,6);assert.equal(lanes[0].attributes["aria-pressed"],"false");assert.equal(lanes[1].attributes["aria-pressed"],"true");
+  assert.match(e.element("surface-fidelity-selection").textContent,/来源车道 3/);assert.match(e.element("surface-fidelity-primary").textContent,/IBD_LANE_LINK · 记录 3 · part 0（索引从 0 开始）/);assert.match(e.element("surface-fidelity-refs").children[0].textContent,/IBD_LANE_LINK_MERGE · 记录 23 · part 无几何/);assert.equal(e.run("JSON.stringify(project)"),before);assert.equal(e.requests.length,requests);
+  e.element("surface-fidelity-clear").click();assert.equal(e.element("surface-fidelity-clear").disabled,true);assert.equal(lanes[1].attributes["aria-pressed"],"false");assert.equal(e.element("surface-fidelity-lanes").children.length,3);assert.equal(e.element("surface-issues").children.length,1);
+});
+
+test("fidelity preserves small positive distances instead of displaying false zero",async()=>{
+  const e=await environment();await e.ready();await e.startPreview();const value=fidelity();
+  value.lanes[0].source_to_target.p95_m=.0003098236;value.lanes[0].target_to_source.p95_m=1e-9;
+  value.lanes[1].source_to_target.p95_m=0;value.lanes[1].target_to_source.p95_m=.001234;
+  await e.finishPreview(completedJob(),geometryWithFidelity(value));
+  const lanes=e.element("surface-fidelity-lanes").children,small=lanes.find(item=>item.dataset.laneId==="fidelity:1").children[0].textContent,zero=lanes.find(item=>item.dataset.laneId==="fidelity:2").children[0].textContent;
+  assert.equal(small,"来源→候选 P95 0.000310 m · 候选→来源 P95 1.00e-9 m");assert.doesNotMatch(small,/\b0\.000 m/);
+  assert.equal(zero,"来源→候选 P95 0.000 m · 候选→来源 P95 0.001 m");
+});
+
+for(const mutate of [value=>delete value.lanes[0].target_geometry,value=>value.lanes[1].source_geometry.coordinates[0][0]=NaN,value=>value.lanes[0].source_to_target.p95_m=".1",value=>value.summary.lane_count=2,value=>value.lanes[1].id=value.lanes[0].id,value=>value.lanes[0].target.section_last=-1,value=>delete value.lanes[0].primary_source_ref,value=>value.lanes[1].source_refs[0].source_ref.snapshot_id="other-source"]){
+  test(`malformed fidelity clears its pane and leaves paving available: ${mutate}`,async()=>{
+    const e=await environment();await e.ready();await e.startPreview();const value=fidelity();mutate(value);await e.finishPreview(completedJob(),geometryWithFidelity(value));
+    assert.match(e.element("surface-fidelity-status").textContent,/不可用/);assert.equal(e.element("surface-fidelity-lanes").children.length,0);assert.equal(e.element("surface-fidelity-clear").disabled,true);assert.equal(e.element("surface-fit").disabled,false);assert.equal(e.element("surface-issues").children.length,1);
+  });
+}
+
+for(const mode of ["close","project","revision","refresh"]){
+  test(`fidelity selection cannot survive ${mode}`,async()=>{
+    const e=await environment();await e.ready();await e.startPreview();await e.finishPreview(completedJob(),geometryWithFidelity());e.element("surface-fidelity-lanes").children[0].click();assert.equal(e.element("surface-fidelity-clear").disabled,false);
+    if(mode==="close")e.element("surface-close").click();
+    if(mode==="project")e.load(project("p2"));
+    if(mode==="revision")e.run("applyProject({...project,revision:project.revision+1});");
+    if(mode==="refresh"){const task=e.element("surface-save").click();e.pending("/commands").respond(e.savedProject());await tick();assert.equal(e.element("surface-fidelity-clear").disabled,true);e.pending("/geometry").respond(geometryWithFidelity({status:"UNAVAILABLE",reason:"新的比较范围不可用"}));await task;assert.match(e.element("surface-fidelity-status").textContent,/新的比较范围不可用/);}
+    assert.equal(e.element("surface-fidelity-clear").disabled,true);assert.equal(e.element("surface-fidelity-lanes").children.length,0);assert.equal(e.element("surface-fidelity-stops").children.length,0);assert.equal(e.element("surface-fidelity-primary").textContent,"");assert.equal(e.element("surface-fidelity-refs").children.length,0);assert.equal(e.element("surface-fidelity-selection").textContent,"未选中比较车道");
+  });
+}
+
+test("late geometry cannot repopulate fidelity after close",async()=>{
+  const e=await environment();await e.ready();await e.startPreview();e.pending("/jobs/compile-1").respond(completedJob());await tick();const pending=e.pending("/geometry");e.element("surface-close").click();pending.respond(geometryWithFidelity());await tick();assert.equal(e.element("surface-fidelity-lanes").children.length,0);assert.equal(e.element("surface-fidelity-clear").disabled,true);
 });

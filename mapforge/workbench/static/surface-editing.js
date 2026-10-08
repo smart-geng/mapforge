@@ -14,7 +14,7 @@ window.SurfaceEditor=(()=>{
   const anyRunning=()=>running(session?.compileJob)||running(session?.checkJob);
   const persisted=job=>job?.archive?.state==="persisted"&&job.archive.recorded_state==="succeeded"&&!job.historical;
   const candidateCurrent=()=>Boolean(project?.candidate&&!project.status?.candidate_stale&&!project.status?.read_only);
-  function freshSession(){return {descriptor:null,ticket:null,compileJob:null,checkJob:null,checkTarget:null,geometry:null,mutation:null,requests:{},pollSequence:{compile:0,check:0},status:"尚未计算候选。"};}
+  function freshSession(){return {descriptor:null,ticket:null,compileJob:null,checkJob:null,checkTarget:null,geometry:null,fidelity:null,selectedFidelity:null,mutation:null,requests:{},pollSequence:{compile:0,check:0},status:"尚未计算候选。"};}
   function requestBody(kind,create,identity=""){const bound=version()+identity,previous=session.requests[kind];if(previous?.bound===bound)return clone(previous.body);const body=create();session.requests[kind]={bound,body:clone(body)};return body;}
   function state(value){if(session)session.status=value;$("surface-status").textContent=value;}
   function current(s,id,g){return session===s&&owner===id&&project?.project_id===id&&epoch===g&&panel.open;}
@@ -41,7 +41,8 @@ window.SurfaceEditor=(()=>{
     for(const id of ["surface-fit","surface-zoom-in","surface-zoom-out"])$(id).disabled=!session?.geometry;
     $("surface-draft").textContent=count===1?"重建草稿已确认保存；可编译当前草稿。":count>1?"存在多个重建意图，请返回源工程撤销重复操作。":"重建意图尚未确认保存。预览不写入草稿。";
   }
-  function clearGeometry(){geometrySequence++;if(session)session.geometry=null;drag=null;$("surface-legend").replaceChildren();$("surface-issues").replaceChildren();$("surface-geometry-state").textContent="尚无本次候选几何";$("surface-binding").textContent="";$("surface-coordinates").textContent="局部米制画布，绝对位置未核验";paint();}
+  function clearFidelity(reason="尚无本次候选的来源保真定位"){if(session){session.fidelity=null;session.selectedFidelity=null;}$("surface-fidelity-status").textContent=reason;$("surface-fidelity-lanes").replaceChildren();$("surface-fidelity-stops").replaceChildren();$("surface-fidelity-refs").replaceChildren();$("surface-fidelity-primary").textContent="";$("surface-fidelity-selection").textContent="未选中比较车道";$("surface-fidelity-clear").disabled=true;}
+  function clearGeometry(){geometrySequence++;if(session)session.geometry=null;clearFidelity();drag=null;$("surface-legend").replaceChildren();$("surface-issues").replaceChildren();$("surface-geometry-state").textContent="尚无本次候选几何";$("surface-binding").textContent="";$("surface-coordinates").textContent="局部米制画布，绝对位置未核验";paint();}
   function paths(geometry){if(geometry?.type==="LineString")return [geometry.coordinates];if(geometry?.type==="MultiLineString")return geometry.coordinates;return polygons(geometry).flat();}
   function polygons(geometry){return geometry?.type==="Polygon"?[geometry.coordinates]:geometry?.type==="MultiPolygon"?geometry.coordinates:[];}
   function validGeometry(geometry){try{return ["Polygon","MultiPolygon","LineString","MultiLineString"].includes(geometry?.type)&&paths(geometry).length>0&&paths(geometry).every(line=>Array.isArray(line)&&line.length>=2&&line.every(p=>Array.isArray(p)&&p.length>=2&&Number.isFinite(p[0])&&Number.isFinite(p[1])));}catch{return false;}}
@@ -52,16 +53,59 @@ window.SurfaceEditor=(()=>{
       context.formal_release_verified===false&&Array.isArray(report.layers)&&report.layers.every(layer=>validGeometry(layer.geometry))&&
       Array.isArray(report.issues)&&report.issues.every(issue=>validGeometry(issue.geometry));
   }
+  const nonempty=value=>typeof value==="string"&&value.length>0;
+  const stopMissing=lane=>lane.issues.some(issue=>issue.code==="stopline-unmeasurable");
+  function validSourceRefs(lane){
+    const valid=ref=>ref&&nonempty(ref.id)&&["lane","lane_merge"].includes(ref.role)&&nonempty(ref.source_ref?.layer)&&ref.source_ref.snapshot_id===session?.geometry?.report?.context?.source_snapshot_id&&Number.isInteger(ref.source_ref.record_index)&&ref.source_ref.record_index>=0&&(ref.source_ref.part_index===null||Number.isInteger(ref.source_ref.part_index)&&ref.source_ref.part_index>=0);
+    const refs=lane.source_refs,primary=lane.primary_source_ref;
+    return Array.isArray(refs)&&refs.length>0&&refs.every(valid)&&new Set(refs.map(ref=>ref.id)).size===refs.length&&valid(primary)&&primary.role==="lane"&&primary.source_ref.layer==="IBD_LANE_LINK"&&refs.filter(ref=>stable(ref)===stable(primary)).length===1;
+  }
+  function validFidelity(value){
+    const stats=row=>row&&Number.isInteger(row.count)&&row.count>0&&["p95_m","max_m","median_m"].every(key=>Number.isFinite(row[key])&&row[key]>=0);
+    const line=geometry=>geometry?.type==="LineString"&&validGeometry(geometry)&&geometry.coordinates.every(point=>point.length===2);
+    return value?.schema==="mapforge/workbench-fidelity-inspection/v1"&&value.status==="AVAILABLE"&&["PASS","FAIL","REVIEW","UNAVAILABLE"].includes(value.gate_status)&&
+      value.scope&&typeof value.scope==="object"&&!Array.isArray(value.scope)&&Array.isArray(value.lanes)&&value.lanes.length>0&&
+      value.summary?.lane_count===value.lanes.length&&value.scope.matched_source_lanes===value.lanes.length&&new Set(value.lanes.map(lane=>lane?.id)).size===value.lanes.length&&
+      value.lanes.every(lane=>lane&&nonempty(lane.id)&&nonempty(lane.source_lane_id)&&nonempty(lane.policy_class)&&nonempty(lane.target?.road_id)&&
+        ["left","right"].includes(lane.target.side)&&Number.isInteger(lane.target.lane_id)&&Number.isInteger(lane.target.section_first)&&Number.isInteger(lane.target.section_last)&&lane.target.section_first>=0&&lane.target.section_last>=lane.target.section_first&&
+        stats(lane.source_to_target)&&stats(lane.target_to_source)&&nonempty(lane.stop_line?.availability)&&Array.isArray(lane.issues)&&lane.issues.every(issue=>issue&&typeof issue==="object"&&!Array.isArray(issue))&&line(lane.source_geometry)&&line(lane.target_geometry)&&validSourceRefs(lane))&&
+      value.summary.stopline_unavailable_count===value.lanes.filter(stopMissing).length;
+  }
+  function fidelityButtons(){for(const id of ["surface-fidelity-lanes","surface-fidelity-stops"])for(const button of $(id).children)if(button.dataset.laneId)button.setAttribute("aria-pressed",String(button.dataset.laneId===session?.selectedFidelity?.id));}
+  function sourceRefLabel(item){const ref=item.source_ref;return `${ref.layer} · 记录 ${ref.record_index} · part ${ref.part_index===null?"无几何":ref.part_index}（索引从 0 开始）`;}
+  function selectFidelity(lane){
+    if(!panel.open||!session?.fidelity||!session.fidelity.lanes.includes(lane))return;
+    session.selectedFidelity=lane;$("surface-fidelity-clear").disabled=false;fidelityButtons();
+    $("surface-fidelity-selection").textContent=`来源车道 ${lane.source_lane_id} → 道路 ${lane.target.road_id} / 车道 ${lane.target.lane_id}；${lane.policy_class}。仅叠加当前选中车道的两条完整比较线。`;
+    $("surface-fidelity-primary").textContent="主来源记录："+sourceRefLabel(lane.primary_source_ref);$("surface-fidelity-refs").replaceChildren();
+    for(const ref of lane.source_refs.filter(ref=>ref.id!==lane.primary_source_ref.id))$("surface-fidelity-refs").append(make("p",sourceRefLabel(ref)+" · "+ref.role+" · 仅补充来源引用，不作为叠图比较线"));
+    if(lane.source_refs.length===1)$("surface-fidelity-refs").append(make("p","没有补充来源引用。"));
+    fit([lane.source_geometry,lane.target_geometry]);
+  }
+  const fidelityDistance=value=>value>0&&value<.001?value.toPrecision(3):value.toFixed(3);
+  function showFidelity(value){
+    clearFidelity();if(value?.status==="UNAVAILABLE"){ $("surface-fidelity-status").textContent=value.reason||"来源保真定位不可用";return;}
+    if(!validFidelity(value)){ $("surface-fidelity-status").textContent="来源保真定位不可用：比较对象、数值或几何不完整。铺面诊断仍可查看。";return;}
+    session.fidelity=value;const missing=value.lanes.filter(stopMissing),lanes=[...value.lanes].sort((a,b)=>b.source_to_target.p95_m-a.source_to_target.p95_m||a.source_lane_id.localeCompare(b.source_lane_id));
+    $("surface-fidelity-status").textContent=`原 G8：${value.gate_status}；共 ${lanes.length} 条比较车道，停止线不可测 ${missing.length} 条。按来源→候选 P95 从大到小排列；此处不判单车道通过或失败。`;
+    const buttonFor=(lane,stop=false)=>{const button=make("button",`来源 ${lane.source_lane_id} · 道路 ${lane.target.road_id} / 车道 ${lane.target.lane_id}`);button.dataset.laneId=lane.id;button.setAttribute("aria-pressed","false");
+      button.append(make("small",stop?lane.issues.filter(issue=>issue.code==="stopline-unmeasurable").map(issue=>issue.message||issue.reason||"来源停止线不可测").join("；"):`来源→候选 P95 ${fidelityDistance(lane.source_to_target.p95_m)} m · 候选→来源 P95 ${fidelityDistance(lane.target_to_source.p95_m)} m`));
+      if(!stop&&stopMissing(lane))button.append(make("small","停止线不可测；请核对原始对象及显式关联。"));button.onclick=()=>selectFidelity(lane);return button;};
+    for(const lane of lanes)$("surface-fidelity-lanes").append(buttonFor(lane));
+    for(const lane of lanes.filter(stopMissing))$("surface-fidelity-stops").append(buttonFor(lane,true));
+    if(!missing.length)$("surface-fidelity-stops").append(make("p","本次比较对象没有停止线不可测项。"));
+  }
   function screen(p){return [(p[0]-view.x)*view.scale+plot.clientWidth/2,plot.clientHeight/2-(p[1]-view.y)*view.scale];}
   function world(x,y){return [(x-plot.clientWidth/2)/view.scale+view.x,(plot.clientHeight/2-y)/view.scale+view.y];}
   function trace(line,close){line.forEach((p,index)=>{const q=screen(p);if(index)pen.lineTo(...q);else pen.moveTo(...q);});if(close)pen.closePath();}
-  function shape(geometry,color,opacity){pen.strokeStyle=color;pen.fillStyle=color;pen.lineWidth=1.4;const areas=polygons(geometry);if(areas.length){for(const area of areas){pen.beginPath();for(const ring of area)trace(ring,true);pen.globalAlpha=opacity;pen.fill("evenodd");pen.globalAlpha=1;pen.stroke();}}else{pen.beginPath();for(const line of paths(geometry))trace(line,false);pen.stroke();}}
+  function shape(geometry,color,opacity,width=1.4){pen.strokeStyle=color;pen.fillStyle=color;pen.lineWidth=width;const areas=polygons(geometry);if(areas.length){for(const area of areas){pen.beginPath();for(const ring of area)trace(ring,true);pen.globalAlpha=opacity;pen.fill("evenodd");pen.globalAlpha=1;pen.stroke();}}else{pen.beginPath();for(const line of paths(geometry))trace(line,false);pen.stroke();}}
   function paint(){
     const ratio=devicePixelRatio||1,w=plot.clientWidth,h=plot.clientHeight;
     if(plot.width!==Math.round(w*ratio)||plot.height!==Math.round(h*ratio)){plot.width=Math.round(w*ratio);plot.height=Math.round(h*ratio);}
     pen.setTransform(ratio,0,0,ratio,0,0);pen.clearRect(0,0,w,h);const report=session?.geometry?.report;if(!report)return;
     report.layers.forEach((layer,index)=>shape(layer.geometry,palette[index%palette.length],.14));
     for(const issue of report.issues)shape(issue.geometry,"#ffb76b",.28);
+    if(session.selectedFidelity){shape(session.selectedFidelity.source_geometry,"#66baff",1,4.5);shape(session.selectedFidelity.target_geometry,"#ff83d1",1,2.5);}
     pen.strokeStyle="#b9cbdc";pen.lineWidth=2;pen.beginPath();pen.moveTo(20,h-25);pen.lineTo(120,h-25);pen.stroke();pen.fillStyle="#b9cbdc";pen.font="12px sans-serif";pen.fillText(`${(100/view.scale).toPrecision(3)} m`,20,h-35);
   }
   function fit(geometries){let x0=Infinity,y0=Infinity,x1=-Infinity,y1=-Infinity;for(const geometry of geometries)for(const line of paths(geometry))for(const p of line){x0=Math.min(x0,p[0]);x1=Math.max(x1,p[0]);y0=Math.min(y0,p[1]);y1=Math.max(y1,p[1]);}if(Number.isFinite(x0))view={x:(x0+x1)/2,y:(y0+y1)/2,scale:Math.min(Math.max(100,plot.clientWidth-90)/Math.max(1,x1-x0),Math.max(100,plot.clientHeight-90)/Math.max(1,y1-y0))};paint();}
@@ -72,9 +116,10 @@ window.SurfaceEditor=(()=>{
     for(const issue of report.issues){const button=make("button",issue.title||issue.id||"定位问题");button.append(make("small",issue.detail||""));button.onclick=()=>fit([issue.geometry]);$("surface-issues").append(button);}
     $("surface-geometry-state").textContent=value.candidate_accepted?"工程研究候选（已接受） · 正式交付仍阻断":"本次从原件生成的预览候选（未接受） · 正式交付仍阻断";
     $("surface-binding").textContent=`候选 SHA256：${report.context.candidate_sha256||"未提供"}\n来源快照：${report.context.source_snapshot_id||"未提供"}\n来源内容：${report.context.source_content_hash||"未提供"}`;
-    fitAll();controls();
+    showFidelity(report.fidelity);fitAll();controls();
   }
   async function getGeometry(jobId=null){
+    clearFidelity("正在读取本次候选的来源保真定位…");paint();
     const s=session,id=owner,g=epoch,bound=version(),ticket=++geometrySequence;
     const expectedId=jobId?s.compileJob?.result?.candidate?.candidate_id:project?.candidate?.candidate_id;
     if(!expectedId)return;
@@ -201,9 +246,10 @@ window.SurfaceEditor=(()=>{
     if(!applying){epoch++;session.descriptor=null;state("工程已变化，原预览及检查需核对。请重新打开来源重建面板读取当前状态。");controls();}
   }
   $("open-surface-editing").onclick=open;$("surface-close").onclick=close;$("surface-fit").onclick=fitAll;
+  $("surface-fidelity-clear").onclick=()=>{if(session)session.selectedFidelity=null;$("surface-fidelity-selection").textContent="未选中比较车道";$("surface-fidelity-primary").textContent="";$("surface-fidelity-refs").replaceChildren();$("surface-fidelity-clear").disabled=true;fidelityButtons();fitAll();};
   function zoom(factor){if(!session?.geometry)return;view.scale=Math.max(1e-8,Math.min(1e8,view.scale*factor));paint();}
   $("surface-zoom-in").onclick=()=>zoom(1.5);$("surface-zoom-out").onclick=()=>zoom(1/1.5);
-  panel.addEventListener("cancel",event=>{event.preventDefault();close();});panel.addEventListener("close",()=>{if(panel.open)return;epoch++;geometrySequence++;drag=null;});
+  panel.addEventListener("cancel",event=>{event.preventDefault();close();});panel.addEventListener("close",()=>{if(panel.open)return;epoch++;geometrySequence++;drag=null;clearFidelity();paint();});
   plot.onpointerdown=event=>{if(!session?.geometry)return;drag={x:event.offsetX,y:event.offsetY};plot.setPointerCapture(event.pointerId);};
   plot.onpointermove=event=>{if(!session?.geometry)return;const p=world(event.offsetX,event.offsetY);$("surface-coordinates").textContent=`局部 x ${p[0].toFixed(3)} m · y ${p[1].toFixed(3)} m · 绝对位置未核验`;if(drag){view.x-=(event.offsetX-drag.x)/view.scale;view.y+=(event.offsetY-drag.y)/view.scale;drag={x:event.offsetX,y:event.offsetY};paint();}};
   plot.onpointerup=plot.onpointercancel=plot.onlostpointercapture=()=>{drag=null;};plot.addEventListener("wheel",event=>{if(!session?.geometry)return;event.preventDefault();const a=world(event.offsetX,event.offsetY);zoom(Math.exp(-Math.max(-150,Math.min(150,event.deltaY))*.002));const b=world(event.offsetX,event.offsetY);view.x+=a[0]-b[0];view.y+=a[1]-b[1];paint();},{passive:false});
