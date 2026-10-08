@@ -23,6 +23,8 @@ def _sha(data):
 
 
 class EditingService:
+    compile_operation = "compile"
+
     def __init__(self, store, jobs, *, source_dir=None, profile_path=None, baseline_path=None):
         self.store, self.jobs = store, jobs
         # Only application configuration supplies paths. A project locator is
@@ -142,7 +144,7 @@ class EditingService:
         with self._lock:
             proof = copy.deepcopy(self._proofs.get(job_id))
         if (not proof or proof["project_id"] != project["project_id"] or job.get("historical")
-                or job.get("operation") != "compile" or job.get("state") != "succeeded"
+                or job.get("operation") != self.compile_operation or job.get("state") != "succeeded"
                 or job.get("archive", {}).get("state") != "persisted"
                 or job.get("archive", {}).get("recorded_state") != "succeeded"):
             raise StoreConflict("任务尚未成功持久保存，已取消，或属于历史会话；不能使用结果")

@@ -38,8 +38,8 @@ def _worker(connection, operation, payload):
             from .surface_compiler import compile_request
             result = compile_request(payload)
         elif operation == "validate":
-            from .validation import validate_request
-            result = validate_request(payload)
+            from .surface_routing import validation_module
+            result = validation_module(payload.get("project")).validate_request(payload)
         else:
             raise ValueError("Unsupported background operation")
         connection.send({"state": "succeeded", "result": result})

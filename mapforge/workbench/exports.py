@@ -50,7 +50,10 @@ class ResearchExportService:
         if (not project.get("candidate") or not project.get("validation")
                 or status["candidate_stale"] or status["validation_stale"]):
             raise StoreConflict("请先接受当前候选并保存与它绑定的完整检查结果")
-        verify_validation_artifacts(self.store.project_path(project_id), project["validation"])
+        from .surface_routing import is_surface_project, validation_module
+        verifier = (validation_module(project).verify_validation_artifacts
+                    if is_surface_project(project) else verify_validation_artifacts)
+        verifier(self.store.project_path(project_id), project["validation"])
         self._record_bytes(project)
         if not verify_source_snapshot(project["source_snapshot"], self.source_dir, self.profile_path)["matches"]:
             raise StoreReadOnly("源文件或 Profile 实际字节已改变，不能导出旧结果")

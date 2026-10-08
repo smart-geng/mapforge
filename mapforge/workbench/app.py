@@ -12,7 +12,8 @@ from fastapi.responses import FileResponse, JSONResponse, Response
 from .validation_state import project_response
 from .jobs import JobManager
 from .editing import EditingService
-from .checking import CheckingService
+from .surface_editing import SurfaceEditingService
+from .surface_routing import CheckingRouter
 from .exports import ResearchExportService
 from .measurements import measurement_capability, measure_object, measure_points
 from .surface_review import SurfaceReviewService
@@ -23,13 +24,15 @@ from .store import (ProjectStore, StoreConflict, StoreNotFound, StoreReadOnly,
 STATIC = Path(__file__).with_name("static")
 
 
-def create_app(store: ProjectStore, catalog, token: str, port: int, *, jobs=None, editing=None, checking=None, exports=None, surface_reviews=()):
+def create_app(store: ProjectStore, catalog, token: str, port: int, *, jobs=None, editing=None, checking=None, exports=None, surface_reviews=(), surface_editing=None):
     if len(token) < 24:
         raise ValueError("A randomly generated session token is required")
     jobs = jobs or JobManager(archive_dir=store.root / ".jobs")
     editing = editing or EditingService(store, jobs, source_dir=catalog.source_dir,
                                         profile_path=catalog.profile_path)
-    checking = checking or CheckingService(store, jobs, source_dir=catalog.source_dir,
+    surface_editing = surface_editing or SurfaceEditingService(
+        store, jobs, source_dir=catalog.source_dir, profile_path=catalog.profile_path)
+    checking = checking or CheckingRouter(store, jobs, source_dir=catalog.source_dir,
                                            profile_path=catalog.profile_path)
     exports = exports or ResearchExportService(store, source_dir=catalog.source_dir,
                                                profile_path=catalog.profile_path)
@@ -130,7 +133,7 @@ def create_app(store: ProjectStore, catalog, token: str, port: int, *, jobs=None
 
     @app.get("/assets/{name}")
     def asset(name: str):
-        if name not in {"app.js", "editing.js", "inspection.js", "diagnostics.js", "style.css"}:
+        if name not in {"app.js", "editing.js", "inspection.js", "diagnostics.js", "surface-editing.js", "style.css"}:
             return JSONResponse({"detail": "Not found"}, status_code=404)
         return FileResponse(STATIC / name)
 
@@ -139,7 +142,7 @@ def create_app(store: ProjectStore, catalog, token: str, port: int, *, jobs=None
         return {"junctions": catalog.list_junctions(), "source_name": "已登记 SHP 原件",
                 "capabilities": {"source_view": True, "annotation": True,
                                  "geometry_edit": "registered-scope-only", "formal_export": False},
-                "notice": "开发版：源工程可保存待办；凤阁路—金剑路已登记一处共享边界修补。正式交付尚未开放。"}
+                "notice": "开发版：支持源工程待办、已登记边界修补与 0621 来源铺面重建。正式交付尚未开放。"}
 
     @app.get("/api/projects")
     def projects():
@@ -175,6 +178,33 @@ def create_app(store: ProjectStore, catalog, token: str, port: int, *, jobs=None
     @app.get("/api/projects/{project_id}/editing")
     def editing_status(project_id: str):
         return editing.describe(store.load(project_id))
+
+    @app.get("/api/projects/{project_id}/surface-rebuild")
+    def surface_rebuild_status(project_id: str):
+        return surface_editing.describe(store.load(project_id))
+
+    @app.get("/api/projects/{project_id}/surface-rebuild/geometry")
+    def surface_rebuild_geometry(project_id: str, job_id: str | None = None):
+        return surface_editing.geometry(project_id, job_id=job_id)
+
+    @app.post("/api/projects/{project_id}/surface-rebuild/{operation}")
+    def surface_rebuild(project_id: str, operation: str, body: dict):
+        allowed = {"enable": {"base_revision", "command_id"},
+                   "preview": {"base_revision", "command", "request_id"},
+                   "compile": {"base_revision", "request_id"},
+                   "accept": {"base_revision", "command_id", "job_id"}}
+        if operation not in allowed:
+            return JSONResponse({"detail": "未支持的铺面操作"}, status_code=404)
+        if set(body) != allowed[operation]:
+            raise ValueError("铺面请求只能包含指定事务字段；候选、路径和检查由服务器生成")
+        revision = body["base_revision"]
+        if operation == "enable":
+            return project_response(surface_editing.enable(project_id, revision, body["command_id"]))
+        if operation == "preview":
+            return surface_editing.preview(project_id, revision, body["command"], body["request_id"])
+        if operation == "compile":
+            return surface_editing.compile(project_id, revision, body["request_id"])
+        return project_response(surface_editing.accept(project_id, revision, body["command_id"], body["job_id"]))
 
     @app.get("/api/projects/{project_id}/measurement")
     def measurement_info(project_id: str):

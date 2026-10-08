@@ -17,6 +17,8 @@ from .sources import verify_source_snapshot
 
 
 class CheckingService:
+    validation_module = validation
+
     def __init__(self, store, jobs, *, source_dir=None, profile_path=None, baseline_path=None):
         self.store, self.jobs = store, jobs
         self.source_dir = Path(source_dir or compiler.ROOT / "shp_0222-0326").resolve()
@@ -138,7 +140,7 @@ class CheckingService:
         if fingerprints != proof["fingerprints"]:
             raise StoreConflict("检查器或策略实现已变化，原检查已失效")
         try:
-            report = validation.verify_validation_artifacts(self.store.project_path(project_id), package)
+            report = self.validation_module.verify_validation_artifacts(self.store.project_path(project_id), package)
         except (validation.ValidationRejected, OSError, ValueError, KeyError, TypeError) as exc:
             raise StoreValidation("检查产物核验失败：" + str(exc)) from exc
         if report != result.get("report"):

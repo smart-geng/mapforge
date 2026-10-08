@@ -40,7 +40,9 @@ def project_view(project: dict) -> dict:
                    "message": "原检查缺少有效版本绑定，请重新运行整图检查"}
     else:
         try:
-            current = _current_fingerprints()
+            from .surface_routing import is_surface_project, validation_module
+            current = (validation_module(result).validation_fingerprints()
+                       if is_surface_project(result) else _current_fingerprints())
             files = current.get("implementation_files_sha256")
             compiler_policy = current.get("compiler_policy")
             if (not _hash(current.get("validator_hash")) or not isinstance(files, dict)
