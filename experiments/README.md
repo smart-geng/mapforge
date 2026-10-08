@@ -87,3 +87,9 @@
   - 新模块 `mapforge/ops/leg_fit_fallback.py`（进口道路参考线兜底）和 `envelope_surface.py` 的三条铺面规则，都只在原逻辑失败时接手，评分板路口从不走到。生成那次的结果另存为 `scoreboard.generated.json`。
   - 泛化集（`python -m mapforge.validate.generalization`）登记在 `experiments/generalization.jsonl`，不进本表：`20261008-sample1`（修复前：转出 1/16，T1/T2 都是 0）、`20261008-robust-legs-surface`（修复后：转出 10/16，T1 7，T2 2）。见 `docs/阶段2-泛化测试与转换稳健性-2026-10-08.md`。
   - `out/generalize/20261008-all-gen`：全量 163 个路口生成阶段的半途运行（修复前代码，17 个后停掉，9 个通过），未登记。
+
+- 连接路候选恢复（2026-10-08 接续，策略 0.7-draft）：**以 `20261008-safe-mouth-recovery-v3` 为定版**。
+  - 旧路径或后续候选的数值异常不再阻断所有独立候选；默认 C2 恢复分支在原判据下先硬筛选再择优，未修改策略阈值。
+  - 评分板与同机旧模块控制 `20261008-old-mouth-same-machine` 的 14 份 XODR、源清单、全部指标一致，T1/T2 均 14/14，生成评分另存 `scoreboard.generated.json`，登记重评一致。
+  - 泛化集另外登记同名运行：同机旧代码对照：转出仍为 10/16，T1 7 → 8，T2 仍为 2。旧控制全 16 为 `out/generalize/20261008-old-mouth-same-machine-full16`；只改变 0412、0627 两份，代价和剩余问题见 `docs/阶段2-连接路独立候选恢复-2026-10-08.md`。
+  - 第一版 `20261008-independent-mouth-candidates` 因 061310 新增严重反打被拒绝；第二版 `20261008-safe-mouth-recovery` 因审查发现恢复门禁覆盖不足而中止，均未登记为定版，证据原样保留。
