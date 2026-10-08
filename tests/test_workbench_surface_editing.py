@@ -114,6 +114,9 @@ def setup(tmp_path, monkeypatch):
                         "frame": {"kind": "local-eqc", "unit": "m", "absolute_crs_status": "unverified"}}}
         return SimpleNamespace(diagnose=lambda: {"available": True, "report": copy.deepcopy(report)})
     monkeypatch.setattr(S, "RegisteredSurfaceReview", review)
+    monkeypatch.setattr(S, "inspect_bound_review", lambda value: {
+        "schema": "mapforge/workbench-fidelity-inspection/v1", "status": "UNAVAILABLE",
+        "reason": "Synthetic worker has no G8 geometry", "summary": None, "lanes": []})
     store, jobs = ProjectStore(tmp_path / "projects"), CompletedJobs()
     service = S.SurfaceEditingService(store, jobs, source_dir=tmp_path / "source", profile_path=tmp_path / "profile.yaml")
     project = store.create(snapshot)
@@ -182,6 +185,8 @@ def test_preview_does_not_persist_and_accept_requires_exact_command_commit(setup
     view = e.service.geometry(e.pid, job_id)
     assert view["available"] and view["preview"] and not view["candidate_accepted"]
     assert "本工程预览目标" in view["report"]["context"]["meaning"]
+    assert view["report"]["fidelity"]["status"] == "UNAVAILABLE"
+    assert view["report"]["fidelity"]["lanes"] == []
     committed = e.store.commit(e.pid, 1, result["preview"]["command"])
     accepted = e.service.accept(e.pid, committed["revision"], "accept", job_id)
     assert accepted["revision"] == 3 and not accepted["status"]["candidate_stale"]

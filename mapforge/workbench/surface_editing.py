@@ -14,6 +14,7 @@ import threading
 from . import surface_compiler as compiler
 from .contracts import StoreConflict, StoreReadOnly, StoreValidation, digest
 from .editing import EditingService
+from .fidelity_inspection import inspect_bound_review
 from .surface_review import RegisteredSurfaceReview
 
 
@@ -170,14 +171,17 @@ class SurfaceEditingService(EditingService):
             if result is not None and evidence != result["evidence"]:
                 raise StoreValidation("任务证据与实际候选证据不一致")
             self._baseline_bytes(registration)
-            diagnosis = RegisteredSurfaceReview(verified["run_directory"]).diagnose()
+            review = RegisteredSurfaceReview(verified["run_directory"])
+            diagnosis = review.diagnose()
             if diagnosis.get("available") is not True:
                 raise StoreValidation(diagnosis.get("reason", "实际候选诊断不可用"))
+            fidelity = inspect_bound_review(review)
             # Re-read all artifact bindings and live inputs after rendering work.
             after = compiler.verify_candidate_artifacts(self.store.project_path(project_id), candidate)
             if after != verified or self.store.load(project_id) != project:
                 raise StoreConflict("诊断期间工程或候选发生变化，请刷新")
             report = copy.deepcopy(diagnosis["report"])
+            report["fidelity"] = fidelity
             accepted = bool(job_id is None and project.get("candidate") == candidate
                             and not project["status"]["candidate_stale"]
                             and candidate.get("accepted_epoch") == project["draft_epoch"])
