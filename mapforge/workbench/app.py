@@ -9,6 +9,7 @@ import threading
 from fastapi import FastAPI, Request
 from fastapi.responses import FileResponse, JSONResponse, Response
 
+from .validation_state import project_response
 from .jobs import JobManager
 from .editing import EditingService
 from .checking import CheckingService
@@ -152,7 +153,7 @@ def create_app(store: ProjectStore, catalog, token: str, port: int, *, jobs=None
         integrity = verify_source_snapshot(snapshot, catalog.source_dir, catalog.profile_path)
         if not integrity["matches"]:
             raise StoreReadOnly("导入期间原件发生变化，未保存混合来源；请重新登记源目录")
-        return store.create(snapshot, name.strip())
+        return project_response(store.create(snapshot, name.strip()))
 
     @app.get("/api/projects/{project_id}")
     def load(project_id: str):
@@ -163,11 +164,11 @@ def create_app(store: ProjectStore, catalog, token: str, port: int, *, jobs=None
         with integrity_lock:
             integrity_generation[snapshot_id] = integrity_generation.get(snapshot_id, 0) + 1
             integrity_issues[snapshot_id] = verification["issues"]
-        return store.load(project_id)
+        return project_response(store.load(project_id))
 
     @app.post("/api/projects/{project_id}/commands")
     def commit(project_id: str, body: dict):
-        return store.commit(project_id, body.get("base_revision"), body.get("command"))
+        return project_response(store.commit(project_id, body.get("base_revision"), body.get("command")))
 
     @app.get("/api/projects/{project_id}/editing")
     def editing_status(project_id: str):
@@ -216,19 +217,19 @@ def create_app(store: ProjectStore, catalog, token: str, port: int, *, jobs=None
             raise ValueError("编辑请求包含未支持字段；候选、路径和检查结果由服务器生成")
         revision = body.get("base_revision")
         if operation == "enable":
-            return editing.enable(project_id, revision, body.get("command_id"))
+            return project_response(editing.enable(project_id, revision, body.get("command_id")))
         if operation == "preview":
             return editing.preview(project_id, revision, body.get("command"), body.get("request_id"))
         if operation == "compile":
             return editing.compile(project_id, revision, body.get("request_id"))
         if operation == "accept":
-            return editing.accept(project_id, revision, body.get("command_id"), body.get("job_id"))
+            return project_response(editing.accept(project_id, revision, body.get("command_id"), body.get("job_id")))
         return JSONResponse({"detail": "未支持的编辑操作"}, status_code=404)
 
     @app.post("/api/projects/{project_id}/{action}")
     def action(project_id: str, action: str, body: dict):
         if action in {"undo", "redo"}:
-            return getattr(store, action)(project_id, body.get("base_revision"), body.get("command_id"))
+            return project_response(getattr(store, action)(project_id, body.get("base_revision"), body.get("command_id")))
         if action == "export":
             return JSONResponse({"detail": "正式交付未开放：编辑编译、完整验证和发布材料尚未齐备"}, status_code=409)
         if action == "source-check":
@@ -260,7 +261,7 @@ def create_app(store: ProjectStore, catalog, token: str, port: int, *, jobs=None
             raise ValueError("检查请求包含未支持字段；检查证据由服务器生成")
         if operation == "start":
             return checking.start(project_id, body.get("base_revision"), body.get("request_id"))
-        return checking.attach(project_id, body.get("base_revision"), body.get("command_id"), body.get("job_id"))
+        return project_response(checking.attach(project_id, body.get("base_revision"), body.get("command_id"), body.get("job_id")))
 
     @app.get("/api/projects/{project_id}/jobs/{job_id}")
     def job_status(project_id: str, job_id: str):
