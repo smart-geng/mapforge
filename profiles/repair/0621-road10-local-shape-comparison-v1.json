@@ -1,0 +1,9 @@
+{
+  "schema": "mapforge/local-shape-contract/v1",
+  "baseline_sha256": "9aed2e47be1fc04deee6220d7f4bccdcc02004f65e31c99c1d7e3888aa96c224",
+  "road_id": "10",
+  "domain": [72.8370666078865, 89.2662981386558],
+  "comparison_stations_m": [72.8370666078865, 78.29844760106289, 81.29844760106289, 84.2984476010629, 89.2662981386558],
+  "editable_width_lane_ids": [1],
+  "allow_lane_offset": true
+}
