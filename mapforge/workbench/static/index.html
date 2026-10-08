@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MapForge · 地图工程</title><link rel="stylesheet" href="/assets/style.css"></head>
+<body>
+<header><div class="brand"><span class="mark">M</span><strong>MapForge</strong><span>地图工程</span></div>
+<span class="edition">源工程开发版</span><div class="spacer"></div><span id="save-state" role="status">尚未打开工程</span>
+<button id="new-project">导入路口</button><select id="projects" aria-label="打开已保存工程"><option value="">打开工程…</option></select></header>
+<div id="notice" class="notice" role="status">加载本地数据目录…</div>
+<main>
+<aside class="left"><div class="panel-title">源对象 <span id="object-count" class="badge">0</span></div>
+<input id="search" type="search" placeholder="查找业务 ID、图层或原始记录" aria-label="查找源对象">
+<div id="layers" class="layers"></div><div id="objects" class="object-list" aria-label="源对象列表"></div><button id="more-objects" hidden>显示更多对象</button></aside>
+<section class="workspace"><div class="toolbar"><button id="fit">全图</button><button id="fit-junction">路口</button><button id="locate-selection" disabled>定位选中</button><button id="zoom-in" aria-label="放大">＋</button><button id="zoom-out" aria-label="缩小">−</button><span class="divider"></span>
+<button id="undo" disabled>撤销</button><button id="redo" disabled>重做</button><button id="reload" disabled>重开工程</button><button id="open-editing" disabled>边界修补</button>
+<div class="spacer"></div><button id="check-source" disabled>复核源文件</button></div>
+<div class="canvas-wrap"><canvas id="map" tabindex="0" aria-label="原始地图画布，滚轮缩放，拖动平移，点击选择对象"></canvas>
+<div id="empty" class="empty"><strong>从原件开始</strong><p>选择一个路口建立工程。转换失败也可以查看原件、定位问题和保存待办。</p><button id="empty-import">导入路口</button></div>
+<div class="canvas-hint">滚轮缩放 · 拖动平移 · 点击选中 · F 全图</div></div>
+<div class="statusbar"><span id="coordinates">原始坐标</span><span id="frame-state">坐标框架尚未载入</span></div>
+<section class="task-panel"><div class="panel-title">后台任务 <select id="job-history" aria-label="工程任务记录" disabled><option>尚无任务</option></select><button id="cancel-job" hidden>取消任务</button></div><div id="job-status">没有运行中的任务</div></section>
+</section>
+<aside class="right"><div class="panel-title">对象与待办</div><div id="selection" class="selection">在地图或列表中选择一个源对象。</div>
+<details id="attributes"><summary>原始字段</summary><pre id="raw-attributes">尚未选择对象</pre></details>
+<label class="note-label" for="note">人工待办</label><textarea id="note" rows="4" placeholder="记录问题和计划修改；这里不会改变几何" disabled></textarea>
+<button id="save-note" class="primary" disabled>确认并保存待办</button><p class="fine">只有确认的待办进入工程。草稿可保存不代表地图通过检查。</p>
+<div class="panel-title">已保存待办 <span id="note-count" class="badge">0</span></div><div id="notes" class="notes"></div>
+<div class="panel-title">源数据问题 <span id="issue-count" class="badge">0</span></div><div id="issues" class="issues"></div>
+<div class="release"><strong>正式交付尚未开放</strong><p id="candidate-state">尚无已接受候选。局部修补通过后仍须整图检查。</p><button disabled>导出正式交付包</button></div></aside>
+</main>
+<dialog id="import-dialog"><form id="import-form"><h2>建立路口工程</h2><p>读取已登记 SHP 目录，原件只读，不要求已有 XODR。</p>
+<label for="junctions">源路口</label><select id="junctions" required></select><label for="project-name">工程名称</label><input id="project-name" required maxlength="120">
+<p class="fine">坐标声明会保留在工程内，未经核验不会自动标为可交付。</p><div class="dialog-actions"><button id="cancel-import" type="button">取消</button><button class="primary" type="submit">导入并保存</button></div></form></dialog>
+<dialog id="editing-dialog" class="editing-dialog">
+<div class="editor-heading"><div><h2>共享边界修补</h2><span id="edit-scope">正在读取已核验的编辑范围…</span></div><button id="close-editing">返回源地图</button></div>
+<div class="editor-layout"><section class="editor-map"><div class="toolbar"><button id="edit-fit">适应范围</button><button id="edit-zoom-in">放大</button><button id="edit-zoom-out">缩小</button><span class="fine">原基线：灰 · 原始边界：青 · 候选：黄</span></div><div class="editor-canvas-wrap"><canvas id="edit-map" tabindex="0" aria-label="米制局部修补对照，可平移缩放"></canvas></div><div id="edit-coordinates" class="statusbar">局部米制坐标，绝对坐标仍未核验</div></section>
+<section class="editor-controls"><p id="edit-reason">正在检查工程…</p><button id="enable-editing" hidden>启用此处边界编辑</button>
+<label for="normal-delta">共享边界法向位移（mm）</label><input id="normal-delta" type="number" min="-100" max="100" step="0.1" value="0" disabled>
+<p class="fine">相对登记基线的绝对目标；两侧车道宽度联动，范围外和其他边界保持。输入并不代表候选已通过。</p>
+<div class="editor-actions"><button id="preview-edit" disabled>计算预览</button><button id="save-edit" disabled>确认并保存草稿</button><button id="compile-edit" disabled>编译已保存草稿</button><button id="accept-edit" class="primary" disabled>接受此候选</button><button id="validate-edit" disabled>整图检查</button><button id="attach-validation" disabled>保存检查结果</button><button id="cancel-edit-job" hidden>取消计算</button></div>
+<div id="edit-status" class="edit-status" role="status">尚未生成预览</div><div id="edit-checks" class="fine"></div>
+<p class="fine">候选只有经过确认才能成为工程结果。源 CRS 未核验、完整门禁未通过时，正式交付保持阻断。</p></section></div></dialog>
+<script src="/assets/app.js"></script><script src="/assets/editing.js"></script></body></html>
