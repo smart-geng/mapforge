@@ -22,6 +22,7 @@ function setButtons() {
   $("locate-selection").disabled=!selected;
   $("open-editing").disabled=!project||busy;
   $("new-project").disabled=busy||!catalog; $("projects").disabled=busy;
+  window.Inspection?.buttons();
 }
 function make(tag,text,cls) { const e=document.createElement(tag); if(text!==undefined)e.textContent=text; if(cls)e.className=cls; return e; }
 function idOf(o) { return String(o.id); }
@@ -43,6 +44,7 @@ function draw() {
   ctx.strokeStyle="#1c2c3d";ctx.lineWidth=1;ctx.beginPath();for(let x=0;x<w;x+=50){ctx.moveTo(x,0);ctx.lineTo(x,h);}for(let y=0;y<h;y+=50){ctx.moveTo(0,y);ctx.lineTo(w,y);}ctx.stroke();
   const ordered=activeFeatures(); if(selected){const i=ordered.findIndex(o=>idOf(o)===selected);if(i>=0)ordered.push(...ordered.splice(i,1));}
   for(const o of ordered){const pts=pointsOf(o);if(!pts.length)continue;const chosen=idOf(o)===selected,role=roleOf(o);ctx.strokeStyle=chosen?"#ffe499":colors[role]||"#7c93a9";ctx.lineWidth=chosen?3:role==="boundary"?1.5:1;ctx.beginPath();pts.forEach((p,i)=>{const q=toScreen(p);if(i===0)ctx.moveTo(q[0],q[1]);else ctx.lineTo(q[0],q[1]);});if(pts.length===1){const q=toScreen(pts[0]);ctx.arc(q[0],q[1],chosen?5:2.5,0,Math.PI*2);}if(role==="junction"){ctx.closePath();ctx.fillStyle="#38566d33";ctx.fill();}ctx.stroke();}
+  window.Inspection?.draw();
 }
 function renderObjects() {
   const query=$("search").value.toLowerCase().trim(); const objects=activeFeatures().filter(o=>!query||[o.business_id,idOf(o),roleOf(o),JSON.stringify(o.raw_attributes)].join(" ").toLowerCase().includes(query));
@@ -52,6 +54,7 @@ function renderObjects() {
 function selectObject(id,focus=false) {
   if(pendingNote&&!confirm("未确认的待办尚未保存，是否放弃？"))return;
   const o=byId.get(id);if(!o)return;selected=id;pendingNote=false;$("note").value="";
+  window.Inspection?.selectionChanged();
   $("selection").replaceChildren(make("strong",roleNames[roleOf(o)]||roleOf(o)),make("div",`业务 ID：${o.business_id||"无"}`),make("div",`原始记录：${o.source_ref?.record_index??"未知"} / part ${o.source_ref?.part_index??"空几何"}`),make("div",`${pointsOf(o).length} 个原始点 · 只读来源`));
   $("raw-attributes").textContent=JSON.stringify(o.raw_attributes||{},null,2);if(focus){visibleRoles.add(roleOf(o));fit([o]);}renderObjects();draw();setButtons();
 }
@@ -68,6 +71,7 @@ function applyProject(data, reset=false) {
   if(reset){selected=null;currentJob=null;$("job-status").textContent="没有运行中的任务";$("cancel-job").hidden=true;visibleLimit=150;visibleRoles=new Set(features.map(roleOf));$("layers").replaceChildren();for(const role of visibleRoles){const label=make("label"),box=document.createElement("input");box.type="checkbox";box.checked=true;box.onchange=()=>{box.checked?visibleRoles.add(role):visibleRoles.delete(role);renderObjects();draw();};label.append(box,document.createTextNode(roleNames[role]||role));$("layers").append(label);}$("selection").textContent="在地图或列表中选择一个源对象。";$("raw-attributes").textContent="尚未选择对象";$("note").value="";pendingNote=false;}
   $("empty").hidden=true;renderObjects();renderPanels();setButtons();if(reset)fitJunction();else draw();
   if(window.Editor)window.Editor.changed(reset);
+  window.Inspection?.changed(reset);
 }
 async function refreshProjects() { const result=await api("/projects");const rows=Array.isArray(result)?result:(result.projects||[]);$("projects").replaceChildren(make("option","打开工程…"));$("projects").firstChild.value="";for(const p of rows){const option=make("option",p.name);option.value=p.project_id;$("projects").append(option);}if(project)$("projects").value=project.project_id; }
 async function openProject(id) { if(pendingNote&&!confirm("未确认的待办尚未保存，是否放弃？"))return;const g=++generation;const data=await api("/projects/"+encodeURIComponent(id));if(g!==generation)return;currentJob=null;$("job-status").textContent="没有运行中的任务";$("cancel-job").hidden=true;applyProject(data,true);await refreshJobList();notify("工程已打开。可查看源对象，或打开边界修补核对此工程的编辑范围。"); }
@@ -110,12 +114,12 @@ $("search").oninput=()=>{visibleLimit=150;renderObjects();};$("more-objects").on
 function fitJunction(){const junctions=features.filter(o=>roleOf(o)==="junction"&&pointsOf(o).length);fit(junctions.length?junctions:activeFeatures());view.scale*=0.55;draw();}
 $("fit-junction").onclick=fitJunction;$("locate-selection").onclick=()=>{if(selected)fit([byId.get(selected)]);};
 function segmentDistance(p,a,b){const dx=b[0]-a[0],dy=b[1]-a[1],d=dx*dx+dy*dy,t=d?Math.max(0,Math.min(1,((p[0]-a[0])*dx+(p[1]-a[1])*dy)/d)):0;return Math.hypot(p[0]-a[0]-t*dx,p[1]-a[1]-t*dy);}
-function pick(x,y){let best=null,distance=10;for(const o of activeFeatures()){const pts=pointsOf(o).map(toScreen);for(let i=0;i<pts.length;i++){const d=segmentDistance([x,y],pts[i],pts[Math.min(i+1,pts.length-1)]);if(d<distance){distance=d;best=idOf(o);}}}if(best)selectObject(best);}
+function pick(x,y){const hits=[];for(const o of activeFeatures()){const pts=pointsOf(o).map(toScreen);let distance=Infinity;for(let i=0;i<pts.length;i++)distance=Math.min(distance,segmentDistance([x,y],pts[i],pts[Math.min(i+1,pts.length-1)]));if(distance<10)hits.push({id:idOf(o),distance});}hits.sort((a,b)=>a.distance-b.distance||a.id.localeCompare(b.id));if(window.Inspection)window.Inspection.pick(hits);else if(hits.length)selectObject(hits[0].id);}
 canvas.addEventListener("pointerdown",e=>{pointer={x:e.offsetX,y:e.offsetY,startX:e.offsetX,startY:e.offsetY,moved:false};canvas.setPointerCapture(e.pointerId);});
 canvas.addEventListener("pointermove",e=>{const p=fromScreen(e.offsetX,e.offsetY);$("coordinates").textContent=`x ${p[0].toFixed(7)} · y ${p[1].toFixed(7)}`;if(pointer){const dx=e.offsetX-pointer.x,dy=e.offsetY-pointer.y;if(Math.hypot(e.offsetX-pointer.startX,e.offsetY-pointer.startY)>4)pointer.moved=true;if(pointer.moved){view.x-=dx/view.scale;view.y+=dy/view.scale;draw();}pointer.x=e.offsetX;pointer.y=e.offsetY;}});
-canvas.addEventListener("pointerup",e=>{if(pointer&&!pointer.moved)pick(e.offsetX,e.offsetY);pointer=null;});canvas.addEventListener("pointercancel",()=>pointer=null);
+canvas.addEventListener("pointerup",e=>{if(pointer&&!pointer.moved&&!window.Inspection?.point(fromScreen(e.offsetX,e.offsetY)))pick(e.offsetX,e.offsetY);pointer=null;});canvas.addEventListener("pointercancel",()=>pointer=null);
 canvas.addEventListener("wheel",e=>{e.preventDefault();const before=fromScreen(e.offsetX,e.offsetY);view.scale*=Math.exp(-Math.max(-150,Math.min(150,e.deltaY))*.002);const after=fromScreen(e.offsetX,e.offsetY);view.x+=before[0]-after[0];view.y+=before[1]-after[1];draw();},{passive:false});
 canvas.addEventListener("keydown",e=>{if(e.key.toLowerCase()==="f")fit();});new ResizeObserver(()=>draw()).observe(canvas);
 window.addEventListener("beforeunload",e=>{if(pendingNote){e.preventDefault();e.returnValue="";}});
-document.addEventListener("keydown",e=>{if($("editing-dialog").open||$("import-dialog").open){if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="s")e.preventDefault();return;}if(e.key==="Escape"&&pendingNote){$("note").value="";pendingNote=false;renderPanels();setButtons();}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="s"){e.preventDefault();if(pendingNote)notify("待办输入尚未确认，请使用“确认并保存待办”。");else if(project)notify("已确认的工程事务已保存到本机。");}});
+document.addEventListener("keydown",e=>{if($("editing-dialog").open||$("import-dialog").open){if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="s")e.preventDefault();return;}if(e.key==="Escape"&&window.Inspection?.escape()){e.preventDefault();return;}if(e.key==="Escape"&&pendingNote){$("note").value="";pendingNote=false;renderPanels();setButtons();}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="s"){e.preventDefault();if(pendingNote)notify("待办输入尚未确认，请使用“确认并保存待办”。");else if(project)notify("已确认的工程事务已保存到本机。");}});
 guarded(async()=>{catalog=await api("/catalog");for(const j of catalog.junctions){const option=make("option",`${j.name||"路口"} · ${j.id}`);option.value=j.id;$("junctions").append(option);}$("project-name").value="路口 "+$("junctions").value;await refreshProjects();notify(catalog.notice);});

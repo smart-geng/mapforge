@@ -12,7 +12,7 @@
 <input id="search" type="search" placeholder="查找业务 ID、图层或原始记录" aria-label="查找源对象">
 <div id="layers" class="layers"></div><div id="objects" class="object-list" aria-label="源对象列表"></div><button id="more-objects" hidden>显示更多对象</button></aside>
 <section class="workspace"><div class="toolbar"><button id="fit">全图</button><button id="fit-junction">路口</button><button id="locate-selection" disabled>定位选中</button><button id="zoom-in" aria-label="放大">＋</button><button id="zoom-out" aria-label="缩小">−</button><span class="divider"></span>
-<button id="undo" disabled>撤销</button><button id="redo" disabled>重做</button><button id="reload" disabled>重开工程</button><button id="open-editing" disabled>边界修补</button>
+<button id="undo" disabled>撤销</button><button id="redo" disabled>重做</button><button id="reload" disabled>重开工程</button><button id="open-editing" disabled>边界修补</button><button id="measure-points" disabled aria-pressed="false">两点量距</button>
 <div class="spacer"></div><button id="check-source" disabled>复核源文件</button></div>
 <div class="canvas-wrap"><canvas id="map" tabindex="0" aria-label="原始地图画布，滚轮缩放，拖动平移，点击选择对象"></canvas>
 <div id="empty" class="empty"><strong>从原件开始</strong><p>选择一个路口建立工程。转换失败也可以查看原件、定位问题和保存待办。</p><button id="empty-import">导入路口</button></div>
@@ -21,12 +21,14 @@
 <section class="task-panel"><div class="panel-title">后台任务 <select id="job-history" aria-label="工程任务记录" disabled><option>尚无任务</option></select><button id="cancel-job" hidden>取消任务</button></div><div id="job-status">没有运行中的任务</div></section>
 </section>
 <aside class="right"><div class="panel-title">对象与待办</div><div id="selection" class="selection">在地图或列表中选择一个源对象。</div>
+<section id="pick-panel" hidden><div class="panel-title">此处的源对象 <button id="close-picks">收起</button></div><div id="pick-candidates" class="pick-candidates"></div></section>
+<section class="measurement-panel"><div class="panel-title">只读量距 <button id="clear-measure" disabled>清除</button></div><button id="measure-object" disabled>测量选中原线</button><p id="measurement-result" role="status">打开工程后可测量原线或点击两点。</p><details><summary>量距口径</summary><p id="measurement-basis" class="fine">尚未载入</p></details></section>
 <details id="attributes"><summary>原始字段</summary><pre id="raw-attributes">尚未选择对象</pre></details>
 <label class="note-label" for="note">人工待办</label><textarea id="note" rows="4" placeholder="记录问题和计划修改；这里不会改变几何" disabled></textarea>
 <button id="save-note" class="primary" disabled>确认并保存待办</button><p class="fine">只有确认的待办进入工程。草稿可保存不代表地图通过检查。</p>
 <div class="panel-title">已保存待办 <span id="note-count" class="badge">0</span></div><div id="notes" class="notes"></div>
 <div class="panel-title">源数据问题 <span id="issue-count" class="badge">0</span></div><div id="issues" class="issues"></div>
-<div class="release"><strong>正式交付尚未开放</strong><p id="candidate-state">尚无已接受候选。局部修补通过后仍须整图检查。</p><button disabled>导出正式交付包</button></div></aside>
+<div class="release"><strong>正式交付尚未开放</strong><p id="candidate-state">尚无已接受候选。局部修补通过后仍须整图检查。</p><button id="research-export" disabled>导出研究候选包</button><p id="export-status" role="status">接受候选并保存完整检查后可导出研究包。</p><button disabled>导出正式交付包</button></div></aside>
 </main>
 <dialog id="import-dialog"><form id="import-form"><h2>建立路口工程</h2><p>读取已登记 SHP 目录，原件只读，不要求已有 XODR。</p>
 <label for="junctions">源路口</label><select id="junctions" required></select><label for="project-name">工程名称</label><input id="project-name" required maxlength="120">
@@ -40,4 +42,4 @@
 <div class="editor-actions"><button id="preview-edit" disabled>计算预览</button><button id="save-edit" disabled>确认并保存草稿</button><button id="compile-edit" disabled>编译已保存草稿</button><button id="accept-edit" class="primary" disabled>接受此候选</button><button id="validate-edit" disabled>整图检查</button><button id="attach-validation" disabled>保存检查结果</button><button id="cancel-edit-job" hidden>取消计算</button></div>
 <div id="edit-status" class="edit-status" role="status">尚未生成预览</div><div id="edit-checks" class="fine"></div>
 <p class="fine">候选只有经过确认才能成为工程结果。源 CRS 未核验、完整门禁未通过时，正式交付保持阻断。</p></section></div></dialog>
-<script src="/assets/app.js"></script><script src="/assets/editing.js"></script></body></html>
+<script src="/assets/app.js"></script><script src="/assets/editing.js"></script><script src="/assets/inspection.js"></script></body></html>

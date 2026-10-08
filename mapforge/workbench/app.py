@@ -7,11 +7,13 @@ import secrets
 import threading
 
 from fastapi import FastAPI, Request
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, Response
 
 from .jobs import JobManager
 from .editing import EditingService
 from .checking import CheckingService
+from .exports import ResearchExportService
+from .measurements import measurement_capability, measure_object, measure_points
 from .sources import verify_source_snapshot
 from .store import (ProjectStore, StoreConflict, StoreNotFound, StoreReadOnly,
                     StoreValidation)
@@ -19,7 +21,7 @@ from .store import (ProjectStore, StoreConflict, StoreNotFound, StoreReadOnly,
 STATIC = Path(__file__).with_name("static")
 
 
-def create_app(store: ProjectStore, catalog, token: str, port: int, *, jobs=None, editing=None, checking=None):
+def create_app(store: ProjectStore, catalog, token: str, port: int, *, jobs=None, editing=None, checking=None, exports=None):
     if len(token) < 24:
         raise ValueError("A randomly generated session token is required")
     jobs = jobs or JobManager(archive_dir=store.root / ".jobs")
@@ -27,6 +29,8 @@ def create_app(store: ProjectStore, catalog, token: str, port: int, *, jobs=None
                                         profile_path=catalog.profile_path)
     checking = checking or CheckingService(store, jobs, source_dir=catalog.source_dir,
                                            profile_path=catalog.profile_path)
+    exports = exports or ResearchExportService(store, source_dir=catalog.source_dir,
+                                               profile_path=catalog.profile_path)
     host = f"127.0.0.1:{port}"
     origin = f"http://{host}"
     integrity_issues = {}
@@ -123,7 +127,7 @@ def create_app(store: ProjectStore, catalog, token: str, port: int, *, jobs=None
 
     @app.get("/assets/{name}")
     def asset(name: str):
-        if name not in {"app.js", "editing.js", "style.css"}:
+        if name not in {"app.js", "editing.js", "inspection.js", "style.css"}:
             return JSONResponse({"detail": "Not found"}, status_code=404)
         return FileResponse(STATIC / name)
 
@@ -168,6 +172,33 @@ def create_app(store: ProjectStore, catalog, token: str, port: int, *, jobs=None
     @app.get("/api/projects/{project_id}/editing")
     def editing_status(project_id: str):
         return editing.describe(store.load(project_id))
+
+    @app.get("/api/projects/{project_id}/measurement")
+    def measurement_info(project_id: str):
+        return measurement_capability(store.load(project_id)["source_snapshot"])
+
+    @app.post("/api/projects/{project_id}/measurement")
+    def measurement(project_id: str, body: dict):
+        snapshot = store.load(project_id)["source_snapshot"]
+        if set(body) == {"object_id"}:
+            return measure_object(snapshot, body["object_id"])
+        if set(body) == {"points"}:
+            return measure_points(snapshot, body["points"])
+        raise ValueError("测量只接受原对象 ID 或两个源坐标点，不能指定投影或文件路径")
+
+    @app.post("/api/projects/{project_id}/research-exports")
+    def research_export(project_id: str, body: dict):
+        if set(body) != {"base_revision"}:
+            raise ValueError("研究包导出仅接受当前 base_revision")
+        return exports.create(project_id, body["base_revision"])
+
+    @app.get("/api/projects/{project_id}/research-exports/{export_id}")
+    def research_download(project_id: str, export_id: str):
+        receipt, data = exports.download(project_id, export_id)
+        return Response(data, media_type="application/zip", headers={
+            "Content-Disposition": 'attachment; filename="' + receipt["file_name"] + '"',
+            "X-Mapforge-Purpose": "RESEARCH_ONLY", "X-Content-SHA256": receipt["sha256"],
+        })
 
     @app.get("/api/projects/{project_id}/editing/geometry")
     def editing_geometry(project_id: str, job_id: str | None = None):
