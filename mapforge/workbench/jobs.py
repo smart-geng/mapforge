@@ -17,7 +17,7 @@ ARCHIVE_SCHEMA = "mapforge-workbench-job-v1"
 _ARCHIVE_FIELDS = {"job_id", "project_id", "operation", "base_revision", "content_hash", "input_hash",
                    "state", "started_at", "finished_at", "worker_pid", "result", "error", "events"}
 _TERMINAL = {"succeeded", "failed", "cancelled", "timed_out"}
-_OPERATIONS = {"source_check", "compile", "validate"}
+_OPERATIONS = {"source_check", "compile", "compile_surface", "validate"}
 
 
 def _worker(connection, operation, payload):
@@ -30,6 +30,12 @@ def _worker(connection, operation, payload):
             from .compiler import compile_request
             # Business rejection is a completed compiler evaluation, not a
             # worker crash. Publishing artifacts never accepts the candidate.
+            result = compile_request(payload)
+        elif operation == "compile_surface":
+            # The adapter calls the owned runner in this worker. Its Windows
+            # Job handle closes with this process, including on cancellation.
+            # Do not add a subprocess wrapper around that handle's owner.
+            from .surface_compiler import compile_request
             result = compile_request(payload)
         elif operation == "validate":
             from .validation import validate_request
