@@ -1394,6 +1394,10 @@ def apply(xodr_in, xodr_out, params=None):
     (both pipelines, mapforge.ops.refline_merge).
     ``params["map_refit"]``: MAP outputs get their road-side boundaries refitted to the MAP lane point
     lists of the source manifest next to ``xodr_in`` (mapforge.ops.map_lane_refit).
+    ``params["approach_fair"]``: after that refit, the MAP approach sides are faired within 5 cm of their MAP point
+    lists (never farther than now where already farther; mapforge.ops.map_approach_fair; road ends kept).
+    ``params["departure_ease"]``: then the mirrored MAP departure sides are eased where they bend
+    (mapforge.ops.map_departure_ease; mouths, far ends and approach sides kept).
     ``params["birth_advance"]``, ``["short_kappa"]``, ``["lsq_refine"]``, ``["link_gaps"]``: SHP only
     (lane_birth_advance, the short run rule and the least-squares vertex values of fit_boundary, gap lanes between
     parallel source links: lane_gap); MAP refits never see them.
@@ -1401,6 +1405,9 @@ def apply(xodr_in, xodr_out, params=None):
     params = dict(params or {})
     merge = params.pop("merge_short_ref", False)
     map_refit = params.pop("map_refit", False)
+    departure_ease = params.pop("departure_ease", False)
+    approach_fair = params.pop("approach_fair", False)
+    params.pop("edge_joins", None)          # a connector step of apply_with_mouths
     birth_advance = params.pop("birth_advance", False)
     link_gaps = params.pop("link_gaps", False)
     shp_only = {k: params.pop(k) for k in ("short_kappa", "lsq_refine") if k in params}
@@ -1427,6 +1434,13 @@ def apply(xodr_in, xodr_out, params=None):
     elif map_refit:
         from mapforge.ops import map_lane_refit
         report = map_lane_refit.refit_tree(root, Path(xodr_in).with_suffix(".source-lanes.json"), params)
+        if approach_fair:
+            from mapforge.ops import map_approach_fair
+            report["approach_fair"] = map_approach_fair.apply(
+                root, map_lane_refit.load_centres(Path(xodr_in).with_suffix(".source-lanes.json")))
+        if departure_ease:
+            from mapforge.ops import map_departure_ease
+            report["departure_ease"] = map_departure_ease.apply(root)
     else:
         report = {"schema": CODE, "rewritten": 0, "skipped": [], "rows": [], "note": "MAP output: unchanged"}
     if merged is not None:
@@ -1441,9 +1455,12 @@ def apply_with_mouths(xodr_in, xodr_out, params=None):
 
     ``params["mouth_blend_kappa"]`` / ``["kappa_bound_scale"]`` / ``["mouth_blend_pick"]``: see
     mouth_frame_align.align_tree.
+    ``params["edge_joins"]``: last, one-lane connectors get width slopes at their reference joins that keep their lane
+    edges from jumping in curvature there, the lane centre unchanged (mapforge.ops.connector_edge_joins).
     """
     from mapforge.ops import mouth_frame_align
     params = dict(params or {})
+    edge_joins = params.pop("edge_joins", False)
     align = {k: params.pop(k) for k in ("mouth_blend_kappa", "kappa_bound_scale", "mouth_blend_pick", "source_guided",
                                         "width_local_slopes", "match_end_curvature", "monotone_turns",
                                         "aligned_frame", "source_fit", "turn_end_zone") if k in params}
@@ -1452,8 +1469,12 @@ def apply_with_mouths(xodr_in, xodr_out, params=None):
     second = mouth_frame_align.apply(tmp, xodr_out, manifest=Path(xodr_in).with_suffix(".source-lanes.json"),
                                      **align)
     tmp.unlink()
-    return {"schema": CODE + "+" + mouth_frame_align.CODE, "lane_refit": first, "mouths": second,
-            "rewritten": first["rewritten"] + second["rewritten"]}
+    out = {"schema": CODE + "+" + mouth_frame_align.CODE, "lane_refit": first, "mouths": second,
+           "rewritten": first["rewritten"] + second["rewritten"]}
+    if edge_joins:
+        from mapforge.ops import connector_edge_joins
+        out["edge_joins"] = connector_edge_joins.apply_file(xodr_out)
+    return out
 
 
 # Registered scoreboard variants: corner mode x curvature target, always with mouth alignment.
@@ -1485,10 +1506,13 @@ VARIANTS = {"g2-k04": {"mode": "g2", **LEVEL_A}, "g2-k02": {"mode": "g2", **LEVE
             # corners fit the curvature target, vertex values by least squares (birth_advance, short_kappa,
             # lsq_refine, 2026-10-04 boundary step; SHP only); gap lanes between parallel source links (link_gaps,
             # 2026-10-05; SHP only); turning SHP connectors may steer back gently next to the mouths
-            # (turn_end_zone: connector_source_fit.END_ZONE, user decision 2026-10-05)
+            # (turn_end_zone: connector_source_fit.END_ZONE, user decision 2026-10-05); mirrored MAP departure
+            # sides eased where they bend (departure_ease, 2026-10-07; MAP only), and before that the MAP approach
+            # sides faired within 5 cm of their point lists (approach_fair, 2026-10-07; MAP only); one-lane connectors
+            # width slopes at reference joins chosen so their edges barely jump in curvature (edge_joins, 2026-10-07)
             "g2-k04-c2": {"mode": "g2", **LEVEL_A, "curb_shoulder": True, "c2_ends": True, "merge_short_ref": True,
                           "rechain": True, "birth_advance": True, "short_kappa": True, "lsq_refine": True,
-                          "link_gaps": True,
+                          "link_gaps": True, "approach_fair": True, "departure_ease": True, "edge_joins": True,
                           "mouth_blend_kappa": 0.01, "kappa_bound_scale": 1.25, "mouth_blend_pick": True,
                           "source_guided": True, "width_local_slopes": True, "match_end_curvature": True,
                           "monotone_turns": True, "aligned_frame": True, "map_refit": True, "source_fit": True,

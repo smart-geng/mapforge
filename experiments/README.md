@@ -73,3 +73,13 @@
   - 先试过整条窗口换成中点：node13 路 10 车道 −3 的 G8 P95 0.057 → 0.111（共用内缘落在两车道边界之间），改为只换偏离段。暂存区离线核对，没有登记。
 - 评分板策略 0.6-draft（2026-10-05，用户决定）：SHP 的 T2 车道中心改用 `lane_center_noflare_p95_m` / `_max_m`（去掉口部路缘外展区，阈值不变），MAP 不变。
   - `20261005-default-c2-midpoint` 按 0.6-draft 重新评分并登记（同一运行目录，几何、输出、指标都不变）：T1 14/14，T2 11/14 → 14/14。按 0.5-draft 的评分另存为运行目录里的 `scoreboard.policy-0.5.json` / `.md`；生成那次的结果仍是 `scoreboard.generated.json`（0.5-draft）。
+- 光顺（2026-10-07，策略 0.6-draft）：评分板新增光顺报告项 `fair_*`（`mapforge/validate/lane_fairness.py`，不分级）。**以 `20261007-default-c2-fair` 为定版**（默认 CLI 端到端）。
+  - `20261007-default-c2-ease`：MAP 离去侧缓和（`mapforge/ops/map_departure_ease.py`）。离去侧弯曲段用 QP 重选离去车道宽度（口部、远端、进口侧和中心线不动，宽度 ≥ 0，打开车道 ±0.5 m，渐变最多提前 30 m 打开且只增宽，不增删连接），28 条路全部处理。等级不变，SHP 7 份与 `20261005-default-c2-midpoint` 逐字节相同，MAP 的 G8 不变；MAP 道路直行车道曲率峰值如 node4 0.107 → 0.046、node3 0.096 → 0.045，外缘曲率最大约减半。生成那次的结果另存为运行目录里的 `scoreboard.generated.json`。
+  - `20261007-default-c2-fair`：再加 MAP 进口侧光顺（`mapforge/ops/map_approach_fair.py`）。中心线与进口宽度一起重选，有点列的车道中心离点列不超过 max(5 cm, 现距离)，两端不变；28 条路 26 条生效。等级不变，SHP 逐字节不变；MAP 直行车道曲率 90 分位约降 20–45%，外缘曲率最大 0.022–0.046 /m，G8 车道中心最大偏差全部变小，P95 变化 −5 ~ +4 mm。
+  - 只跑 MAP 的试跑 `20261007-map-ease-try1`、`20261007-map-fair-try1` 没有登记，与对应定版的 MAP 7 份逐字节相同。
+  - SHP 直行连接路的更顺拟合（加大变化率惩罚、源折角附近死区、候选按曲率择优）只离线重放 node17、node3 的拟合输入，没有登记，见光顺文档第四节。
+- 连接路边缘与三项取舍（2026-10-07，策略 0.7-draft）：**以 `20261007-default-c2-edges` 为定版**（默认 CLI 端到端）。
+  - 新模块 `mapforge/ops/connector_edge_joins.py`：单车道连接路在参考线拼接处整形宽度斜率，车道中心逐点不变。评分板加 `conn_edge_join_curvature_jump_max_per_m`，0.7-draft 的 T2 要求 ≤ 4e-3（自定，待复核）。
+  - 结果：等级不变；14 份的普通道路与 `20261007-default-c2-fair` 逐字节相同，只改 24 条连接路，G8 不变；边缘拼接跳变最大 0.021 → 0.0027，超过 1e-3 的 54 → 43 处。生成那次的结果另存为 `scoreboard.generated.json`。
+  - `20261007-default-c2-edges-wrongtau`：第一次全量运行误把 MAP 弦带留在试验值 0.10 m（MAP 的 G8 变差，与 `20261007-map-fair-try2` 相同），未登记。
+  - 同日另两项取舍的试验（MAP 带宽 0.10 m 加点约束、SHP 连接路在离源 max(5 cm, 现距离) 内重拟合、MAP 与 SHP 真值对照）都是离线或只跑 MAP 的试跑，未登记，见光顺文档第五节。

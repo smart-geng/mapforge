@@ -1,6 +1,6 @@
 schema: mapforge/static-acceptance-policy/v1
 id: static-acceptance-v1
-version: 0.6-draft
+version: 0.7-draft
 lifecycle: draft
 description: >-
   静态地图分级验收草案（2026-10-03，D1/D2）。未经用户确认，只用于比较方案、
@@ -68,6 +68,11 @@ tiers:
       # 车道边缘即边缘接触曲率）。0.3 没有测这一项，口部对齐引入的 0.01/m 跳变因此漏检
       - {metric: road_interface_curvature_max_per_m, op: le, value: 1.0e-3}
       - {metric: edge_contact_curvature_max_per_m, op: le, value: 1.0e-3}
+      # 0.7（2026-10-07，自定，待用户复核）：连接路车道边缘在参考线拼接处的曲率跳变上限（D2 留待定的“边缘有上限”）。
+      # 车道中心拼接跳变上限 1e-3 /m 在 60 km/h 下相当于 0.28 m/s^2 的横向加速度阶跃；按同一阶跃折算到路口内 30 km/h
+      # 为 4e-3 /m（按 G11 连接路兜底车速 15 km/h 为 1.6e-2，取严者）。回旋线参考线做不到边缘处处 G2：宽度在拼接点处
+      # 整形（connector_edge_joins，车道中心不变）后最大 2.7e-3；再降要移动车道中心，引入的行车路径曲率起伏比它大
+      - {metric: conn_edge_join_curvature_jump_max_per_m, op: le, value: 4.0e-3}
       # 专家 G11-A：<5m 为短段警告；连接路沿用闭环 1m 下限
       - {metric: leg_seg_min_m, op: ge, value: 5.0}
       - {metric: conn_seg_min_m, op: ge, value: 1.0}

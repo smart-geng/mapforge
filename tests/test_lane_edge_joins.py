@@ -30,6 +30,6 @@ def test_edge_jump_at_a_sharpness_change_is_t_times_slope_times_the_sharpness_st
     assert jumps[0][0] == pytest.approx(2.5 * 0.1 * 0.001 / speed3, rel=1e-4)
     assert jumps[1][0] == pytest.approx(1.0 * 0.1 * 0.001 / speed3, rel=1e-4)
     assert audit(root) == {"lane_edge_join_curvature_jump_max_per_m": pytest.approx(jumps[0][0]),
-                           "lane_edge_join_jumps_gt_1e-03": 0}
+                           "lane_edge_join_jumps_gt_1e-03": 0, "conn_edge_join_curvature_jump_max_per_m": 0.0}
     # with C2 lateral functions only the reference joins can jump: the short scan finds the same
     assert sorted(road_edge_jumps(root.find("road"), reference_only=True), reverse=True) == jumps

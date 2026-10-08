@@ -56,12 +56,16 @@ def road_edge_jumps(road, reference_only=False):
 
 
 def audit(root, threshold=1e-3):
-    """Largest lane-edge curvature jump and the number above ``threshold`` (paving roads excluded)."""
-    worst, count = 0.0, 0
+    """Largest lane-edge curvature jump and the number above ``threshold`` (paving roads excluded); also the largest
+    on connectors alone (2026-10-07)."""
+    worst, count, conn = 0.0, 0, 0.0
     for road in root.findall("road"):
         if road.get("name") == "junction_paving":
             continue
         for jump, *_ in road_edge_jumps(road):
             worst = max(worst, jump)
             count += jump > threshold
-    return {"lane_edge_join_curvature_jump_max_per_m": worst, "lane_edge_join_jumps_gt_1e-03": count}
+            if road.get("junction") not in (None, "-1"):
+                conn = max(conn, jump)
+    return {"lane_edge_join_curvature_jump_max_per_m": worst, "lane_edge_join_jumps_gt_1e-03": count,
+            "conn_edge_join_curvature_jump_max_per_m": conn}

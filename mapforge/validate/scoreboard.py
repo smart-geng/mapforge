@@ -97,6 +97,8 @@ METRICS = {
     # every lane edge at the joins inside a road (D2 edge bound pending: reported, not a tier check)
     "lane_edge_join_curvature_jump_max_per_m": ("smoothness", "1/m", "lower"),
     "lane_edge_join_jumps_gt_1e-03": ("smoothness", "count", "lower"),
+    # the same on connector lane edges alone (2026-10-07; draft T2 check from 0.7-draft)
+    "conn_edge_join_curvature_jump_max_per_m": ("smoothness", "1/m", "lower"),
     # lane centre curving against the turn inside connectors turning >= 30 deg (reported, not a tier check)
     "turn_counter_curvature_max_per_m": ("smoothness", "1/m", "lower"),
     "turn_counter_curvature_gt_0.02": ("smoothness", "count", "lower"),
@@ -105,6 +107,17 @@ METRICS = {
     "lane_join_jumps_gt_1e-03": ("smoothness", "count", "lower"),
     "width_records": ("smoothness", "count", "lower"),
     "lane_sections": ("smoothness", "count", "lower"),
+    # fairness of driving lane centres between joins (lane_fairness; reported, not tier checks): peak curvature
+    # of through road lanes and of straight connectors, curvature rate of turning connectors
+    "fair_road_kappa_max_per_m": ("smoothness", "1/m", "lower"),
+    "fair_road_kappa_p90_per_m": ("smoothness", "1/m", "lower"),
+    "fair_road_sharpness_max_per_m2": ("smoothness", "1/m2", "lower"),
+    "fair_road_event_kappa_max_per_m": ("smoothness", "1/m", "lower"),
+    "fair_straight_conn_kappa_max_per_m": ("smoothness", "1/m", "lower"),
+    "fair_straight_conn_kappa_median_per_m": ("smoothness", "1/m", "lower"),
+    "fair_straight_conn_s_bends": ("smoothness", "count", "lower"),
+    "fair_turn_conn_sharpness_p90_per_m2": ("smoothness", "1/m2", "lower"),
+    "fair_turn_conn_sharpness_max_per_m2": ("smoothness", "1/m2", "lower"),
     "policy_speed_ay_max_mps2": ("scenario", "m/s2", "lower"),
     "policy_speed_jerk_max_mps3": ("scenario", "m/s3", "lower"),
     "kappa_max_per_m": ("scenario", "1/m", "lower"),
@@ -363,6 +376,8 @@ def evaluate(xodr: Path, pipeline: str, schema=None, shp_source=None) -> dict:
     from mapforge.validate.turn_shape import audit as turn_audit
     m.update(lane_edge_audit(root))
     m.update(turn_audit(root))
+    from mapforge.validate.lane_fairness import audit as fairness_audit
+    m.update(fairness_audit(root))
     b_metrics = groups.get("G11-B", {}).get("metrics", {})
     m["width_records"] = b_metrics.get("width_border_records")
     m["lane_sections"] = b_metrics.get("lane_sections")
