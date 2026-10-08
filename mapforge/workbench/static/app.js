@@ -24,6 +24,7 @@ function setButtons() {
   $("new-project").disabled=busy||!catalog; $("projects").disabled=busy;
   window.Inspection?.buttons();
   window.SurfaceDiagnostics?.buttons();
+  window.SurfaceEditor?.buttons();
 }
 function make(tag,text,cls) { const e=document.createElement(tag); if(text!==undefined)e.textContent=text; if(cls)e.className=cls; return e; }
 function idOf(o) { return String(o.id); }
@@ -61,7 +62,7 @@ function selectObject(id,focus=false) {
 }
 function renderPanels() {
   const snapshot=project.source_snapshot;$("notes").replaceChildren();const intents=project.intents||[];
-  for(const intent of intents){const text=intent.type==="shared_boundary_c2_normal_delta"?`共享边界目标：${(intent.parameters.normal_delta_m*1000).toFixed(2)} mm（草稿）`:intent.parameters?.text||intent.text||JSON.stringify(intent);const item=make("div",text,"note-item");$("notes").append(item);}$("note-count").textContent=String(intents.length);
+  for(const intent of intents){const text=intent.type==="shared_boundary_c2_normal_delta"?`共享边界目标：${(intent.parameters.normal_delta_m*1000).toFixed(2)} mm（草稿）`:intent.type==="source_supported_surface_tracks_v2"?"按原始来源重建辅助铺面（草稿）":intent.parameters?.text||intent.text||JSON.stringify(intent);const item=make("div",text,"note-item");$("notes").append(item);}$("note-count").textContent=String(intents.length);
   $("issues").replaceChildren();const issues=[...(snapshot.issues||[]),...(project.status?.source_issues||[])];for(const issue of issues.slice(0,100)){const row=make("div",issue.message||issue.detail||`来源文件需要复核：${issue.relative_path||issue.code||"未知问题"}`,"issue");const refs=issue.object_ids||issue.feature_ids||[];const id=refs.find(x=>byId.has(x));if(id){const b=make("button","定位对象");b.onclick=()=>selectObject(id,true);row.append(b);}$("issues").append(row);}$("issue-count").textContent=String(issues.length);
   const frame=snapshot.frame||{};$("frame-state").textContent=`原坐标 ${frame.coordinate_unit||"未知单位"} · 绝对 CRS：${frame.absolute_crs_status==="unverified"?"未核验":frame.absolute_crs_status||"未知"}`;
   $("save-state").textContent=project.status?.read_only?(project.status.recovery?"恢复副本 · 只读":"来源需复核 · 只读"):`已保存 · 修订 ${project.revision}`;
@@ -74,6 +75,7 @@ function applyProject(data, reset=false) {
   if(window.Editor)window.Editor.changed(reset);
   window.Inspection?.changed(reset);
   window.SurfaceDiagnostics?.changed(reset);
+  window.SurfaceEditor?.changed(reset);
 }
 async function refreshProjects() { const result=await api("/projects");const rows=Array.isArray(result)?result:(result.projects||[]);$("projects").replaceChildren(make("option","打开工程…"));$("projects").firstChild.value="";for(const p of rows){const option=make("option",p.name);option.value=p.project_id;$("projects").append(option);}if(project)$("projects").value=project.project_id; }
 async function openProject(id) { if(pendingNote&&!confirm("未确认的待办尚未保存，是否放弃？"))return;const g=++generation;const data=await api("/projects/"+encodeURIComponent(id));if(g!==generation)return;currentJob=null;$("job-status").textContent="没有运行中的任务";$("cancel-job").hidden=true;applyProject(data,true);await refreshJobList();notify("工程已打开。可查看源对象，或打开边界修补核对此工程的编辑范围。"); }
@@ -88,7 +90,7 @@ $("save-note").onclick=()=>guarded(async()=>{const data=await api(`/projects/${p
 for(const action of ["undo","redo"])$(action).onclick=()=>guarded(async()=>{if(pendingNote&&!confirm("放弃未确认待办并继续？"))return;const data=await api(`/projects/${project.project_id}/${action}`,{base_revision:project.revision,command_id:crypto.randomUUID()});pendingNote=false;$("note").value="";applyProject(data);notify(action==="undo"?"已撤销一个草稿事务并保存；原候选需核对是否过期。":"已重做一个草稿事务并保存；原候选需核对是否过期。");});
 $("check-source").onclick=()=>guarded(async()=>{const id=project.project_id,g=generation;currentJob=await api(`/projects/${id}/source-check`,{base_revision:project.revision,request_id:crypto.randomUUID()});$("cancel-job").hidden=false;pollJob(id,currentJob.job_id,g);});
 let jobSelection=0;
-const taskNames={source_check:"来源复核",compile:"候选编译",validate:"整图检查"};
+const taskNames={source_check:"来源复核",compile:"候选编译",compile_surface:"来源铺面重建",validate:"整图检查"};
 async function refreshJobList(){
   if(!project)return;const id=project.project_id,g=generation,selection=++jobSelection;
   try{const rows=await api(`/projects/${id}/jobs`);if(g!==generation||project.project_id!==id||selection!==jobSelection)return;
@@ -103,7 +105,7 @@ async function pollJob(projectId,jobId,g,selection=++jobSelection){
   if(g!==generation||selection!==jobSelection)return;
   try{const job=await api(`/projects/${projectId}/jobs/${jobId}`);if(g!==generation||selection!==jobSelection)return;currentJob=job;
     let success=job.result?.matches?"源文件与工程快照一致；不代表地图质量通过。":`来源发生变化（${job.result?.issues?.length||0} 项），请重开工程查看。`;
-    if(job.operation==="compile")success=job.result?.status==="COMPILED"?"候选已生成；接受状态以工程记录为准。":"候选拒绝："+(job.result?.error?.message||"未通过检查");
+    if(job.operation==="compile"||job.operation==="compile_surface")success=job.result?.status==="COMPILED"?"候选已生成；接受状态以工程记录为准。":"候选拒绝："+(job.result?.error?.message||"未通过检查");
     if(job.operation==="validate")success=job.result?.status==="VALIDATED"?"检查完成 · 交付裁决 "+job.result.validation.decision:"检查拒绝："+(job.result?.error?.message||"未完成");
     const labels={running:`${taskNames[job.operation]||"后台任务"}运行中，工程可继续查看…`,cancelled:"任务已取消",timed_out:"任务超时",orphaned:"历史任务状态未确认，未自动重新启动",failed:"任务失败："+(job.error||"工作进程异常"),succeeded:success};
     $("job-status").textContent=(job.historical?"历史记录 · ":job.stale?"对应较早修订 · ":"")+(labels[job.state]||job.state)+(job.archive?.state==="failed"?" · 结果未持久化，请检查磁盘。":"");
@@ -123,5 +125,5 @@ canvas.addEventListener("pointerup",e=>{if(pointer&&!pointer.moved&&!window.Insp
 canvas.addEventListener("wheel",e=>{e.preventDefault();const before=fromScreen(e.offsetX,e.offsetY);view.scale*=Math.exp(-Math.max(-150,Math.min(150,e.deltaY))*.002);const after=fromScreen(e.offsetX,e.offsetY);view.x+=before[0]-after[0];view.y+=before[1]-after[1];draw();},{passive:false});
 canvas.addEventListener("keydown",e=>{if(e.key.toLowerCase()==="f")fit();});new ResizeObserver(()=>draw()).observe(canvas);
 window.addEventListener("beforeunload",e=>{if(pendingNote){e.preventDefault();e.returnValue="";}});
-document.addEventListener("keydown",e=>{if($("editing-dialog").open||$("import-dialog").open||$("diagnostics-dialog").open){if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="s")e.preventDefault();return;}if(e.key==="Escape"&&window.Inspection?.escape()){e.preventDefault();return;}if(e.key==="Escape"&&pendingNote){$("note").value="";pendingNote=false;renderPanels();setButtons();}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="s"){e.preventDefault();if(pendingNote)notify("待办输入尚未确认，请使用“确认并保存待办”。");else if(project)notify("已确认的工程事务已保存到本机。");}});
+document.addEventListener("keydown",e=>{if($("editing-dialog").open||$("import-dialog").open||$("diagnostics-dialog").open||$("surface-editing-dialog").open){if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="s")e.preventDefault();return;}if(e.key==="Escape"&&window.Inspection?.escape()){e.preventDefault();return;}if(e.key==="Escape"&&pendingNote){$("note").value="";pendingNote=false;renderPanels();setButtons();}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="s"){e.preventDefault();if(pendingNote)notify("待办输入尚未确认，请使用“确认并保存待办”。");else if(project)notify("已确认的工程事务已保存到本机。");}});
 guarded(async()=>{catalog=await api("/catalog");for(const j of catalog.junctions){const option=make("option",`${j.name||"路口"} · ${j.id}`);option.value=j.id;$("junctions").append(option);}$("project-name").value="路口 "+$("junctions").value;await refreshProjects();notify(catalog.notice);});
