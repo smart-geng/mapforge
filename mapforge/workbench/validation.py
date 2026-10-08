@@ -43,7 +43,8 @@ def validation_fingerprints():
     # These implementation hashes are separate from the already registered
     # compiler context. A new validator cannot silently inherit old checks.
     names = {"mapforge/workbench/validation.py", "mapforge/report/decision.py",
-             "scripts/esmini_rm_check.py", "OpenDRIVE_1.5M.xsd"}
+             "scripts/esmini_rm_check.py", "scripts/workbench_esmini_portable.py",
+             "mapforge/workbench/consumer_metrics.py", "OpenDRIVE_1.5M.xsd"}
     names.update(p.relative_to(ROOT).as_posix() for p in (ROOT / "mapforge/validate").glob("*.py"))
     files = {name: _file_hash(ROOT / name) for name in sorted(names)}
     dll = ROOT / "esmini/bin/esminiRMLib.dll"
@@ -137,6 +138,7 @@ def _evaluate_pair(directory, registration, candidate_data, review_data):
     from mapforge.report.decision import finalize_opendrive_g8
     from mapforge.validate import scoreboard as sb
     from mapforge.validate.g8_model import json_safe
+    from mapforge.workbench.consumer_metrics import evaluate as evaluate_consumer
 
     source = ProfileSource(registration.source_dir, registration.profile_path)
     baseline = Path(registration.baseline_path)
@@ -156,8 +158,9 @@ def _evaluate_pair(directory, registration, candidate_data, review_data):
         decisions[label] = final["decision"]
         row = {"case": label, "pipeline": "shp", "artifact": path.name}
         try:
-            metrics = sb.evaluate(path, "shp", schema=schema, shp_source=source)
-            row.update(metrics=metrics, tiers=sb.apply_tiers(metrics, "shp", policy))
+            metrics, transport = evaluate_consumer(path, "shp", schema=schema, shp_source=source)
+            row.update(metrics=metrics, tiers=sb.apply_tiers(metrics, "shp", policy),
+                       consumer_transport=transport)
         except Exception as exc:
             row.update(error=f"{type(exc).__name__}: {exc}", tiers={})
         rows.append(row)
