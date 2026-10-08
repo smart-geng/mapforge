@@ -150,7 +150,7 @@ def worker(out_name):
         stage("LOCAL_STRUCTURE_AND_CONSUMER")
         from lxml import etree
         from mapforge.validate import g11
-        from scripts.workbench_check_auxiliary_consumer import audit_file
+        from scripts.workbench_auxiliary_portable import audit_file
         policy = g11.load_policy(ROOT / "profiles/validation/g11-opendrive-v1.draft.yaml")
         structure = {"G11-A": g11._audit_a(reread, policy),
                      "G11-B": g11._audit_b(reread, policy)}
@@ -202,9 +202,11 @@ def worker(out_name):
         from mapforge.validate import scoreboard as sb
         from mapforge.validate.g8_model import json_safe
         policy = yaml.safe_load(sb.POLICY.read_text(encoding="utf8"))
-        metrics = sb.evaluate(candidate_file, "shp", shp_source=source)
+        from mapforge.workbench.consumer_metrics import evaluate
+        metrics, consumer_transport = evaluate(candidate_file, "shp", shp_source=source)
         row = {"case": P.JUNCTION_ID, "pipeline": "shp", "artifact": candidate_file.name,
-               "metrics": metrics, "tiers": sb.apply_tiers(metrics, "shp", policy)}
+               "metrics": metrics, "tiers": sb.apply_tiers(metrics, "shp", policy),
+               "consumer_transport": consumer_transport}
         board = json_safe({"schema": "mapforge/scoreboard/v1", "run_dir": str(out), "files": 1,
             "policy": {k:policy[k] for k in ("id", "version", "lifecycle")}, "rows": [row],
             "tier_pass": {tier: int(row["tiers"][tier]["status"] == "PASS") for tier in policy["tiers"]}})
