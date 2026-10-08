@@ -74,7 +74,7 @@ uv sync
 ## 需要用户处理
 
 - GitHub `smart-geng/mapforge` 目前为 public，含 7 份现网 MAP XML 和标准送审稿 docx：建议先改为 Private；是否清理历史由你决定。
-- 2026-10-08 的改动（参考线兜底、铺面规则、泛化集工具与诊断脚本、文档）还没有提交：按规则等你说再 commit。
+- 工作分支 `stage2-2026-10-05`（到 `dcc1a3f`）都没有推送；远端 `origin/main` 另有 2 个本地没有的提交（2026-09-24），其中 `81459d9` 改了 11 个受证据绑定的脚本，不要直接合并。推送、合并都由你决定，详见交接说明第 2 节。
 - git 报 dubious ownership：可以执行一次 `git config --global --add safe.directory E:/MapFactory`，否则每条 git 命令都要加 `-c safe.directory=*`。
 - 外部输入需要指定负责人：配时表、绝对 CRS 控制点、IBD 枚举说明、下游 XODR 消费端及版本。
 
