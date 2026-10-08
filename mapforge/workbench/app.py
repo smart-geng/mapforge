@@ -15,6 +15,7 @@ from .editing import EditingService
 from .checking import CheckingService
 from .exports import ResearchExportService
 from .measurements import measurement_capability, measure_object, measure_points
+from .surface_review import SurfaceReviewService
 from .sources import verify_source_snapshot
 from .store import (ProjectStore, StoreConflict, StoreNotFound, StoreReadOnly,
                     StoreValidation)
@@ -22,7 +23,7 @@ from .store import (ProjectStore, StoreConflict, StoreNotFound, StoreReadOnly,
 STATIC = Path(__file__).with_name("static")
 
 
-def create_app(store: ProjectStore, catalog, token: str, port: int, *, jobs=None, editing=None, checking=None, exports=None):
+def create_app(store: ProjectStore, catalog, token: str, port: int, *, jobs=None, editing=None, checking=None, exports=None, surface_reviews=()):
     if len(token) < 24:
         raise ValueError("A randomly generated session token is required")
     jobs = jobs or JobManager(archive_dir=store.root / ".jobs")
@@ -32,6 +33,7 @@ def create_app(store: ProjectStore, catalog, token: str, port: int, *, jobs=None
                                            profile_path=catalog.profile_path)
     exports = exports or ResearchExportService(store, source_dir=catalog.source_dir,
                                                profile_path=catalog.profile_path)
+    surface_review = SurfaceReviewService(catalog, surface_reviews)
     host = f"127.0.0.1:{port}"
     origin = f"http://{host}"
     integrity_issues = {}
@@ -128,7 +130,7 @@ def create_app(store: ProjectStore, catalog, token: str, port: int, *, jobs=None
 
     @app.get("/assets/{name}")
     def asset(name: str):
-        if name not in {"app.js", "editing.js", "inspection.js", "style.css"}:
+        if name not in {"app.js", "editing.js", "inspection.js", "diagnostics.js", "style.css"}:
             return JSONResponse({"detail": "Not found"}, status_code=404)
         return FileResponse(STATIC / name)
 
@@ -177,6 +179,10 @@ def create_app(store: ProjectStore, catalog, token: str, port: int, *, jobs=None
     @app.get("/api/projects/{project_id}/measurement")
     def measurement_info(project_id: str):
         return measurement_capability(store.load(project_id)["source_snapshot"])
+
+    @app.get("/api/projects/{project_id}/surface-diagnostics")
+    def surface_diagnostics(project_id: str):
+        return surface_review.describe(store.load(project_id))
 
     @app.post("/api/projects/{project_id}/measurement")
     def measurement(project_id: str, body: dict):

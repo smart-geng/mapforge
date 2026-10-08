@@ -23,6 +23,7 @@ function setButtons() {
   $("open-editing").disabled=!project||busy;
   $("new-project").disabled=busy||!catalog; $("projects").disabled=busy;
   window.Inspection?.buttons();
+  window.SurfaceDiagnostics?.buttons();
 }
 function make(tag,text,cls) { const e=document.createElement(tag); if(text!==undefined)e.textContent=text; if(cls)e.className=cls; return e; }
 function idOf(o) { return String(o.id); }
@@ -72,6 +73,7 @@ function applyProject(data, reset=false) {
   $("empty").hidden=true;renderObjects();renderPanels();setButtons();if(reset)fitJunction();else draw();
   if(window.Editor)window.Editor.changed(reset);
   window.Inspection?.changed(reset);
+  window.SurfaceDiagnostics?.changed(reset);
 }
 async function refreshProjects() { const result=await api("/projects");const rows=Array.isArray(result)?result:(result.projects||[]);$("projects").replaceChildren(make("option","打开工程…"));$("projects").firstChild.value="";for(const p of rows){const option=make("option",p.name);option.value=p.project_id;$("projects").append(option);}if(project)$("projects").value=project.project_id; }
 async function openProject(id) { if(pendingNote&&!confirm("未确认的待办尚未保存，是否放弃？"))return;const g=++generation;const data=await api("/projects/"+encodeURIComponent(id));if(g!==generation)return;currentJob=null;$("job-status").textContent="没有运行中的任务";$("cancel-job").hidden=true;applyProject(data,true);await refreshJobList();notify("工程已打开。可查看源对象，或打开边界修补核对此工程的编辑范围。"); }
@@ -121,5 +123,5 @@ canvas.addEventListener("pointerup",e=>{if(pointer&&!pointer.moved&&!window.Insp
 canvas.addEventListener("wheel",e=>{e.preventDefault();const before=fromScreen(e.offsetX,e.offsetY);view.scale*=Math.exp(-Math.max(-150,Math.min(150,e.deltaY))*.002);const after=fromScreen(e.offsetX,e.offsetY);view.x+=before[0]-after[0];view.y+=before[1]-after[1];draw();},{passive:false});
 canvas.addEventListener("keydown",e=>{if(e.key.toLowerCase()==="f")fit();});new ResizeObserver(()=>draw()).observe(canvas);
 window.addEventListener("beforeunload",e=>{if(pendingNote){e.preventDefault();e.returnValue="";}});
-document.addEventListener("keydown",e=>{if($("editing-dialog").open||$("import-dialog").open){if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="s")e.preventDefault();return;}if(e.key==="Escape"&&window.Inspection?.escape()){e.preventDefault();return;}if(e.key==="Escape"&&pendingNote){$("note").value="";pendingNote=false;renderPanels();setButtons();}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="s"){e.preventDefault();if(pendingNote)notify("待办输入尚未确认，请使用“确认并保存待办”。");else if(project)notify("已确认的工程事务已保存到本机。");}});
+document.addEventListener("keydown",e=>{if($("editing-dialog").open||$("import-dialog").open||$("diagnostics-dialog").open){if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="s")e.preventDefault();return;}if(e.key==="Escape"&&window.Inspection?.escape()){e.preventDefault();return;}if(e.key==="Escape"&&pendingNote){$("note").value="";pendingNote=false;renderPanels();setButtons();}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="s"){e.preventDefault();if(pendingNote)notify("待办输入尚未确认，请使用“确认并保存待办”。");else if(project)notify("已确认的工程事务已保存到本机。");}});
 guarded(async()=>{catalog=await api("/catalog");for(const j of catalog.junctions){const option=make("option",`${j.name||"路口"} · ${j.id}`);option.value=j.id;$("junctions").append(option);}$("project-name").value="路口 "+$("junctions").value;await refreshProjects();notify(catalog.notice);});

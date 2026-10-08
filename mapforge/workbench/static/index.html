@@ -12,7 +12,7 @@
 <input id="search" type="search" placeholder="查找业务 ID、图层或原始记录" aria-label="查找源对象">
 <div id="layers" class="layers"></div><div id="objects" class="object-list" aria-label="源对象列表"></div><button id="more-objects" hidden>显示更多对象</button></aside>
 <section class="workspace"><div class="toolbar"><button id="fit">全图</button><button id="fit-junction">路口</button><button id="locate-selection" disabled>定位选中</button><button id="zoom-in" aria-label="放大">＋</button><button id="zoom-out" aria-label="缩小">−</button><span class="divider"></span>
-<button id="undo" disabled>撤销</button><button id="redo" disabled>重做</button><button id="reload" disabled>重开工程</button><button id="open-editing" disabled>边界修补</button><button id="measure-points" disabled aria-pressed="false">两点量距</button>
+<button id="undo" disabled>撤销</button><button id="redo" disabled>重做</button><button id="reload" disabled>重开工程</button><button id="open-editing" disabled>边界修补</button><button id="open-diagnostics" disabled>铺面诊断</button><button id="measure-points" disabled aria-pressed="false">两点量距</button>
 <div class="spacer"></div><button id="check-source" disabled>复核源文件</button></div>
 <div class="canvas-wrap"><canvas id="map" tabindex="0" aria-label="原始地图画布，滚轮缩放，拖动平移，点击选择对象"></canvas>
 <div id="empty" class="empty"><strong>从原件开始</strong><p>选择一个路口建立工程。转换失败也可以查看原件、定位问题和保存待办。</p><button id="empty-import">导入路口</button></div>
@@ -42,4 +42,9 @@
 <div class="editor-actions"><button id="preview-edit" disabled>计算预览</button><button id="save-edit" disabled>确认并保存草稿</button><button id="compile-edit" disabled>编译已保存草稿</button><button id="accept-edit" class="primary" disabled>接受此候选</button><button id="validate-edit" disabled>整图检查</button><button id="attach-validation" disabled>保存检查结果</button><button id="cancel-edit-job" hidden>取消计算</button></div>
 <div id="edit-status" class="edit-status" role="status">尚未生成预览</div><div id="edit-checks" class="fine"></div>
 <p class="fine">候选只有经过确认才能成为工程结果。源 CRS 未核验、完整门禁未通过时，正式交付保持阻断。</p></section></div></dialog>
-<script src="/assets/app.js"></script><script src="/assets/editing.js"></script><script src="/assets/inspection.js"></script></body></html>
+<dialog id="diagnostics-dialog" class="diagnostics-dialog" aria-labelledby="diagnostics-title">
+<div class="diagnostics-heading"><div><h2 id="diagnostics-title">铺面诊断</h2><p class="diagnostics-warning">研究候选诊断，未接受；正式交付仍阻断</p></div><button id="close-diagnostics">返回源地图</button></div>
+<p class="fine">读取与本工程来源匹配的研究报告。此画布使用独立的局部米制坐标，查看和定位不会修改原件、草稿或已接受候选。</p>
+<div class="diagnostics-layout"><section class="diagnostics-map-pane"><div class="toolbar"><button id="diagnostics-fit" disabled>全图</button><button id="diagnostics-zoom-in" disabled>放大</button><button id="diagnostics-zoom-out" disabled>缩小</button><span class="fine">滚轮缩放 · 拖动平移 · 橙色为诊断区域</span></div><div id="diagnostics-legend" class="diagnostics-legend"></div><div class="diagnostics-canvas-wrap"><canvas id="diagnostics-map" tabindex="0" aria-label="研究候选铺面诊断，独立局部米坐标，可平移缩放"></canvas></div><div id="diagnostics-coordinates" class="statusbar">尚无诊断几何</div></section>
+<section class="diagnostics-controls"><div id="diagnostics-status" class="edit-status" role="status">尚未读取诊断</div><div class="panel-title">问题定位</div><div id="diagnostics-issues" class="diagnostics-issues"></div><div id="diagnostics-detail" class="diagnostics-detail"></div><details><summary>来源与研究候选绑定</summary><pre id="diagnostics-binding"></pre><p id="diagnostics-frame" class="fine">局部米制坐标；绝对 CRS 未核验</p></details></section></div></dialog>
+<script src="/assets/app.js"></script><script src="/assets/editing.js"></script><script src="/assets/inspection.js"></script><script src="/assets/diagnostics.js"></script></body></html>
