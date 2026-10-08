@@ -26,6 +26,18 @@ PROBE = ROOT / "scripts/workbench_probe_source_cells.py"
 SCHEMA = "mapforge/wb11-source-cells-runner/v1"
 REPORT_SCHEMA = "mapforge/wb11-source-cells-probe/v1"
 REJECTED = {"REJECTED_LOCAL_SOURCE_SUPPORT", "REJECTED_POSTPROCESS_SOURCE_SUPPORT", "REJECTED_INPUT_DRIFT"}
+# Additional repository inputs used by this fixed SHP postprocess/score path.
+# decision.finalize_opendrive_g8 reads G11_POLICY; scoreboard.evaluate reads the
+# standalone XSD and launches this helper, whose only repository runtime input
+# is the named DLL. The schema has no xs:include/import/redefine dependencies.
+# Keep this separate from _required_code_paths: the frozen probe never claimed
+# to include these paths in its own code-policy-binding.json.
+EXTRA_DEPENDENCIES = (
+    "profiles/validation/g11-opendrive-v1.draft.yaml",
+    "OpenDRIVE_1.5M.xsd",
+    "scripts/esmini_rm_check.py",
+    "esmini/bin/esminiRMLib.dll",
+)
 REQUIRED_OUTPUTS = (
     "report.json", "source-snapshot.json", "confirmed-probe-intent.json",
     "code-policy-binding.json", "source-generation.stats.json",
@@ -53,6 +65,14 @@ def _file_binding(path):
     path = Path(path)
     data = path.read_bytes()
     return {"path": str(path.resolve()), "size": len(data), "sha256": _sha(data)}
+
+
+def _extra_dependency_binding(relative):
+    path = ROOT / relative
+    if (Path(relative).is_absolute() or not path.is_file() or path.is_symlink()
+            or not path.resolve().is_relative_to(ROOT.resolve())):
+        raise ValueError("missing or nonlocal scoring dependency: " + relative)
+    return _file_binding(path)
 
 
 def _json(data):
@@ -309,23 +329,33 @@ def run_experiment(out: Path, timeout_s: float = 7300) -> dict:
     if not math.isfinite(timeout_s) or timeout_s <= 0:
         return {**result, "status": "INVALID_TIMEOUT", "problems": ["timeout must be finite and positive"]}
     command = [sys.executable, str(PROBE.resolve()), "--out", str(out)]
-    binding = {"runner": _file_binding(Path(__file__)), "worker": _file_binding(PROBE),
-               "child_command": command, "child_command_sha256": _sha(_canonical(command)),
-               "python": {"executable": sys.executable, "version": sys.version}}
+    binding = {"child_command": command, "child_command_sha256": _sha(_canonical(command)),
+               "python": {"executable": sys.executable, "version": sys.version},
+               "extra_dependencies": {}}
     result["binding"] = binding
     start = time.monotonic()
     process = None
     try:
-        process = _run_child(command, timeout_s)
-        result.update(assess_output(out, process["exit_code"], timed_out=process["timed_out"]))
+        binding["runner"] = _file_binding(Path(__file__))
+        binding["worker"] = _file_binding(PROBE)
+        for relative in EXTRA_DEPENDENCIES:
+            binding["extra_dependencies"][relative] = _extra_dependency_binding(relative)
     except Exception as exc:
-        result.update(status="RUNNER_FAILED", problems=[f"{type(exc).__name__}: {exc}"])
+        result.update(status="DEPENDENCY_UNAVAILABLE", problems=[f"{type(exc).__name__}: {exc}"])
+    else:
+        try:
+            process = _run_child(command, timeout_s)
+            result.update(assess_output(out, process["exit_code"], timed_out=process["timed_out"]))
+        except Exception as exc:
+            result.update(status="RUNNER_FAILED", problems=[f"{type(exc).__name__}: {exc}"])
     result["elapsed_s"] = time.monotonic() - start
     result["timeout_s"] = timeout_s
     result["probe_internal_timeout_s"] = 7200
     result["timeout_scope"] = "Outer timeout includes bootstrap; the unchanged probe independently stops its worker after 7200 seconds. Increasing the outer timeout cannot extend that limit."
     result["probe_created_output_directory"] = out.is_dir()
     for label in ("runner", "worker"):
+        if label not in binding:
+            continue
         try:
             changed = _file_binding(binding[label]["path"])["sha256"] != binding[label]["sha256"]
         except OSError:
@@ -333,6 +363,26 @@ def run_experiment(out: Path, timeout_s: float = 7300) -> dict:
         if changed:
             result.update(status="BINDING_CHANGED", exit_code=1, experiment_complete=False)
             result.setdefault("problems", []).append(label + " changed during execution")
+    dependency_issues = []
+    dependency_after = {}
+    for relative, before in binding["extra_dependencies"].items():
+        try:
+            after = _extra_dependency_binding(relative)
+            dependency_after[relative] = after
+            if after != before:
+                dependency_issues.append({"path": relative, "code": "dependency-changed"})
+        except (OSError, ValueError) as exc:
+            dependency_issues.append({"path": relative, "code": "dependency-unavailable", "error": str(exc)})
+    complete_dependency_set = set(binding["extra_dependencies"]) == set(EXTRA_DEPENDENCIES)
+    result["extra_dependency_integrity_after"] = {
+        "matches": complete_dependency_set and not dependency_issues,
+        "issues": dependency_issues, "bindings": dependency_after,
+    }
+    if dependency_issues:
+        result.update(status="BINDING_CHANGED", exit_code=1, experiment_complete=False)
+        result.setdefault("problems", []).extend(
+            "scoring dependency changed during execution: " + issue["path"]
+            for issue in dependency_issues)
     if process:
         result["process"] = {key: value for key, value in process.items() if key not in {"stdout", "stderr"}}
     try:

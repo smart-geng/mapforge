@@ -63,6 +63,7 @@ def complete_output(tmp_path, monkeypatch):
         "uv.lock", "profiles/shp/ibd-smarteditor-v1.yaml",
         "profiles/validation/static-acceptance-v1.draft.yaml",
         "profiles/validation/g8-opendrive-jinfeng-v1.yaml",
+        *R.EXTRA_DEPENDENCIES,
     ):
         path = root / name
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -289,7 +290,7 @@ def test_explicit_probe_rejection_with_child_zero_returns_two(tmp_path, monkeypa
     assert result["experiment_complete"] is False
 
 
-def test_complete_fake_worker_run_records_bindings_without_acceptance(complete_output, tmp_path, monkeypatch):
+def prepare_complete_fake_worker(complete_output, tmp_path, after_copy=""):
     fake = fake_probe(
         tmp_path,
         "import shutil\n"
@@ -299,11 +300,15 @@ def test_complete_fake_worker_run_records_bindings_without_acceptance(complete_o
         "    path=args.out/name\n"
         "    value_json=json.loads(path.read_text(encoding='utf-8'))\n"
         "    value_json[key]=value\n"
-        "    path.write_text(json.dumps(value_json),encoding='utf-8')\n",
+        "    path.write_text(json.dumps(value_json),encoding='utf-8')\n" + after_copy,
     )
     # Bind the controlled worker under the same relative identity as the probe.
     R.PROBE.write_bytes(fake.read_bytes())
     refresh_code_bindings(complete_output)
+
+
+def test_complete_fake_worker_run_records_bindings_without_acceptance(complete_output, tmp_path):
+    prepare_complete_fake_worker(complete_output, tmp_path)
     out = tmp_path / "successful-fake-run"
     result = R.run_experiment(out, timeout_s=15)
     assert result["exit_code"] == 0, result
@@ -311,8 +316,60 @@ def test_complete_fake_worker_run_records_bindings_without_acceptance(complete_o
     assert result["binding"]["worker"]["sha256"] == digest(R.PROBE)
     assert result["binding"]["child_command_sha256"]
     assert result["binding"]["runner"]["sha256"]
+    assert set(result["binding"]["extra_dependencies"]) == set(R.EXTRA_DEPENDENCIES)
+    assert result["extra_dependency_integrity_after"]["matches"] is True
+    assert result["extra_dependency_integrity_after"]["issues"] == []
+    old_binding = json.loads((out / "code-policy-binding.json").read_text(encoding="utf-8"))
+    assert set(R.EXTRA_DEPENDENCIES).isdisjoint(old_binding), "frozen probe contract was expanded"
     persisted = json.loads(Path(result["runner_result_path"]).read_text(encoding="utf-8"))
     assert persisted == result
+
+
+@pytest.mark.parametrize("relative", R.EXTRA_DEPENDENCIES)
+def test_missing_external_scoring_dependency_blocks_before_child(
+        complete_output, tmp_path, monkeypatch, relative):
+    (R.ROOT / relative).unlink()
+    launched = []
+    monkeypatch.setattr(R, "_run_child", lambda *args: launched.append(args))
+    result = R.run_experiment(tmp_path / "missing-dependency", timeout_s=15)
+    assert result["status"] == "DEPENDENCY_UNAVAILABLE"
+    assert result["exit_code"] == 1
+    assert launched == []
+    assert result["extra_dependency_integrity_after"]["matches"] is False
+    assert any(relative in problem for problem in result["problems"])
+
+
+@pytest.mark.parametrize("relative", R.EXTRA_DEPENDENCIES)
+def test_external_scoring_dependency_drift_overrides_complete_fake_evaluation(
+        complete_output, tmp_path, relative):
+    changed = R.ROOT / relative
+    prepare_complete_fake_worker(
+        complete_output, tmp_path,
+        "changed=Path(" + repr(str(changed)) + ")\n"
+        "changed.write_bytes(changed.read_bytes()+b'changed during controlled worker')\n",
+    )
+    out = tmp_path / "dependency-drift"
+    result = R.run_experiment(out, timeout_s=15)
+    assert result["report_status"] == "EXPERIMENT_EVALUATED"
+    assert result["status"] == "BINDING_CHANGED"
+    assert result["exit_code"] == 1
+    assert result["experiment_complete"] is False
+    integrity = result["extra_dependency_integrity_after"]
+    assert integrity["matches"] is False
+    assert integrity["issues"] == [{"path": relative, "code": "dependency-changed"}]
+    # These newly bound inputs belong to the wrapper, not the frozen report.
+    assert R.assess_output(out, 0)["exit_code"] == 0
+
+
+def test_external_dependency_removed_during_fake_worker_fails(complete_output, tmp_path):
+    relative = "esmini/bin/esminiRMLib.dll"
+    prepare_complete_fake_worker(complete_output, tmp_path,
+                                 "Path(" + repr(str(R.ROOT / relative)) + ").unlink()\n")
+    result = R.run_experiment(tmp_path / "dependency-removed", timeout_s=15)
+    assert result["exit_code"] == 1
+    assert result["status"] == "BINDING_CHANGED"
+    issue = result["extra_dependency_integrity_after"]["issues"][0]
+    assert issue["path"] == relative and issue["code"] == "dependency-unavailable"
 
 
 def test_fake_worker_code_mutation_is_reported_as_binding_change(tmp_path, monkeypatch):
