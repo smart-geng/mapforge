@@ -9,7 +9,9 @@ few-segment G2 connector fitter (refline_fit.fit_connector_minimal: <=5 clothoid
 reference headings, so both cross-sections coincide. The lane-centre heading
 difference is carried by a cubic lane offset; the fitter's target is the old
 lane-centre path minus that offset, so the lane centre stays on the old path.
-Connectors whose refit misses the tolerance are reported and left unchanged.
+The old-path, aligned-mouth and source fits are independent candidates. A rejected
+old-path fit does not suppress the other enabled families; connectors with no
+accepted candidate are reported and left unchanged here (apply retains the edge-only fallback).
 """
 from __future__ import annotations
 
@@ -956,7 +958,8 @@ def align_tree(root, via_centrelines=None, mouth_blend_kappa=None, kappa_bound_s
 
     roads = {r.get("id"): r for r in root.findall("road")}
     connections = {c.get("connectingRoad"): c for c in root.findall("junction/connection")}
-    rows, skipped = [], []
+    rows, skipped, candidate_failures, recovery_rejections, recovery_checks = [], [], [], [], []
+    candidate_errors = (ValueError, ZeroDivisionError, np.linalg.LinAlgError)
     for cr in root.findall("road"):
         if cr.get("junction") in (None, "-1") or cr.get("name") == "junction_paving":
             continue
@@ -1025,6 +1028,20 @@ def align_tree(root, via_centrelines=None, mouth_blend_kappa=None, kappa_bound_s
             bound = KAPPA_BOUND
             if kappa_bound_scale:
                 bound = max(KAPPA_BOUND, kappa_bound_scale * max(max(abs(g[5]), abs(g[6])) for g in old_geoms))
+            targets = _targets(roads, cr, connection)
+        except (KeyError, ValueError, ZeroDivisionError, AttributeError) as exc:
+            skipped.append({"connecting_road": rid, "reason": f"{type(exc).__name__}: {exc}"})
+            continue
+
+        def failed(candidate, exc):
+            candidate_failures.append({"connecting_road": rid, "candidate": candidate,
+                                       "reason": f"{type(exc).__name__}: {exc}"})
+
+        # Each family has its own target and acceptance test. Failure to follow the old path must not
+        # suppress candidates fitted directly to the linked lane centres or to the source via line.
+        recovery_causes = []
+        prims, method = None, "independent"
+        try:
             prims, end_error, deviation = _structure_refit(old_geoms, p0, p1, k0, k1, tc, length_old, target, bound)
             method = ("source-blend:" if profile is not None else "") + "structure-preserving"
             if end_error > 1e-6 or deviation > FIT_TOL["max_dev_tol"]:
@@ -1033,32 +1050,30 @@ def align_tree(root, via_centrelines=None, mouth_blend_kappa=None, kappa_bound_s
                 if fit is None:
                     raise ValueError(f"refit missed the tolerance (structure-preserving max {deviation:.3f} m)")
                 prims, method = fit.primitives, ("source-blend:" if profile is not None else "") + fit.method
-            # A turn whose refit curves against itself also gets a turn-sign bounded refit of the same old path.
-            # The old path may carry the reversal itself, so the bounded refit is judged against the source (G8
-            # ceilings in the pick), not by FIT_TOL; both versions stay candidates.
-            sign = _turn_sign(p0, p1) if monotone_turns else 0
-            mono_prims = None
-            if _counter_knots(prims, sign) > TURN_SIGN_TOL:
+        except candidate_errors as exc:
+            prims, method = None, "independent"
+            recovery_causes.append("old-path")
+            failed("old-path", exc)
+        # A turn whose old-path refit curves against itself also gets a turn-sign bounded version.
+        sign = _turn_sign(p0, p1) if monotone_turns else 0
+        mono_prims = None
+        if prims is not None and _counter_knots(prims, sign) > TURN_SIGN_TOL:
+            try:
                 mono, err_m, dev_m = _structure_refit(prims, p0, p1, k0, k1, (0.0, 0.0, 0.0, 0.0),
                                                       float(sum(p[4] for p in prims)), target, bound, sign)
                 if err_m <= 1e-6 and dev_m <= MONOTONE_DEV_MAX:
                     mono_prims = mono
-            xe, ye, he = _end_pose(prims)
-            start = (prims[0][1], prims[0][2], prims[0][3], prims[0][5])
-            end = (xe, ye, he, prims[-1][6])
-            targets = _targets(roads, cr, connection)
-            local = {(c, side): _local(start if c == "start" else end, targets[c][side])
-                     for c in ("start", "end") for side in ("left", "right")}
-            aligned, aligned_info = [], None
-            if aligned_frame:
-                try:
-                    aligned, aligned_info = _aligned_refits(old_geoms, old_path, ss, hh, targets, fa, fc, length_old,
-                                                            bound, sign, old_min, mouth_blend_kappa or 0.01)
-                except (ValueError, ZeroDivisionError, np.linalg.LinAlgError) as exc:
-                    aligned, aligned_info = [], {"reason": f"{type(exc).__name__}: {exc}"}
-        except (KeyError, ValueError, ZeroDivisionError, AttributeError) as exc:
-            skipped.append({"connecting_road": rid, "reason": f"{type(exc).__name__}: {exc}"})
-            continue
+            except candidate_errors as exc:
+                recovery_causes.append("old-path-monotone")
+                failed("old-path-monotone", exc)
+        aligned, aligned_info = [], None
+        if aligned_frame:
+            try:
+                aligned, aligned_info = _aligned_refits(old_geoms, old_path, ss, hh, targets, fa, fc, length_old,
+                                                        bound, sign, old_min, mouth_blend_kappa or 0.01)
+            except candidate_errors as exc:
+                aligned_info = {"reason": f"{type(exc).__name__}: {exc}"}
+                failed("aligned", exc)
         # Candidates for carrying the lateral shifts at the mouths: the single edge cubic (spread over the
         # connector) and, if enabled, the localized blend. A shift that moves a lane centre onto its source
         # is best spread; one that moves it off on purpose (curb-return shoulder) is best kept local. The
@@ -1080,25 +1095,41 @@ def align_tree(root, via_centrelines=None, mouth_blend_kappa=None, kappa_bound_s
                 out.append(("local" + suffix, c_prims, off, cen, wid, info, c_shape, c_local))
             return out
 
-        try:
-            candidates = frame_candidates(prims, "")
-            if mono_prims is not None:
-                candidates += frame_candidates(mono_prims, "-monotone")
-            for a_prims, a_name in aligned:
+        candidates = []
+        frames = ([(prims, "")] if prims is not None else [])
+        if mono_prims is not None:
+            frames.append((mono_prims, "-monotone"))
+        for c_prims, suffix in frames:
+            try:
+                candidates += frame_candidates(c_prims, suffix)
+            except candidate_errors as exc:
+                recovery_causes.append("old-path" + suffix + ":edges")
+                failed("old-path" + suffix + ":edges", exc)
+        for a_prims, a_name in aligned:
+            try:
                 # no shift left at the mouths: the spread and local candidates would coincide
                 candidates += [(a_name, *c[1:]) for c in frame_candidates(a_prims, "", with_local=False)]
-        except ValueError as exc:
-            skipped.append({"connecting_road": rid, "reason": f"ValueError: {exc}"})
-            continue
+            except candidate_errors as exc:
+                recovery_causes.append(a_name + ":edges")
+                failed(a_name + ":edges", exc)
         if source_guided and source is not None:
-            for g_prims, g_local, g_info in _source_guided(source, targets, fa, fc, min(g[4] for g in old_geoms),
-                                                           monotone_turns) or []:
-                g_len = float(sum(p[4] for p in g_prims))
-                g_centre, g_width, g_shape = _edge_model(g_local, g_len, width_local_slopes)
-                g_cen = [(0.0, g_len, *g_centre)]
-                candidates.append(("source-guided" + ("-monotone" if g_info.get("monotone") else ""), g_prims,
-                                   _sum_pieces([g_cen, _scaled(g_width, 0.5)], g_len), g_cen, g_width, g_info,
-                                   g_shape, g_local))
+            try:
+                guided = _source_guided(source, targets, fa, fc, min(g[4] for g in old_geoms), monotone_turns) or []
+            except candidate_errors as exc:
+                guided = []
+                recovery_causes.append("source-guided")
+                failed("source-guided", exc)
+            for g_prims, g_local, g_info in guided:
+                name_ = "source-guided" + ("-monotone" if g_info.get("monotone") else "")
+                try:
+                    g_len = float(sum(p[4] for p in g_prims))
+                    g_centre, g_width, g_shape = _edge_model(g_local, g_len, width_local_slopes)
+                    g_cen = [(0.0, g_len, *g_centre)]
+                    candidates.append((name_, g_prims, _sum_pieces([g_cen, _scaled(g_width, 0.5)], g_len),
+                                       g_cen, g_width, g_info, g_shape, g_local))
+                except candidate_errors as exc:
+                    recovery_causes.append(name_ + ":edges")
+                    failed(name_ + ":edges", exc)
         prov = lane.find("userData[@code='mapforge.provenance/v1']")
         comparable = prov is not None and json.loads(prov.get("value") or "{}").get("eligibility") == "comparable"
         if source_fit and source is not None and comparable:
@@ -1107,8 +1138,14 @@ def align_tree(root, via_centrelines=None, mouth_blend_kappa=None, kappa_bound_s
             if before is None or max(before["p95_m"], before["reverse_p95_m"]) > SOURCE_FIT_TRIGGER_M:
                 rates = (_contact_rate(roads[pred.get("elementId")], pred.get("contactPoint")),
                          _contact_rate(roads[succ.get("elementId")], succ.get("contactPoint")))
-                for f_prims, f_info in _source_fits(source, targets, fa, fc, rates, monotone_turns,
-                                                    turn_end_zone if monotone_turns else None):
+                try:
+                    fits = _source_fits(source, targets, fa, fc, rates, monotone_turns,
+                                        turn_end_zone if monotone_turns else None)
+                except candidate_errors as exc:
+                    fits = []
+                    recovery_causes.append("source-fit")
+                    failed("source-fit", exc)
+                for f_prims, f_info in fits:
                     f_len = float(sum(p[4] for p in f_prims))
                     xe_, ye_, he_ = _end_pose(f_prims)
                     f_start = (f_prims[0][1], f_prims[0][2], f_prims[0][3], f_prims[0][5])
@@ -1116,14 +1153,29 @@ def align_tree(root, via_centrelines=None, mouth_blend_kappa=None, kappa_bound_s
                     try:
                         f_local = {(c, side): _local(f_start if c == "start" else f_end, targets[c][side])
                                    for c in ("start", "end") for side in ("left", "right")}
-                    except ValueError:
+                    except ValueError as exc:
+                        # This per-candidate skip predates independent recovery;
+                        # LinAlgError is also a ValueError. It must not change
+                        # admission of otherwise successful legacy candidates.
+                        failed("source-fit:local", exc)
                         continue
-                    f_centre, f_width, f_shape = _edge_model(f_local, f_len, width_local_slopes)
-                    f_cen = [(0.0, f_len, *f_centre)]
-                    name_ = f"source-fit-{f_info['seg_m']:g}m" + ("-ends" if f_info.get("end_zone") else
-                                                                  "-monotone" if f_info["turn_sign"] else "")
-                    candidates.append((name_, f_prims, _sum_pieces([f_cen, _scaled(f_width, 0.5)], f_len), f_cen,
-                                       f_width, f_info, f_shape, f_local))
+                    except candidate_errors as exc:
+                        recovery_causes.append("source-fit:local")
+                        failed("source-fit:local", exc)
+                        continue
+                    try:
+                        f_centre, f_width, f_shape = _edge_model(f_local, f_len, width_local_slopes)
+                        f_cen = [(0.0, f_len, *f_centre)]
+                        name_ = f"source-fit-{f_info['seg_m']:g}m" + ("-ends" if f_info.get("end_zone") else
+                                                                      "-monotone" if f_info["turn_sign"] else "")
+                        candidates.append((name_, f_prims, _sum_pieces([f_cen, _scaled(f_width, 0.5)], f_len), f_cen,
+                                           f_width, f_info, f_shape, f_local))
+                    except candidate_errors as exc:
+                        recovery_causes.append("source-fit:edges")
+                        failed("source-fit:edges", exc)
+        if not candidates:
+            skipped.append({"connecting_road": rid, "reason": "all enabled reference candidates failed"})
+            continue
         if match_end_curvature:
             try:
                 linked = _linked_lanes(roads, cr, connection)
@@ -1134,10 +1186,17 @@ def align_tree(root, via_centrelines=None, mouth_blend_kappa=None, kappa_bound_s
             matched = []
             for name_, c_prims, _off, _cen, c_wid, c_info, c_shape, c_local in candidates:
                 blends = (c_info["start_blend_m"], c_info["end_blend_m"]) if c_info and "start_blend_m" in c_info else None
-                off, cen, wid, curv = _match_end_curvature(c_prims, _off, c_wid, centre_targets, targets,
-                                                           c_shape.get("width_slope_lengths_m"), blends)
-                matched.append((name_, c_prims, off, cen, wid, c_info, {**c_shape, "end_curvature": curv}, c_local))
+                try:
+                    off, cen, wid, curv = _match_end_curvature(c_prims, _off, c_wid, centre_targets, targets,
+                                                             c_shape.get("width_slope_lengths_m"), blends)
+                    matched.append((name_, c_prims, off, cen, wid, c_info, {**c_shape, "end_curvature": curv}, c_local))
+                except candidate_errors as exc:
+                    recovery_causes.append(name_ + ":end-curvature")
+                    failed(name_ + ":end-curvature", exc)
             candidates = matched
+            if not candidates:
+                skipped.append({"connecting_road": rid, "reason": "all reference candidates failed end-curvature matching"})
+                continue
         widths_ok = [c for c in candidates
                      if min(_pc_eval(c[4], sum(p[4] for p in c[1]) * i / 200) for i in range(201)) > 0.5]
         if not widths_ok:
@@ -1279,19 +1338,100 @@ def align_tree(root, via_centrelines=None, mouth_blend_kappa=None, kappa_bound_s
                                    "counter_ends_per_m": x[3].get("counter_ends_per_m"),
                                    "edge_join_jump_per_m": x[3].get("edge_join_jump_per_m")}
                          for i, x in enumerate(scored)}
-            elif mouth_blend_kappa:
+            elif (mouth_blend_kappa and len(scored) > 1
+                  and scored[0][0][0] == "spread" and scored[1][0][0] == "local"):
                 # registered curb-local (always local) / curb-pick (local if closer) behaviour
                 pick = 1 if not mouth_blend_pick or None in meds[:2] or meds[1] < meds[0] else 0
             return pick, flags
 
-        scored = [score(c) for c in candidates]
-        pick, flags = pick_from(scored)
-        if match_end_curvature and flags and flags.get(scored[pick][0][0], {}).get("edge_residual"):
-            # the picked candidate misses the edge bound at a mouth: its end-rate trim competes too
-            trimmed = edge_trim(scored[pick][0])
-            if trimmed is not None:
-                scored.append(score(trimmed))
-                pick, flags = pick_from(scored)
+        scored = []
+        for candidate in candidates:
+            try:
+                scored.append(score(candidate))
+            except candidate_errors as exc:
+                recovery_causes.append(candidate[0] + ":score")
+                failed(candidate[0] + ":score", exc)
+        # Decide recovery only after all scoring attempts: a later score failure
+        # must also subject earlier successful scores to the complete guard.
+        # Existing benign local catches are deliberately absent from these causes.
+        # Geometry-only/simplified calls explicitly make no full G8 claim.
+        recovery_required = bool(recovery_causes and source_guided and match_end_curvature
+                                 and source is not None and len(source) >= 2)
+        if recovery_causes:
+            recovery_checks.append({"connecting_road": rid, "causes": list(recovery_causes),
+                                    "scope": "guided-c2-source" if recovery_required else "simplified-geometry",
+                                    "full_g8_checked": recovery_required,
+                                    "turn_required": bool(monotone_turns and sign) if recovery_required else None})
+        if recovery_required:
+            from mapforge.ops.mouth_recovery import filter_recovery_candidates, recovery_score_evidence
+            measured = []
+            for result in scored:
+                reasons = recovery_score_evidence(result, turn_required=bool(monotone_turns and sign),
+                                                  turn_end_zone=bool(turn_end_zone), aligned_frame=aligned_frame)
+                if reasons:
+                    recovery_rejections.append({"connecting_road": rid, "candidate": result[0][0],
+                                                "stage": "score-evidence", "reasons": reasons})
+                else:
+                    measured.append(result)
+            scored = measured
+        if not scored:
+            for child in list(cr):
+                cr.remove(child)
+            for child in snapshot:
+                cr.append(child)
+            cr.set("length", snapshot_length)
+            skipped.append({"connecting_road": rid, "reason": "all enabled reference candidates failed scoring"})
+            continue
+        if recovery_required:
+            _, all_flags = pick_from(scored)
+            gate_options = {"recovery_required": True, "full_g8_checked": bool(match_end_curvature),
+                            "turn_required": bool(monotone_turns and sign), "turn_end_zone": bool(turn_end_zone)}
+            accepted, rejected = filter_recovery_candidates(scored, all_flags, **gate_options)
+            recovery_rejections += [{"connecting_road": rid, "stage": "admission", **r} for r in rejected]
+            # An edge-only rejection may be repaired, but the derived candidate
+            # must again prove fidelity and all enabled smoothness constraints.
+            trim_names = {r["candidate"] for r in rejected if r["reasons"] == ["edge_residual"]}
+            for result in scored:
+                if result[0][0] not in trim_names:
+                    continue
+                try:
+                    trimmed = edge_trim(result[0])
+                    if trimmed is None:
+                        continue
+                    trim_score = score(trimmed)
+                    reasons = recovery_score_evidence(trim_score, turn_required=bool(monotone_turns and sign),
+                                                      turn_end_zone=bool(turn_end_zone), aligned_frame=aligned_frame)
+                    if reasons:
+                        recovery_rejections.append({"connecting_road": rid, "candidate": trimmed[0],
+                                                    "stage": "trim-evidence", "reasons": reasons})
+                        continue
+                    _, trim_flags = pick_from([trim_score])
+                    kept, dropped = filter_recovery_candidates([trim_score], trim_flags, **gate_options)
+                    accepted += kept
+                    recovery_rejections += [{"connecting_road": rid, "stage": "trim-admission", **r}
+                                            for r in dropped]
+                except candidate_errors as exc:
+                    failed(result[0][0] + ":edge-trim", exc)
+            if not accepted:
+                for child in list(cr):
+                    cr.remove(child)
+                for child in snapshot:
+                    cr.append(child)
+                cr.set("length", snapshot_length)
+                skipped.append({"connecting_road": rid, "reason": "recovery-guard: no admissible candidate"})
+                continue
+            scored = accepted
+            pick, flags = pick_from(scored)
+        else:
+            pick, flags = pick_from(scored)
+            if match_end_curvature and flags and flags.get(scored[pick][0][0], {}).get("edge_residual"):
+                # the picked candidate misses the edge bound at a mouth: its end-rate trim competes too
+                # Keep the legacy exception behaviour here: an unexpected trim
+                # failure must not silently admit the candidate it failed to fix.
+                trimmed = edge_trim(scored[pick][0])
+                if trimmed is not None:
+                    scored.append(score(trimmed))
+                    pick, flags = pick_from(scored)
         chosen, new_path, (new_pts, new_ss, new_hh), _, chosen_jump = scored[pick]
         name, prims, offset_pieces, centre_pieces, width_pieces, blend, shape, local = chosen
         length_new = float(sum(p[4] for p in prims))
@@ -1305,6 +1445,8 @@ def align_tree(root, via_centrelines=None, mouth_blend_kappa=None, kappa_bound_s
         if name.startswith("source-guided"):
             method = "source-guided:" + chosen[5]["method"]
         elif name.startswith("source-fit"):
+            method = name
+        elif method == "independent":
             method = name
         _write_planview(cr, prims)
         _write_lane_records(lanes, lane, offset_pieces, width_pieces)
@@ -1346,7 +1488,14 @@ def align_tree(root, via_centrelines=None, mouth_blend_kappa=None, kappa_bound_s
                                      if match_end_curvature else "not matched (G1 plus bounded jump)")}
         lane.append(etree.Element("userData", code=CODE, value=json.dumps(record, ensure_ascii=False)))
         rows.append({"connecting_road": rid, **record})
-    return {"schema": CODE, "rewritten": len(rows), "skipped": skipped, "rows": rows}
+    report = {"schema": CODE, "rewritten": len(rows), "skipped": skipped, "rows": rows}
+    if candidate_failures:
+        report["candidate_failures"] = candidate_failures
+    if recovery_rejections:
+        report["recovery_rejections"] = recovery_rejections
+    if recovery_checks:
+        report["recovery_checks"] = recovery_checks
+    return report
 
 
 def apply(xodr_in, xodr_out, manifest=None, mouth_blend_kappa=None, kappa_bound_scale=None, mouth_blend_pick=False,
