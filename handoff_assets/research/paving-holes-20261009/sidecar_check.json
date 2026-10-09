@@ -1,0 +1,20 @@
+{
+ "with_evidence": {
+  "paving_holes_gt1cm2": 2,
+  "paving_holes_resampled": 1,
+  "paving_holes_source_void": 1,
+  "paving_holes_counted": 0,
+  "paving_hole_counted_area_max_m2": 0.0,
+  "paving_source_void_area_m2": 9.740973902096112,
+  "paving_source_void_evidence": "bound"
+ },
+ "without_evidence": {
+  "paving_holes_gt1cm2": 2,
+  "paving_holes_resampled": 1,
+  "paving_holes_source_void": 0,
+  "paving_holes_counted": 1,
+  "paving_hole_counted_area_max_m2": 9.740973902096112,
+  "paving_source_void_area_m2": 0.0,
+  "paving_source_void_evidence": "none"
+ }
+}

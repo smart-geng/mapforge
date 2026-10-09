@@ -1,0 +1,930 @@
+{
+ "schema": "mapforge/research/paving-holes-policy-rescore/v1",
+ "policy_before": "0.8-draft",
+ "policy_after": "0.9-draft",
+ "rows": [
+  {
+   "case": "scoreboard/map-node3",
+   "pipeline": "map",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "paving_holes_gt1cm2_stored": 0,
+   "paving_holes_gt1cm2_recomputed": 0,
+   "paving_hole_area_max_grid_m2": 0.0,
+   "paving_holes_resampled": 0,
+   "paving_holes_source_void": 0,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 0.0,
+   "paving_source_void_evidence": "none"
+  },
+  {
+   "case": "scoreboard/shp-node3",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "paving_holes_gt1cm2_stored": 0,
+   "paving_holes_gt1cm2_recomputed": 0,
+   "paving_hole_area_max_grid_m2": 0.0,
+   "paving_holes_resampled": 0,
+   "paving_holes_source_void": 0,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 0.0,
+   "paving_source_void_evidence": "none"
+  },
+  {
+   "case": "scoreboard/map-node4",
+   "pipeline": "map",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "paving_holes_gt1cm2_stored": 0,
+   "paving_holes_gt1cm2_recomputed": 0,
+   "paving_hole_area_max_grid_m2": 0.0,
+   "paving_holes_resampled": 0,
+   "paving_holes_source_void": 0,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 0.0,
+   "paving_source_void_evidence": "none"
+  },
+  {
+   "case": "scoreboard/shp-node4",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "paving_holes_gt1cm2_stored": 0,
+   "paving_holes_gt1cm2_recomputed": 0,
+   "paving_hole_area_max_grid_m2": 0.0,
+   "paving_holes_resampled": 0,
+   "paving_holes_source_void": 0,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 0.0,
+   "paving_source_void_evidence": "none"
+  },
+  {
+   "case": "scoreboard/map-NODE5",
+   "pipeline": "map",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "paving_holes_gt1cm2_stored": 0,
+   "paving_holes_gt1cm2_recomputed": 0,
+   "paving_hole_area_max_grid_m2": 0.0,
+   "paving_holes_resampled": 0,
+   "paving_holes_source_void": 0,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 0.0,
+   "paving_source_void_evidence": "none"
+  },
+  {
+   "case": "scoreboard/shp-NODE5",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "paving_holes_gt1cm2_stored": 0,
+   "paving_holes_gt1cm2_recomputed": 0,
+   "paving_hole_area_max_grid_m2": 0.0,
+   "paving_holes_resampled": 0,
+   "paving_holes_source_void": 0,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 0.0,
+   "paving_source_void_evidence": "none"
+  },
+  {
+   "case": "scoreboard/map-node13",
+   "pipeline": "map",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "paving_holes_gt1cm2_stored": 0,
+   "paving_holes_gt1cm2_recomputed": 0,
+   "paving_hole_area_max_grid_m2": 0.0,
+   "paving_holes_resampled": 0,
+   "paving_holes_source_void": 0,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 0.0,
+   "paving_source_void_evidence": "none"
+  },
+  {
+   "case": "scoreboard/shp-node13",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "paving_holes_gt1cm2_stored": 0,
+   "paving_holes_gt1cm2_recomputed": 0,
+   "paving_hole_area_max_grid_m2": 0.0,
+   "paving_holes_resampled": 0,
+   "paving_holes_source_void": 0,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 0.0,
+   "paving_source_void_evidence": "none"
+  },
+  {
+   "case": "scoreboard/map-node16",
+   "pipeline": "map",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "paving_holes_gt1cm2_stored": 0,
+   "paving_holes_gt1cm2_recomputed": 0,
+   "paving_hole_area_max_grid_m2": 0.0,
+   "paving_holes_resampled": 0,
+   "paving_holes_source_void": 0,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 0.0,
+   "paving_source_void_evidence": "none"
+  },
+  {
+   "case": "scoreboard/shp-node16",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "paving_holes_gt1cm2_stored": 0,
+   "paving_holes_gt1cm2_recomputed": 0,
+   "paving_hole_area_max_grid_m2": 0.0,
+   "paving_holes_resampled": 0,
+   "paving_holes_source_void": 0,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 0.0,
+   "paving_source_void_evidence": "none"
+  },
+  {
+   "case": "scoreboard/map-node17",
+   "pipeline": "map",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "paving_holes_gt1cm2_stored": 0,
+   "paving_holes_gt1cm2_recomputed": 0,
+   "paving_hole_area_max_grid_m2": 0.0,
+   "paving_holes_resampled": 0,
+   "paving_holes_source_void": 0,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 0.0,
+   "paving_source_void_evidence": "none"
+  },
+  {
+   "case": "scoreboard/shp-node17",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "paving_holes_gt1cm2_stored": 0,
+   "paving_holes_gt1cm2_recomputed": 0,
+   "paving_hole_area_max_grid_m2": 0.0,
+   "paving_holes_resampled": 0,
+   "paving_holes_source_void": 0,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 0.0,
+   "paving_source_void_evidence": "none"
+  },
+  {
+   "case": "scoreboard/map-node18",
+   "pipeline": "map",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "paving_holes_gt1cm2_stored": 0,
+   "paving_holes_gt1cm2_recomputed": 0,
+   "paving_hole_area_max_grid_m2": 0.0,
+   "paving_holes_resampled": 0,
+   "paving_holes_source_void": 0,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 0.0,
+   "paving_source_void_evidence": "none"
+  },
+  {
+   "case": "scoreboard/shp-node18",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "paving_holes_gt1cm2_stored": 0,
+   "paving_holes_gt1cm2_recomputed": 0,
+   "paving_hole_area_max_grid_m2": 0.0,
+   "paving_holes_resampled": 0,
+   "paving_holes_source_void": 0,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 0.0,
+   "paving_source_void_evidence": "none"
+  },
+  {
+   "case": "generalize/2023041111160971268",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "paving_holes_gt1cm2_stored": 0,
+   "paving_holes_gt1cm2_recomputed": 0,
+   "paving_hole_area_max_grid_m2": 0.0,
+   "paving_holes_resampled": 0,
+   "paving_holes_source_void": 0,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 0.0,
+   "paving_source_void_evidence": "none"
+  },
+  {
+   "case": "generalize/2023061310244790027",
+   "pipeline": "shp",
+   "before": {
+    "T1": "FAIL",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "FAIL",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [
+     "esmini_pass",
+     "route_gap_max_m",
+     "road_interface_position_max_m",
+     "road_interface_heading_max_deg",
+     "edge_contact_position_max_m",
+     "edge_contact_heading_max_deg",
+     "g8_status"
+    ],
+    "T2": [
+     "lane_center_noconflict_max_m",
+     "lane_endpoint_lateral_max_m",
+     "boundary_inside_max_m",
+     "edge_contact_position_max_m",
+     "edge_contact_heading_max_deg",
+     "road_interface_curvature_max_per_m",
+     "edge_contact_curvature_max_per_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [
+     "esmini_pass",
+     "route_gap_max_m",
+     "road_interface_position_max_m",
+     "road_interface_heading_max_deg",
+     "edge_contact_position_max_m",
+     "edge_contact_heading_max_deg",
+     "g8_status"
+    ],
+    "T2": [
+     "lane_center_noconflict_max_m",
+     "lane_endpoint_lateral_max_m",
+     "boundary_inside_max_m",
+     "edge_contact_position_max_m",
+     "edge_contact_heading_max_deg",
+     "road_interface_curvature_max_per_m",
+     "edge_contact_curvature_max_per_m"
+    ]
+   },
+   "paving_holes_gt1cm2_stored": 0,
+   "paving_holes_gt1cm2_recomputed": 0,
+   "paving_hole_area_max_grid_m2": 0.0,
+   "paving_holes_resampled": 0,
+   "paving_holes_source_void": 0,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 0.0,
+   "paving_source_void_evidence": "none"
+  },
+  {
+   "case": "generalize/2023062713394062899",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noconflict_p95_m",
+     "lane_center_noconflict_max_m",
+     "lane_endpoint_lateral_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m",
+     "lane_join_curvature_jump_max_per_m",
+     "edge_contact_curvature_max_per_m",
+     "conn_edge_join_curvature_jump_max_per_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noconflict_p95_m",
+     "lane_center_noconflict_max_m",
+     "lane_endpoint_lateral_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m",
+     "lane_join_curvature_jump_max_per_m",
+     "edge_contact_curvature_max_per_m",
+     "conn_edge_join_curvature_jump_max_per_m"
+    ]
+   },
+   "paving_holes_gt1cm2_stored": 0,
+   "paving_holes_gt1cm2_recomputed": 0,
+   "paving_hole_area_max_grid_m2": 0.0,
+   "paving_holes_resampled": 0,
+   "paving_holes_source_void": 0,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 0.0,
+   "paving_source_void_evidence": "none"
+  },
+  {
+   "case": "generalize/2023063015350832057",
+   "pipeline": "shp",
+   "generated": false,
+   "before": null,
+   "after": null,
+   "changed": false
+  },
+  {
+   "case": "generalize/2023070710412621654",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noconflict_p95_m",
+     "lane_center_noconflict_max_m",
+     "lane_endpoint_lateral_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m",
+     "lane_join_curvature_jump_max_per_m",
+     "edge_contact_curvature_max_per_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noconflict_p95_m",
+     "lane_center_noconflict_max_m",
+     "lane_endpoint_lateral_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m",
+     "lane_join_curvature_jump_max_per_m",
+     "edge_contact_curvature_max_per_m"
+    ]
+   },
+   "paving_holes_gt1cm2_stored": 0,
+   "paving_holes_gt1cm2_recomputed": 0,
+   "paving_hole_area_max_grid_m2": 0.0,
+   "paving_holes_resampled": 0,
+   "paving_holes_source_void": 0,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 0.0,
+   "paving_source_void_evidence": "none"
+  },
+  {
+   "case": "generalize/2023080118313036830",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noconflict_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noconflict_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m"
+    ]
+   },
+   "paving_holes_gt1cm2_stored": 0,
+   "paving_holes_gt1cm2_recomputed": 0,
+   "paving_hole_area_max_grid_m2": 0.0,
+   "paving_holes_resampled": 0,
+   "paving_holes_source_void": 0,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 0.0,
+   "paving_source_void_evidence": "none"
+  },
+  {
+   "case": "generalize/2023041216222042093",
+   "pipeline": "shp",
+   "before": {
+    "T1": "FAIL",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "FAIL",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [
+     "g8_status"
+    ],
+    "T2": [
+     "lane_center_noconflict_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m",
+     "edge_contact_curvature_max_per_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [
+     "g8_status"
+    ],
+    "T2": [
+     "lane_center_noconflict_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m",
+     "edge_contact_curvature_max_per_m"
+    ]
+   },
+   "paving_holes_gt1cm2_stored": 0,
+   "paving_holes_gt1cm2_recomputed": 0,
+   "paving_hole_area_max_grid_m2": 0.0,
+   "paving_holes_resampled": 0,
+   "paving_holes_source_void": 0,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 0.0,
+   "paving_source_void_evidence": "none"
+  },
+  {
+   "case": "generalize/2023062110304177600",
+   "pipeline": "shp",
+   "generated": false,
+   "before": null,
+   "after": null,
+   "changed": false
+  },
+  {
+   "case": "generalize/2023070118182048481",
+   "pipeline": "shp",
+   "generated": false,
+   "before": null,
+   "after": null,
+   "changed": false
+  },
+  {
+   "case": "generalize/2023080810023203229",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noconflict_max_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noconflict_max_m"
+    ]
+   },
+   "paving_holes_gt1cm2_stored": 0,
+   "paving_holes_gt1cm2_recomputed": 0,
+   "paving_hole_area_max_grid_m2": 0.0,
+   "paving_holes_resampled": 0,
+   "paving_holes_source_void": 0,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 0.0,
+   "paving_source_void_evidence": "none"
+  },
+  {
+   "case": "generalize/2023062913464138453",
+   "pipeline": "shp",
+   "generated": false,
+   "before": null,
+   "after": null,
+   "changed": false
+  },
+  {
+   "case": "generalize/2023072914272536839",
+   "pipeline": "shp",
+   "generated": false,
+   "before": null,
+   "after": null,
+   "changed": false
+  },
+  {
+   "case": "generalize/2023041810414040830",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "paving_holes_gt1cm2_stored": 0,
+   "paving_holes_gt1cm2_recomputed": 0,
+   "paving_hole_area_max_grid_m2": 0.0,
+   "paving_holes_resampled": 0,
+   "paving_holes_source_void": 0,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 0.0,
+   "paving_source_void_evidence": "none"
+  },
+  {
+   "case": "generalize/2023070710324132429",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noconflict_p95_m",
+     "lane_center_noconflict_max_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noconflict_p95_m",
+     "lane_center_noconflict_max_m"
+    ]
+   },
+   "paving_holes_gt1cm2_stored": 0,
+   "paving_holes_gt1cm2_recomputed": 0,
+   "paving_hole_area_max_grid_m2": 0.0,
+   "paving_holes_resampled": 0,
+   "paving_holes_source_void": 0,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 0.0,
+   "paving_source_void_evidence": "none"
+  },
+  {
+   "case": "generalize/2023081110220126408",
+   "pipeline": "shp",
+   "generated": false,
+   "before": null,
+   "after": null,
+   "changed": false
+  },
+  {
+   "case": "generalize/2023071109582525264",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": [
+     "lane_endpoint_lateral_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m",
+     "edge_contact_curvature_max_per_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": [
+     "lane_endpoint_lateral_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m",
+     "edge_contact_curvature_max_per_m"
+    ]
+   },
+   "paving_holes_gt1cm2_stored": 0,
+   "paving_holes_gt1cm2_recomputed": 0,
+   "paving_hole_area_max_grid_m2": 0.0,
+   "paving_holes_resampled": 0,
+   "paving_holes_source_void": 0,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 0.0,
+   "paving_source_void_evidence": "none"
+  },
+  {
+   "case": "0621/candidate",
+   "pipeline": "shp",
+   "before": {
+    "T1": "FAIL",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "FAIL",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [
+     "paving_holes_gt1cm2",
+     "g8_status"
+    ],
+    "T2": [
+     "boundary_inside_p95_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [
+     "g8_status"
+    ],
+    "T2": [
+     "boundary_inside_p95_m"
+    ]
+   },
+   "paving_holes_gt1cm2_stored": 2,
+   "paving_holes_gt1cm2_recomputed": 2,
+   "paving_hole_area_max_grid_m2": 9.744201805084366,
+   "paving_holes_resampled": 1,
+   "paving_holes_source_void": 1,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 9.740973902096112,
+   "paving_source_void_evidence": "bound"
+  }
+ ],
+ "tier_changes": [],
+ "tiers_reproduced_with_0_8": true,
+ "geometry_changed": false,
+ "evidence_0621": {
+  "path": "out/workbench/wb11-source-tracks-20261009-v2/surface-evidence.json",
+  "original_holes_sha256": "ff284213e625fdaa70a4ca29a89669b21d2af21503a0e53d2b2ab7957d4f9cfd"
+ },
+ "note": "stored Windows metrics (esmini included) plus Linux-computed tight-turn and paving-hole metrics"
+}
