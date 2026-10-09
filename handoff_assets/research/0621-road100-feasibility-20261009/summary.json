@@ -1,0 +1,2279 @@
+{
+  "schema": "mapforge/research/0621-road100-feasibility/v1",
+  "rows": [
+    {
+      "setting": {
+        "name": "control-baseline"
+      },
+      "fit_method": null,
+      "fit_calls": [],
+      "road100_shape": {
+        "primitives": 9,
+        "min_primitive_m": 3.20777268810709,
+        "length_m": 44.51630358859068,
+        "kappa_max_per_m": 0.248907162465818,
+        "kappa_rate_max_per_m2": 0.0672569684525892,
+        "lateral_accel_at_source_speed_mps2": 30.729279316767656,
+        "lateral_jerk_proxy_at_source_speed_mps3": 92.25921598434732
+      },
+      "road100_g8": {
+        "p95_m": 0.2939857457642104,
+        "max_m": 0.31591197285276956
+      },
+      "samples": {
+        "pool_count": 668,
+        "pool_above_015": 52,
+        "pool_p95_m": 0.16092286128015673,
+        "road100_count": 46,
+        "road100_above_015": 32,
+        "road100_p95_m": 0.2939857457642104,
+        "road100_max_m": 0.31591197285276956
+      },
+      "whole_map": {
+        "lane_center_noflare_p95_m": 0.16092286128015673,
+        "lane_center_noflare_max_m": 0.316893725130808,
+        "boundary_inside_p95_m": 0.11800138723332713,
+        "boundary_inside_max_m": 0.24259013156894985,
+        "lane_endpoint_lateral_max_m": 0.0777587621327103,
+        "conn_seg_min_m": 3.00000141482515,
+        "primitives": 84,
+        "ref_kappa_step_max_per_m": 0.0,
+        "lane_join_curvature_jump_max_per_m": 0.0002272869446440952,
+        "road_interface_curvature_max_per_m": 3.394028205591605e-13,
+        "edge_contact_curvature_max_per_m": 0.000230179919026185,
+        "conn_edge_join_curvature_jump_max_per_m": 0.0008950424825539816,
+        "connector_width_bulge_max_m": 0.05599069163005499,
+        "outer_curvature_flips_per_100m_max": 0.0,
+        "paving_holes_gt1cm2": 2,
+        "g8_status": "UNAVAILABLE"
+      },
+      "t2_own_failures": [
+        "lane_center_noflare_p95_m",
+        "boundary_inside_p95_m"
+      ],
+      "t2_own_unavailable": [],
+      "g11_status": "FAIL",
+      "xodr_sha256": "9aed2e47be1fc04deee6220d7f4bccdcc02004f65e31c99c1d7e3888aa96c224",
+      "elapsed_s": 9.9,
+      "edge_joins": null
+    },
+    {
+      "setting": {
+        "name": "control-production"
+      },
+      "fit_method": "source-fit-6m-ends",
+      "fit_calls": [],
+      "road100_shape": {
+        "primitives": 5,
+        "min_primitive_m": 3.75984864831204,
+        "length_m": 44.202054708685694,
+        "kappa_max_per_m": 0.249999993062116,
+        "kappa_rate_max_per_m2": 0.043795053778268304,
+        "lateral_accel_at_source_speed_mps2": 30.864196674335307,
+        "lateral_jerk_proxy_at_source_speed_mps3": 60.075519586101926
+      },
+      "road100_g8": {
+        "p95_m": 0.6045981916477008,
+        "max_m": 0.6434612976893238
+      },
+      "samples": {
+        "pool_count": 668,
+        "pool_above_015": 52,
+        "pool_p95_m": 0.2100362580216702,
+        "road100_count": 46,
+        "road100_above_015": 32,
+        "road100_p95_m": 0.6045981916477008,
+        "road100_max_m": 0.6434612976893238
+      },
+      "whole_map": {
+        "lane_center_noflare_p95_m": 0.2100362580216702,
+        "lane_center_noflare_max_m": 0.6434612976893238,
+        "boundary_inside_p95_m": 0.11800138723332713,
+        "boundary_inside_max_m": 0.24259013156894985,
+        "lane_endpoint_lateral_max_m": 0.0777587621327103,
+        "conn_seg_min_m": 3.00000141482515,
+        "primitives": 80,
+        "ref_kappa_step_max_per_m": 0.0,
+        "lane_join_curvature_jump_max_per_m": 0.0002272869446440952,
+        "road_interface_curvature_max_per_m": 3.394028205591605e-13,
+        "edge_contact_curvature_max_per_m": 0.000230179919026185,
+        "conn_edge_join_curvature_jump_max_per_m": 0.0008950424825539816,
+        "connector_width_bulge_max_m": 0.05599069163005499,
+        "outer_curvature_flips_per_100m_max": 0.0,
+        "paving_holes_gt1cm2": 2,
+        "g8_status": "UNAVAILABLE"
+      },
+      "t2_own_failures": [
+        "lane_center_noflare_p95_m",
+        "lane_center_noflare_max_m",
+        "boundary_inside_p95_m"
+      ],
+      "t2_own_unavailable": [],
+      "g11_status": "FAIL",
+      "xodr_sha256": "ddbc9b0a2f634a4e071fb396501aeeb89f039ae4d1a3cc60eb6455f1ce10c46c",
+      "elapsed_s": 35.1,
+      "edge_joins": {
+        "road": "100",
+        "joins": 1,
+        "edge_jump_max_per_m": [
+          0.002349,
+          0.000895
+        ],
+        "width_change_max_m": 0.0025,
+        "centre_error_m": 2.8546054409162025e-12,
+        "mouth_change": 5.573319583618286e-13
+      }
+    },
+    {
+      "setting": {
+        "name": "g11a-seg9-k0.25",
+        "group": "g11a",
+        "seg_m": 9.0,
+        "min_seg": 3.0,
+        "kappa_max": 0.25
+      },
+      "fit_method": "structure-preserving",
+      "fit_calls": [
+        {
+          "turn_sign": 1,
+          "end_zone": [
+            10.0,
+            0.02
+          ],
+          "source_points": 181,
+          "fit_info": {
+            "segments": 5,
+            "merged": 0,
+            "seg_m": 9.0,
+            "min_segment_m": 6.4000892839622905,
+            "kappa_max": 0.24999999961607633,
+            "end_rate_mismatch": 0.0017835936977663982,
+            "rate_jump_max": 0.07068088613974037,
+            "p95_m": 0.6490239701405063,
+            "max_m": 0.8661447306293791,
+            "turn_sign": 1,
+            "end_zone": [
+              10.0,
+              0.02
+            ]
+          }
+        }
+      ],
+      "road100_shape": {
+        "primitives": 9,
+        "min_primitive_m": 3.20777269383972,
+        "length_m": 44.32604994428519,
+        "kappa_max_per_m": 0.311133953082272,
+        "kappa_rate_max_per_m2": 0.09855247963466404,
+        "lateral_accel_at_source_speed_mps2": 38.4115991459595,
+        "lateral_jerk_proxy_at_source_speed_mps3": 135.18858660447742
+      },
+      "road100_g8": {
+        "p95_m": 0.5819112777818009,
+        "max_m": 0.6529654679791664
+      },
+      "samples": {
+        "pool_count": 668,
+        "pool_above_015": 61,
+        "pool_p95_m": 0.3279282331788503,
+        "road100_count": 46,
+        "road100_above_015": 41,
+        "road100_p95_m": 0.5819112777818009,
+        "road100_max_m": 0.6529654679791664
+      },
+      "whole_map": {
+        "lane_center_noflare_p95_m": 0.3279282331788503,
+        "lane_center_noflare_max_m": 0.6529654679791664,
+        "boundary_inside_p95_m": 0.11800138723332713,
+        "boundary_inside_max_m": 0.24259013156894985,
+        "lane_endpoint_lateral_max_m": 0.0777587621327103,
+        "conn_seg_min_m": 3.00000141482515,
+        "primitives": 84,
+        "ref_kappa_step_max_per_m": 0.0,
+        "lane_join_curvature_jump_max_per_m": 0.0002272869446440952,
+        "road_interface_curvature_max_per_m": 3.394028205591605e-13,
+        "edge_contact_curvature_max_per_m": 0.000230179919026185,
+        "conn_edge_join_curvature_jump_max_per_m": 0.0008950424825539816,
+        "connector_width_bulge_max_m": 0.05599069163005499,
+        "outer_curvature_flips_per_100m_max": 0.0,
+        "paving_holes_gt1cm2": 2,
+        "g8_status": "UNAVAILABLE"
+      },
+      "t2_own_failures": [
+        "lane_center_noflare_p95_m",
+        "lane_center_noflare_max_m",
+        "boundary_inside_p95_m"
+      ],
+      "t2_own_unavailable": [],
+      "g11_status": "FAIL",
+      "xodr_sha256": "9f645716f9d30bd2bdc5802b0840ff134f8b3e3b9d4c2e9a79b4b1ddefe76adf",
+      "elapsed_s": 23.8,
+      "edge_joins": {
+        "road": "100",
+        "joins": 2,
+        "edge_jump_max_per_m": [
+          0.006609,
+          0.000877
+        ],
+        "width_change_max_m": 0.0042,
+        "centre_error_m": 1.8487433806058107e-12,
+        "mouth_change": 7.416289804496046e-14
+      }
+    },
+    {
+      "setting": {
+        "name": "g11a-seg9-k0.40",
+        "group": "g11a",
+        "seg_m": 9.0,
+        "min_seg": 3.0,
+        "kappa_max": 0.4
+      },
+      "fit_method": "structure-preserving",
+      "fit_calls": [
+        {
+          "turn_sign": 1,
+          "end_zone": [
+            10.0,
+            0.02
+          ],
+          "source_points": 181,
+          "fit_info": {
+            "segments": 5,
+            "merged": 0,
+            "seg_m": 9.0,
+            "min_segment_m": 5.841234720998833,
+            "kappa_max": 0.297768281373585,
+            "end_rate_mismatch": 0.0016247461064466384,
+            "rate_jump_max": 0.0984403852646718,
+            "p95_m": 0.4160266183897392,
+            "max_m": 0.5785914189212755,
+            "turn_sign": 1,
+            "end_zone": [
+              10.0,
+              0.02
+            ]
+          }
+        }
+      ],
+      "road100_shape": {
+        "primitives": 9,
+        "min_primitive_m": 3.20777269383972,
+        "length_m": 44.32604994428519,
+        "kappa_max_per_m": 0.311133953082272,
+        "kappa_rate_max_per_m2": 0.09855247963466404,
+        "lateral_accel_at_source_speed_mps2": 38.4115991459595,
+        "lateral_jerk_proxy_at_source_speed_mps3": 135.18858660447742
+      },
+      "road100_g8": {
+        "p95_m": 0.5819112777818009,
+        "max_m": 0.6529654679791664
+      },
+      "samples": {
+        "pool_count": 668,
+        "pool_above_015": 61,
+        "pool_p95_m": 0.3279282331788503,
+        "road100_count": 46,
+        "road100_above_015": 41,
+        "road100_p95_m": 0.5819112777818009,
+        "road100_max_m": 0.6529654679791664
+      },
+      "whole_map": {
+        "lane_center_noflare_p95_m": 0.3279282331788503,
+        "lane_center_noflare_max_m": 0.6529654679791664,
+        "boundary_inside_p95_m": 0.11800138723332713,
+        "boundary_inside_max_m": 0.24259013156894985,
+        "lane_endpoint_lateral_max_m": 0.0777587621327103,
+        "conn_seg_min_m": 3.00000141482515,
+        "primitives": 84,
+        "ref_kappa_step_max_per_m": 0.0,
+        "lane_join_curvature_jump_max_per_m": 0.0002272869446440952,
+        "road_interface_curvature_max_per_m": 3.394028205591605e-13,
+        "edge_contact_curvature_max_per_m": 0.000230179919026185,
+        "conn_edge_join_curvature_jump_max_per_m": 0.0008950424825539816,
+        "connector_width_bulge_max_m": 0.05599069163005499,
+        "outer_curvature_flips_per_100m_max": 0.0,
+        "paving_holes_gt1cm2": 2,
+        "g8_status": "UNAVAILABLE"
+      },
+      "t2_own_failures": [
+        "lane_center_noflare_p95_m",
+        "lane_center_noflare_max_m",
+        "boundary_inside_p95_m"
+      ],
+      "t2_own_unavailable": [],
+      "g11_status": "FAIL",
+      "xodr_sha256": "195f15162dc2b8188a5ac17c70c4a7080d766a99cda4edb9ea60647f9e1c59ae",
+      "elapsed_s": 23.8,
+      "edge_joins": {
+        "road": "100",
+        "joins": 2,
+        "edge_jump_max_per_m": [
+          0.006609,
+          0.000877
+        ],
+        "width_change_max_m": 0.0042,
+        "centre_error_m": 1.8487433806058107e-12,
+        "mouth_change": 7.416289804496046e-14
+      }
+    },
+    {
+      "setting": {
+        "name": "g11a-seg9-k0.60",
+        "group": "g11a",
+        "seg_m": 9.0,
+        "min_seg": 3.0,
+        "kappa_max": 0.6
+      },
+      "fit_method": "structure-preserving",
+      "fit_calls": [
+        {
+          "turn_sign": 1,
+          "end_zone": [
+            10.0,
+            0.02
+          ],
+          "source_points": 181,
+          "fit_info": {
+            "segments": 5,
+            "merged": 0,
+            "seg_m": 9.0,
+            "min_segment_m": 5.931892605442275,
+            "kappa_max": 0.29961869889664833,
+            "end_rate_mismatch": 0.0016257544521878218,
+            "rate_jump_max": 0.09932324422811069,
+            "p95_m": 0.41292407034991874,
+            "max_m": 0.5735009090710078,
+            "turn_sign": 1,
+            "end_zone": [
+              10.0,
+              0.02
+            ]
+          }
+        }
+      ],
+      "road100_shape": {
+        "primitives": 9,
+        "min_primitive_m": 3.20777269383972,
+        "length_m": 44.32604994428519,
+        "kappa_max_per_m": 0.311133953082272,
+        "kappa_rate_max_per_m2": 0.09855247963466404,
+        "lateral_accel_at_source_speed_mps2": 38.4115991459595,
+        "lateral_jerk_proxy_at_source_speed_mps3": 135.18858660447742
+      },
+      "road100_g8": {
+        "p95_m": 0.5819112777818009,
+        "max_m": 0.6529654679791664
+      },
+      "samples": {
+        "pool_count": 668,
+        "pool_above_015": 61,
+        "pool_p95_m": 0.3279282331788503,
+        "road100_count": 46,
+        "road100_above_015": 41,
+        "road100_p95_m": 0.5819112777818009,
+        "road100_max_m": 0.6529654679791664
+      },
+      "whole_map": {
+        "lane_center_noflare_p95_m": 0.3279282331788503,
+        "lane_center_noflare_max_m": 0.6529654679791664,
+        "boundary_inside_p95_m": 0.11800138723332713,
+        "boundary_inside_max_m": 0.24259013156894985,
+        "lane_endpoint_lateral_max_m": 0.0777587621327103,
+        "conn_seg_min_m": 3.00000141482515,
+        "primitives": 84,
+        "ref_kappa_step_max_per_m": 0.0,
+        "lane_join_curvature_jump_max_per_m": 0.0002272869446440952,
+        "road_interface_curvature_max_per_m": 3.394028205591605e-13,
+        "edge_contact_curvature_max_per_m": 0.000230179919026185,
+        "conn_edge_join_curvature_jump_max_per_m": 0.0008950424825539816,
+        "connector_width_bulge_max_m": 0.05599069163005499,
+        "outer_curvature_flips_per_100m_max": 0.0,
+        "paving_holes_gt1cm2": 2,
+        "g8_status": "UNAVAILABLE"
+      },
+      "t2_own_failures": [
+        "lane_center_noflare_p95_m",
+        "lane_center_noflare_max_m",
+        "boundary_inside_p95_m"
+      ],
+      "t2_own_unavailable": [],
+      "g11_status": "FAIL",
+      "xodr_sha256": "66350536064636756beeb7e2b91de9afd3389fde1e2358de2185c0b30a2d2ab5",
+      "elapsed_s": 23.5,
+      "edge_joins": {
+        "road": "100",
+        "joins": 2,
+        "edge_jump_max_per_m": [
+          0.006609,
+          0.000877
+        ],
+        "width_change_max_m": 0.0042,
+        "centre_error_m": 1.8487433806058107e-12,
+        "mouth_change": 7.416289804496046e-14
+      }
+    },
+    {
+      "setting": {
+        "name": "g11a-seg11-k0.25",
+        "group": "g11a",
+        "seg_m": 11.0,
+        "min_seg": 3.0,
+        "kappa_max": 0.25
+      },
+      "fit_method": "structure-preserving",
+      "fit_calls": [
+        {
+          "turn_sign": 1,
+          "end_zone": [
+            10.0,
+            0.02
+          ],
+          "source_points": 181,
+          "fit_info": {
+            "segments": 4,
+            "merged": 0,
+            "seg_m": 11.0,
+            "min_segment_m": 4.654334784001376,
+            "kappa_max": 0.24999999848314006,
+            "end_rate_mismatch": 0.00035075074048411764,
+            "rate_jump_max": 0.08113308315640005,
+            "p95_m": 1.0534803549816834,
+            "max_m": 1.2668438247501475,
+            "turn_sign": 1,
+            "end_zone": [
+              10.0,
+              0.02
+            ]
+          }
+        }
+      ],
+      "road100_shape": {
+        "primitives": 9,
+        "min_primitive_m": 3.20777269383972,
+        "length_m": 44.32604994428519,
+        "kappa_max_per_m": 0.311133953082272,
+        "kappa_rate_max_per_m2": 0.09855247963466404,
+        "lateral_accel_at_source_speed_mps2": 38.4115991459595,
+        "lateral_jerk_proxy_at_source_speed_mps3": 135.18858660447742
+      },
+      "road100_g8": {
+        "p95_m": 0.5819112777818009,
+        "max_m": 0.6529654679791664
+      },
+      "samples": {
+        "pool_count": 668,
+        "pool_above_015": 61,
+        "pool_p95_m": 0.3279282331788503,
+        "road100_count": 46,
+        "road100_above_015": 41,
+        "road100_p95_m": 0.5819112777818009,
+        "road100_max_m": 0.6529654679791664
+      },
+      "whole_map": {
+        "lane_center_noflare_p95_m": 0.3279282331788503,
+        "lane_center_noflare_max_m": 0.6529654679791664,
+        "boundary_inside_p95_m": 0.11800138723332713,
+        "boundary_inside_max_m": 0.24259013156894985,
+        "lane_endpoint_lateral_max_m": 0.0777587621327103,
+        "conn_seg_min_m": 3.00000141482515,
+        "primitives": 84,
+        "ref_kappa_step_max_per_m": 0.0,
+        "lane_join_curvature_jump_max_per_m": 0.0002272869446440952,
+        "road_interface_curvature_max_per_m": 3.394028205591605e-13,
+        "edge_contact_curvature_max_per_m": 0.000230179919026185,
+        "conn_edge_join_curvature_jump_max_per_m": 0.0008950424825539816,
+        "connector_width_bulge_max_m": 0.05599069163005499,
+        "outer_curvature_flips_per_100m_max": 0.0,
+        "paving_holes_gt1cm2": 2,
+        "g8_status": "UNAVAILABLE"
+      },
+      "t2_own_failures": [
+        "lane_center_noflare_p95_m",
+        "lane_center_noflare_max_m",
+        "boundary_inside_p95_m"
+      ],
+      "t2_own_unavailable": [],
+      "g11_status": "FAIL",
+      "xodr_sha256": "c90c4e4a8707b6733e4bd3537526acedea4b8c5f39e653eedbd84bfda00bee11",
+      "elapsed_s": 23.6,
+      "edge_joins": {
+        "road": "100",
+        "joins": 2,
+        "edge_jump_max_per_m": [
+          0.006609,
+          0.000877
+        ],
+        "width_change_max_m": 0.0042,
+        "centre_error_m": 1.8487433806058107e-12,
+        "mouth_change": 7.416289804496046e-14
+      }
+    },
+    {
+      "setting": {
+        "name": "g11a-seg11-k0.40",
+        "group": "g11a",
+        "seg_m": 11.0,
+        "min_seg": 3.0,
+        "kappa_max": 0.4
+      },
+      "fit_method": "structure-preserving",
+      "fit_calls": [
+        {
+          "turn_sign": 1,
+          "end_zone": [
+            10.0,
+            0.02
+          ],
+          "source_points": 181,
+          "fit_info": {
+            "segments": 4,
+            "merged": 0,
+            "seg_m": 11.0,
+            "min_segment_m": 4.211786672981045,
+            "kappa_max": 0.3110880691792234,
+            "end_rate_mismatch": 0.00040606457741903276,
+            "rate_jump_max": 0.12059580684266832,
+            "p95_m": 0.8558621027086738,
+            "max_m": 1.0166985312272798,
+            "turn_sign": 1,
+            "end_zone": [
+              10.0,
+              0.02
+            ]
+          }
+        }
+      ],
+      "road100_shape": {
+        "primitives": 9,
+        "min_primitive_m": 3.20777269383972,
+        "length_m": 44.32604994428519,
+        "kappa_max_per_m": 0.311133953082272,
+        "kappa_rate_max_per_m2": 0.09855247963466404,
+        "lateral_accel_at_source_speed_mps2": 38.4115991459595,
+        "lateral_jerk_proxy_at_source_speed_mps3": 135.18858660447742
+      },
+      "road100_g8": {
+        "p95_m": 0.5819112777818009,
+        "max_m": 0.6529654679791664
+      },
+      "samples": {
+        "pool_count": 668,
+        "pool_above_015": 61,
+        "pool_p95_m": 0.3279282331788503,
+        "road100_count": 46,
+        "road100_above_015": 41,
+        "road100_p95_m": 0.5819112777818009,
+        "road100_max_m": 0.6529654679791664
+      },
+      "whole_map": {
+        "lane_center_noflare_p95_m": 0.3279282331788503,
+        "lane_center_noflare_max_m": 0.6529654679791664,
+        "boundary_inside_p95_m": 0.11800138723332713,
+        "boundary_inside_max_m": 0.24259013156894985,
+        "lane_endpoint_lateral_max_m": 0.0777587621327103,
+        "conn_seg_min_m": 3.00000141482515,
+        "primitives": 84,
+        "ref_kappa_step_max_per_m": 0.0,
+        "lane_join_curvature_jump_max_per_m": 0.0002272869446440952,
+        "road_interface_curvature_max_per_m": 3.394028205591605e-13,
+        "edge_contact_curvature_max_per_m": 0.000230179919026185,
+        "conn_edge_join_curvature_jump_max_per_m": 0.0008950424825539816,
+        "connector_width_bulge_max_m": 0.05599069163005499,
+        "outer_curvature_flips_per_100m_max": 0.0,
+        "paving_holes_gt1cm2": 2,
+        "g8_status": "UNAVAILABLE"
+      },
+      "t2_own_failures": [
+        "lane_center_noflare_p95_m",
+        "lane_center_noflare_max_m",
+        "boundary_inside_p95_m"
+      ],
+      "t2_own_unavailable": [],
+      "g11_status": "FAIL",
+      "xodr_sha256": "3561fcc2a97b94e09d6ca4a0b372ac1125db62d07c3b046112a87c12ccd6e116",
+      "elapsed_s": 24.0,
+      "edge_joins": {
+        "road": "100",
+        "joins": 2,
+        "edge_jump_max_per_m": [
+          0.006609,
+          0.000877
+        ],
+        "width_change_max_m": 0.0042,
+        "centre_error_m": 1.8487433806058107e-12,
+        "mouth_change": 7.416289804496046e-14
+      }
+    },
+    {
+      "setting": {
+        "name": "g11a-seg11-k0.60",
+        "group": "g11a",
+        "seg_m": 11.0,
+        "min_seg": 3.0,
+        "kappa_max": 0.6
+      },
+      "fit_method": "structure-preserving",
+      "fit_calls": [
+        {
+          "turn_sign": 1,
+          "end_zone": [
+            10.0,
+            0.02
+          ],
+          "source_points": 181,
+          "fit_info": {
+            "segments": 4,
+            "merged": 0,
+            "seg_m": 11.0,
+            "min_segment_m": 4.244095845247713,
+            "kappa_max": 0.3228562726138855,
+            "end_rate_mismatch": 0.0004419218124757431,
+            "rate_jump_max": 0.12822169396363078,
+            "p95_m": 0.8398320131026088,
+            "max_m": 0.9911144338034051,
+            "turn_sign": 1,
+            "end_zone": [
+              10.0,
+              0.02
+            ]
+          }
+        }
+      ],
+      "road100_shape": {
+        "primitives": 9,
+        "min_primitive_m": 3.20777269383972,
+        "length_m": 44.32604994428519,
+        "kappa_max_per_m": 0.311133953082272,
+        "kappa_rate_max_per_m2": 0.09855247963466404,
+        "lateral_accel_at_source_speed_mps2": 38.4115991459595,
+        "lateral_jerk_proxy_at_source_speed_mps3": 135.18858660447742
+      },
+      "road100_g8": {
+        "p95_m": 0.5819112777818009,
+        "max_m": 0.6529654679791664
+      },
+      "samples": {
+        "pool_count": 668,
+        "pool_above_015": 61,
+        "pool_p95_m": 0.3279282331788503,
+        "road100_count": 46,
+        "road100_above_015": 41,
+        "road100_p95_m": 0.5819112777818009,
+        "road100_max_m": 0.6529654679791664
+      },
+      "whole_map": {
+        "lane_center_noflare_p95_m": 0.3279282331788503,
+        "lane_center_noflare_max_m": 0.6529654679791664,
+        "boundary_inside_p95_m": 0.11800138723332713,
+        "boundary_inside_max_m": 0.24259013156894985,
+        "lane_endpoint_lateral_max_m": 0.0777587621327103,
+        "conn_seg_min_m": 3.00000141482515,
+        "primitives": 84,
+        "ref_kappa_step_max_per_m": 0.0,
+        "lane_join_curvature_jump_max_per_m": 0.0002272869446440952,
+        "road_interface_curvature_max_per_m": 3.394028205591605e-13,
+        "edge_contact_curvature_max_per_m": 0.000230179919026185,
+        "conn_edge_join_curvature_jump_max_per_m": 0.0008950424825539816,
+        "connector_width_bulge_max_m": 0.05599069163005499,
+        "outer_curvature_flips_per_100m_max": 0.0,
+        "paving_holes_gt1cm2": 2,
+        "g8_status": "UNAVAILABLE"
+      },
+      "t2_own_failures": [
+        "lane_center_noflare_p95_m",
+        "lane_center_noflare_max_m",
+        "boundary_inside_p95_m"
+      ],
+      "t2_own_unavailable": [],
+      "g11_status": "FAIL",
+      "xodr_sha256": "60fb536cda4b5f1cc59165c50f77ca13d310b56b56010b18bd88ceff2ec3110d",
+      "elapsed_s": 23.5,
+      "edge_joins": {
+        "road": "100",
+        "joins": 2,
+        "edge_jump_max_per_m": [
+          0.006609,
+          0.000877
+        ],
+        "width_change_max_m": 0.0042,
+        "centre_error_m": 1.8487433806058107e-12,
+        "mouth_change": 7.416289804496046e-14
+      }
+    },
+    {
+      "setting": {
+        "name": "g11a-seg15-k0.25",
+        "group": "g11a",
+        "seg_m": 15.0,
+        "min_seg": 3.0,
+        "kappa_max": 0.25
+      },
+      "fit_method": "structure-preserving",
+      "fit_calls": [
+        {
+          "turn_sign": 1,
+          "end_zone": [
+            10.0,
+            0.02
+          ],
+          "source_points": 181,
+          "fit_info": {
+            "segments": 3,
+            "merged": 0,
+            "seg_m": 15.0,
+            "min_segment_m": 3.0166119127121145,
+            "kappa_max": 0.1314160135776979,
+            "end_rate_mismatch": 0.005480890024794406,
+            "rate_jump_max": 0.05064453475679262,
+            "p95_m": 4.229483500136217,
+            "max_m": 4.528443735094158,
+            "turn_sign": 1,
+            "end_zone": [
+              10.0,
+              0.02
+            ]
+          }
+        }
+      ],
+      "road100_shape": {
+        "primitives": 9,
+        "min_primitive_m": 3.20777269383972,
+        "length_m": 44.32604994428519,
+        "kappa_max_per_m": 0.311133953082272,
+        "kappa_rate_max_per_m2": 0.09855247963466404,
+        "lateral_accel_at_source_speed_mps2": 38.4115991459595,
+        "lateral_jerk_proxy_at_source_speed_mps3": 135.18858660447742
+      },
+      "road100_g8": {
+        "p95_m": 0.5819112777818009,
+        "max_m": 0.6529654679791664
+      },
+      "samples": {
+        "pool_count": 668,
+        "pool_above_015": 61,
+        "pool_p95_m": 0.3279282331788503,
+        "road100_count": 46,
+        "road100_above_015": 41,
+        "road100_p95_m": 0.5819112777818009,
+        "road100_max_m": 0.6529654679791664
+      },
+      "whole_map": {
+        "lane_center_noflare_p95_m": 0.3279282331788503,
+        "lane_center_noflare_max_m": 0.6529654679791664,
+        "boundary_inside_p95_m": 0.11800138723332713,
+        "boundary_inside_max_m": 0.24259013156894985,
+        "lane_endpoint_lateral_max_m": 0.0777587621327103,
+        "conn_seg_min_m": 3.00000141482515,
+        "primitives": 84,
+        "ref_kappa_step_max_per_m": 0.0,
+        "lane_join_curvature_jump_max_per_m": 0.0002272869446440952,
+        "road_interface_curvature_max_per_m": 3.394028205591605e-13,
+        "edge_contact_curvature_max_per_m": 0.000230179919026185,
+        "conn_edge_join_curvature_jump_max_per_m": 0.0008950424825539816,
+        "connector_width_bulge_max_m": 0.05599069163005499,
+        "outer_curvature_flips_per_100m_max": 0.0,
+        "paving_holes_gt1cm2": 2,
+        "g8_status": "UNAVAILABLE"
+      },
+      "t2_own_failures": [
+        "lane_center_noflare_p95_m",
+        "lane_center_noflare_max_m",
+        "boundary_inside_p95_m"
+      ],
+      "t2_own_unavailable": [],
+      "g11_status": "FAIL",
+      "xodr_sha256": "508890821d64587ed3d67ab530065ef0cfe06b2549ed622860f12855e642544d",
+      "elapsed_s": 23.7,
+      "edge_joins": {
+        "road": "100",
+        "joins": 2,
+        "edge_jump_max_per_m": [
+          0.006609,
+          0.000877
+        ],
+        "width_change_max_m": 0.0042,
+        "centre_error_m": 1.8487433806058107e-12,
+        "mouth_change": 7.416289804496046e-14
+      }
+    },
+    {
+      "setting": {
+        "name": "g11a-seg15-k0.40",
+        "group": "g11a",
+        "seg_m": 15.0,
+        "min_seg": 3.0,
+        "kappa_max": 0.4
+      },
+      "fit_method": "structure-preserving",
+      "fit_calls": [
+        {
+          "turn_sign": 1,
+          "end_zone": [
+            10.0,
+            0.02
+          ],
+          "source_points": 181,
+          "fit_info": {
+            "segments": 3,
+            "merged": 0,
+            "seg_m": 15.0,
+            "min_segment_m": 3.015606294946395,
+            "kappa_max": 0.13141836277884592,
+            "end_rate_mismatch": 0.005480875001680301,
+            "rate_jump_max": 0.05066037884776632,
+            "p95_m": 4.22947426897133,
+            "max_m": 4.528432630042556,
+            "turn_sign": 1,
+            "end_zone": [
+              10.0,
+              0.02
+            ]
+          }
+        }
+      ],
+      "road100_shape": {
+        "primitives": 9,
+        "min_primitive_m": 3.20777269383972,
+        "length_m": 44.32604994428519,
+        "kappa_max_per_m": 0.311133953082272,
+        "kappa_rate_max_per_m2": 0.09855247963466404,
+        "lateral_accel_at_source_speed_mps2": 38.4115991459595,
+        "lateral_jerk_proxy_at_source_speed_mps3": 135.18858660447742
+      },
+      "road100_g8": {
+        "p95_m": 0.5819112777818009,
+        "max_m": 0.6529654679791664
+      },
+      "samples": {
+        "pool_count": 668,
+        "pool_above_015": 61,
+        "pool_p95_m": 0.3279282331788503,
+        "road100_count": 46,
+        "road100_above_015": 41,
+        "road100_p95_m": 0.5819112777818009,
+        "road100_max_m": 0.6529654679791664
+      },
+      "whole_map": {
+        "lane_center_noflare_p95_m": 0.3279282331788503,
+        "lane_center_noflare_max_m": 0.6529654679791664,
+        "boundary_inside_p95_m": 0.11800138723332713,
+        "boundary_inside_max_m": 0.24259013156894985,
+        "lane_endpoint_lateral_max_m": 0.0777587621327103,
+        "conn_seg_min_m": 3.00000141482515,
+        "primitives": 84,
+        "ref_kappa_step_max_per_m": 0.0,
+        "lane_join_curvature_jump_max_per_m": 0.0002272869446440952,
+        "road_interface_curvature_max_per_m": 3.394028205591605e-13,
+        "edge_contact_curvature_max_per_m": 0.000230179919026185,
+        "conn_edge_join_curvature_jump_max_per_m": 0.0008950424825539816,
+        "connector_width_bulge_max_m": 0.05599069163005499,
+        "outer_curvature_flips_per_100m_max": 0.0,
+        "paving_holes_gt1cm2": 2,
+        "g8_status": "UNAVAILABLE"
+      },
+      "t2_own_failures": [
+        "lane_center_noflare_p95_m",
+        "lane_center_noflare_max_m",
+        "boundary_inside_p95_m"
+      ],
+      "t2_own_unavailable": [],
+      "g11_status": "FAIL",
+      "xodr_sha256": "b846644ec4a330b78892d90727944ad307314a35eb735e7cea71528a9b502de3",
+      "elapsed_s": 23.7,
+      "edge_joins": {
+        "road": "100",
+        "joins": 2,
+        "edge_jump_max_per_m": [
+          0.006609,
+          0.000877
+        ],
+        "width_change_max_m": 0.0042,
+        "centre_error_m": 1.8487433806058107e-12,
+        "mouth_change": 7.416289804496046e-14
+      }
+    },
+    {
+      "setting": {
+        "name": "g11a-seg15-k0.60",
+        "group": "g11a",
+        "seg_m": 15.0,
+        "min_seg": 3.0,
+        "kappa_max": 0.6
+      },
+      "fit_method": "structure-preserving",
+      "fit_calls": [
+        {
+          "turn_sign": 1,
+          "end_zone": [
+            10.0,
+            0.02
+          ],
+          "source_points": 181,
+          "fit_info": {
+            "segments": 3,
+            "merged": 0,
+            "seg_m": 15.0,
+            "min_segment_m": 3.015988208512356,
+            "kappa_max": 0.13141747058620268,
+            "end_rate_mismatch": 0.005480880706369073,
+            "rate_jump_max": 0.0506543603273933,
+            "p95_m": 4.2294777706636335,
+            "max_m": 4.528436843720482,
+            "turn_sign": 1,
+            "end_zone": [
+              10.0,
+              0.02
+            ]
+          }
+        }
+      ],
+      "road100_shape": {
+        "primitives": 9,
+        "min_primitive_m": 3.20777269383972,
+        "length_m": 44.32604994428519,
+        "kappa_max_per_m": 0.311133953082272,
+        "kappa_rate_max_per_m2": 0.09855247963466404,
+        "lateral_accel_at_source_speed_mps2": 38.4115991459595,
+        "lateral_jerk_proxy_at_source_speed_mps3": 135.18858660447742
+      },
+      "road100_g8": {
+        "p95_m": 0.5819112777818009,
+        "max_m": 0.6529654679791664
+      },
+      "samples": {
+        "pool_count": 668,
+        "pool_above_015": 61,
+        "pool_p95_m": 0.3279282331788503,
+        "road100_count": 46,
+        "road100_above_015": 41,
+        "road100_p95_m": 0.5819112777818009,
+        "road100_max_m": 0.6529654679791664
+      },
+      "whole_map": {
+        "lane_center_noflare_p95_m": 0.3279282331788503,
+        "lane_center_noflare_max_m": 0.6529654679791664,
+        "boundary_inside_p95_m": 0.11800138723332713,
+        "boundary_inside_max_m": 0.24259013156894985,
+        "lane_endpoint_lateral_max_m": 0.0777587621327103,
+        "conn_seg_min_m": 3.00000141482515,
+        "primitives": 84,
+        "ref_kappa_step_max_per_m": 0.0,
+        "lane_join_curvature_jump_max_per_m": 0.0002272869446440952,
+        "road_interface_curvature_max_per_m": 3.394028205591605e-13,
+        "edge_contact_curvature_max_per_m": 0.000230179919026185,
+        "conn_edge_join_curvature_jump_max_per_m": 0.0008950424825539816,
+        "connector_width_bulge_max_m": 0.05599069163005499,
+        "outer_curvature_flips_per_100m_max": 0.0,
+        "paving_holes_gt1cm2": 2,
+        "g8_status": "UNAVAILABLE"
+      },
+      "t2_own_failures": [
+        "lane_center_noflare_p95_m",
+        "lane_center_noflare_max_m",
+        "boundary_inside_p95_m"
+      ],
+      "t2_own_unavailable": [],
+      "g11_status": "FAIL",
+      "xodr_sha256": "9c1d9c507a9bcfd5132d9c6c01a751e7d19c95f50eaf0dfbf13ae473eec52896",
+      "elapsed_s": 23.5,
+      "edge_joins": {
+        "road": "100",
+        "joins": 2,
+        "edge_jump_max_per_m": [
+          0.006609,
+          0.000877
+        ],
+        "width_change_max_m": 0.0042,
+        "centre_error_m": 1.8487433806058107e-12,
+        "mouth_change": 7.416289804496046e-14
+      }
+    },
+    {
+      "setting": {
+        "name": "t2-seg3-k0.25",
+        "group": "t2",
+        "seg_m": 3.0,
+        "min_seg": 1.0,
+        "kappa_max": 0.25
+      },
+      "fit_method": "structure-preserving",
+      "fit_calls": [
+        {
+          "turn_sign": 1,
+          "end_zone": [
+            10.0,
+            0.02
+          ],
+          "source_points": 181,
+          "fit_info": {
+            "segments": 13,
+            "merged": 2,
+            "seg_m": 3.0,
+            "min_segment_m": 2.453231336530941,
+            "kappa_max": 0.24999996685338258,
+            "end_rate_mismatch": 0.005127100802488243,
+            "rate_jump_max": 0.056029571939663445,
+            "p95_m": 0.3193760686117465,
+            "max_m": 0.4000024653628224,
+            "turn_sign": 1,
+            "end_zone": [
+              10.0,
+              0.02
+            ]
+          }
+        }
+      ],
+      "road100_shape": {
+        "primitives": 9,
+        "min_primitive_m": 3.20777269383972,
+        "length_m": 44.32604994428519,
+        "kappa_max_per_m": 0.311133953082272,
+        "kappa_rate_max_per_m2": 0.09855247963466404,
+        "lateral_accel_at_source_speed_mps2": 38.4115991459595,
+        "lateral_jerk_proxy_at_source_speed_mps3": 135.18858660447742
+      },
+      "road100_g8": {
+        "p95_m": 0.5819112777818009,
+        "max_m": 0.6529654679791664
+      },
+      "samples": {
+        "pool_count": 668,
+        "pool_above_015": 61,
+        "pool_p95_m": 0.3279282331788503,
+        "road100_count": 46,
+        "road100_above_015": 41,
+        "road100_p95_m": 0.5819112777818009,
+        "road100_max_m": 0.6529654679791664
+      },
+      "whole_map": {
+        "lane_center_noflare_p95_m": 0.3279282331788503,
+        "lane_center_noflare_max_m": 0.6529654679791664,
+        "boundary_inside_p95_m": 0.11800138723332713,
+        "boundary_inside_max_m": 0.24259013156894985,
+        "lane_endpoint_lateral_max_m": 0.0777587621327103,
+        "conn_seg_min_m": 3.00000141482515,
+        "primitives": 84,
+        "ref_kappa_step_max_per_m": 0.0,
+        "lane_join_curvature_jump_max_per_m": 0.0002272869446440952,
+        "road_interface_curvature_max_per_m": 3.394028205591605e-13,
+        "edge_contact_curvature_max_per_m": 0.000230179919026185,
+        "conn_edge_join_curvature_jump_max_per_m": 0.0008950424825539816,
+        "connector_width_bulge_max_m": 0.05599069163005499,
+        "outer_curvature_flips_per_100m_max": 0.0,
+        "paving_holes_gt1cm2": 2,
+        "g8_status": "UNAVAILABLE"
+      },
+      "t2_own_failures": [
+        "lane_center_noflare_p95_m",
+        "lane_center_noflare_max_m",
+        "boundary_inside_p95_m"
+      ],
+      "t2_own_unavailable": [],
+      "g11_status": "FAIL",
+      "xodr_sha256": "c99f73a51999b7078e9539c3b225a7f3671e6dedfb88335318c63c97407cfc23",
+      "elapsed_s": 24.7,
+      "edge_joins": {
+        "road": "100",
+        "joins": 2,
+        "edge_jump_max_per_m": [
+          0.006609,
+          0.000877
+        ],
+        "width_change_max_m": 0.0042,
+        "centre_error_m": 1.8487433806058107e-12,
+        "mouth_change": 7.416289804496046e-14
+      }
+    },
+    {
+      "setting": {
+        "name": "t2-seg3-k0.40",
+        "group": "t2",
+        "seg_m": 3.0,
+        "min_seg": 1.0,
+        "kappa_max": 0.4
+      },
+      "fit_method": "source-fit-3m-ends",
+      "fit_calls": [
+        {
+          "turn_sign": 1,
+          "end_zone": [
+            10.0,
+            0.02
+          ],
+          "source_points": 181,
+          "fit_info": {
+            "segments": 6,
+            "merged": 9,
+            "seg_m": 3.0,
+            "min_segment_m": 1.8797715250870304,
+            "kappa_max": 0.30404549525006785,
+            "end_rate_mismatch": 0.008885668001714713,
+            "rate_jump_max": 0.10638395299546072,
+            "p95_m": 0.2471247118723886,
+            "max_m": 0.32429242642608436,
+            "turn_sign": 1,
+            "end_zone": [
+              10.0,
+              0.02
+            ]
+          }
+        }
+      ],
+      "road100_shape": {
+        "primitives": 6,
+        "min_primitive_m": 1.87977152508703,
+        "length_m": 44.471668832434105,
+        "kappa_max_per_m": 0.304045495250068,
+        "kappa_rate_max_per_m2": 0.056527379802967424,
+        "lateral_accel_at_source_speed_mps2": 37.53648089507013,
+        "lateral_jerk_proxy_at_source_speed_mps3": 77.5409873840431
+      },
+      "road100_g8": {
+        "p95_m": 0.2888423501366487,
+        "max_m": 0.3177092411887178
+      },
+      "samples": {
+        "pool_count": 668,
+        "pool_above_015": 52,
+        "pool_p95_m": 0.20131100981891217,
+        "road100_count": 46,
+        "road100_above_015": 32,
+        "road100_p95_m": 0.2888423501366487,
+        "road100_max_m": 0.3177092411887178
+      },
+      "whole_map": {
+        "lane_center_noflare_p95_m": 0.20131100981891217,
+        "lane_center_noflare_max_m": 0.3177092411887178,
+        "boundary_inside_p95_m": 0.11800138723332713,
+        "boundary_inside_max_m": 0.24259013156894985,
+        "lane_endpoint_lateral_max_m": 0.0777587621327103,
+        "conn_seg_min_m": 1.87977152508703,
+        "primitives": 81,
+        "ref_kappa_step_max_per_m": 0.0,
+        "lane_join_curvature_jump_max_per_m": 0.0002272869446440952,
+        "road_interface_curvature_max_per_m": 3.394028205591605e-13,
+        "edge_contact_curvature_max_per_m": 0.000230179919026185,
+        "conn_edge_join_curvature_jump_max_per_m": 0.0008950424825539816,
+        "connector_width_bulge_max_m": 0.05599069163005499,
+        "outer_curvature_flips_per_100m_max": 0.0,
+        "paving_holes_gt1cm2": 2,
+        "g8_status": "UNAVAILABLE"
+      },
+      "t2_own_failures": [
+        "lane_center_noflare_p95_m",
+        "boundary_inside_p95_m"
+      ],
+      "t2_own_unavailable": [],
+      "g11_status": "FAIL",
+      "xodr_sha256": "1e654dbe03f39c61956c906c06257dbf5f5e4d7ab0f3dd607dbd88acb17a708f",
+      "elapsed_s": 24.5,
+      "edge_joins": {
+        "road": "100",
+        "joins": 1,
+        "edge_jump_max_per_m": [
+          0.005749,
+          0.000852
+        ],
+        "width_change_max_m": 0.004,
+        "centre_error_m": 2.7684521342052903e-12,
+        "mouth_change": 5.417888360170764e-14
+      }
+    },
+    {
+      "setting": {
+        "name": "t2-seg3-k0.60",
+        "group": "t2",
+        "seg_m": 3.0,
+        "min_seg": 1.0,
+        "kappa_max": 0.6
+      },
+      "fit_method": "source-fit-3m-ends",
+      "fit_calls": [
+        {
+          "turn_sign": 1,
+          "end_zone": [
+            10.0,
+            0.02
+          ],
+          "source_points": 181,
+          "fit_info": {
+            "segments": 7,
+            "merged": 8,
+            "seg_m": 3.0,
+            "min_segment_m": 1.098466674628577,
+            "kappa_max": 0.3065904248279865,
+            "end_rate_mismatch": 0.014714696158724299,
+            "rate_jump_max": 0.10618601785405006,
+            "p95_m": 0.2207003862081419,
+            "max_m": 0.2795670827222918,
+            "turn_sign": 1,
+            "end_zone": [
+              10.0,
+              0.02
+            ]
+          }
+        }
+      ],
+      "road100_shape": {
+        "primitives": 7,
+        "min_primitive_m": 1.09846667462858,
+        "length_m": 44.51535048494269,
+        "kappa_max_per_m": 0.306590424827986,
+        "kappa_rate_max_per_m2": 0.058113399930863036,
+        "lateral_accel_at_source_speed_mps2": 37.85066973185012,
+        "lateral_jerk_proxy_at_source_speed_mps3": 79.71659798472295
+      },
+      "road100_g8": {
+        "p95_m": 0.24081089319604804,
+        "max_m": 0.2724373762137356
+      },
+      "samples": {
+        "pool_count": 668,
+        "pool_above_015": 52,
+        "pool_p95_m": 0.1613974126075217,
+        "road100_count": 46,
+        "road100_above_015": 32,
+        "road100_p95_m": 0.24081089319604804,
+        "road100_max_m": 0.2724373762137356
+      },
+      "whole_map": {
+        "lane_center_noflare_p95_m": 0.1613974126075217,
+        "lane_center_noflare_max_m": 0.316893725130808,
+        "boundary_inside_p95_m": 0.11800138723332713,
+        "boundary_inside_max_m": 0.24259013156894985,
+        "lane_endpoint_lateral_max_m": 0.0777587621327103,
+        "conn_seg_min_m": 1.09846667462858,
+        "primitives": 82,
+        "ref_kappa_step_max_per_m": 0.0,
+        "lane_join_curvature_jump_max_per_m": 0.0002272869446440952,
+        "road_interface_curvature_max_per_m": 3.394028205591605e-13,
+        "edge_contact_curvature_max_per_m": 0.000230179919026185,
+        "conn_edge_join_curvature_jump_max_per_m": 0.0008950424825539816,
+        "connector_width_bulge_max_m": 0.05599069163005499,
+        "outer_curvature_flips_per_100m_max": 0.0,
+        "paving_holes_gt1cm2": 2,
+        "g8_status": "UNAVAILABLE"
+      },
+      "t2_own_failures": [
+        "lane_center_noflare_p95_m",
+        "boundary_inside_p95_m"
+      ],
+      "t2_own_unavailable": [],
+      "g11_status": "FAIL",
+      "xodr_sha256": "52ce03eee74d14c3363fa069797aa834f026b5cabbe27d57fb3fa0eb18778a4e",
+      "elapsed_s": 24.3,
+      "edge_joins": {
+        "road": "100",
+        "joins": 1,
+        "edge_jump_max_per_m": [
+          0.005862,
+          0.000864
+        ],
+        "width_change_max_m": 0.0039,
+        "centre_error_m": 8.992806499463768e-13,
+        "mouth_change": 2.6645352591003757e-15
+      }
+    },
+    {
+      "setting": {
+        "name": "t2-seg2-k0.25",
+        "group": "t2",
+        "seg_m": 2.0,
+        "min_seg": 1.0,
+        "kappa_max": 0.25
+      },
+      "fit_method": "source-fit-2m-ends",
+      "fit_calls": [
+        {
+          "turn_sign": 1,
+          "end_zone": [
+            10.0,
+            0.02
+          ],
+          "source_points": 181,
+          "fit_info": {
+            "segments": 10,
+            "merged": 12,
+            "seg_m": 2.0,
+            "min_segment_m": 1.5906173233060614,
+            "kappa_max": 0.24999988784728083,
+            "end_rate_mismatch": 0.009848249409395842,
+            "rate_jump_max": 0.06917429691568455,
+            "p95_m": 0.24693339695961958,
+            "max_m": 0.33061138111423893,
+            "turn_sign": 1,
+            "end_zone": [
+              10.0,
+              0.02
+            ]
+          }
+        }
+      ],
+      "road100_shape": {
+        "primitives": 10,
+        "min_primitive_m": 1.59061732330606,
+        "length_m": 44.48655582876194,
+        "kappa_max_per_m": 0.249999887847281,
+        "kappa_rate_max_per_m2": 0.06960221371112248,
+        "lateral_accel_at_source_speed_mps2": 30.864183684849504,
+        "lateral_jerk_proxy_at_source_speed_mps3": 95.47628766957816
+      },
+      "road100_g8": {
+        "p95_m": 0.27644259265018084,
+        "max_m": 0.3107972270952056
+      },
+      "samples": {
+        "pool_count": 668,
+        "pool_above_015": 52,
+        "pool_p95_m": 0.18985729392863862,
+        "road100_count": 46,
+        "road100_above_015": 32,
+        "road100_p95_m": 0.27644259265018084,
+        "road100_max_m": 0.3107972270952056
+      },
+      "whole_map": {
+        "lane_center_noflare_p95_m": 0.18985729392863862,
+        "lane_center_noflare_max_m": 0.316893725130808,
+        "boundary_inside_p95_m": 0.11800138723332713,
+        "boundary_inside_max_m": 0.24259013156894985,
+        "lane_endpoint_lateral_max_m": 0.0777587621327103,
+        "conn_seg_min_m": 1.59061732330606,
+        "primitives": 85,
+        "ref_kappa_step_max_per_m": 0.0,
+        "lane_join_curvature_jump_max_per_m": 0.0002272869446440952,
+        "road_interface_curvature_max_per_m": 3.394028205591605e-13,
+        "edge_contact_curvature_max_per_m": 0.000230179919026185,
+        "conn_edge_join_curvature_jump_max_per_m": 0.0008950424825539816,
+        "connector_width_bulge_max_m": 0.05599069163005499,
+        "outer_curvature_flips_per_100m_max": 0.0,
+        "paving_holes_gt1cm2": 2,
+        "g8_status": "UNAVAILABLE"
+      },
+      "t2_own_failures": [
+        "lane_center_noflare_p95_m",
+        "boundary_inside_p95_m"
+      ],
+      "t2_own_unavailable": [],
+      "g11_status": "FAIL",
+      "xodr_sha256": "474c3742c2a72520e0b500f5ba8c291c00f3e6a0a863923167ff4eda4e5f17b3",
+      "elapsed_s": 25.9,
+      "edge_joins": {
+        "road": "100",
+        "joins": 2,
+        "edge_jump_max_per_m": [
+          0.002034,
+          0.000891
+        ],
+        "width_change_max_m": 0.0074,
+        "centre_error_m": 2.0377033393970123e-12,
+        "mouth_change": 9.237055564881302e-14
+      }
+    },
+    {
+      "setting": {
+        "name": "t2-seg2-k0.40",
+        "group": "t2",
+        "seg_m": 2.0,
+        "min_seg": 1.0,
+        "kappa_max": 0.4
+      },
+      "fit_method": "source-fit-2m-ends",
+      "fit_calls": [
+        {
+          "turn_sign": 1,
+          "end_zone": [
+            10.0,
+            0.02
+          ],
+          "source_points": 181,
+          "fit_info": {
+            "segments": 9,
+            "merged": 13,
+            "seg_m": 2.0,
+            "min_segment_m": 1.448593069557374,
+            "kappa_max": 0.2915586647746554,
+            "end_rate_mismatch": 0.009853331513200917,
+            "rate_jump_max": 0.07103088990865077,
+            "p95_m": 0.19931367547279705,
+            "max_m": 0.2732498888819219,
+            "turn_sign": 1,
+            "end_zone": [
+              10.0,
+              0.02
+            ]
+          }
+        }
+      ],
+      "road100_shape": {
+        "primitives": 9,
+        "min_primitive_m": 1.44859306955737,
+        "length_m": 44.514019461085596,
+        "kappa_max_per_m": 0.291558664774655,
+        "kappa_rate_max_per_m2": 0.07738212067264316,
+        "lateral_accel_at_source_speed_mps2": 35.99489688575987,
+        "lateral_jerk_proxy_at_source_speed_mps3": 106.14831367989458
+      },
+      "road100_g8": {
+        "p95_m": 0.2302707040700258,
+        "max_m": 0.25917595123557013
+      },
+      "samples": {
+        "pool_count": 668,
+        "pool_above_015": 51,
+        "pool_p95_m": 0.16536164640337653,
+        "road100_count": 46,
+        "road100_above_015": 31,
+        "road100_p95_m": 0.2302707040700258,
+        "road100_max_m": 0.25917595123557013
+      },
+      "whole_map": {
+        "lane_center_noflare_p95_m": 0.16536164640337653,
+        "lane_center_noflare_max_m": 0.316893725130808,
+        "boundary_inside_p95_m": 0.11800138723332713,
+        "boundary_inside_max_m": 0.24259013156894985,
+        "lane_endpoint_lateral_max_m": 0.0777587621327103,
+        "conn_seg_min_m": 1.44859306955737,
+        "primitives": 84,
+        "ref_kappa_step_max_per_m": 0.0,
+        "lane_join_curvature_jump_max_per_m": 0.0002272869446440952,
+        "road_interface_curvature_max_per_m": 3.394028205591605e-13,
+        "edge_contact_curvature_max_per_m": 0.000230179919026185,
+        "conn_edge_join_curvature_jump_max_per_m": 0.0008950424825539816,
+        "connector_width_bulge_max_m": 0.05599069163005499,
+        "outer_curvature_flips_per_100m_max": 0.0,
+        "paving_holes_gt1cm2": 2,
+        "g8_status": "UNAVAILABLE"
+      },
+      "t2_own_failures": [
+        "lane_center_noflare_p95_m",
+        "boundary_inside_p95_m"
+      ],
+      "t2_own_unavailable": [],
+      "g11_status": "FAIL",
+      "xodr_sha256": "8ea131349c6e3f58de02cf7d65a1b4ad1eeea6dc8eed7d7d51677a63017b1c2c",
+      "elapsed_s": 24.7,
+      "edge_joins": {
+        "road": "100",
+        "joins": 2,
+        "edge_jump_max_per_m": [
+          0.003528,
+          0.000882
+        ],
+        "width_change_max_m": 0.0098,
+        "centre_error_m": 1.873168287147564e-12,
+        "mouth_change": 1.341149413747189e-13
+      }
+    },
+    {
+      "setting": {
+        "name": "t2-seg2-k0.60",
+        "group": "t2",
+        "seg_m": 2.0,
+        "min_seg": 1.0,
+        "kappa_max": 0.6
+      },
+      "fit_method": "source-fit-2m-ends",
+      "fit_calls": [
+        {
+          "turn_sign": 1,
+          "end_zone": [
+            10.0,
+            0.02
+          ],
+          "source_points": 181,
+          "fit_info": {
+            "segments": 8,
+            "merged": 14,
+            "seg_m": 2.0,
+            "min_segment_m": 1.0359753099490803,
+            "kappa_max": 0.29651160650184555,
+            "end_rate_mismatch": 0.015777529106286776,
+            "rate_jump_max": 0.08528996633284533,
+            "p95_m": 0.21840049622824692,
+            "max_m": 0.2894035361885249,
+            "turn_sign": 1,
+            "end_zone": [
+              10.0,
+              0.02
+            ]
+          }
+        }
+      ],
+      "road100_shape": {
+        "primitives": 8,
+        "min_primitive_m": 1.03597530994908,
+        "length_m": 44.492848922835535,
+        "kappa_max_per_m": 0.296511606501846,
+        "kappa_rate_max_per_m2": 0.07475209854618943,
+        "lateral_accel_at_source_speed_mps2": 36.6063711730674,
+        "lateral_jerk_proxy_at_source_speed_mps3": 102.5406015722763
+      },
+      "road100_g8": {
+        "p95_m": 0.24545165716276987,
+        "max_m": 0.274997962730169
+      },
+      "samples": {
+        "pool_count": 668,
+        "pool_above_015": 52,
+        "pool_p95_m": 0.18320685397100744,
+        "road100_count": 46,
+        "road100_above_015": 32,
+        "road100_p95_m": 0.24545165716276987,
+        "road100_max_m": 0.274997962730169
+      },
+      "whole_map": {
+        "lane_center_noflare_p95_m": 0.18320685397100744,
+        "lane_center_noflare_max_m": 0.316893725130808,
+        "boundary_inside_p95_m": 0.11800138723332713,
+        "boundary_inside_max_m": 0.24259013156894985,
+        "lane_endpoint_lateral_max_m": 0.0777587621327103,
+        "conn_seg_min_m": 1.03597530994908,
+        "primitives": 83,
+        "ref_kappa_step_max_per_m": 0.0,
+        "lane_join_curvature_jump_max_per_m": 0.0002272869446440952,
+        "road_interface_curvature_max_per_m": 3.394028205591605e-13,
+        "edge_contact_curvature_max_per_m": 0.000230179919026185,
+        "conn_edge_join_curvature_jump_max_per_m": 0.0008950424825539816,
+        "connector_width_bulge_max_m": 0.05599069163005499,
+        "outer_curvature_flips_per_100m_max": 0.0,
+        "paving_holes_gt1cm2": 2,
+        "g8_status": "UNAVAILABLE"
+      },
+      "t2_own_failures": [
+        "lane_center_noflare_p95_m",
+        "boundary_inside_p95_m"
+      ],
+      "t2_own_unavailable": [],
+      "g11_status": "FAIL",
+      "xodr_sha256": "599a6ca997cd77fec3e1b8228a67093f25660bfd6907b86c37c46e0957412e43",
+      "elapsed_s": 24.5,
+      "edge_joins": {
+        "road": "100",
+        "joins": 2,
+        "edge_jump_max_per_m": [
+          0.004433,
+          0.000878
+        ],
+        "width_change_max_m": 0.0086,
+        "centre_error_m": 2.0023982472139323e-12,
+        "mouth_change": 5.084821452783217e-13
+      }
+    },
+    {
+      "setting": {
+        "name": "t2-seg1.5-k0.25",
+        "group": "t2",
+        "seg_m": 1.5,
+        "min_seg": 1.0,
+        "kappa_max": 0.25
+      },
+      "fit_method": "source-fit-1.5m-ends",
+      "fit_calls": [
+        {
+          "turn_sign": 1,
+          "end_zone": [
+            10.0,
+            0.02
+          ],
+          "source_points": 181,
+          "fit_info": {
+            "segments": 12,
+            "merged": 18,
+            "seg_m": 1.5,
+            "min_segment_m": 1.2965685934323568,
+            "kappa_max": 0.24996554462830073,
+            "end_rate_mismatch": 0.008341241251052693,
+            "rate_jump_max": 0.04358816907880913,
+            "p95_m": 0.2755619912687911,
+            "max_m": 0.3705406823318415,
+            "turn_sign": 1,
+            "end_zone": [
+              10.0,
+              0.02
+            ]
+          }
+        }
+      ],
+      "road100_shape": {
+        "primitives": 12,
+        "min_primitive_m": 1.29656859343236,
+        "length_m": 44.453321552976064,
+        "kappa_max_per_m": 0.249965544628301,
+        "kappa_rate_max_per_m2": 0.06268347730794245,
+        "lateral_accel_at_source_speed_mps2": 30.859943781271728,
+        "lateral_jerk_proxy_at_source_speed_mps3": 85.98556558016797
+      },
+      "road100_g8": {
+        "p95_m": 0.3101621264041671,
+        "max_m": 0.35294931981712374
+      },
+      "samples": {
+        "pool_count": 668,
+        "pool_above_015": 52,
+        "pool_p95_m": 0.21770630633529756,
+        "road100_count": 46,
+        "road100_above_015": 32,
+        "road100_p95_m": 0.3101621264041671,
+        "road100_max_m": 0.35294931981712374
+      },
+      "whole_map": {
+        "lane_center_noflare_p95_m": 0.21770630633529756,
+        "lane_center_noflare_max_m": 0.35294931981712374,
+        "boundary_inside_p95_m": 0.11800138723332713,
+        "boundary_inside_max_m": 0.24259013156894985,
+        "lane_endpoint_lateral_max_m": 0.0777587621327103,
+        "conn_seg_min_m": 1.29656859343236,
+        "primitives": 87,
+        "ref_kappa_step_max_per_m": 0.0,
+        "lane_join_curvature_jump_max_per_m": 0.0002272869446440952,
+        "road_interface_curvature_max_per_m": 3.394028205591605e-13,
+        "edge_contact_curvature_max_per_m": 0.000230179919026185,
+        "conn_edge_join_curvature_jump_max_per_m": 0.001011641244913486,
+        "connector_width_bulge_max_m": 0.05599069163005499,
+        "outer_curvature_flips_per_100m_max": 0.0,
+        "paving_holes_gt1cm2": 2,
+        "g8_status": "UNAVAILABLE"
+      },
+      "t2_own_failures": [
+        "lane_center_noflare_p95_m",
+        "lane_center_noflare_max_m",
+        "boundary_inside_p95_m"
+      ],
+      "t2_own_unavailable": [],
+      "g11_status": "FAIL",
+      "xodr_sha256": "4850d40de06e4e0ca188d1733397e748be381c5d3c961d128268c11ac7aa6bb9",
+      "elapsed_s": 25.6,
+      "edge_joins": {
+        "road": "100",
+        "joins": 1,
+        "edge_jump_max_per_m": [
+          0.00154,
+          0.000867
+        ],
+        "width_change_max_m": 0.0036,
+        "centre_error_m": 1.5973888878306752e-12,
+        "mouth_change": 2.970956813896919e-13
+      }
+    },
+    {
+      "setting": {
+        "name": "t2-seg1.5-k0.40",
+        "group": "t2",
+        "seg_m": 1.5,
+        "min_seg": 1.0,
+        "kappa_max": 0.4
+      },
+      "fit_method": "source-fit-1.5m-ends",
+      "fit_calls": [
+        {
+          "turn_sign": 1,
+          "end_zone": [
+            10.0,
+            0.02
+          ],
+          "source_points": 181,
+          "fit_info": {
+            "segments": 12,
+            "merged": 18,
+            "seg_m": 1.5,
+            "min_segment_m": 1.0021037128499575,
+            "kappa_max": 0.30261640464552386,
+            "end_rate_mismatch": 0.012204890002526737,
+            "rate_jump_max": 0.0563779780380136,
+            "p95_m": 0.16690718278917194,
+            "max_m": 0.2281642779459709,
+            "turn_sign": 1,
+            "end_zone": [
+              10.0,
+              0.02
+            ]
+          }
+        }
+      ],
+      "road100_shape": {
+        "primitives": 12,
+        "min_primitive_m": 1.00210371284996,
+        "length_m": 44.55225535676793,
+        "kappa_max_per_m": 0.302616404645524,
+        "kappa_rate_max_per_m2": 0.08253128347788925,
+        "lateral_accel_at_source_speed_mps2": 37.360049956237525,
+        "lateral_jerk_proxy_at_source_speed_mps3": 113.21163714388099
+      },
+      "road100_g8": {
+        "p95_m": 0.19000034039768182,
+        "max_m": 0.21989740447958875
+      },
+      "samples": {
+        "pool_count": 668,
+        "pool_above_015": 27,
+        "pool_p95_m": 0.13980011908838133,
+        "road100_count": 46,
+        "road100_above_015": 7,
+        "road100_p95_m": 0.19000034039768182,
+        "road100_max_m": 0.21989740447958875
+      },
+      "whole_map": {
+        "lane_center_noflare_p95_m": 0.13980011908838133,
+        "lane_center_noflare_max_m": 0.316893725130808,
+        "boundary_inside_p95_m": 0.11800138723332713,
+        "boundary_inside_max_m": 0.24259013156894985,
+        "lane_endpoint_lateral_max_m": 0.0777587621327103,
+        "conn_seg_min_m": 1.00210371284996,
+        "primitives": 87,
+        "ref_kappa_step_max_per_m": 0.0,
+        "lane_join_curvature_jump_max_per_m": 0.0002272869446440952,
+        "road_interface_curvature_max_per_m": 3.394028205591605e-13,
+        "edge_contact_curvature_max_per_m": 0.000230179919026185,
+        "conn_edge_join_curvature_jump_max_per_m": 0.0014654208316601802,
+        "connector_width_bulge_max_m": 0.05599069163005499,
+        "outer_curvature_flips_per_100m_max": 0.0,
+        "paving_holes_gt1cm2": 2,
+        "g8_status": "UNAVAILABLE"
+      },
+      "t2_own_failures": [
+        "boundary_inside_p95_m"
+      ],
+      "t2_own_unavailable": [],
+      "g11_status": "FAIL",
+      "xodr_sha256": "b2eedfc34735e632f6c07df4e402c8f80bbe99d87de795e295065f5aa3ae688d",
+      "elapsed_s": 25.2,
+      "edge_joins": {
+        "road": "100",
+        "joins": 2,
+        "edge_jump_max_per_m": [
+          0.00305,
+          0.000891
+        ],
+        "width_change_max_m": 0.0058,
+        "centre_error_m": 1.4594991881722308e-12,
+        "mouth_change": 2.6689761511988763e-13
+      }
+    },
+    {
+      "setting": {
+        "name": "t2-seg1.5-k0.60",
+        "group": "t2",
+        "seg_m": 1.5,
+        "min_seg": 1.0,
+        "kappa_max": 0.6
+      },
+      "fit_method": "source-fit-1.5m-ends",
+      "fit_calls": [
+        {
+          "turn_sign": 1,
+          "end_zone": [
+            10.0,
+            0.02
+          ],
+          "source_points": 181,
+          "fit_info": {
+            "segments": 10,
+            "merged": 20,
+            "seg_m": 1.5,
+            "min_segment_m": 1.0035532264740608,
+            "kappa_max": 0.3002441629633243,
+            "end_rate_mismatch": 0.014882794088158777,
+            "rate_jump_max": 0.059386206025084626,
+            "p95_m": 0.17675950224999262,
+            "max_m": 0.2457003626090847,
+            "turn_sign": 1,
+            "end_zone": [
+              10.0,
+              0.02
+            ]
+          }
+        }
+      ],
+      "road100_shape": {
+        "primitives": 10,
+        "min_primitive_m": 1.00355322647406,
+        "length_m": 44.53723882120132,
+        "kappa_max_per_m": 0.300244162963324,
+        "kappa_rate_max_per_m2": 0.07512508538743938,
+        "lateral_accel_at_source_speed_mps2": 37.06718061275605,
+        "lateral_jerk_proxy_at_source_speed_mps3": 103.05224332982081
+      },
+      "road100_g8": {
+        "p95_m": 0.20396931426277332,
+        "max_m": 0.23834036179698584
+      },
+      "samples": {
+        "pool_count": 668,
+        "pool_above_015": 29,
+        "pool_p95_m": 0.14295851787862462,
+        "road100_count": 46,
+        "road100_above_015": 9,
+        "road100_p95_m": 0.20396931426277332,
+        "road100_max_m": 0.23834036179698584
+      },
+      "whole_map": {
+        "lane_center_noflare_p95_m": 0.14295851787862462,
+        "lane_center_noflare_max_m": 0.316893725130808,
+        "boundary_inside_p95_m": 0.11800138723332713,
+        "boundary_inside_max_m": 0.24259013156894985,
+        "lane_endpoint_lateral_max_m": 0.0777587621327103,
+        "conn_seg_min_m": 1.00355322647406,
+        "primitives": 85,
+        "ref_kappa_step_max_per_m": 0.0,
+        "lane_join_curvature_jump_max_per_m": 0.0002272869446440952,
+        "road_interface_curvature_max_per_m": 3.394028205591605e-13,
+        "edge_contact_curvature_max_per_m": 0.000230179919026185,
+        "conn_edge_join_curvature_jump_max_per_m": 0.0008950424825539816,
+        "connector_width_bulge_max_m": 0.05599069163005499,
+        "outer_curvature_flips_per_100m_max": 0.0,
+        "paving_holes_gt1cm2": 2,
+        "g8_status": "UNAVAILABLE"
+      },
+      "t2_own_failures": [
+        "boundary_inside_p95_m"
+      ],
+      "t2_own_unavailable": [],
+      "g11_status": "FAIL",
+      "xodr_sha256": "74d07723edc6ecaf4045681a13fd14fe5676a81862456cea5859dbf5abc7635a",
+      "elapsed_s": 25.1,
+      "edge_joins": {
+        "road": "100",
+        "joins": 3,
+        "edge_jump_max_per_m": [
+          0.003124,
+          0.000883
+        ],
+        "width_change_max_m": 0.0079,
+        "centre_error_m": 1.7263968032921184e-12,
+        "mouth_change": 6.630251903061435e-13
+      }
+    },
+    {
+      "setting": {
+        "name": "t2-seg1-k0.25",
+        "group": "t2",
+        "seg_m": 1.0,
+        "min_seg": 1.0,
+        "kappa_max": 0.25
+      },
+      "fit_method": "source-fit-1m-ends",
+      "fit_calls": [
+        {
+          "turn_sign": 1,
+          "end_zone": [
+            10.0,
+            0.02
+          ],
+          "source_points": 181,
+          "fit_info": {
+            "segments": 20,
+            "merged": 24,
+            "seg_m": 1.0,
+            "min_segment_m": 1.0000216202275904,
+            "kappa_max": 0.249998901025658,
+            "end_rate_mismatch": 0.009476548216837324,
+            "rate_jump_max": 0.037461344036846825,
+            "p95_m": 0.2930358297909267,
+            "max_m": 0.35346722266578073,
+            "turn_sign": 1,
+            "end_zone": [
+              10.0,
+              0.02
+            ]
+          }
+        }
+      ],
+      "road100_shape": {
+        "primitives": 20,
+        "min_primitive_m": 1.00002162022759,
+        "length_m": 44.49122466848496,
+        "kappa_max_per_m": 0.249998901025658,
+        "kappa_rate_max_per_m2": 0.07434966671841158,
+        "lateral_accel_at_source_speed_mps2": 30.864061855019504,
+        "lateral_jerk_proxy_at_source_speed_mps3": 101.98856888670997
+      },
+      "road100_g8": {
+        "p95_m": 0.31807645299310733,
+        "max_m": 0.3434985127769984
+      },
+      "samples": {
+        "pool_count": 668,
+        "pool_above_015": 51,
+        "pool_p95_m": 0.1824914183730036,
+        "road100_count": 46,
+        "road100_above_015": 31,
+        "road100_p95_m": 0.31807645299310733,
+        "road100_max_m": 0.3434985127769984
+      },
+      "whole_map": {
+        "lane_center_noflare_p95_m": 0.1824914183730036,
+        "lane_center_noflare_max_m": 0.3434985127769984,
+        "boundary_inside_p95_m": 0.11800138723332713,
+        "boundary_inside_max_m": 0.24259013156894985,
+        "lane_endpoint_lateral_max_m": 0.0777587621327103,
+        "conn_seg_min_m": 1.00002162022759,
+        "primitives": 95,
+        "ref_kappa_step_max_per_m": 0.0,
+        "lane_join_curvature_jump_max_per_m": 0.0002272869446440952,
+        "road_interface_curvature_max_per_m": 3.394028205591605e-13,
+        "edge_contact_curvature_max_per_m": 0.000230179919026185,
+        "conn_edge_join_curvature_jump_max_per_m": 0.001062772559407399,
+        "connector_width_bulge_max_m": 0.05599069163005499,
+        "outer_curvature_flips_per_100m_max": 0.0,
+        "paving_holes_gt1cm2": 2,
+        "g8_status": "UNAVAILABLE"
+      },
+      "t2_own_failures": [
+        "lane_center_noflare_p95_m",
+        "boundary_inside_p95_m"
+      ],
+      "t2_own_unavailable": [],
+      "g11_status": "FAIL",
+      "xodr_sha256": "adb73f5cfbd1a25c6cbce56e8ac92700941f95e1e684785e7696bba6952b48df",
+      "elapsed_s": 28.7,
+      "edge_joins": {
+        "road": "100",
+        "joins": 1,
+        "edge_jump_max_per_m": [
+          0.001158,
+          0.000877
+        ],
+        "width_change_max_m": 0.0017,
+        "centre_error_m": 1.5509815654013437e-12,
+        "mouth_change": 5.049294315995212e-13
+      }
+    },
+    {
+      "setting": {
+        "name": "t2-seg1-k0.40",
+        "group": "t2",
+        "seg_m": 1.0,
+        "min_seg": 1.0,
+        "kappa_max": 0.4
+      },
+      "fit_method": "source-fit-1m-ends",
+      "fit_calls": [
+        {
+          "turn_sign": 1,
+          "end_zone": [
+            10.0,
+            0.02
+          ],
+          "source_points": 181,
+          "fit_info": {
+            "segments": 21,
+            "merged": 23,
+            "seg_m": 1.0,
+            "min_segment_m": 1.0000000379045333,
+            "kappa_max": 0.295268324277833,
+            "end_rate_mismatch": 0.01173902546181638,
+            "rate_jump_max": 0.04243317547959756,
+            "p95_m": 0.180318661209796,
+            "max_m": 0.22934854354901288,
+            "turn_sign": 1,
+            "end_zone": [
+              10.0,
+              0.02
+            ]
+          }
+        }
+      ],
+      "road100_shape": {
+        "primitives": 21,
+        "min_primitive_m": 1.00000003790453,
+        "length_m": 44.56578406597209,
+        "kappa_max_per_m": 0.295268324277833,
+        "kappa_rate_max_per_m2": 0.07738167517717048,
+        "lateral_accel_at_source_speed_mps2": 36.45287954047321,
+        "lateral_jerk_proxy_at_source_speed_mps3": 106.1477025749938
+      },
+      "road100_g8": {
+        "p95_m": 0.19312579668159008,
+        "max_m": 0.22618562841935824
+      },
+      "samples": {
+        "pool_count": 668,
+        "pool_above_015": 27,
+        "pool_p95_m": 0.13931153340687993,
+        "road100_count": 46,
+        "road100_above_015": 7,
+        "road100_p95_m": 0.19312579668159008,
+        "road100_max_m": 0.22618562841935824
+      },
+      "whole_map": {
+        "lane_center_noflare_p95_m": 0.13931153340687993,
+        "lane_center_noflare_max_m": 0.316893725130808,
+        "boundary_inside_p95_m": 0.11800138723332713,
+        "boundary_inside_max_m": 0.24259013156894985,
+        "lane_endpoint_lateral_max_m": 0.0777587621327103,
+        "conn_seg_min_m": 1.00000003790453,
+        "primitives": 96,
+        "ref_kappa_step_max_per_m": 0.0,
+        "lane_join_curvature_jump_max_per_m": 0.0002272869446440952,
+        "road_interface_curvature_max_per_m": 3.394028205591605e-13,
+        "edge_contact_curvature_max_per_m": 0.000230179919026185,
+        "conn_edge_join_curvature_jump_max_per_m": 0.0009630954996119878,
+        "connector_width_bulge_max_m": 0.05599069163005499,
+        "outer_curvature_flips_per_100m_max": 0.0,
+        "paving_holes_gt1cm2": 2,
+        "g8_status": "UNAVAILABLE"
+      },
+      "t2_own_failures": [
+        "boundary_inside_p95_m"
+      ],
+      "t2_own_unavailable": [],
+      "g11_status": "FAIL",
+      "xodr_sha256": "4477a68489d9871879ee94491890cacf966b69a4d0e900452b9636794fcc9fcc",
+      "elapsed_s": 26.9,
+      "edge_joins": {
+        "road": "100",
+        "joins": 3,
+        "edge_jump_max_per_m": [
+          0.002191,
+          0.000893
+        ],
+        "width_change_max_m": 0.0079,
+        "centre_error_m": 1.1313172620930345e-12,
+        "mouth_change": 6.59916565837193e-13
+      }
+    },
+    {
+      "setting": {
+        "name": "t2-seg1-k0.60",
+        "group": "t2",
+        "seg_m": 1.0,
+        "min_seg": 1.0,
+        "kappa_max": 0.6
+      },
+      "fit_method": "source-fit-1m-ends",
+      "fit_calls": [
+        {
+          "turn_sign": 1,
+          "end_zone": [
+            10.0,
+            0.02
+          ],
+          "source_points": 181,
+          "fit_info": {
+            "segments": 21,
+            "merged": 23,
+            "seg_m": 1.0,
+            "min_segment_m": 1.0000000907910678,
+            "kappa_max": 0.295400361153001,
+            "end_rate_mismatch": 0.011581733528017044,
+            "rate_jump_max": 0.04168870462077219,
+            "p95_m": 0.18399227195196022,
+            "max_m": 0.22540680961741508,
+            "turn_sign": 1,
+            "end_zone": [
+              10.0,
+              0.02
+            ]
+          }
+        }
+      ],
+      "road100_shape": {
+        "primitives": 21,
+        "min_primitive_m": 1.00000009079107,
+        "length_m": 44.57313151193708,
+        "kappa_max_per_m": 0.295400361153001,
+        "kappa_rate_max_per_m2": 0.07649671643327106,
+        "lateral_accel_at_source_speed_mps2": 36.46918038925938,
+        "lateral_jerk_proxy_at_source_speed_mps3": 104.93376739817704
+      },
+      "road100_g8": {
+        "p95_m": 0.19246668257440863,
+        "max_m": 0.2217922775476544
+      },
+      "samples": {
+        "pool_count": 668,
+        "pool_above_015": 26,
+        "pool_p95_m": 0.139204361919873,
+        "road100_count": 46,
+        "road100_above_015": 6,
+        "road100_p95_m": 0.19246668257440863,
+        "road100_max_m": 0.2217922775476544
+      },
+      "whole_map": {
+        "lane_center_noflare_p95_m": 0.139204361919873,
+        "lane_center_noflare_max_m": 0.316893725130808,
+        "boundary_inside_p95_m": 0.11800138723332713,
+        "boundary_inside_max_m": 0.24259013156894985,
+        "lane_endpoint_lateral_max_m": 0.0777587621327103,
+        "conn_seg_min_m": 1.00000009079107,
+        "primitives": 96,
+        "ref_kappa_step_max_per_m": 0.0,
+        "lane_join_curvature_jump_max_per_m": 0.0002272869446440952,
+        "road_interface_curvature_max_per_m": 3.394028205591605e-13,
+        "edge_contact_curvature_max_per_m": 0.000230179919026185,
+        "conn_edge_join_curvature_jump_max_per_m": 0.001066011458400462,
+        "connector_width_bulge_max_m": 0.05599069163005499,
+        "outer_curvature_flips_per_100m_max": 0.0,
+        "paving_holes_gt1cm2": 2,
+        "g8_status": "UNAVAILABLE"
+      },
+      "t2_own_failures": [
+        "boundary_inside_p95_m"
+      ],
+      "t2_own_unavailable": [],
+      "g11_status": "FAIL",
+      "xodr_sha256": "80b39d6ec3f501b5e8b30f710d561330563056cb6cf03f6c710619f34ef26ad0",
+      "elapsed_s": 27.7,
+      "edge_joins": {
+        "road": "100",
+        "joins": 3,
+        "edge_jump_max_per_m": [
+          0.002119,
+          0.000895
+        ],
+        "width_change_max_m": 0.0072,
+        "centre_error_m": 2.1938006966593093e-13,
+        "mouth_change": 9.325873406851315e-14
+      }
+    }
+  ],
+  "base_xodr_sha256": "9aed2e47be1fc04deee6220d7f4bccdcc02004f65e31c99c1d7e3888aa96c224",
+  "input_run_sha256": {
+    "candidate.g8.json": "96985bf0aa299357634cc8b033c254dff3267f24d6f88f4c0198090c5ed8871c",
+    "original-surface.reference-evidence.json": "6b82e5dfc8ae7e439a1c9386edd839fc2e82e704b0470fc9b405be8f3958b669",
+    "candidate.source-lanes.json": "b27158e922de89d83cc7d7938144572ecaf01fbdcc0010bf41e0d06a18a35687",
+    "source-snapshot.json": "7f8f6c103147395598dacace7cb07351ad3255662f3e37abf87399a41a0af801",
+    "local-structure.json": "03a1a4e690071e7ff7b7a9b5bf22134329ade462e66c144ffb927f6b3d956cb9",
+    "report.json": "bbccf04fb5ed0b089e01ffd3beb46d911932ad22f60930d7cab99a8faf6e9bba",
+    "candidate.edge-contacts.json": "45d05316027fd9649efa44128e0f4026ca7a9211cc3f8a726d03cfabc77854dd",
+    "confirmed-probe-intent.json": "844dd362c6e115b8cce5ecaa9124480abfb67dcee21b49608a4090f9fd9d088e",
+    "surface-evidence.json": "cd6df6bedc3c9db165d93b080daca2095a24caf87d0cd9e19b0e8576d89c8813",
+    "runner-child.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "worker.log": "c9ba13f6878a1c011a0d6132363ace383bdc2dbfb281ddbdefe14acc41e3a58d",
+    "source-generated.partial.xodr": "8be5aaab7f6e3feaf480e12672b2b7a79dfa91d118c053c7d57b739f878a4b42",
+    "candidate.delivery-decision.json": "55f23492213611f86ad7664f4d4ff837a5c3dc6a0367b2b083cf4b47ecc30819",
+    "original-surface.reference.unaccepted.xodr": "1b9b35f87165345e0db79a47cf9b7b3e1aee706de5d9cc3f516d96bbbc9067a8",
+    "scoreboard.md": "991a961e811367b4657477dc49ae5c6698fc1fbc913a18800b25d1c7bca89dfa",
+    "source-generated.partial.source-lanes.json": "7ff3811752da3a51a909380b5fd36eb78557d5ac41e6d9e3322de917bd697cd2",
+    "candidate.g11.json": "62a809e2f56021b0865c0bba18e965a7b707763fbcb18c49118123f2e88112d5",
+    "runner-result.json": "4ff40e2089e8651b35a415a3d7e9a481be49421b2a2e6d9b98be01d1202f7289",
+    "preprocess-mouth-comparison.json": "8badf972798315fc786d37bf9b6f0582a66ab9cbcfc6a5e879de45b011187c4e",
+    "candidate.transform.json": "3e68b334b5008abf476a087cc284b097f1d4c23088e8232eb90a777d7da64511",
+    "postprocessed-support-audit.json": "01c66978ec6d3c0506e8756add9368150acf5482b6051702264550c2c6084c26",
+    "surface.unaccepted.xodr": "bbc2d7523ac210fb268dd70251442247418a9342d62a62459f0b99fe74b37dca",
+    "candidate.source-review.json": "2265b07ec16e5a8c0f22b1e9b63de910b99ee49a7596294e83cf1bc17b0763be",
+    "source-generation.stats.json": "5708e0d4a4f80747d582f4b86b84f88d371bcbe431f6864cb0ef204ec83a733d",
+    "candidate.xodr": "9aed2e47be1fc04deee6220d7f4bccdcc02004f65e31c99c1d7e3888aa96c224",
+    "surface.unaccepted.source-lanes.json": "138ff58442bc07b899fa383c6074c260bb8717ebec5c5cae7e0524014382183f",
+    "runner-child.stdout.txt": "fdc815e314d76fa635fe352ba2fb3dd89805c22e3ac008570e995b1aea5c681a",
+    "code-policy-binding.json": "ebbfd7d51b561bd70acc377e6d757a8493a308eb9267a435fc00facb86a22447",
+    "scoreboard.json": "c0cb383d21c60e1fe835202aee490f02e8a5a5f808c8f498fb3cba5d576a8bd5",
+    "local-consumer.json": "19f56083d14408b07949d4c1163eb3d35795e85d7520a179c13d0b34bd3aa722",
+    "candidate.quality-report.json": "48d55284f11dfa41e9848094487efdea524bbe9170b90ef976375227a4b6e7d0"
+  },
+  "implementation_sha256": {
+    "mapforge/ops/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mapforge/ops/arc_source_chart.py": "73790edc8c0a2c77cc3c05cf1ee207314022fad0407539b8b7046d87c33bb42d",
+    "mapforge/ops/connector_edge_joins.py": "3daef49e1a93834a04ba3a6b2b792f8ab6fe33e950f4ce6974108ce807a4fb66",
+    "mapforge/ops/connector_source_fit.py": "85f97800f299f93529aa28bebfbf09931d267ee2434d52659843fa3379ad5054",
+    "mapforge/ops/connector_width.py": "ad03b1836f6fc013f6c64e09cba584cf5011956fb7704abbb72b950b9ac01ba4",
+    "mapforge/ops/continuous_offset_dynamics.py": "ea22e60240953485ca4ffa50cf37b29ad5425e4d39361b7579a4f2084ce40506",
+    "mapforge/ops/coupled_source_junction.py": "55613f4856ca783b06cd1accfc848e4b87ccaccac960f32517dd11d527bd6a3a",
+    "mapforge/ops/endpoint_jet_coordinates.py": "90935ea76dd0468e1c63772edee5efeaf00433e9ebf3b13369dd8ad0d536cb42",
+    "mapforge/ops/envelope_surface.py": "54d9fc8f00112e616bb8dd591053c565af931763b0518250599be2f28f5c53ec",
+    "mapforge/ops/fixed_ribbon_sampling.py": "6a536ea4e8723ac2f7d23281cc5b649f5d7e47f2df82deacbb09bb812da43cc2",
+    "mapforge/ops/joint_connector_fit.py": "02d9934ca4590548d0a98a097bbaba14cab1fb5fab0c23be5b6353c6f3b11c11",
+    "mapforge/ops/joint_connector_restore.py": "2fcc2cb071ad5864cbcdd3d4ec05114d3c7053e1841d3e18f3d964a4d4265b3b",
+    "mapforge/ops/junction_fill.py": "0954838b8b6ffd9f87fd1c3418b9f5806dc09b3d87e65be4003e18136d17b4f0",
+    "mapforge/ops/junction_surface.py": "07c45a29c9623afbfc889b900144783c62587fe1b5304977518f51c117661d30",
+    "mapforge/ops/junction_to_map.py": "082b3819d908e0b7ff687a6b418e9e9cc797b9a439a7585b91711ff62905e6dd",
+    "mapforge/ops/lane_birth_advance.py": "8bc55757faa4f22de1abc0c86102a01bea3da75146f981e71a87527f329ceab6",
+    "mapforge/ops/lane_family_border.py": "4c6229db90d2501362639b3553d5e7a45e8fb9d6e5fe789ad9c73bd8ece6400b",
+    "mapforge/ops/lane_gap.py": "2c24bc4fe22751748828c90c365413aab95f78a89f91fb0ed340557f28cc21c7",
+    "mapforge/ops/lane_refit.py": "edba2d39c9cdb4b262f0647dbdd95a6fc0d8f8942e2142a9595159f6729d746a",
+    "mapforge/ops/leg_fit_fallback.py": "7cf0dc235d73ff1f02fe735dedf5877fc78a5720a35f44e5ce930df0e944c76b",
+    "mapforge/ops/long_connector_chain.py": "bcc7a29e4ee40bb195e5ab41fae2d233f81db6421630ed5b1554adbf112227f8",
+    "mapforge/ops/long_source_seed.py": "3f73cdc15e54f1e634b3e030b784ea7ce61cd5349a06ffe7692a1e8eba1326db",
+    "mapforge/ops/map_approach_fair.py": "f1324003023df818224a9cbcbc119ab6d6e191915500470ea517d83006229599",
+    "mapforge/ops/map_departure_ease.py": "151b9a8c54dad17822a94819ebe8fb2cdbee7ee77d0aae93271c6016a3d2b745",
+    "mapforge/ops/map_far_end.py": "a3d21a1cc9cfa257759b1e97b6b126d6fd9de6c9dc9bc2d54b5e3f5a47d33925",
+    "mapforge/ops/map_lane_refit.py": "85c370c9fa4eee45ee5ef05f4b8947fd68baa80dad420bb52cc90d03f419a842",
+    "mapforge/ops/map_source_corrections.py": "9d56a35f6199418efb303e2e39ff53ea305264160071ff4dec9a9ea050b2a4ac",
+    "mapforge/ops/map_stop_line_mouth.py": "786d42a795b1652915b650658c42c7a103cafb5dd09b755b97d4cbf6b65445d6",
+    "mapforge/ops/map_to_xodr.py": "d05de948afc334753c10b34845bb495ae1a7447200f3a7554044711f608ca43d",
+    "mapforge/ops/mouth_edge_match.py": "86552ae54c858df9f4b220d97d44524ccca0ab0d1f02af0938b12091853c57af",
+    "mapforge/ops/mouth_frame_align.py": "fd429d2b4a75c29e5d46965513e71857a94a1316fe36ef5ca623145d4fd5458d",
+    "mapforge/ops/mouth_recovery.py": "a6b54e6cc904c0118a24c817ab6951baabcab3531ac596579aca7eb097e05eb0",
+    "mapforge/ops/movable_source_support.py": "f75722c6e4682ce52fb0fb779dd98777440d9c47f6f94ef06592299af8725e19",
+    "mapforge/ops/physical_continuations.py": "b14e097064b01e7cd302055783d05f9415d9cd99d9e7d1d29d3ed331d7c81142",
+    "mapforge/ops/port_dependencies.py": "6de86906c9c4a9c6dc958ec7f112787dfafbc69a5a6cecb4f203d53079197273",
+    "mapforge/ops/reconstruction_scope.py": "d49d21ab1ac2473da4f2b5fcaf09c64c202aeeace2c3da313f61a9b832067188",
+    "mapforge/ops/refline_fit.py": "a417e876b64a3f3b2b88a59ae6a4bd4091c4592d4a16a9073df83aa31ebadf5c",
+    "mapforge/ops/refline_merge.py": "bb470c0c992996f6730025ceb29845425a3eaf238a2d74233fd9169d5c1ab2b6",
+    "mapforge/ops/regular_ribbon_seed.py": "0a8eee7b919472b5a4cd3b657d3dc85fc2b92449e2f9c7b924cd1e01b602b267",
+    "mapforge/ops/shared_section.py": "a2aa17d961f0e7fe8eb7be21cb344b7c86de2beba7943ac4e2fbd36a7f1a4889",
+    "mapforge/ops/shp_leave_mouth.py": "cb2c7954cee485f6563b66d7e522bd39937549b807264e9db95f446eaf1ed687",
+    "mapforge/ops/shp_mouth_envelope.py": "526c89f2b7e0f85a0d60c408fb478242faa36b695c7a4249285d5a5b80707a44",
+    "mapforge/ops/shp_to_map.py": "19d4ecb790503d4481dde957655653868f5ca330a6c7ec7873f052d002a09bf6",
+    "mapforge/ops/shp_to_xodr.py": "82cf3bd3d380796d71842c9061d4105cd7b87c8099849c6d8c50f7a77effb9b6",
+    "mapforge/ops/simplify.py": "47703b628f37e69f9649c8b89d5ecbf1044a7e245c9325f5e134475b62eacd27",
+    "mapforge/ops/source_center_support.py": "e85950d6c97d585139eb878fa4a72961a106c350a902f8816b150ff93f73f24a",
+    "mapforge/ops/source_coefficient_stencil.py": "a6936fc73b6168b1d27b2b1a1a0bd0c443d58dee7f2c412d2673aeec28708f65",
+    "mapforge/ops/source_connector_ribbon.py": "4681a1efec3ef019d5064faaa9c3578a84cb5fa7b9a2139be947213c14820e95",
+    "mapforge/ops/source_constraint_envelope.py": "4e09f5610297a4dfc313385258f691afa08abd40aa03e79ea71d451fd2f45afc",
+    "mapforge/ops/source_contacts.py": "b29e29a4c703f9108aa878c02b3a18d6709387933fbfea42ff2f399490f7914d",
+    "mapforge/ops/source_cubic_export.py": "06e18ae1f76b3dedd63c74215e045aab893b318f1243ab9cc0c46c6fa1b49a07",
+    "mapforge/ops/source_domain.py": "1ee0c170e797becbb06eb4815cd8dd0f2b36f7b0b337876b27aef9ebfcd49c70",
+    "mapforge/ops/source_export_domain.py": "d0d69495c32f1f77cb3ff8d2c0c32656e58143336e2cb316f674ab7f3b47a87c",
+    "mapforge/ops/source_feasible_gauss_newton.py": "8b5d6ef7e277dd3cc1def583f614e637411472e9d96a99d1f492d622e1096a8d",
+    "mapforge/ops/source_knot_layout.py": "ebb93108955ed0297a5b06465c524897df0b515426fbac2131942e1154cd2894",
+    "mapforge/ops/source_path_graph.py": "a3e8b74b9a8ee178d8673c562ab2f6b407d19eba8e96c3fdc22d57c637ad9e1f",
+    "mapforge/ops/source_port_domain.py": "4181b5980f3d1800d9a12b5526a7ccb7af8bb4334a73a9fd9449eaee3bb5247e",
+    "mapforge/ops/source_roles.py": "2c5fcf80570669bcfeaf30716a0145e7b171f8b238612f3af89869a761afabde",
+    "mapforge/ops/source_speed_events.py": "9b7d3f2ba556d38e76ec6dfb2e80f2a3743475eea264afb16821e6f73bca84a4",
+    "mapforge/ops/source_transition_domains.py": "699f41c0ff5d727ba6a16529497a2d7236ee0bf84d2c71e1a681b4f8fb41c93b",
+    "mapforge/ops/step_limited_sqp.py": "13a9940f43af1ff050771beb942615633c1d24ccc0d4f1af92d83d6cafca1f8b",
+    "mapforge/ops/whole_source_constraints.py": "8d799ca71fcb0b915cd3e0644e56aa59e2f16a68375030ae619975cabd805053",
+    "mapforge/ops/whole_source_dynamics.py": "ca8660ad73b3f21bd0f64853615371b75b71b51cbd22378802b2a93786cdf6cf",
+    "mapforge/ops/whole_source_step.py": "5761e4a88fbdfc67737b4c01e42adc20abab172829d13e73015d117eb3cf5e4d",
+    "mapforge/ops/window_align.py": "54c1962cee6ae5d4ce312e507e31ab132c6e7da05781bd468131aaef0178d118",
+    "mapforge/ops/window_midpoint.py": "f07d76157f49d5c0edf4f195301af18fd6b82f56da01f4c0ff6bcafe9900b8a9",
+    "mapforge/ops/world_curve_fairness.py": "548ffd11d3b84f4536afc4e0f8c9bc46db77664bb48f7b1a2a1f57fa3db8c217",
+    "mapforge/report/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mapforge/report/decision.py": "6181162d94c40d69fd88b910b523959da6b6372699a49cb1eae2b05f99507107",
+    "mapforge/report/deliver.py": "4cb958697c7278b9dc1bf2a855d107939ac1e89bd04a8cd0f2dfbe0bdb0987c6",
+    "mapforge/report/preview_geojson.py": "f070cc1e106f233cc5f3f785a553ed6b5f58411fb788bcad5443484807c92965",
+    "mapforge/validate/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mapforge/validate/boundary_inside.py": "c8b741c6a1abb4ed341583177b19cd9ec874d80a0d7f6d164f9e83be66628c15",
+    "mapforge/validate/dynamics_speed.py": "9cf9a7b95d977a2eb057e271cb39d37d8f7b19c1d34ef0e082c756ef33006e85",
+    "mapforge/validate/endpoint_lateral.py": "b3f728642be57c6df3c43067c0c9c1597806500941256aa03dd5e53669ff3f0c",
+    "mapforge/validate/g11.py": "eb62ce21ad152791af72afac6015781a4e0ede22cefd9beb8a3af18d644bbe30",
+    "mapforge/validate/g8_model.py": "35a64ff8557b1e889c23e74f0933e18e89ad330c9c63ed79df118d89837e96a1",
+    "mapforge/validate/generalization.py": "96beef210f36f2536b7dc12f49c98045b0446049f5f83d3d7b01f9be35745e11",
+    "mapforge/validate/junction_edges.py": "666bccc95f6d07e4e7c3156d80d616aed44602baf5bb4c10a7f824943918019d",
+    "mapforge/validate/lane_centre_flare.py": "5d4dedfb6c4532bba6fe1bd1c8140d03ce4c06f69a599bfdf4e40c1485761042",
+    "mapforge/validate/lane_centre_poly.py": "79df47a9bec92d4c034da11a4f3826a2a9fad2952b7d52b20a78f7d4b4553dad",
+    "mapforge/validate/lane_edge_joins.py": "335b065ba35af01351f7369b597a876194929daae5fbea69180404107513c7dc",
+    "mapforge/validate/lane_fairness.py": "caa4789af48c5713132bba322deb71d4087ad24f05fcd371c0cb01ca08dceb0d",
+    "mapforge/validate/lane_fidelity.py": "7bb3636e345fdc7dd56caece8ff8e9bb2d8cfb919e0f7d9c1bec0de69072eaf3",
+    "mapforge/validate/line_boundary_shape.py": "f223b03339933748fa9025d8b8ea4e0d497a95dc9515ef14b5ce136c9d984f98",
+    "mapforge/validate/map_source.py": "6a987d7e95775d7edac30e7d9bd8d23cfdfc5e31f6a3e93214022ec96e886e85",
+    "mapforge/validate/map_source_review.py": "822255c00b6a893fda8c280958cf2910e6041d308e0a3bbfddfadec6ef09afc0",
+    "mapforge/validate/map_width.py": "8f7ea263f725e36019a2dbfc780dca8c2285e1ea128a2b7cbf5978c798c7ed84",
+    "mapforge/validate/planview_check.py": "a841afbc22cd6adde85738164ef7cda83e2f415ab53fa9ad0737aa1bff3fbf8f",
+    "mapforge/validate/replay.py": "3e87cb45432afe41512158b9b6f7ea5949a1e82b03bf88cf32dcdbe4cc0a6c58",
+    "mapforge/validate/scoreboard.py": "261464707da973c3b0737a75bb4ff75c8862d57f78fe0037f20a44d428f47a1e",
+    "mapforge/validate/separated_acceptance.py": "b89c9c9b827070aa7b4885b2b69d0d6d80124cb3e78fe4099709cd13d00c3138",
+    "mapforge/validate/shp_boundary_fidelity.py": "6f14d9927734761946876102fe6a38570f8d13e6ec246ff007127ee2072238aa",
+    "mapforge/validate/shp_source_review.py": "741a62904b7fe7350aaf729340f384ff036e41ccafc2d0c899eb95b0c4b4f155",
+    "mapforge/validate/smoothness.py": "abd2ae7abb17d354e9253a7e250303aba7629107f162ebba12aa4c153adf15cf",
+    "mapforge/validate/source_cubic_readback.py": "23a6a62616fa571ffa4db34f409ec5be3647109bef0e582305afe25948f92111",
+    "mapforge/validate/turn_shape.py": "259208c8f6a5942c94ad4aa091f92d92bc0d780ae81d3a40785b0b54685ce364"
+  },
+  "policy_sha256": {
+    "profiles/validation/separated-acceptance-v1.yaml": "0d3472f8f95e3df314fddeddfd07cce7607e55be8f827cd2fa2960cb6fc77b7c",
+    "profiles/validation/static-acceptance-v1.draft.yaml": "9b9d2e051b4e54d0765669c1fb1b6cc5d9c353390707172e52d11640f8451122",
+    "profiles/validation/g11-opendrive-v1.draft.yaml": "6905b51c91694f5db10fdb012e572201a462efd7d6a91fb901a761e55768d089",
+    "profiles/validation/g8-opendrive-jinfeng-v1.yaml": "e92b855ca9c4193846036d80095731b29c5b1bcea2a181b942e14f322e28548f",
+    "profiles/validation/generalization-set-v1.yaml": "03bed9b762a0b109d68374c37c3baefc8d008a9d311e7c3032013f39aef2ea2f"
+  },
+  "windows_reproduction_delta": {
+    "lane_center_noflare_p95_m": 0.0,
+    "boundary_inside_p95_m": 0.0
+  },
+  "platform": "linux",
+  "python": "3.11.16",
+  "consumer": "esmini not run on Linux; T1 is not judged here",
+  "accepted": false,
+  "formal_delivery": false
+}
