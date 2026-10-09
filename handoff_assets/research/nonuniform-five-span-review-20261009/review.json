@@ -1,0 +1,109 @@
+{
+  "schema": "mapforge/review/nonuniform-five-span-independent-review/v1",
+  "status": "INDEPENDENT_REVIEW_AGREES_WITH_STRICT_FAMILY_EXCLUSION",
+  "reviewed_files_sha256": {
+    "README.md": "e3867e87e16d2001385b0e63cd4d122ff9e0bb688d28b48507da5ea7670778fd",
+    "declaration.json": "9a309e32289e54912f3774f42108bbd4240c35e48f87051aa96ac826167fdc5d",
+    "derivation.json": "faca322df9ce140723b076b62936508d3afc39074b3ae1f96299c9bd27ebd8b8",
+    "research.py": "cfac27e9361d9defd9cca653a5e8d044a1d9b6ebd89422513656fc0b9a9c19b4"
+  },
+  "review_scripts_sha256": {
+    "falsify.py": "c990592d927cdafeda9971205e119efb9ec60ea8a62ee09f4b05ca98d68c586b",
+    "review_algebra.py": "61e891e7e6813bf00dcd1d141054601026d1f774c6a54cd5c6a66e406b20322d",
+    "vertex_exact.py": "d5e4b687b6b6ef4d0162e7c9ad69dfdbd25f076d8ddc3399e1286b812c57dbc0"
+  },
+  "environment": "Claude Code cloud container, Linux, Python 3.11.16 (project venv) plus a separate sympy 1.13.3 review venv; main 7a2d233",
+  "method": [
+    "symbolic offset-curve dkappa/dl for general k(s), t(s) (sympy), compared with the reviewed closed form",
+    "symbolic truncated-power identity and end-condition minors",
+    "hand re-derivation of every interval enclosure (c0, w, w/c0, B-spline derivative bounds, endpoint bounds, nonlinear r^d bound)",
+    "dense numeric baseline monotonicity, knot-simplex grid of both linear coefficients, nonlinear excess grid",
+    "exact rational coefficients at all five simplex vertices and equal spans",
+    "end-to-end: 768 real candidate XMLs (reviewer's own Cox-de Boor basis and record splitting) judged by the unmodified production local_shape.compare",
+    "rerun of the reviewed research.py in a fresh directory"
+  ],
+  "findings": {
+    "rate_formula": {
+      "rate_minus_reviewed_times_D3": "k2*t*t1*(k**2*t**2 - 2*k*t + t1**2 + 1)",
+      "difference_when_k2_zero": "0",
+      "reviewed_form_exact_for_spiral_reference": true
+    },
+    "road10_reference_on_domain": "one spiral covers [a, b] in the exact decimal model (end 89.2662981386559 >= b); laneOffset and right -1/-2 widths are affine with no record inside (a, b)",
+    "basis_algebra": {
+      "c0_matches_claim": true,
+      "w_over_c0_matches_claim": true,
+      "end_matrix_3x3_minor_example": "18*x0*x1*x2*(x0 - x1)*(x0 - x2)*(x1 - x2)",
+      "every_3x3_minor_nonzero_for_distinct_positive_x": true
+    },
+    "baseline_monotonicity": {
+      "right-1-center": {
+        "rate_min": 0.0001453197923980951,
+        "rate_max": 0.00014724226679562125,
+        "all_positive": true,
+        "increasing": true,
+        "decreasing": false
+      },
+      "right-2-center": {
+        "rate_min": 0.0001468273790447385,
+        "rate_max": 0.00014835764340432063,
+        "all_positive": true,
+        "increasing": false,
+        "decreasing": true
+      }
+    },
+    "witness_in_span2_all_grid_knots": true,
+    "linear_coefficient_check": {
+      "reviewed_ell": 0.017321451594882277,
+      "exact_minimum_found_at_vertex_3_H_3_3_3_v": 0.017354796829732018,
+      "margin_over_ell": 3.3345234849740214e-05,
+      "remark": "the uniform bound holds but is tight to 0.2% at this simplex vertex, where B1''' equals the enclosure's lower end"
+    },
+    "nonlinear_excess_over_r_min_on_grid": 0.020568034892126975,
+    "end_to_end": {
+      "samples": 768,
+      "statuses": {
+        "REGRESSION": 768
+      },
+      "counterexamples": 0,
+      "knot_sets": [
+        "equal",
+        "vertex0",
+        "vertex1",
+        "vertex2",
+        "vertex3",
+        "vertex4",
+        "random6",
+        "random7",
+        "random8",
+        "random9",
+        "random10",
+        "random11"
+      ],
+      "directions": 16,
+      "magnitudes_m": [
+        0.0001,
+        0.001,
+        0.01,
+        0.03
+      ],
+      "observation": "every u,v>=0 sample inside the endpoint cap regresses the lane -2 rate in the cell starting at the witness station; lane -2/-1 centre and edges and curvature peaks regress as well, so the actual checker rejects more than the proof needs"
+    },
+    "fewer_spans": "agree: four spans leave one B-spline whose two endpoint conditions force opposite signs, so zero; three or fewer spans have dimension <= 0",
+    "reference_linkage": "agree: fixed left world edges and positive width at the same s fix the reference normal, hence tangent and (with a fixed start) the reference line"
+  },
+  "remarks": [
+    "derivation.json was produced by an earlier research.py: a rerun adds the source_proof field (216 source hashes); all mathematical fields are identical; the original file is CRLF",
+    "README.md references next-contract-requirements.json, which does not exist; the four requirements live only in the README text",
+    "in binary64 the domain start a lies about 1e-15 m inside the previous spiral (a is exactly a primitive boundary in decimal) and the next primitive starts 1e-13 m before the domain spiral ends; outside the stated decimal model, no effect on the exclusion"
+  ],
+  "implementation_recommendation": "Do not implement the nonuniform five-span paired laneOffset/median family on this domain. A next tool needs a different, source-backed physical scope (see the reviewed README's four requirements), not a relaxed threshold.",
+  "limitations": [
+    "grids and sampled candidates are evidence; continuum coverage rests on the reviewed interval enclosure, whose formulas were re-derived here",
+    "same predeclared domain, fixed reference and paired expression only; no claim about other domains, representations or road 10 in general",
+    "the comparison contract itself (domain and cells) was taken as given"
+  ],
+  "original_research_modified": false,
+  "production_modified": false,
+  "candidate_count_accepted": 0,
+  "formal_delivery": false
+}

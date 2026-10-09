@@ -1,0 +1,13 @@
+{"knots": "vertex1", "done": 64, "statuses": {"REGRESSION": 64}, "elapsed_s": 400.2}
+{"knots": "vertex2", "done": 128, "statuses": {"REGRESSION": 128}, "elapsed_s": 401.3}
+{"knots": "vertex0", "done": 192, "statuses": {"REGRESSION": 192}, "elapsed_s": 404.0}
+{"knots": "equal", "done": 256, "statuses": {"REGRESSION": 256}, "elapsed_s": 410.5}
+{"knots": "vertex3", "done": 320, "statuses": {"REGRESSION": 320}, "elapsed_s": 809.0}
+{"knots": "vertex4", "done": 384, "statuses": {"REGRESSION": 384}, "elapsed_s": 816.9}
+{"knots": "random6", "done": 448, "statuses": {"REGRESSION": 448}, "elapsed_s": 819.0}
+{"knots": "random7", "done": 512, "statuses": {"REGRESSION": 512}, "elapsed_s": 824.7}
+{"knots": "random8", "done": 576, "statuses": {"REGRESSION": 576}, "elapsed_s": 1234.1}
+{"knots": "random9", "done": 640, "statuses": {"REGRESSION": 640}, "elapsed_s": 1240.8}
+{"knots": "random10", "done": 704, "statuses": {"REGRESSION": 704}, "elapsed_s": 1241.7}
+{"knots": "random11", "done": 768, "statuses": {"REGRESSION": 768}, "elapsed_s": 1247.7}
+{"samples": 768, "statuses": {"REGRESSION": 768}} counterexamples 0

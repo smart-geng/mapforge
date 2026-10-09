@@ -1,0 +1,59 @@
+{
+  "schema": "mapforge/review/nonuniform-five-span-algebra/v1",
+  "symbolic_rate": {
+    "rate_minus_reviewed_times_D3": "k2*t*t1*(k**2*t**2 - 2*k*t + t1**2 + 1)",
+    "difference_when_k2_zero": "0",
+    "reviewed_form_exact_for_spiral_reference": true
+  },
+  "basis_algebra": {
+    "c0_matches_claim": true,
+    "w_over_c0_matches_claim": true,
+    "end_matrix_3x3_minor_example": "18*x0*x1*x2*(x0 - x1)*(x0 - x2)*(x1 - x2)",
+    "every_3x3_minor_nonzero_for_distinct_positive_x": true
+  },
+  "baseline_monotonicity_dense_4001": {
+    "right-1-center": {
+      "rate_min": 0.0001453197923980951,
+      "rate_max": 0.00014724226679562125,
+      "all_positive": true,
+      "increasing": true,
+      "decreasing": false
+    },
+    "right-2-center": {
+      "rate_min": 0.0001468273790447385,
+      "rate_max": 0.00014835764340432063,
+      "all_positive": true,
+      "increasing": false,
+      "decreasing": true
+    }
+  },
+  "witness_station_in_span2_for_all_grid_knots": true,
+  "grid_knot_count": 3876,
+  "grid_steps_per_span": 15,
+  "linear_coefficient_min_on_grid_per_m_of_rate": {
+    "u": 0.05272254841959343,
+    "v": 0.01755775736985484
+  },
+  "linear_coefficient_argmin_spans_m": {
+    "u": [
+      3.0,
+      4.429232,
+      3.0,
+      3.0,
+      3.0
+    ],
+    "v": [
+      3.0,
+      4.429232,
+      3.0,
+      3.0,
+      3.0
+    ]
+  },
+  "note_units": "grid slope is dRnew/du (1/m^2 per m); the reviewed ell bounds the numerator P = (Rnew-Rold) D^3",
+  "reviewed_ell": 0.017321451594882277,
+  "reviewed_cap_m": 0.03363736446889393,
+  "nonlinear_excess_over_r_min_on_grid": 0.020568034892126975,
+  "nonlinear_samples": 1053,
+  "baseline_rate_at_witness": 0.0001478829174025266
+}
