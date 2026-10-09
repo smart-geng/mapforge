@@ -17,7 +17,10 @@ polyline, relative to the unchanged reference line:
   ramp edge when the source opens abruptly;
 * junction mouths: no vertex within MOUTH_ZONE_M, end slope clipped to
   +/-MOUTH_SLOPE_CAP so connectors can meet the edge smoothly; a steeper source flare
-  (> MOUTH_FLARE_MAX) is kept and reported (``strong_mouth_flares``);
+  (> MOUTH_FLARE_MAX) is kept and reported (``strong_mouth_flares``); with ``mouth_anchor`` (2026-10-09) a
+  source corner dropped from a mouth zone through which the source runs straight into the mouth leaves a vertex on
+  the data at the zone edge, so the run before it still follows the source (0621 road 10: a corner 7.8 m before the
+  mouth had pulled 16 m of the median edge 0.23 m off);
 * curb returns: a strong flare on the outermost boundary at a mouth is the start of the
   corner curb return, not lane width (no connector can continue it without a width bulge).
   The driving lane keeps the pre-flare edge into the mouth; a non-driving shoulder lane,
@@ -303,7 +306,8 @@ def _g2_transition(s0, s1, start, end):
 
 def fit_boundary(obs_s, obs_t, a, b, start=None, end=None, ramp_start=False, ramp_end=False,
                  mode=None, kappa_cap=None, rdp_tol=None, seg_min=None, c2_ends=False, protect=(), corner_h=None,
-                 protect_values=None, free_end_runs=False, info=None, short_kappa=False, lsq_refine=False):
+                 protect_values=None, free_end_runs=False, info=None, short_kappa=False, lsq_refine=False,
+                 mouth_anchor=False):
     """Piecewise cubic over [a, b]: straight runs between RDP vertices with corner blends.
 
     Corner half-length follows the curvature target (g2: |dm|/kappa, c1: |dm|/(2 kappa)),
@@ -329,6 +333,13 @@ def fit_boundary(obs_s, obs_t, a, b, start=None, end=None, ramp_start=False, ram
     passes, corner sizes renewed in between). RDP puts vertices on the data, so the chords cut inside every
     smooth bend and the corner blends cut inside once more (shp-node13 road 10 lane 5: a rounded knee 0.3 m
     inside); the curve is linear in the vertex values for fixed corner sizes, so this is a linear problem.
+    ``mouth_anchor``: a junction-mouth zone that loses source vertices gets one at its inner edge, on the data, like
+    a birth/death ramp, where the source itself runs straight (within ``rdp_tol``) from there into the mouth: the
+    dropped corner sat at the zone edge, and the run before it no longer stretches over it (2026-10-09). A corner
+    deeper in the zone is a mouth flare or curb return and is still left out as before: anchoring one steepens the
+    run into the mouth and bends the connectors meeting it (shp-node17 road 10, flare 0.5-4.5 m before the mouth:
+    edge contact curvature 0.0009 -> 0.0033 /m, T2 FAIL). The zone stays one straight run into the mouth with the
+    capped slope either way.
     """
     mode = mode or MODE
     kappa_cap = kappa_cap or KAPPA_CAP
@@ -356,7 +367,8 @@ def fit_boundary(obs_s, obs_t, a, b, start=None, end=None, ramp_start=False, ram
     def clear(keep, lo, hi, anchor=None):
         """Drop vertices strictly inside (lo, hi). For births/deaths anchor a vertex at ``anchor`` when
         any were dropped, so the boundary still reaches the source there (a lane that opens abruptly).
-        Mouth zones get no anchor: one straight run into the mouth, slope capped at the mouth."""
+        Mouth zones get no anchor unless ``mouth_anchor``: one straight run into the mouth, slope capped at the
+        mouth."""
         inside = [i for i in keep if lo < grid[i] < hi]
         keep = [i for i in keep if i not in inside]
         if inside and anchor is not None:
@@ -367,10 +379,22 @@ def fit_boundary(obs_s, obs_t, a, b, start=None, end=None, ramp_start=False, ram
         keep = clear(keep, a, a + ramp, a + ramp)
     if ramp_end:
         keep = clear(keep, b - ramp, b, b - ramp)
+    def straight_into_mouth(edge, k):
+        """The source runs straight (within rdp_tol) from the grid point at ``edge`` into the mouth end k."""
+        j = int(np.argmin(np.abs(grid - edge)))
+        lo, hi = sorted((j, k))
+        if hi - lo < 2:
+            return True
+        x = grid[lo + 1:hi]
+        line = vals[j] + (vals[k] - vals[j]) * (x - grid[j]) / (grid[k] - grid[j])
+        return bool(np.max(np.abs(vals[lo + 1:hi] - line)) <= rdp_tol)
+
     if start and start[1] == "mouth":
-        keep = clear(keep, a, a + zone)
+        anchor = a + zone if mouth_anchor and straight_into_mouth(a + zone, 0) else None
+        keep = clear(keep, a, a + zone, anchor)
     if end and end[1] == "mouth":
-        keep = clear(keep, b - zone, b)
+        anchor = b - zone if mouth_anchor and straight_into_mouth(b - zone, last) else None
+        keep = clear(keep, b - zone, b, anchor)
     keep = [i for i in keep if 0 <= i <= last]
     protected = {float(grid[j]) for j in pinned}
     keep = sorted(set(keep) | set(pinned))
@@ -1509,14 +1533,15 @@ VARIANTS = {"g2-k04": {"mode": "g2", **LEVEL_A}, "g2-k02": {"mode": "g2", **LEVE
             # (turn_end_zone: connector_source_fit.END_ZONE, user decision 2026-10-05); mirrored MAP departure
             # sides eased where they bend (departure_ease, 2026-10-07; MAP only), and before that the MAP approach
             # sides faired within 5 cm of their point lists (approach_fair, 2026-10-07; MAP only); one-lane connectors
-            # width slopes at reference joins chosen so their edges barely jump in curvature (edge_joins, 2026-10-07)
+            # width slopes at reference joins chosen so their edges barely jump in curvature (edge_joins, 2026-10-07); a source corner
+            # dropped from a junction-mouth zone leaves a vertex on the data at the zone edge (mouth_anchor, 2026-10-09)
             "g2-k04-c2": {"mode": "g2", **LEVEL_A, "curb_shoulder": True, "c2_ends": True, "merge_short_ref": True,
                           "rechain": True, "birth_advance": True, "short_kappa": True, "lsq_refine": True,
                           "link_gaps": True, "approach_fair": True, "departure_ease": True, "edge_joins": True,
                           "mouth_blend_kappa": 0.01, "kappa_bound_scale": 1.25, "mouth_blend_pick": True,
                           "source_guided": True, "width_local_slopes": True, "match_end_curvature": True,
                           "monotone_turns": True, "aligned_frame": True, "map_refit": True, "source_fit": True,
-                          "turn_end_zone": True}}
+                          "turn_end_zone": True, "mouth_anchor": True}}
 
 
 def _variant(name):
