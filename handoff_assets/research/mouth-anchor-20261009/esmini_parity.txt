@@ -1,0 +1,26 @@
+OK   map-node3 True 0.0 | stored True 0.0
+OK   shp-node3 True 0.0 | stored True 0.0
+OK   map-node4 True 0.0 | stored True 0.0
+OK   shp-node4 True 0.0 | stored True 0.0
+OK   map-NODE5 True 0.0 | stored True 0.0
+OK   shp-NODE5 True 0.0 | stored True 0.0
+OK   map-node13 True 0.0 | stored True 0.0
+OK   shp-node13 True 0.0 | stored True 0.0
+OK   map-node16 True 0.0 | stored True 0.0
+OK   shp-node16 True 0.0 | stored True 0.0
+OK   map-node17 True 0.0 | stored True 0.0
+OK   shp-node17 True 0.0 | stored True 0.0
+OK   map-node18 True 0.0 | stored True 0.0
+OK   shp-node18 True 0.0 | stored True 0.0
+OK   2023041111160971268 True 0.3 | stored True 0.3
+OK   2023061310244790027 False 19.1 | stored False 19.1
+OK   2023062713394062899 True 0.0 | stored True 0.0
+OK   2023070710412621654 True 0.0 | stored True 0.0
+OK   2023080118313036830 True 0.0 | stored True 0.0
+OK   2023041216222042093 True 0.0 | stored True 0.0
+OK   2023080810023203229 True 0.0 | stored True 0.0
+OK   2023041810414040830 True 0.0 | stored True 0.0
+OK   2023070710324132429 True 0.0 | stored True 0.0
+OK   2023071109582525264 True 0.0 | stored True 0.0
+OK   0621 True 0.0 | stored True 0.0
+25 / 25

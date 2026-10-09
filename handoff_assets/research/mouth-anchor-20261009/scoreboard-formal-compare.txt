@@ -1,0 +1,81 @@
+== map-node3 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node3 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+   * boundary_inside_p95_m                      0.035172619658366246 -> 0.03470228287573042
+     boundary_median_m                          0.007818857213928682 -> 0.007508387510099725
+   * connector_width_bulge_max_m                0.22145773105097133 -> 0.2337185321767925
+   * edge_contact_curvature_max_per_m           0.0003607116843133303 -> 0.00038766584479220286
+     fair_road_kappa_max_per_m                  0.013980275929020928 -> 0.015731648908041487
+     fair_road_kappa_p90_per_m                  0.006394881593028534 -> 0.006428741248140225
+     fair_road_sharpness_max_per_m2             0.008757397575331383 -> 0.016642794832742884
+     fair_straight_conn_kappa_max_per_m         0.059736927097769905 -> 0.05960783152936772
+     fair_straight_conn_kappa_median_per_m      0.0379412759808703 -> 0.03773807792636644
+     lane_center_median_m                       0.018948100736047208 -> 0.01853327947526565
+     lane_center_noconflict_median_m            0.01765918958822731 -> 0.017597190599046058
+   * lane_center_noconflict_p95_m               0.07720104492849932 -> 0.07641176135255734
+     lane_center_noflare_median_m               0.01765918958822731 -> 0.017597190599046058
+     lane_center_noflare_p95_m                  0.07720104492849932 -> 0.07641176135255734
+   * lane_center_p95_m                          0.08875814980178906 -> 0.08847355073710146
+     lane_center_poly_median_m                  0.014688553662796401 -> 0.014944462092204477
+     lane_center_poly_p95_m                     0.0865608451313125 -> 0.08624399833149253
+     lane_join_jumps_gt_1e-07                   141 -> 136
+     width_records                              1365 -> 1381
+== map-node4 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node4 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+   * boundary_inside_p95_m                      0.035949474820139 -> 0.035373987791482805
+     boundary_median_m                          0.010742527892738604 -> 0.01050922176997501
+   * connector_width_bulge_max_m                0.025498656795316155 -> 0.0430289999297786
+     connector_width_min_m                      3.4058150945536867 -> 3.3852550124771215
+     lane_center_median_m                       0.018579836561312648 -> 0.018491318056776347
+     lane_center_noconflict_median_m            0.01838346583450662 -> 0.018301018431972748
+   * lane_center_noconflict_p95_m               0.056016168442205784 -> 0.05616392768392865
+     lane_center_noflare_median_m               0.01838346583450662 -> 0.018301018431972748
+     lane_center_noflare_p95_m                  0.056016168442205784 -> 0.05616392768392865
+     lane_center_poly_median_m                  0.0166230105021819 -> 0.016614615633794114
+     lane_center_poly_p95_m                     0.057866686430067475 -> 0.05792030574922853
+     lane_join_jumps_gt_1e-07                   80 -> 83
+     width_records                              1363 -> 1365
+== map-NODE5 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-NODE5 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== map-node13 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node13 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+   * conn_seg_min_m                             3.00002419318449 -> 3.00005189654186
+   * connector_width_bulge_max_m                0.09420971289559255 -> 0.09393411347169067
+   * edge_contact_curvature_max_per_m           0.0002337969027418655 -> 0.00024285791728721577
+     fair_road_kappa_p90_per_m                  0.004444216443275112 -> 0.004281821392550883
+     fair_straight_conn_kappa_max_per_m         0.049876972171193155 -> 0.049869340399481016
+     fair_straight_conn_kappa_median_per_m      0.008815670989164286 -> 0.008620013353527254
+     lane_center_median_m                       0.016417481969093626 -> 0.01627958406470676
+     lane_center_noconflict_median_m            0.016225927465098332 -> 0.01610545825927384
+   * lane_center_noconflict_p95_m               0.0758948288648559 -> 0.0764414673081938
+     lane_center_noflare_median_m               0.016417481969093626 -> 0.01627958406470676
+     lane_center_noflare_p95_m                  0.07729387877475866 -> 0.0785213955243414
+   * lane_center_p95_m                          0.07729387877475866 -> 0.0785213955243414
+     lane_center_poly_median_m                  0.013621114513375634 -> 0.013603224758625822
+     lane_center_poly_p95_m                     0.07400870766573737 -> 0.0743626599862871
+     lane_join_jumps_gt_1e-07                   110 -> 113
+     width_records                              1011 -> 1035
+== map-node16 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node16 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== map-node17 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node17 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== map-node18 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node18 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+     boundary_max_m                             0.7296286625009079 -> 0.7290234282180095
+     boundary_median_m                          0.009924683467828592 -> 0.009880872837077597
+   * connector_width_bulge_max_m                0.15133686760252818 -> 0.14587719345372685
+     connector_width_min_m                      3.097548760520132 -> 3.1018831379402534
+     fair_road_sharpness_max_per_m2             0.010053422297244884 -> 0.02268861315743294
+     fair_straight_conn_kappa_max_per_m         0.06423582464609509 -> 0.059852011274968246
+     fair_straight_conn_kappa_median_per_m      0.031197179878910734 -> 0.03253404452824485
+     lane_center_median_m                       0.015494352819407246 -> 0.015502601436428752
+     lane_center_noconflict_median_m            0.014596404520791199 -> 0.01449678363374442
+   * lane_center_noconflict_p95_m               0.09203193985717081 -> 0.08542554183682174
+     lane_center_noflare_median_m               0.015222509022026542 -> 0.015271056107932316
+     lane_center_noflare_p95_m                  0.09380298318418517 -> 0.08890408076330579
+   * lane_center_p95_m                          0.09690471139867751 -> 0.09262695592741081
+     lane_center_poly_median_m                  0.012568791956973555 -> 0.012465309930343253
+     lane_center_poly_p95_m                     0.09376995100193147 -> 0.08913590675751719
+     lane_join_jumps_gt_1e-07                   233 -> 245
+     primitives                                 276 -> 287
+     width_records                              2058 -> 2046
+rows with any change: 4 / 14
