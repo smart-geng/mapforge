@@ -15,6 +15,7 @@ from lxml import etree
 
 from mapforge.validate import g8_model as model
 from mapforge.validate.lane_fidelity import evaluate_g8, extract_target_components
+from .fidelity_replay import matches_fidelity_replay
 
 SCHEMA = "mapforge/workbench-fidelity-inspection/v1"
 POLICY = Path(__file__).resolve().parents[2] / "profiles/validation/g8-opendrive-jinfeng-v1.yaml"
@@ -73,7 +74,7 @@ def inspect_fidelity(root, manifest, gate, policy):
         # Replay the unchanged evaluator solely to authenticate the report we
         # display. Do not reimplement its stopline/coverage/exclusion semantics
         # here: a missing issue or forged zero must never disappear in the UI.
-        if model.canonical_json(evaluate_g8(root, manifest, policy)) != model.canonical_json(gate):
+        if not matches_fidelity_replay(gate, evaluate_g8(root, manifest, policy)):
             raise ValueError("原保真报告与实际候选、来源及策略的回读结果不一致")
         rows, scope, issues = gate.get("per_lane"), gate.get("scope"), gate.get("issues")
         if (not isinstance(rows, list) or not rows or not isinstance(scope, dict)
