@@ -1,6 +1,7 @@
 # Research bindings and source identities depend on exact bytes.
 mapforge/** -text
 scripts/** -text
+tests/** -text
 profiles/** -text
 *.xsd -text
 handoff_assets/** -text
