@@ -1,0 +1,994 @@
+{
+ "schema": "mapforge/research/stopline-policy-rescore/v1",
+ "policy_before": "0.9-draft",
+ "policy_after": "0.10-draft",
+ "rows": [
+  {
+   "case": "scoreboard/map-node3",
+   "pipeline": "map",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "g8_status": "PASS",
+   "g8_status_stopline_resolved": "PASS",
+   "findings": []
+  },
+  {
+   "case": "scoreboard/shp-node3",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "g8_status": "PASS",
+   "stopline_matched": 0,
+   "stopline_source_absent": 0,
+   "stopline_match_distance_max_m": null,
+   "stopline_matched_delta_max_m": null,
+   "g8_status_stopline_resolved": "PASS",
+   "g8_stopline_requirements_left_out": 0,
+   "findings": []
+  },
+  {
+   "case": "scoreboard/map-node4",
+   "pipeline": "map",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "g8_status": "PASS",
+   "g8_status_stopline_resolved": "PASS",
+   "findings": []
+  },
+  {
+   "case": "scoreboard/shp-node4",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "g8_status": "PASS",
+   "stopline_matched": 0,
+   "stopline_source_absent": 0,
+   "stopline_match_distance_max_m": null,
+   "stopline_matched_delta_max_m": null,
+   "g8_status_stopline_resolved": "PASS",
+   "g8_stopline_requirements_left_out": 0,
+   "findings": []
+  },
+  {
+   "case": "scoreboard/map-NODE5",
+   "pipeline": "map",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "g8_status": "PASS",
+   "g8_status_stopline_resolved": "PASS",
+   "findings": []
+  },
+  {
+   "case": "scoreboard/shp-NODE5",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "g8_status": "PASS",
+   "stopline_matched": 0,
+   "stopline_source_absent": 0,
+   "stopline_match_distance_max_m": null,
+   "stopline_matched_delta_max_m": null,
+   "g8_status_stopline_resolved": "PASS",
+   "g8_stopline_requirements_left_out": 0,
+   "findings": []
+  },
+  {
+   "case": "scoreboard/map-node13",
+   "pipeline": "map",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "g8_status": "PASS",
+   "g8_status_stopline_resolved": "PASS",
+   "findings": []
+  },
+  {
+   "case": "scoreboard/shp-node13",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "g8_status": "PASS",
+   "stopline_matched": 0,
+   "stopline_source_absent": 0,
+   "stopline_match_distance_max_m": null,
+   "stopline_matched_delta_max_m": null,
+   "g8_status_stopline_resolved": "PASS",
+   "g8_stopline_requirements_left_out": 0,
+   "findings": []
+  },
+  {
+   "case": "scoreboard/map-node16",
+   "pipeline": "map",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "g8_status": "PASS",
+   "g8_status_stopline_resolved": "PASS",
+   "findings": []
+  },
+  {
+   "case": "scoreboard/shp-node16",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "g8_status": "PASS",
+   "stopline_matched": 0,
+   "stopline_source_absent": 0,
+   "stopline_match_distance_max_m": null,
+   "stopline_matched_delta_max_m": null,
+   "g8_status_stopline_resolved": "PASS",
+   "g8_stopline_requirements_left_out": 0,
+   "findings": []
+  },
+  {
+   "case": "scoreboard/map-node17",
+   "pipeline": "map",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "g8_status": "PASS",
+   "g8_status_stopline_resolved": "PASS",
+   "findings": []
+  },
+  {
+   "case": "scoreboard/shp-node17",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "g8_status": "PASS",
+   "stopline_matched": 0,
+   "stopline_source_absent": 0,
+   "stopline_match_distance_max_m": null,
+   "stopline_matched_delta_max_m": null,
+   "g8_status_stopline_resolved": "PASS",
+   "g8_stopline_requirements_left_out": 0,
+   "findings": []
+  },
+  {
+   "case": "scoreboard/map-node18",
+   "pipeline": "map",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "g8_status": "PASS",
+   "g8_status_stopline_resolved": "PASS",
+   "findings": []
+  },
+  {
+   "case": "scoreboard/shp-node18",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "g8_status": "PASS",
+   "stopline_matched": 0,
+   "stopline_source_absent": 0,
+   "stopline_match_distance_max_m": null,
+   "stopline_matched_delta_max_m": null,
+   "g8_status_stopline_resolved": "PASS",
+   "g8_stopline_requirements_left_out": 0,
+   "findings": []
+  },
+  {
+   "case": "generalize/2023041111160971268",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "g8_status": "PASS",
+   "stopline_matched": 0,
+   "stopline_source_absent": 0,
+   "stopline_match_distance_max_m": null,
+   "stopline_matched_delta_max_m": null,
+   "g8_status_stopline_resolved": "PASS",
+   "g8_stopline_requirements_left_out": 0,
+   "findings": []
+  },
+  {
+   "case": "generalize/2023061310244790027",
+   "pipeline": "shp",
+   "before": {
+    "T1": "FAIL",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "FAIL",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [
+     "esmini_pass",
+     "route_gap_max_m",
+     "road_interface_position_max_m",
+     "road_interface_heading_max_deg",
+     "edge_contact_position_max_m",
+     "edge_contact_heading_max_deg",
+     "g8_status"
+    ],
+    "T2": [
+     "lane_center_noconflict_max_m",
+     "lane_endpoint_lateral_max_m",
+     "boundary_inside_max_m",
+     "edge_contact_position_max_m",
+     "edge_contact_heading_max_deg",
+     "road_interface_curvature_max_per_m",
+     "edge_contact_curvature_max_per_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [
+     "esmini_pass",
+     "route_gap_max_m",
+     "road_interface_position_max_m",
+     "road_interface_heading_max_deg",
+     "edge_contact_position_max_m",
+     "edge_contact_heading_max_deg",
+     "g8_status_stopline_resolved"
+    ],
+    "T2": [
+     "lane_center_noconflict_max_m",
+     "lane_endpoint_lateral_max_m",
+     "boundary_inside_max_m",
+     "edge_contact_position_max_m",
+     "edge_contact_heading_max_deg",
+     "road_interface_curvature_max_per_m",
+     "edge_contact_curvature_max_per_m"
+    ]
+   },
+   "g8_status": "FAIL",
+   "stopline_matched": 0,
+   "stopline_source_absent": 0,
+   "stopline_match_distance_max_m": null,
+   "stopline_matched_delta_max_m": null,
+   "g8_status_stopline_resolved": "FAIL",
+   "g8_stopline_requirements_left_out": 0,
+   "findings": []
+  },
+  {
+   "case": "generalize/2023062713394062899",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noconflict_p95_m",
+     "lane_center_noconflict_max_m",
+     "lane_endpoint_lateral_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m",
+     "lane_join_curvature_jump_max_per_m",
+     "edge_contact_curvature_max_per_m",
+     "conn_edge_join_curvature_jump_max_per_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noconflict_p95_m",
+     "lane_center_noconflict_max_m",
+     "lane_endpoint_lateral_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m",
+     "lane_join_curvature_jump_max_per_m",
+     "edge_contact_curvature_max_per_m",
+     "conn_edge_join_curvature_jump_max_per_m"
+    ]
+   },
+   "g8_status": "PASS",
+   "stopline_matched": 0,
+   "stopline_source_absent": 0,
+   "stopline_match_distance_max_m": null,
+   "stopline_matched_delta_max_m": null,
+   "g8_status_stopline_resolved": "PASS",
+   "g8_stopline_requirements_left_out": 0,
+   "findings": []
+  },
+  {
+   "case": "generalize/2023063015350832057",
+   "pipeline": "shp",
+   "generated": false,
+   "before": null,
+   "after": null,
+   "changed": false
+  },
+  {
+   "case": "generalize/2023070710412621654",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noconflict_p95_m",
+     "lane_center_noconflict_max_m",
+     "lane_endpoint_lateral_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m",
+     "lane_join_curvature_jump_max_per_m",
+     "edge_contact_curvature_max_per_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noconflict_p95_m",
+     "lane_center_noconflict_max_m",
+     "lane_endpoint_lateral_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m",
+     "lane_join_curvature_jump_max_per_m",
+     "edge_contact_curvature_max_per_m"
+    ]
+   },
+   "g8_status": "PASS",
+   "stopline_matched": 0,
+   "stopline_source_absent": 0,
+   "stopline_match_distance_max_m": null,
+   "stopline_matched_delta_max_m": null,
+   "g8_status_stopline_resolved": "PASS",
+   "g8_stopline_requirements_left_out": 0,
+   "findings": []
+  },
+  {
+   "case": "generalize/2023080118313036830",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noconflict_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noconflict_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m"
+    ]
+   },
+   "g8_status": "PASS",
+   "stopline_matched": 0,
+   "stopline_source_absent": 0,
+   "stopline_match_distance_max_m": null,
+   "stopline_matched_delta_max_m": null,
+   "g8_status_stopline_resolved": "PASS",
+   "g8_stopline_requirements_left_out": 0,
+   "findings": []
+  },
+  {
+   "case": "generalize/2023041216222042093",
+   "pipeline": "shp",
+   "before": {
+    "T1": "FAIL",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "FAIL",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [
+     "g8_status"
+    ],
+    "T2": [
+     "lane_center_noconflict_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m",
+     "edge_contact_curvature_max_per_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [
+     "g8_status_stopline_resolved"
+    ],
+    "T2": [
+     "lane_center_noconflict_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m",
+     "edge_contact_curvature_max_per_m"
+    ]
+   },
+   "g8_status": "UNAVAILABLE",
+   "stopline_matched": 2,
+   "stopline_source_absent": 0,
+   "stopline_match_distance_max_m": 0.446,
+   "stopline_matched_delta_max_m": 0.16966243967758965,
+   "g8_status_stopline_resolved": "FAIL",
+   "g8_stopline_requirements_left_out": 0,
+   "findings": [
+    {
+     "rule": "stopline-nearest-match",
+     "status": "INFERRED",
+     "source_lane_id": "2023041215214970838",
+     "role": "approach",
+     "g8_comparable": true,
+     "stopline_id": "2023041215245263272",
+     "stopline_record_index": 6,
+     "stopline_lane_refs": [
+      "2023050916284423699"
+     ],
+     "distance_m": 0.446,
+     "resolution": "nearest-source-stopline"
+    },
+    {
+     "rule": "stopline-nearest-match",
+     "status": "INFERRED",
+     "source_lane_id": "2023041215214972838",
+     "role": "approach",
+     "g8_comparable": false,
+     "stopline_id": "2023041215245263272",
+     "stopline_record_index": 6,
+     "stopline_lane_refs": [
+      "2023050916284423699"
+     ],
+     "distance_m": 0.146,
+     "resolution": "nearest-source-stopline"
+    },
+    {
+     "rule": "stopline-nearest-match",
+     "status": "INFERRED",
+     "source_lane_id": "2023041215214975290",
+     "role": "approach",
+     "g8_comparable": false,
+     "stopline_id": "2023041215245263272",
+     "stopline_record_index": 6,
+     "stopline_lane_refs": [
+      "2023050916284423699"
+     ],
+     "distance_m": 0.217,
+     "resolution": "nearest-source-stopline"
+    },
+    {
+     "rule": "stopline-nearest-match",
+     "status": "INFERRED",
+     "source_lane_id": "2023041215214976858",
+     "role": "approach",
+     "g8_comparable": true,
+     "stopline_id": "2023041215245263272",
+     "stopline_record_index": 6,
+     "stopline_lane_refs": [
+      "2023050916284423699"
+     ],
+     "distance_m": 0.359,
+     "resolution": "nearest-source-stopline"
+    }
+   ]
+  },
+  {
+   "case": "generalize/2023062110304177600",
+   "pipeline": "shp",
+   "generated": false,
+   "before": null,
+   "after": null,
+   "changed": false
+  },
+  {
+   "case": "generalize/2023070118182048481",
+   "pipeline": "shp",
+   "generated": false,
+   "before": null,
+   "after": null,
+   "changed": false
+  },
+  {
+   "case": "generalize/2023080810023203229",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noconflict_max_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noconflict_max_m"
+    ]
+   },
+   "g8_status": "PASS",
+   "stopline_matched": 0,
+   "stopline_source_absent": 0,
+   "stopline_match_distance_max_m": null,
+   "stopline_matched_delta_max_m": null,
+   "g8_status_stopline_resolved": "PASS",
+   "g8_stopline_requirements_left_out": 0,
+   "findings": []
+  },
+  {
+   "case": "generalize/2023062913464138453",
+   "pipeline": "shp",
+   "generated": false,
+   "before": null,
+   "after": null,
+   "changed": false
+  },
+  {
+   "case": "generalize/2023072914272536839",
+   "pipeline": "shp",
+   "generated": false,
+   "before": null,
+   "after": null,
+   "changed": false
+  },
+  {
+   "case": "generalize/2023041810414040830",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "g8_status": "PASS",
+   "stopline_matched": 0,
+   "stopline_source_absent": 0,
+   "stopline_match_distance_max_m": null,
+   "stopline_matched_delta_max_m": null,
+   "g8_status_stopline_resolved": "PASS",
+   "g8_stopline_requirements_left_out": 0,
+   "findings": []
+  },
+  {
+   "case": "generalize/2023070710324132429",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noconflict_p95_m",
+     "lane_center_noconflict_max_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noconflict_p95_m",
+     "lane_center_noconflict_max_m"
+    ]
+   },
+   "g8_status": "PASS",
+   "stopline_matched": 0,
+   "stopline_source_absent": 0,
+   "stopline_match_distance_max_m": null,
+   "stopline_matched_delta_max_m": null,
+   "g8_status_stopline_resolved": "PASS",
+   "g8_stopline_requirements_left_out": 0,
+   "findings": []
+  },
+  {
+   "case": "generalize/2023081110220126408",
+   "pipeline": "shp",
+   "generated": false,
+   "before": null,
+   "after": null,
+   "changed": false
+  },
+  {
+   "case": "generalize/2023071109582525264",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": [
+     "lane_endpoint_lateral_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m",
+     "edge_contact_curvature_max_per_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": [
+     "lane_endpoint_lateral_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m",
+     "edge_contact_curvature_max_per_m"
+    ]
+   },
+   "g8_status": "PASS",
+   "stopline_matched": 0,
+   "stopline_source_absent": 0,
+   "stopline_match_distance_max_m": null,
+   "stopline_matched_delta_max_m": null,
+   "g8_status_stopline_resolved": "PASS",
+   "g8_stopline_requirements_left_out": 0,
+   "findings": []
+  },
+  {
+   "case": "0621/candidate",
+   "pipeline": "shp",
+   "before": {
+    "T1": "FAIL",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "changed": true,
+   "before_failed": {
+    "T1": [
+     "g8_status"
+    ],
+    "T2": [
+     "boundary_inside_p95_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": [
+     "boundary_inside_p95_m"
+    ]
+   },
+   "g8_status": "UNAVAILABLE",
+   "stopline_matched": 0,
+   "stopline_source_absent": 2,
+   "stopline_match_distance_max_m": null,
+   "stopline_matched_delta_max_m": null,
+   "g8_status_stopline_resolved": "PASS",
+   "g8_stopline_requirements_left_out": 2,
+   "findings": [
+    {
+     "rule": "source-stopline-absent",
+     "status": "RECORDED",
+     "source_lane_id": "2023061413201352024",
+     "role": "approach",
+     "g8_comparable": true,
+     "nearest_stopline_id": "2023061415012180068",
+     "nearest_distance_m": 119.619,
+     "resolution": "stopline-requirement-not-graded"
+    },
+    {
+     "rule": "source-stopline-absent",
+     "status": "RECORDED",
+     "source_lane_id": "2023061413201354840",
+     "role": "approach",
+     "g8_comparable": false,
+     "nearest_stopline_id": "2023061415012180068",
+     "nearest_distance_m": 120.082,
+     "resolution": "stopline-requirement-not-graded"
+    },
+    {
+     "rule": "source-stopline-absent",
+     "status": "RECORDED",
+     "source_lane_id": "2023061413201357229",
+     "role": "approach",
+     "g8_comparable": false,
+     "nearest_stopline_id": "2023061415012180068",
+     "nearest_distance_m": 120.698,
+     "resolution": "stopline-requirement-not-graded"
+    },
+    {
+     "rule": "source-stopline-absent",
+     "status": "RECORDED",
+     "source_lane_id": "2023061413201358813",
+     "role": "approach",
+     "g8_comparable": false,
+     "nearest_stopline_id": "2023061415012180068",
+     "nearest_distance_m": 121.301,
+     "resolution": "stopline-requirement-not-graded"
+    },
+    {
+     "rule": "source-stopline-absent",
+     "status": "RECORDED",
+     "source_lane_id": "2023061413362614443",
+     "role": "approach",
+     "g8_comparable": false,
+     "nearest_stopline_id": "2023061415012180068",
+     "nearest_distance_m": 110.35,
+     "resolution": "stopline-requirement-not-graded"
+    },
+    {
+     "rule": "source-stopline-absent",
+     "status": "RECORDED",
+     "source_lane_id": "2023061413362616440",
+     "role": "approach",
+     "g8_comparable": false,
+     "nearest_stopline_id": "2023061415012180068",
+     "nearest_distance_m": 110.074,
+     "resolution": "stopline-requirement-not-graded"
+    },
+    {
+     "rule": "source-stopline-absent",
+     "status": "RECORDED",
+     "source_lane_id": "2023061413450449227",
+     "role": "approach",
+     "g8_comparable": true,
+     "nearest_stopline_id": "2023061415012180068",
+     "nearest_distance_m": 110.367,
+     "resolution": "stopline-requirement-not-graded"
+    }
+   ]
+  }
+ ],
+ "tier_changes": [
+  "0621/candidate"
+ ],
+ "tiers_reproduced_with_0_9": true,
+ "g8_rerun_reproduces_stored": true,
+ "geometry_changed": false,
+ "note": "stored Windows metrics (esmini included) plus Linux-computed tight-turn, paving-hole and stop-line metrics; stop lines read from shp_0222-0326 through ibd-smarteditor-v1"
+}

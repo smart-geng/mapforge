@@ -1,0 +1,22 @@
+{
+ "0621": {
+  "g8_status": "UNAVAILABLE",
+  "g8_status_stopline_resolved": "PASS",
+  "stopline_matched": 0,
+  "stopline_source_absent": 2,
+  "stopline_match_distance_max_m": null,
+  "stopline_matched_delta_max_m": null,
+  "g8_stopline_requirements_left_out": 2,
+  "paving_holes_counted": 0
+ },
+ "0412": {
+  "g8_status": "UNAVAILABLE",
+  "g8_status_stopline_resolved": "FAIL",
+  "stopline_matched": 2,
+  "stopline_source_absent": 0,
+  "stopline_match_distance_max_m": 0.446,
+  "stopline_matched_delta_max_m": 0.16966243967758965,
+  "g8_stopline_requirements_left_out": 0,
+  "paving_holes_counted": 0
+ }
+}
