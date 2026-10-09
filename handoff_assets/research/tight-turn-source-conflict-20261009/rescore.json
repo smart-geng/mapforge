@@ -1,0 +1,900 @@
+{
+ "schema": "mapforge/research/tight-turn-policy-rescore/v1",
+ "policy_before": "0.7-draft",
+ "policy_after": "0.8-draft",
+ "rows": [
+  {
+   "case": "scoreboard/map-node3",
+   "pipeline": "map",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "lane_center_noflare_p95_m": null,
+   "lane_center_noflare_max_m": null,
+   "conflict_lanes": []
+  },
+  {
+   "case": "scoreboard/shp-node3",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "lane_center_noflare_p95_m": 0.07500206571242508,
+   "lane_center_noflare_max_m": 0.17199106595051633,
+   "tight_turn_source_conflicts": 0,
+   "lane_center_conflict_lanes_left_out": 0,
+   "lane_center_conflict_samples_left_out": 0,
+   "lane_center_noconflict_median_m": 0.017482493172964634,
+   "lane_center_noconflict_p95_m": 0.07500206571242508,
+   "lane_center_noconflict_max_m": 0.17199106595051458,
+   "conflict_lanes": []
+  },
+  {
+   "case": "scoreboard/map-node4",
+   "pipeline": "map",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "lane_center_noflare_p95_m": null,
+   "lane_center_noflare_max_m": null,
+   "conflict_lanes": []
+  },
+  {
+   "case": "scoreboard/shp-node4",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "lane_center_noflare_p95_m": 0.05649102146360807,
+   "lane_center_noflare_max_m": 0.13867153285768383,
+   "tight_turn_source_conflicts": 0,
+   "lane_center_conflict_lanes_left_out": 0,
+   "lane_center_conflict_samples_left_out": 0,
+   "lane_center_noconflict_median_m": 0.018457814530458617,
+   "lane_center_noconflict_p95_m": 0.05649102146360807,
+   "lane_center_noconflict_max_m": 0.13867153285768383,
+   "conflict_lanes": []
+  },
+  {
+   "case": "scoreboard/map-NODE5",
+   "pipeline": "map",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "lane_center_noflare_p95_m": null,
+   "lane_center_noflare_max_m": null,
+   "conflict_lanes": []
+  },
+  {
+   "case": "scoreboard/shp-NODE5",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "lane_center_noflare_p95_m": 0.05411857035631349,
+   "lane_center_noflare_max_m": 0.10467102738825207,
+   "tight_turn_source_conflicts": 0,
+   "lane_center_conflict_lanes_left_out": 0,
+   "lane_center_conflict_samples_left_out": 0,
+   "lane_center_noconflict_median_m": 0.005478796144154048,
+   "lane_center_noconflict_p95_m": 0.05411857035631349,
+   "lane_center_noconflict_max_m": 0.10467102738825207,
+   "conflict_lanes": []
+  },
+  {
+   "case": "scoreboard/map-node13",
+   "pipeline": "map",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "lane_center_noflare_p95_m": null,
+   "lane_center_noflare_max_m": null,
+   "conflict_lanes": []
+  },
+  {
+   "case": "scoreboard/shp-node13",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "lane_center_noflare_p95_m": 0.0802482762000013,
+   "lane_center_noflare_max_m": 0.15008740261297232,
+   "tight_turn_source_conflicts": 1,
+   "lane_center_conflict_lanes_left_out": 1,
+   "lane_center_conflict_samples_left_out": 112,
+   "lane_center_noconflict_median_m": 0.01658621949414414,
+   "lane_center_noconflict_p95_m": 0.07941117287219367,
+   "lane_center_noconflict_max_m": 0.15008740261297232,
+   "conflict_lanes": [
+    "2024010415270546470"
+   ]
+  },
+  {
+   "case": "scoreboard/map-node16",
+   "pipeline": "map",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "lane_center_noflare_p95_m": null,
+   "lane_center_noflare_max_m": null,
+   "conflict_lanes": []
+  },
+  {
+   "case": "scoreboard/shp-node16",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "lane_center_noflare_p95_m": 0.06322200104925531,
+   "lane_center_noflare_max_m": 0.17201345528394085,
+   "tight_turn_source_conflicts": 1,
+   "lane_center_conflict_lanes_left_out": 1,
+   "lane_center_conflict_samples_left_out": 96,
+   "lane_center_noconflict_median_m": 0.009891416999285422,
+   "lane_center_noconflict_p95_m": 0.06159473725570221,
+   "lane_center_noconflict_max_m": 0.17201345528394085,
+   "conflict_lanes": [
+    "2024010413333128064"
+   ]
+  },
+  {
+   "case": "scoreboard/map-node17",
+   "pipeline": "map",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "lane_center_noflare_p95_m": null,
+   "lane_center_noflare_max_m": null,
+   "conflict_lanes": []
+  },
+  {
+   "case": "scoreboard/shp-node17",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "lane_center_noflare_p95_m": 0.1051723915487272,
+   "lane_center_noflare_max_m": 0.2567219586692577,
+   "tight_turn_source_conflicts": 0,
+   "lane_center_conflict_lanes_left_out": 0,
+   "lane_center_conflict_samples_left_out": 0,
+   "lane_center_noconflict_median_m": 0.015513537003342221,
+   "lane_center_noconflict_p95_m": 0.1051723915487272,
+   "lane_center_noconflict_max_m": 0.2567219586692577,
+   "conflict_lanes": []
+  },
+  {
+   "case": "scoreboard/map-node18",
+   "pipeline": "map",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "lane_center_noflare_p95_m": null,
+   "lane_center_noflare_max_m": null,
+   "conflict_lanes": []
+  },
+  {
+   "case": "scoreboard/shp-node18",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "lane_center_noflare_p95_m": 0.08854848309589582,
+   "lane_center_noflare_max_m": 0.3122164707217412,
+   "tight_turn_source_conflicts": 3,
+   "lane_center_conflict_lanes_left_out": 3,
+   "lane_center_conflict_samples_left_out": 241,
+   "lane_center_noconflict_median_m": 0.014640942727567607,
+   "lane_center_noconflict_p95_m": 0.08487734531443476,
+   "lane_center_noconflict_max_m": 0.2515700418703039,
+   "conflict_lanes": [
+    "2024010516362469683",
+    "2024010516410802491",
+    "2024010516410805674"
+   ]
+  },
+  {
+   "case": "generalize/2023041111160971268",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "lane_center_noflare_p95_m": 0.09684594779105322,
+   "lane_center_noflare_max_m": 0.2184328286236598,
+   "tight_turn_source_conflicts": 1,
+   "lane_center_conflict_lanes_left_out": 1,
+   "lane_center_conflict_samples_left_out": 124,
+   "lane_center_noconflict_median_m": 0.013882102250188055,
+   "lane_center_noconflict_p95_m": 0.08669529481272183,
+   "lane_center_noconflict_max_m": 0.2184328286236598,
+   "conflict_lanes": [
+    "2024010215524322449"
+   ]
+  },
+  {
+   "case": "generalize/2023061310244790027",
+   "pipeline": "shp",
+   "before": {
+    "T1": "FAIL",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "FAIL",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [
+     "esmini_pass",
+     "route_gap_max_m",
+     "road_interface_position_max_m",
+     "road_interface_heading_max_deg",
+     "edge_contact_position_max_m",
+     "edge_contact_heading_max_deg",
+     "g8_status"
+    ],
+    "T2": [
+     "lane_center_noflare_max_m",
+     "lane_endpoint_lateral_max_m",
+     "boundary_inside_max_m",
+     "edge_contact_position_max_m",
+     "edge_contact_heading_max_deg",
+     "road_interface_curvature_max_per_m",
+     "edge_contact_curvature_max_per_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [
+     "esmini_pass",
+     "route_gap_max_m",
+     "road_interface_position_max_m",
+     "road_interface_heading_max_deg",
+     "edge_contact_position_max_m",
+     "edge_contact_heading_max_deg",
+     "g8_status"
+    ],
+    "T2": [
+     "lane_center_noconflict_max_m",
+     "lane_endpoint_lateral_max_m",
+     "boundary_inside_max_m",
+     "edge_contact_position_max_m",
+     "edge_contact_heading_max_deg",
+     "road_interface_curvature_max_per_m",
+     "edge_contact_curvature_max_per_m"
+    ]
+   },
+   "lane_center_noflare_p95_m": 0.11332614574498909,
+   "lane_center_noflare_max_m": 2.6737839700113994,
+   "tight_turn_source_conflicts": 0,
+   "lane_center_conflict_lanes_left_out": 0,
+   "lane_center_conflict_samples_left_out": 0,
+   "lane_center_noconflict_median_m": 0.018548431469628472,
+   "lane_center_noconflict_p95_m": 0.11332614574498909,
+   "lane_center_noconflict_max_m": 2.6737839700113994,
+   "conflict_lanes": []
+  },
+  {
+   "case": "generalize/2023062713394062899",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noflare_p95_m",
+     "lane_center_noflare_max_m",
+     "lane_endpoint_lateral_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m",
+     "lane_join_curvature_jump_max_per_m",
+     "edge_contact_curvature_max_per_m",
+     "conn_edge_join_curvature_jump_max_per_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noconflict_p95_m",
+     "lane_center_noconflict_max_m",
+     "lane_endpoint_lateral_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m",
+     "lane_join_curvature_jump_max_per_m",
+     "edge_contact_curvature_max_per_m",
+     "conn_edge_join_curvature_jump_max_per_m"
+    ]
+   },
+   "lane_center_noflare_p95_m": 0.3794710198743215,
+   "lane_center_noflare_max_m": 0.7667277880860981,
+   "tight_turn_source_conflicts": 0,
+   "lane_center_conflict_lanes_left_out": 0,
+   "lane_center_conflict_samples_left_out": 0,
+   "lane_center_noconflict_median_m": 0.04708023662869783,
+   "lane_center_noconflict_p95_m": 0.3794710198743215,
+   "lane_center_noconflict_max_m": 0.7667277880860981,
+   "conflict_lanes": []
+  },
+  {
+   "case": "generalize/2023063015350832057",
+   "pipeline": "shp",
+   "generated": false,
+   "before": null,
+   "after": null,
+   "changed": false
+  },
+  {
+   "case": "generalize/2023070710412621654",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noflare_p95_m",
+     "lane_center_noflare_max_m",
+     "lane_endpoint_lateral_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m",
+     "lane_join_curvature_jump_max_per_m",
+     "edge_contact_curvature_max_per_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noconflict_p95_m",
+     "lane_center_noconflict_max_m",
+     "lane_endpoint_lateral_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m",
+     "lane_join_curvature_jump_max_per_m",
+     "edge_contact_curvature_max_per_m"
+    ]
+   },
+   "lane_center_noflare_p95_m": 0.19083132189763502,
+   "lane_center_noflare_max_m": 0.7087184467789187,
+   "tight_turn_source_conflicts": 0,
+   "lane_center_conflict_lanes_left_out": 0,
+   "lane_center_conflict_samples_left_out": 0,
+   "lane_center_noconflict_median_m": 0.03652684274287038,
+   "lane_center_noconflict_p95_m": 0.19083132189763502,
+   "lane_center_noconflict_max_m": 0.7087184467789187,
+   "conflict_lanes": []
+  },
+  {
+   "case": "generalize/2023080118313036830",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noflare_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noconflict_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m"
+    ]
+   },
+   "lane_center_noflare_p95_m": 0.1258387971331759,
+   "lane_center_noflare_max_m": 0.39087805138601683,
+   "tight_turn_source_conflicts": 0,
+   "lane_center_conflict_lanes_left_out": 0,
+   "lane_center_conflict_samples_left_out": 0,
+   "lane_center_noconflict_median_m": 0.022413900549881856,
+   "lane_center_noconflict_p95_m": 0.1258387971331759,
+   "lane_center_noconflict_max_m": 0.3908780513860177,
+   "conflict_lanes": []
+  },
+  {
+   "case": "generalize/2023041216222042093",
+   "pipeline": "shp",
+   "before": {
+    "T1": "FAIL",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "FAIL",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [
+     "g8_status"
+    ],
+    "T2": [
+     "lane_center_noflare_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m",
+     "edge_contact_curvature_max_per_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [
+     "g8_status"
+    ],
+    "T2": [
+     "lane_center_noconflict_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m",
+     "edge_contact_curvature_max_per_m"
+    ]
+   },
+   "lane_center_noflare_p95_m": 0.14610270457805993,
+   "lane_center_noflare_max_m": 5.184124437755724,
+   "tight_turn_source_conflicts": 0,
+   "lane_center_conflict_lanes_left_out": 0,
+   "lane_center_conflict_samples_left_out": 0,
+   "lane_center_noconflict_median_m": 0.024612020373380714,
+   "lane_center_noconflict_p95_m": 0.14610270457805993,
+   "lane_center_noconflict_max_m": 5.184124437755724,
+   "conflict_lanes": []
+  },
+  {
+   "case": "generalize/2023062110304177600",
+   "pipeline": "shp",
+   "generated": false,
+   "before": null,
+   "after": null,
+   "changed": false
+  },
+  {
+   "case": "generalize/2023070118182048481",
+   "pipeline": "shp",
+   "generated": false,
+   "before": null,
+   "after": null,
+   "changed": false
+  },
+  {
+   "case": "generalize/2023080810023203229",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noflare_max_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noconflict_max_m"
+    ]
+   },
+   "lane_center_noflare_p95_m": 0.13869320876006877,
+   "lane_center_noflare_max_m": 0.7972298969113273,
+   "tight_turn_source_conflicts": 0,
+   "lane_center_conflict_lanes_left_out": 0,
+   "lane_center_conflict_samples_left_out": 0,
+   "lane_center_noconflict_median_m": 0.01757742950517786,
+   "lane_center_noconflict_p95_m": 0.13869320876006877,
+   "lane_center_noconflict_max_m": 0.7972298969113273,
+   "conflict_lanes": []
+  },
+  {
+   "case": "generalize/2023062913464138453",
+   "pipeline": "shp",
+   "generated": false,
+   "before": null,
+   "after": null,
+   "changed": false
+  },
+  {
+   "case": "generalize/2023072914272536839",
+   "pipeline": "shp",
+   "generated": false,
+   "before": null,
+   "after": null,
+   "changed": false
+  },
+  {
+   "case": "generalize/2023041810414040830",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "PASS"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": []
+   },
+   "lane_center_noflare_p95_m": 0.025626659474939043,
+   "lane_center_noflare_max_m": 0.0517652147704848,
+   "tight_turn_source_conflicts": 0,
+   "lane_center_conflict_lanes_left_out": 0,
+   "lane_center_conflict_samples_left_out": 0,
+   "lane_center_noconflict_median_m": 0.007678519747697385,
+   "lane_center_noconflict_p95_m": 0.025626659474939043,
+   "lane_center_noconflict_max_m": 0.0517652147704848,
+   "conflict_lanes": []
+  },
+  {
+   "case": "generalize/2023070710324132429",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noflare_p95_m",
+     "lane_center_noflare_max_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": [
+     "lane_center_noconflict_p95_m",
+     "lane_center_noconflict_max_m"
+    ]
+   },
+   "lane_center_noflare_p95_m": 0.3383983564444494,
+   "lane_center_noflare_max_m": 0.3512853474473322,
+   "tight_turn_source_conflicts": 0,
+   "lane_center_conflict_lanes_left_out": 0,
+   "lane_center_conflict_samples_left_out": 0,
+   "lane_center_noconflict_median_m": 0.007127089230957706,
+   "lane_center_noconflict_p95_m": 0.3383983564444494,
+   "lane_center_noconflict_max_m": 0.3512853474473322,
+   "conflict_lanes": []
+  },
+  {
+   "case": "generalize/2023081110220126408",
+   "pipeline": "shp",
+   "generated": false,
+   "before": null,
+   "after": null,
+   "changed": false
+  },
+  {
+   "case": "generalize/2023071109582525264",
+   "pipeline": "shp",
+   "before": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "PASS",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [],
+    "T2": [
+     "lane_endpoint_lateral_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m",
+     "edge_contact_curvature_max_per_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [],
+    "T2": [
+     "lane_endpoint_lateral_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m",
+     "edge_contact_curvature_max_per_m"
+    ]
+   },
+   "lane_center_noflare_p95_m": 0.083496659820945,
+   "lane_center_noflare_max_m": 0.3390362246356459,
+   "tight_turn_source_conflicts": 0,
+   "lane_center_conflict_lanes_left_out": 0,
+   "lane_center_conflict_samples_left_out": 0,
+   "lane_center_noconflict_median_m": 0.007207841300791073,
+   "lane_center_noconflict_p95_m": 0.083496659820945,
+   "lane_center_noconflict_max_m": 0.3390362246356459,
+   "conflict_lanes": []
+  },
+  {
+   "case": "0621/candidate",
+   "pipeline": "shp",
+   "before": {
+    "T1": "FAIL",
+    "T2": "FAIL"
+   },
+   "after": {
+    "T1": "FAIL",
+    "T2": "FAIL"
+   },
+   "changed": false,
+   "before_failed": {
+    "T1": [
+     "paving_holes_gt1cm2",
+     "g8_status"
+    ],
+    "T2": [
+     "lane_center_noflare_p95_m",
+     "boundary_inside_p95_m"
+    ]
+   },
+   "after_failed": {
+    "T1": [
+     "paving_holes_gt1cm2",
+     "g8_status"
+    ],
+    "T2": [
+     "boundary_inside_p95_m"
+    ]
+   },
+   "lane_center_noflare_p95_m": 0.16092286128015673,
+   "lane_center_noflare_max_m": 0.316893725130808,
+   "tight_turn_source_conflicts": 3,
+   "lane_center_conflict_lanes_left_out": 3,
+   "lane_center_conflict_samples_left_out": 236,
+   "lane_center_noconflict_median_m": 0.016602320428003428,
+   "lane_center_noconflict_p95_m": 0.0994326402053543,
+   "lane_center_noconflict_max_m": 0.2231891572358845,
+   "conflict_lanes": [
+    "2023061415364058085",
+    "2023110910430375285",
+    "2023110910430378492"
+   ]
+  }
+ ],
+ "tier_changes": [],
+ "stored_tiers_reproduced_with_0_7": true,
+ "geometry_changed": false,
+ "note": "stored Windows metrics (esmini included) plus Linux-computed tight-turn metrics"
+}
