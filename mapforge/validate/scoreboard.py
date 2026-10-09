@@ -62,6 +62,15 @@ METRICS = {
     "paving_source_void_area_m2": ("validity", "m2", "info"),
     "paving_source_void_evidence": ("validity", "", "info"),
     "g8_status": ("fidelity", "", "pass"),
+    # G8 with unlinked SHP stop lines resolved: nearest source stop line within 2 m, else recorded source-absent and
+    # that lane's stop-line requirement left out (stopline_match, user decisions 2026-10-09; T1 from 0.10-draft)
+    "g8_status_stopline_resolved": ("fidelity", "", "pass"),
+    "stopline_matched": ("fidelity", "count", "info"),
+    "stopline_source_absent": ("fidelity", "count", "info"),
+    "stopline_match_distance_max_m": ("fidelity", "m", "info"),
+    "stopline_matched_delta_max_m": ("fidelity", "m", "info"),
+    "g8_stopline_requirements_left_out": ("fidelity", "count", "info"),
+    "stopline_resolution_error": ("fidelity", "", "info"),
     "lane_center_median_m": ("fidelity", "m", "lower"),
     "lane_center_p95_m": ("fidelity", "m", "lower"),
     "lane_center_max_m": ("fidelity", "m", "lower"),
@@ -361,6 +370,14 @@ def evaluate(xodr: Path, pipeline: str, schema=None, shp_source=None) -> dict:
         if g8:
             from mapforge.validate.endpoint_lateral import audit as endpoint_lateral_audit
             m.update(endpoint_lateral_audit(root, manifest, g8))
+        if g8 and pipeline == "shp":
+            from mapforge.validate.stopline_match import audit as stopline_audit
+            if shp_source is None:
+                from mapforge.adapters.shp.profile_source import ProfileSource
+                shp_source = ProfileSource(str(SHP_DIR), "ibd-smarteditor-v1")
+            m.update(stopline_audit(xodr, manifest, g8, shp_source))
+    if g8 and pipeline != "shp":
+        m["g8_status_stopline_resolved"] = g8.get("status")
     if pipeline == "shp":
         from mapforge.validate.shp_boundary_fidelity import evaluate_shp_outer_edges
         b = evaluate_shp_outer_edges(SHP_DIR, xodr, src=shp_source)

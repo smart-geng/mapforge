@@ -548,6 +548,16 @@ def review_manifest(manifest: dict, shp_dir=None, profile="ibd-smarteditor-v1", 
         out["recorded"] = len(out["findings"])
         out["thresholds"].update({"tight_turn_radius_min_m": T.RADIUS_MIN_M, "tight_turn_window_m": T.WINDOW_M})
         out["decision_tight_turns"] = T.DECISION
+    from mapforge.validate import stopline_match as S
+    stops = S.findings(manifest, src)
+    if stops:
+        out["findings"] += stops
+        for rule in (S.RULE_MATCH, S.RULE_ABSENT):
+            if any(f["rule"] == rule for f in stops):
+                out["counts"][rule + "/lane"] = sum(f["rule"] == rule for f in stops)
+        out["recorded"] = len(out["findings"])
+        out["thresholds"]["stopline_match_radius_m"] = S.MATCH_RADIUS_M
+        out["decision_stoplines"] = S.DECISION
     out["comparison_crs"] = manifest["comparison_crs"].get("id")
     return out
 

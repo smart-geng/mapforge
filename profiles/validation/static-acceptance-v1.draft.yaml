@@ -1,6 +1,6 @@
 schema: mapforge/static-acceptance-policy/v1
 id: static-acceptance-v1
-version: 0.9-draft
+version: 0.10-draft
 lifecycle: draft
 description: >-
   静态地图分级验收草案（2026-10-03，D1/D2）。未经用户确认，只用于比较方案、
@@ -35,7 +35,11 @@ tiers:
       # （source_support.original_holes，WKB 哈希与面积核对、双向重合）重合的孔洞单列 paving_holes_source_void，不计失败。
       # 无此证据（默认管道）时全部计数；原 paving_holes_gt1cm2 继续报告
       - {metric: paving_holes_counted, op: le, value: 0}
-      - {metric: g8_status, op: eq, value: PASS}
+      # 0.10（2026-10-09，用户确认，G8 阈值不变）：G8 改按 g8_status_stopline_resolved 判。SHP 进口车道原件无 LANE_REL
+      # 停止线关联时，取离其原件下游端 2 m 内最近的原件停止线（stopline-nearest-match，INFERRED，照常量停止线差）；
+      # 2 m 内没有的记为原件缺停止线 source-stopline-absent，其停止线要求单列不计（stopline_match）。原 g8_status、
+      # G8 报告与交付裁决不变
+      - {metric: g8_status_stopline_resolved, op: eq, value: PASS}
   T2:
     name: 保真平滑级
     requires: T1

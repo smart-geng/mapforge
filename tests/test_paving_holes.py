@@ -119,7 +119,7 @@ def test_unverifiable_evidence_binds_nothing(change):
 
 def test_policy_grades_counted_holes_in_t1_with_the_unchanged_cutoff():
     policy = yaml.safe_load(sb.POLICY.read_bytes())
-    assert policy["version"] == "0.9-draft"
+    assert tuple(int(x) for x in policy["version"].removesuffix("-draft").split(".")) >= (0, 9)
     t1 = {c["metric"]: c for c in policy["tiers"]["T1"]["checks"]}
     assert t1["paving_holes_counted"]["op"] == "le" and t1["paving_holes_counted"]["value"] == 0
     assert "paving_holes_gt1cm2" not in t1 and P.HOLE_MIN_M2 == 0.01
