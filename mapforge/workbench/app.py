@@ -20,6 +20,7 @@ from .surface_review import SurfaceReviewService
 from .sources import verify_source_snapshot
 from .store import (ProjectStore, StoreConflict, StoreNotFound, StoreReadOnly,
                     StoreValidation)
+from .transfer_api import chunk_upload_limit, transfer_routes
 
 STATIC = Path(__file__).with_name("static")
 
@@ -37,6 +38,7 @@ def create_app(store: ProjectStore, catalog, token: str, port: int, *, jobs=None
     exports = exports or ResearchExportService(store, source_dir=catalog.source_dir,
                                                profile_path=catalog.profile_path)
     surface_review = SurfaceReviewService(catalog, surface_reviews)
+    transfer_router, close_transfers = transfer_routes(store, catalog)
     host = f"127.0.0.1:{port}"
     origin = f"http://{host}"
     integrity_issues = {}
@@ -65,7 +67,10 @@ def create_app(store: ProjectStore, catalog, token: str, port: int, *, jobs=None
     @asynccontextmanager
     async def lifespan(app):
         yield
-        jobs.close()
+        try:
+            close_transfers()
+        finally:
+            jobs.close()
 
     app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None, lifespan=lifespan)
 
@@ -81,19 +86,24 @@ def create_app(store: ProjectStore, catalog, token: str, port: int, *, jobs=None
             if request.method not in ("GET", "HEAD"):
                 if not equal_header(request.headers.get("x-mapforge-csrf", ""), token):
                     return JSONResponse({"detail": "CSRF token required"}, status_code=403)
-                if request.headers.get("content-type", "").split(";")[0] != "application/json":
-                    return JSONResponse({"detail": "JSON only"}, status_code=415)
+                # Only the transfer chunk route takes raw bytes, with its own cap.
+                raw_limit = chunk_upload_limit(request)
+                content_type, limit = (("application/octet-stream", raw_limit) if raw_limit
+                                       else ("application/json", 65536))
+                if request.headers.get("content-type", "").split(";")[0] != content_type:
+                    return JSONResponse({"detail": "Upload chunk bytes only" if raw_limit else "JSON only"},
+                                        status_code=415)
                 try:
                     declared = int(request.headers.get("content-length", "0"))
                 except ValueError:
                     return JSONResponse({"detail": "Invalid body length"}, status_code=400)
-                if declared < 0 or declared > 65536:
+                if declared < 0 or declared > limit:
                     return JSONResponse({"detail": "Request too large"}, status_code=413)
                 size = 0
                 chunks = []
                 async for chunk in request.stream():
                     size += len(chunk)
-                    if size > 65536:
+                    if size > limit:
                         return JSONResponse({"detail": "Request too large"}, status_code=413)
                     chunks.append(chunk)
                 request._body = b"".join(chunks)
@@ -133,7 +143,8 @@ def create_app(store: ProjectStore, catalog, token: str, port: int, *, jobs=None
 
     @app.get("/assets/{name}")
     def asset(name: str):
-        if name not in {"app.js", "editing.js", "inspection.js", "diagnostics.js", "surface-editing.js", "style.css"}:
+        if name not in {"app.js", "editing.js", "inspection.js", "diagnostics.js", "surface-editing.js",
+                        "transfer.js", "style.css"}:
             return JSONResponse({"detail": "Not found"}, status_code=404)
         return FileResponse(STATIC / name)
 
@@ -298,6 +309,8 @@ def create_app(store: ProjectStore, catalog, token: str, port: int, *, jobs=None
         if operation == "start":
             return checking.start(project_id, body.get("base_revision"), body.get("request_id"))
         return project_response(checking.attach(project_id, body.get("base_revision"), body.get("command_id"), body.get("job_id")))
+
+    app.include_router(transfer_router)
 
     @app.get("/api/projects/{project_id}/jobs/{job_id}")
     def job_status(project_id: str, job_id: str):

@@ -5,7 +5,7 @@
 <body>
 <header><div class="brand"><span class="mark">M</span><strong>MapForge</strong><span>地图工程</span></div>
 <span class="edition">源工程开发版</span><div class="spacer"></div><span id="save-state" role="status">尚未打开工程</span>
-<button id="new-project">导入路口</button><select id="projects" aria-label="打开已保存工程"><option value="">打开工程…</option></select></header>
+<button id="new-project">导入路口</button><select id="projects" aria-label="打开已保存工程"><option value="">打开工程…</option></select><button id="open-transfer" disabled>工程迁移</button></header>
 <div id="notice" class="notice" role="status">加载本地数据目录…</div>
 <main>
 <aside class="left"><div class="panel-title">源对象 <span id="object-count" class="badge">0</span></div>
@@ -55,4 +55,11 @@
 <div id="surface-status" class="edit-status" role="status">尚未计算候选</div><div id="surface-checks" class="surface-checks"></div><div id="surface-issues" class="surface-issues"></div>
 <section class="surface-fidelity" aria-labelledby="surface-fidelity-title"><h3 id="surface-fidelity-title">来源保真定位</h3><p id="surface-fidelity-status" role="status">尚无本次候选的来源保真定位</p><div class="surface-fidelity-legend"><span class="source-line">蓝色粗线：来源比较线</span><span class="target-line">粉色细线：实际候选线</span></div><p class="fine">显示完整比较区间，并非精确超限区间；单车道数值不替代整图评分。不含原 G8 排除域。</p><p id="surface-fidelity-selection">未选中比较车道</p><p id="surface-fidelity-primary"></p><details><summary>补充来源引用（不作为比较线）</summary><div id="surface-fidelity-refs"></div></details><button id="surface-fidelity-clear" disabled>清除车道叠图</button><h4>停止线不可测</h4><div id="surface-fidelity-stops" class="surface-fidelity-list surface-fidelity-stops"></div><h4>全部比较车道 · 来源→候选 P95 降序</h4><div id="surface-fidelity-lanes" class="surface-fidelity-list"></div></section>
 <details><summary>本次候选来源绑定</summary><pre id="surface-binding"></pre></details><p class="fine">接受仅将候选保存为工程研究结果，不代表整图通过。完整检查与交付阻断随研究包保留。</p></section></div></dialog>
-<script src="/assets/app.js"></script><script src="/assets/editing.js"></script><script src="/assets/inspection.js"></script><script src="/assets/diagnostics.js"></script><script src="/assets/surface-editing.js"></script></body></html>
+<dialog id="transfer-dialog" class="transfer-dialog" aria-labelledby="transfer-title">
+<div class="transfer-heading"><h2 id="transfer-title">工程迁移</h2><button id="transfer-close" type="button">关闭</button></div>
+<p class="transfer-warning">工程包只含已保存工程、草稿历史和终态任务回执，<strong>不含原始 SHP 与 Profile</strong>。导入方须登记同源原件；导入后旧候选和检查一律过期，需要重新生成、独立检查并保存。迁移不是正式交付。</p>
+<section class="transfer-section"><h3>导出当前工程</h3><p id="transfer-export-scope">尚未打开工程</p><button id="transfer-export" disabled>导出工程包</button><p id="transfer-export-status" class="transfer-status" role="status">只导出已确认保存的内容；未确认的待办输入不进入工程包。</p></section>
+<section class="transfer-section"><h3>导入工程包</h3><label for="transfer-file">选择工作台导出的 .mapforge-project.zip</label><input id="transfer-file" type="file" accept=".zip,application/zip"><button id="transfer-import" disabled>上传并导入</button><progress id="transfer-progress" max="1" value="0" hidden></progress><p id="transfer-import-status" class="transfer-status" role="status">尚未选择工程包。</p>
+<div id="transfer-result" class="transfer-result" hidden><p id="transfer-result-text"></p><button id="transfer-open" class="primary">打开导入的工程</button></div></section>
+<p class="fine">导入在后台进行，可关闭本窗口继续查看当前工程；完成后由你显式打开，不会替换当前草稿。当前工作区已有同 ID 工程时拒绝导入，不覆盖、不改名。导入不会自动编译、接受候选或导出。</p></dialog>
+<script src="/assets/app.js"></script><script src="/assets/editing.js"></script><script src="/assets/inspection.js"></script><script src="/assets/diagnostics.js"></script><script src="/assets/surface-editing.js"></script><script src="/assets/transfer.js"></script></body></html>

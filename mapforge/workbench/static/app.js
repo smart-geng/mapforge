@@ -25,6 +25,7 @@ function setButtons() {
   window.Inspection?.buttons();
   window.SurfaceDiagnostics?.buttons();
   window.SurfaceEditor?.buttons();
+  window.Transfer?.buttons();
 }
 function make(tag,text,cls) { const e=document.createElement(tag); if(text!==undefined)e.textContent=text; if(cls)e.className=cls; return e; }
 function idOf(o) { return String(o.id); }
@@ -125,5 +126,5 @@ canvas.addEventListener("pointerup",e=>{if(pointer&&!pointer.moved&&!window.Insp
 canvas.addEventListener("wheel",e=>{e.preventDefault();const before=fromScreen(e.offsetX,e.offsetY);view.scale*=Math.exp(-Math.max(-150,Math.min(150,e.deltaY))*.002);const after=fromScreen(e.offsetX,e.offsetY);view.x+=before[0]-after[0];view.y+=before[1]-after[1];draw();},{passive:false});
 canvas.addEventListener("keydown",e=>{if(e.key.toLowerCase()==="f")fit();});new ResizeObserver(()=>draw()).observe(canvas);
 window.addEventListener("beforeunload",e=>{if(pendingNote){e.preventDefault();e.returnValue="";}});
-document.addEventListener("keydown",e=>{if($("editing-dialog").open||$("import-dialog").open||$("diagnostics-dialog").open||$("surface-editing-dialog").open){if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="s")e.preventDefault();return;}if(e.key==="Escape"&&window.Inspection?.escape()){e.preventDefault();return;}if(e.key==="Escape"&&pendingNote){$("note").value="";pendingNote=false;renderPanels();setButtons();}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="s"){e.preventDefault();if(pendingNote)notify("待办输入尚未确认，请使用“确认并保存待办”。");else if(project)notify("已确认的工程事务已保存到本机。");}});
+document.addEventListener("keydown",e=>{if($("editing-dialog").open||$("import-dialog").open||$("diagnostics-dialog").open||$("surface-editing-dialog").open||$("transfer-dialog").open){if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="s")e.preventDefault();return;}if(e.key==="Escape"&&window.Inspection?.escape()){e.preventDefault();return;}if(e.key==="Escape"&&pendingNote){$("note").value="";pendingNote=false;renderPanels();setButtons();}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="s"){e.preventDefault();if(pendingNote)notify("待办输入尚未确认，请使用“确认并保存待办”。");else if(project)notify("已确认的工程事务已保存到本机。");}});
 guarded(async()=>{catalog=await api("/catalog");for(const j of catalog.junctions){const option=make("option",`${j.name||"路口"} · ${j.id}`);option.value=j.id;$("junctions").append(option);}$("project-name").value="路口 "+$("junctions").value;await refreshProjects();notify(catalog.notice);});
