@@ -144,7 +144,7 @@ def create_app(store: ProjectStore, catalog, token: str, port: int, *, jobs=None
     @app.get("/assets/{name}")
     def asset(name: str):
         if name not in {"app.js", "editing.js", "inspection.js", "diagnostics.js", "surface-editing.js",
-                        "transfer.js", "style.css"}:
+                        "transfer.js", "sha256.js", "style.css"}:
             return JSONResponse({"detail": "Not found"}, status_code=404)
         return FileResponse(STATIC / name)
 

@@ -8,7 +8,6 @@ window.Transfer=(()=>{
   function say(id,text,error=false){$(id).textContent=text;$(id).classList.toggle("error",error);}
   function explain(error){return error?String(error.message||"未记录原因").replace(/^(TransferRejected|RelocationRejected): /,"")+(error.code?`（${error.code}）`:""):"未记录原因";}
   function staleText(r){const old=[r.candidate_stale&&"候选",r.validation_stale&&"检查"].filter(Boolean);return old.length?`旧${old.join("和")}已过期`:"原工程没有已接受的候选或检查";}
-  async function hex(data){return Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",data)),v=>v.toString(16).padStart(2,"0")).join("");}
   function buttons(){
     $("open-transfer").disabled=!limits;
     $("transfer-export").disabled=!limits||running||busy||!project;
@@ -36,7 +35,7 @@ window.Transfer=(()=>{
     const response=await fetch(`/api/transfers/uploads/${encodeURIComponent(id)}/chunks?offset=${offset}`,{method:"PUT",headers:{Authorization:"Bearer "+token,"X-Mapforge-CSRF":token,"Content-Type":"application/octet-stream"},body:chunk});
     const result=await response.json();if(!response.ok)throw new Error(typeof result.detail==="string"?result.detail:JSON.stringify(result.detail));return result;
   }
-  function save(data,name){const url=URL.createObjectURL(new Blob([data],{type:"application/zip"})),link=make("a");link.href=url;link.download=name;document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);}
+  function save(data,name){const url=URL.createObjectURL(data),link=make("a");link.href=url;link.download=name;document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);}
   $("open-transfer").onclick=()=>{buttons();$("transfer-dialog").showModal();};
   $("transfer-close").onclick=()=>$("transfer-dialog").close();
   $("transfer-export").onclick=()=>run("transfer-export-status","未导出：",async()=>{
@@ -48,10 +47,10 @@ window.Transfer=(()=>{
     // The server rechecks project, source and history before serving bytes.
     const response=await fetch(`/api/transfers/jobs/${encodeURIComponent(job.job_id)}/package`,{headers:{Authorization:"Bearer "+token}});
     if(!response.ok){const error=await response.json();throw new Error(error.detail||"工程包读取失败");}
-    const data=await response.arrayBuffer(),sha=job.result.sha256;
-    if(data.byteLength!==job.result.size||response.headers.get("X-Content-SHA256")!==sha||await hex(data)!==sha)throw new Error("下载字节校验失败，未保存工程包。");
+    const data=await response.blob(),sha=job.result.sha256;
+    if(data.size!==job.result.size||response.headers.get("X-Content-SHA256")!==sha||await window.PackageHash.blob(data)!==sha)throw new Error("下载字节校验失败，未保存工程包。");
     save(data,job.result.filename);
-    say("transfer-export-status",`已导出“${name}”修订 ${revision} · ${size(data.byteLength)} · SHA256 ${sha.slice(0,12)}…。包内不含原始 SHP；导入方需登记同源原件，导入后须重新生成并检查。`);
+    say("transfer-export-status",`已导出“${name}”修订 ${revision} · ${size(data.size)} · SHA256 ${sha.slice(0,12)}…。包内不含原始 SHP；导入方需登记同源原件，导入后须重新生成并检查。`);
   });
   $("transfer-file").onchange=()=>{const file=$("transfer-file").files?.[0];imported=null;$("transfer-result").hidden=true;say("transfer-import-status",file?`已选择 ${file.name} · ${size(file.size)}`:"尚未选择工程包。");buttons();};
   $("transfer-import").onclick=()=>run("transfer-import-status","未导入：",async()=>{
@@ -60,11 +59,11 @@ window.Transfer=(()=>{
     if(!file.size||file.size>limits.max_package_bytes)throw new Error(`工程包大小须在 1 字节到 ${size(limits.max_package_bytes)} 之间。`);
     imported=null;$("transfer-result").hidden=true;
     say("transfer-import-status","正在计算 SHA-256…");
-    const data=await file.arrayBuffer(),total=data.byteLength;
-    let upload=await api("/transfers/uploads",{name:file.name,size:total,sha256:await hex(data)});
+    const total=file.size,digest=await window.PackageHash.blob(file,(done,all)=>say("transfer-import-status",`正在校验 ${size(done)} / ${size(all)}…`));
+    let upload=await api("/transfers/uploads",{name:file.name,size:total,sha256:digest});
     $("transfer-progress").value=0;$("transfer-progress").hidden=false;
     for(let offset=0;offset<total;offset+=limits.chunk_bytes){
-      upload=await put(upload.upload_id,offset,data.slice(offset,offset+limits.chunk_bytes));
+      upload=await put(upload.upload_id,offset,file.slice(offset,offset+limits.chunk_bytes));
       if(upload.state==="failed")throw new Error("上传校验失败："+explain(upload.error));
       $("transfer-progress").value=upload.received_size/total;
       say("transfer-import-status",`正在上传 ${size(upload.received_size)} / ${size(total)}…`);

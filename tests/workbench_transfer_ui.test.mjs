@@ -62,12 +62,12 @@ async function environment() {
     }};
   vm.createContext(sandbox);
   const run = code => vm.runInContext(code, sandbox);
-  run(app); run(transfer); await settle();
+  run(app); run(readFileSync(new URL("../mapforge/workbench/static/sha256.js", import.meta.url), "utf8")); run(transfer); await settle();
   const e = {sandbox, run, element, calls, downloads, routes};
   e.open = () => {run(`generation++;applyProject(${JSON.stringify(project())},true);`);};
   e.body = (method, path) => JSON.parse(calls.find(c => c.method === method && c.path === path).options.body);
   e.file = (name, bytes) => {element("transfer-file").files = [{name, size: bytes.length,
-    arrayBuffer: async () => bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.length)}];
+    slice: (a,b) => new Blob([bytes.slice(a,b)])}];
     element("transfer-file").onchange();};
   return e;
 }
@@ -78,7 +78,7 @@ function exportRoutes(e, bytes, {header} = {}) {
   e.routes.set("POST /api/transfers/exports", () => ({body: {job_id: "j1", state: "running", operation: "export"}}));
   e.routes.set("GET /api/transfers/jobs/j1", () => ({body: {job_id: "j1", state: "succeeded", operation: "export", result}}));
   e.routes.set("GET /api/transfers/jobs/j1/package", () => ({raw: {ok: true, status: 200, json: async () => ({}),
-    arrayBuffer: async () => bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.length),
+    blob: async () => new Blob([bytes]),
     headers: {get: key => key === "X-Content-SHA256" ? (header ?? digest) : null}}}));
 }
 
@@ -87,7 +87,7 @@ function importRoutes(e, {job, upload} = {}) {
   e.routes.set("POST /api/transfers/uploads", ({options}) => {size = JSON.parse(options.body).size;
     return {body: {upload_id: UPLOAD, state: "receiving", received_size: 0, expected_size: size}};});
   e.routes.set(`PUT /api/transfers/uploads/${UPLOAD}/chunks`, ({options}) => {
-    received += options.body.byteLength;
+    received += options.body.size;
     return {body: upload?.(received) || {upload_id: UPLOAD, state: received === size ? "sealed" : "receiving",
       received_size: received, expected_size: size}};});
   e.routes.set("POST /api/transfers/imports", () => ({body: {job_id: "j2", state: "running", operation: "import"}}));
