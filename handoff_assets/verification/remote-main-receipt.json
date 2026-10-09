@@ -1,0 +1,41 @@
+{
+  "schema": "mapforge/git-cloud-continuation-verification/v1",
+  "verified_remote_revision": "bc56896aa7652ad0395cddbe9509b420e7325de8",
+  "environment": "Ubuntu 24.04 WSL fresh checkout tree and fresh venv",
+  "python": "3.11.16",
+  "installation": "uv 0.12.21 sync --locked",
+  "restored_bundles": [
+    {
+      "id": "shp",
+      "file_count": 216,
+      "archive_sha256": "2d7d4051a80af59aef9b2d53f9261911e89289c5901c030a0262cbb0abef18d1"
+    },
+    {
+      "id": "workbench",
+      "file_count": 1610,
+      "archive_sha256": "4aefdda5311d6144859db12079d22d928b921324c4e6cb6e6dcbe0a6eb537ba9"
+    },
+    {
+      "id": "windows-consumer",
+      "file_count": 4,
+      "archive_sha256": "2f4437baef5adf4eb0cb0b4cb54e664e1d339c1b9fc369b0eb9e44455cb3936a"
+    },
+    {
+      "id": "transfer-proof",
+      "file_count": 349,
+      "archive_sha256": "e5aff64789a2fc6469a8cf79e08bc718aee30340ddc0d5495ac961ae7d61c06b"
+    }
+  ],
+  "passed": 191,
+  "skipped": 1,
+  "failures": 0,
+  "errors": 0,
+  "real_source_projects_reopened": 16,
+  "prior_conversion_failures_reopened": 6,
+  "source_identity": "c7e9b7866dad49d00f46f27a96ed60d852572e031bd102be9ee2d5716820ab71",
+  "source_integrity": {
+    "matches": true,
+    "issues": []
+  },
+  "interpretation": "Development continuation; Windows consumer and commercial release not accepted"
+}

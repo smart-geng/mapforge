@@ -1,0 +1,177 @@
+{
+  "schema": "mapforge/source-project-verification/v1",
+  "created_at": "2026-10-09T02:02:25.364288+00:00",
+  "source_snapshot_id": "c7e9b7866dad49d00f46f27a96ed60d852572e031bd102be9ee2d5716820ab71",
+  "source_file_count": 216,
+  "source_bytes": 926615404,
+  "source_integrity": {
+    "matches": true,
+    "issues": []
+  },
+  "registered_generation_sha256": "803b9b466092ec8e263526c2ac093c6fa9eaa193ab206c3db12648299504820b",
+  "cases": [
+    {
+      "junction_id": "2023041111160971268",
+      "objects": 481,
+      "prior_generated": true,
+      "project_id": "e3449f32fcb94b9a8ad29518df60629f",
+      "draft_sha256": "aa71c59df33e9d0d160360fc8ddccb5d98cd995bdd86247322c19623f4d26ee9",
+      "reopened": true,
+      "xodr_required": false,
+      "formal_export_available": false
+    },
+    {
+      "junction_id": "2023061310244790027",
+      "objects": 570,
+      "prior_generated": true,
+      "project_id": "ef21966d45504614a77f160050e3fd51",
+      "draft_sha256": "ff1604ed1ce9e48397f3f8213e6a78883176069ee8f21985d7220d8722153c8f",
+      "reopened": true,
+      "xodr_required": false,
+      "formal_export_available": false
+    },
+    {
+      "junction_id": "2023062713394062899",
+      "objects": 492,
+      "prior_generated": true,
+      "project_id": "45bc2a9e38054017adbbb4e644bdff85",
+      "draft_sha256": "65792f5ab9ef21d32e0b0e6c0334ec484916be7271dcc752cfb49a3113e8d577",
+      "reopened": true,
+      "xodr_required": false,
+      "formal_export_available": false
+    },
+    {
+      "junction_id": "2023063015350832057",
+      "objects": 502,
+      "prior_generated": false,
+      "project_id": "c913aaf334914df98b9aa6c8fbea8d75",
+      "draft_sha256": "e48641e51256fedeab3c55c07d62256cd8c658d3e812de3c070998db0d9d241f",
+      "reopened": true,
+      "xodr_required": false,
+      "formal_export_available": false
+    },
+    {
+      "junction_id": "2023070710412621654",
+      "objects": 609,
+      "prior_generated": true,
+      "project_id": "d33c2b1f6d2e47eeb680682066be6bc6",
+      "draft_sha256": "25461ef25cc7608c6b2ed1a3fa420fb1071953461d5cb3e521ef51995f3a14bc",
+      "reopened": true,
+      "xodr_required": false,
+      "formal_export_available": false
+    },
+    {
+      "junction_id": "2023080118313036830",
+      "objects": 405,
+      "prior_generated": true,
+      "project_id": "8f9fa2a6927340c89c492964e561fd22",
+      "draft_sha256": "a47de4c7d71bf50dd5ce7368730d483c75dea00b8aa22646c6319ecc25a99b5a",
+      "reopened": true,
+      "xodr_required": false,
+      "formal_export_available": false
+    },
+    {
+      "junction_id": "2023041216222042093",
+      "objects": 473,
+      "prior_generated": true,
+      "project_id": "7da5d38805de4e1b92fb22905e167418",
+      "draft_sha256": "d90099b8bb21d0e452387851618996fc2d8559e6c47ea2006141c0af99b8f288",
+      "reopened": true,
+      "xodr_required": false,
+      "formal_export_available": false
+    },
+    {
+      "junction_id": "2023062110304177600",
+      "objects": 210,
+      "prior_generated": false,
+      "project_id": "4fb33919d34e4e6288ebe279f10c42b7",
+      "draft_sha256": "c3062e919e57b436542d0df2fe584ae48bded23b7ea76d8ccec5969136efd26c",
+      "reopened": true,
+      "xodr_required": false,
+      "formal_export_available": false
+    },
+    {
+      "junction_id": "2023070118182048481",
+      "objects": 203,
+      "prior_generated": false,
+      "project_id": "bd61a384d9804143b006addfa753de91",
+      "draft_sha256": "59811511dc8db52f441a8faeae31552cf8061857403f38e27e6800bd80cf3c52",
+      "reopened": true,
+      "xodr_required": false,
+      "formal_export_available": false
+    },
+    {
+      "junction_id": "2023080810023203229",
+      "objects": 197,
+      "prior_generated": true,
+      "project_id": "47830ec5984344329cd93b77cb980641",
+      "draft_sha256": "7ee7ed86762f8931a82382bc8285689305a0841250af0416b69ff600f3e7e9d8",
+      "reopened": true,
+      "xodr_required": false,
+      "formal_export_available": false
+    },
+    {
+      "junction_id": "2023062913464138453",
+      "objects": 601,
+      "prior_generated": false,
+      "project_id": "0472a5ae99a34d019e13e762c2ffdb4c",
+      "draft_sha256": "bd30d9d43f4d005983455af2e15b2c517c7e6fa767d767f7b46f94513e9f9b4b",
+      "reopened": true,
+      "xodr_required": false,
+      "formal_export_available": false
+    },
+    {
+      "junction_id": "2023072914272536839",
+      "objects": 863,
+      "prior_generated": false,
+      "project_id": "38192afdbb384c8aa9461044b70bd404",
+      "draft_sha256": "020eba4681ae2f79036520973366872e421cfdd4360808bf66fc9363443d48a3",
+      "reopened": true,
+      "xodr_required": false,
+      "formal_export_available": false
+    },
+    {
+      "junction_id": "2023041810414040830",
+      "objects": 126,
+      "prior_generated": true,
+      "project_id": "a059b3404e6644c390bd08c69cc018e6",
+      "draft_sha256": "a5d0523f5888cc4e15e7f017c25b2b94a7672d23a158587596c989fc5771dc10",
+      "reopened": true,
+      "xodr_required": false,
+      "formal_export_available": false
+    },
+    {
+      "junction_id": "2023070710324132429",
+      "objects": 186,
+      "prior_generated": true,
+      "project_id": "f00eee9915dd4f109836671b1518dbe2",
+      "draft_sha256": "6a75de5e532a491216c06eb3f18eaec74f49c37fb3bdaae5bbbb207a95373c07",
+      "reopened": true,
+      "xodr_required": false,
+      "formal_export_available": false
+    },
+    {
+      "junction_id": "2023081110220126408",
+      "objects": 671,
+      "prior_generated": false,
+      "project_id": "af51b97310d145d095727557bc7c58a2",
+      "draft_sha256": "418314175418de9b42458bf21a7d4428363e725aac2ae4c0003f98c7c6b361ba",
+      "reopened": true,
+      "xodr_required": false,
+      "formal_export_available": false
+    },
+    {
+      "junction_id": "2023071109582525264",
+      "objects": 207,
+      "prior_generated": true,
+      "project_id": "ada57134bd0e4b6abbd6f37cba96794f",
+      "draft_sha256": "50c9f81031ff0d964b0f404b7f6e931fbbdf1f6939232ebbce6bc929954ec4e5",
+      "reopened": true,
+      "xodr_required": false,
+      "formal_export_available": false
+    }
+  ],
+  "opened": 16,
+  "prior_generation_failed_opened": 6,
+  "interpretation": "Source/project persistence only; not geometry or product acceptance"
+}
