@@ -71,6 +71,14 @@ METRICS = {
     "lane_center_noflare_max_m": ("fidelity", "m", "lower"),
     "mouth_curb_flares": ("fidelity", "count", "info"),
     "lane_center_flare_samples_left_out": ("fidelity", "count", "info"),
+    # the same without the tight-turn connector lanes as well (tight_turn_conflict, SHP; source conflicts recorded
+    # by the source review, user decision 2026-10-09; graded by SHP T2 from 0.8-draft)
+    "lane_center_noconflict_median_m": ("fidelity", "m", "lower"),
+    "lane_center_noconflict_p95_m": ("fidelity", "m", "lower"),
+    "lane_center_noconflict_max_m": ("fidelity", "m", "lower"),
+    "tight_turn_source_conflicts": ("fidelity", "count", "info"),
+    "lane_center_conflict_lanes_left_out": ("fidelity", "count", "info"),
+    "lane_center_conflict_samples_left_out": ("fidelity", "count", "info"),
     "boundary_median_m": ("fidelity", "m", "lower"),
     "boundary_p95_m": ("fidelity", "m", "lower"),
     "boundary_max_m": ("fidelity", "m", "lower"),
@@ -337,7 +345,9 @@ def evaluate(xodr: Path, pipeline: str, schema=None, shp_source=None) -> dict:
         m.update(poly_audit(root, manifest))
         if pipeline == "shp":
             from mapforge.validate.lane_centre_flare import audit as flare_audit
+            from mapforge.validate.tight_turn_conflict import audit as conflict_audit
             m.update(flare_audit(root, manifest, _sidecar(xodr, ".source-review.json")))
+            m.update(conflict_audit(root, manifest, _sidecar(xodr, ".source-review.json")))
         if g8:
             from mapforge.validate.endpoint_lateral import audit as endpoint_lateral_audit
             m.update(endpoint_lateral_audit(root, manifest, g8))

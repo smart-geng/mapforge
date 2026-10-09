@@ -1,6 +1,6 @@
 schema: mapforge/static-acceptance-policy/v1
 id: static-acceptance-v1
-version: 0.7-draft
+version: 0.8-draft
 lifecycle: draft
 description: >-
   静态地图分级验收草案（2026-10-03，D1/D2）。未经用户确认，只用于比较方案、
@@ -45,8 +45,11 @@ tiers:
       # 0.6（2026-10-05，用户确认，阈值不变）：SHP 车道中心去掉口部路缘外展区，即源复核 mouth-curb-flare 记录的外展车道
       # 及挂在该口部的连接路，离外展口部车道中心点 10 m 内的样点（lane_centre_flare）。外展是源特征，用户决定不追；
       # 原 lane_center_p95_m / lane_center_max_m 继续报告
-      - {metric: lane_center_noflare_p95_m, op: le, value: 0.15, applies_to: [shp]}
-      - {metric: lane_center_noflare_max_m, op: le, value: 0.35, applies_to: [shp]}
+      # 0.8（2026-10-09，用户确认，阈值不变）：SHP 车道中心另去掉急弯连接路整条车道。原件 via 窗口任意 3 m 内最小半径
+      # 小于 5 m（约乘用车最小转弯半径）的可比 junction-via 记为原件冲突 tight-turn-source-conflict，不跟随
+      # （tight_turn_conflict）。18 个 SHP 路口 393 条 via 中标出 9 条（5 个路口）；lane_center_noflare_* 与原 G8 继续报告
+      - {metric: lane_center_noconflict_p95_m, op: le, value: 0.15, applies_to: [shp]}
+      - {metric: lane_center_noconflict_max_m, op: le, value: 0.35, applies_to: [shp]}
       - {metric: lane_endpoint_max_m, op: le, value: 0.20, applies_to: [map]}
       # 0.5（2026-10-04，用户确认，阈值不变）：SHP 口部前移 3 m 后，G8 源窗口按转换器原始里程裁切，比道路长 0.2-0.48 m，
       # 端点差多为纵向；SHP 改按端点差垂直于源线的分量判定，纵向到位仍由 G8 覆盖与原端点指标报告

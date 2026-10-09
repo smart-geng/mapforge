@@ -40,6 +40,10 @@ Rules, in the conversion's local comparison frame (metres):
   a source characteristic, not followed; the findings carry the mouth point and the connector lanes attached
   there, and the scoreboard reports lane-centre statistics without the FLARE_ZONE_M around such mouths
   (mapforge.validate.lane_centre_flare), not graded.
+- ``tight-turn-source-conflict`` (2026-10-09): a comparable junction via whose source window turns tighter than a
+  5 m radius within any 3 m (mapforge.validate.tight_turn_conflict). User decision: a source conflict, recorded,
+  not followed; SHP T2 grades the lane centres without these connector lanes (0.8-draft). Only added when found,
+  so a review without such a via keeps its bytes.
 
     python -m mapforge.validate.shp_source_review --manifest out/.../shp-node4.source-lanes.json --out review.json
 """
@@ -536,6 +540,14 @@ def review_manifest(manifest: dict, shp_dir=None, profile="ibd-smarteditor-v1", 
         out["decision_flares"] = ("regular-mouth (user, 2026-10-05): curb-return flares at junction mouths are "
                                   "recorded, not followed; lane-centre statistics without the flare zones are "
                                   "reported apart, not graded")
+    from mapforge.validate import tight_turn_conflict as T
+    conflicts = T.findings(manifest)
+    if conflicts:
+        out["findings"] += conflicts
+        out["counts"][T.RULE + "/lane"] = len(conflicts)
+        out["recorded"] = len(out["findings"])
+        out["thresholds"].update({"tight_turn_radius_min_m": T.RADIUS_MIN_M, "tight_turn_window_m": T.WINDOW_M})
+        out["decision_tight_turns"] = T.DECISION
     out["comparison_crs"] = manifest["comparison_crs"].get("id")
     return out
 
