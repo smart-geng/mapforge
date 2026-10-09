@@ -19,7 +19,7 @@ import pytest
 from mapforge.workbench import project_transfer as M
 from mapforge.workbench.contracts import canonical_bytes
 from mapforge.workbench.store import ProjectStore
-from test_workbench_project_relocation import case, _job, _request_index, _sha, _tree
+from test_workbench_project_relocation import case, _job, _never_bound, _request_index, _sha, _tree
 
 
 def _request():
@@ -137,6 +137,30 @@ def test_real_package_retains_drafts_and_history_but_reopens_with_stale_evidence
     assert _tree(c.directory) == project_before
     assert _tree(c.store.root / ".jobs") == jobs_before
     assert (_tree(c.old_raw), _tree(c.raw), c.old_profile.read_bytes(), c.profile.read_bytes()) == raw_before
+
+
+@pytest.mark.parametrize("bind_after_notes", [False, True], ids=["never-bound", "previous-unbound"])
+def test_project_saved_before_editing_was_enabled_round_trips(tmp_path, bind_after_notes):
+    c = _never_bound(tmp_path, bind_after_notes=bind_after_notes)
+    pid = c.project["project_id"]
+    target_store = ProjectStore(tmp_path / "目标 工程库")
+    source = M.TransferService(c.store, c.raw, c.profile)
+    target = M.TransferService(target_store, c.raw, c.profile)
+    try:
+        job = _wait(source, source.start_export(pid, c.project["revision"], _request()))
+        assert job["state"] == "succeeded", job
+        _, data = source.download(job["job_id"])
+        upload = _upload(target, data)
+        imported = _wait(target, target.start_import(upload["upload_id"], _request()))
+        assert imported["state"] == "succeeded", imported
+        assert imported["result"]["candidate_stale"] is False and imported["result"]["validation_stale"] is False
+        moved = target_store.load(pid)
+        for key in ("intents", "timeline", "cursor", "context", "content_hash", "candidate"):
+            assert moved[key] == c.project[key], key
+        assert moved["revision"] == c.project["revision"] + 1
+    finally:
+        source.close()
+        target.close()
 
 
 @pytest.mark.parametrize("fault", ["source-byte", "profile-byte", "active-job", "bad-history"])

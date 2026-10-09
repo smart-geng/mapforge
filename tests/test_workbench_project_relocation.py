@@ -252,6 +252,52 @@ def test_second_relocation_retains_the_first_history_without_reviving_acceptance
     assert not (second_workspace / ".jobs").exists()
 
 
+def _never_bound(root, *, bind_after_notes=False):
+    """A source project with to-dos only, saved before any editing was enabled."""
+    raw, profile = _source(root / "未绑定 原料")
+    store = ProjectStore(root / "未绑定 工程库")
+    snapshot = SourceCatalog(raw, profile).snapshot("synthetic-j1")
+    project = store.create(snapshot, "只有待办的源工程")
+    ref = snapshot["objects"][0]["id"]
+    for index in (1, 2):
+        project = store.commit(project["project_id"], project["revision"], {
+            "command_id": f"todo-{index}", "type": "annotation", "source_ref": ref, "scope": {"feature_ids": [ref]},
+            "parameters": {"text": f"未启用编辑的待办 {index}", "status": "unresolved"}})
+    if bind_after_notes:
+        project = store.set_context(project["project_id"], project["revision"], "bind", "a" * 64, "b" * 64)
+    return SimpleNamespace(store=store, raw=raw, profile=profile, project=project,
+                           directory=store.project_path(project["project_id"]))
+
+
+@pytest.mark.parametrize("bind_after_notes", [False, True], ids=["never-bound", "previous-unbound"])
+def test_project_saved_before_editing_was_enabled_relocates_without_inventing_a_context(tmp_path, bind_after_notes):
+    c = _never_bound(tmp_path, bind_after_notes=bind_after_notes)
+    before = _tree(c.directory)
+    M.relocate_project(c.directory, tmp_path / "迁移 后", c.raw, c.profile)
+    moved = ProjectStore(tmp_path / "迁移 后").load(c.project["project_id"])
+    assert moved["context"] == c.project["context"]
+    assert moved["intents"] == c.project["intents"]
+    assert moved["revision"] == c.project["revision"] + 1
+    assert moved["candidate"] is None and moved["capabilities"] == {}
+    assert not moved["status"]["candidate_stale"] and not moved["status"]["validation_stale"]
+    assert _tree(c.directory) == before
+
+
+@pytest.mark.parametrize("forge", ["half-bound", "capability-without-context"])
+def test_unbound_context_is_accepted_only_for_a_project_that_never_bound_one(tmp_path, forge):
+    c = _never_bound(tmp_path)
+    path = c.directory / "project.json"
+    project = json.loads(path.read_bytes())["payload"]
+    if forge == "half-bound":
+        project["context"]["policy_hash"] = "b" * 64
+    else:
+        project["capabilities"] = {"forged": {}}
+    _save_payload(path, project)
+    with pytest.raises(M.RelocationRejected, match="compiler_hash"):
+        M.relocate_project(c.directory, tmp_path / "迁移 后", c.raw, c.profile)
+    assert not (tmp_path / "迁移 后" / c.project["project_id"]).exists()
+
+
 @pytest.mark.parametrize("state", ["starting", "running", "cancelling"])
 def test_nonterminal_related_job_blocks_migration_without_publishing(case, state):
     _job(case.store.root, case.project, job_id="3" * 32, state=state)

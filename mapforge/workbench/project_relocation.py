@@ -17,7 +17,8 @@ import re
 import stat
 from uuid import uuid4
 
-from .contracts import canonical_bytes, content_hash, digest, identifier, sha256, validate_context, validate_snapshot
+from .contracts import (canonical_bytes, content_hash, context_for, digest, identifier, sha256, validate_context,
+                        validate_snapshot)
 from .jobs import ARCHIVE_SCHEMA, JobManager, _TERMINAL
 from .sources import SourceCatalog, verify_source_snapshot
 from .store import ENVELOPE, SCHEMA as PROJECT_SCHEMA, ProjectStore
@@ -263,7 +264,12 @@ def _project(raw, base, project_id):
             or project["intents"] != project["timeline"][:project["cursor"]]):
         _reject("invalid-project", "工程历史或当前意图不一致")
     validate_snapshot(project["source_snapshot"])
-    validate_context(project["context"])
+    # ProjectStore.create leaves compiler/policy unbound until editing is
+    # enabled; such a project can have no capability or candidate yet.
+    never_bound = (project["context"] == context_for(project["source_snapshot"]) and not project["capabilities"]
+                   and project["candidate"] is None and not project["candidate_history"])
+    if not never_bound:
+        validate_context(project["context"])
     if (project["content_hash"] != content_hash(project["source_snapshot"], project["intents"])
             or project["context"].get("source_hash") != digest({k: v for k, v in project["source_snapshot"].items() if k != "locator"})):
         _reject("invalid-project", "工程草稿或来源身份不一致")
