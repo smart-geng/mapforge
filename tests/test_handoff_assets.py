@@ -91,3 +91,22 @@ def test_link_target_not_followed(tmp_path):
     except OSError:pytest.skip("symlink permission unavailable")
     with pytest.raises(ValueError,match="link"):restore_bundle(assets,bundle,target)
     assert not list(outside.iterdir())
+
+
+def test_builder_preserves_bound_worker_logs_but_omits_sessions(tmp_path):
+    from scripts.prepare_handoff_assets import build
+    workspace = tmp_path / "workspace"
+    source = workspace / "out/proof"
+    source.mkdir(parents=True)
+    (source / "worker.log").write_bytes(b"frozen research worker")
+    (source / "server.log").write_bytes(b"http://127.0.0.1/#token=private")
+    (source / "session-8795.json").write_bytes(b'{"url":"private"}')
+    (source / "secret.json").write_bytes(b'{"token":"private"}')
+    output = tmp_path / "parts"
+    output.mkdir()
+    bundle = build(workspace, output, "test", ["out/proof"])
+    assert [f["path"] for f in bundle["files"]] == ["out/proof/worker.log"]
+    assert len(bundle["excluded_files"]) == 3
+    target = tmp_path / "restored"
+    restore_bundle(output, bundle, target)
+    assert (target / "out/proof/worker.log").read_bytes() == b"frozen research worker"

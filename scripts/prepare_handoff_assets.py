@@ -18,7 +18,8 @@ OMIT = {".venv", "__pycache__", ".pytest_cache", ".transfers"}
 
 
 def excluded(path):
-    return (any(p in OMIT for p in path.parts) or path.suffix in {".pyc", ".log"}
+    return (any(p in OMIT for p in path.parts) or path.suffix == ".pyc"
+            or (path.name.startswith("server") and path.suffix == ".log")
             or path.name.startswith("session-") or path.name in {"session.json", "server.json"})
 
 
@@ -40,7 +41,7 @@ def build(workspace, output, name, roots, include=None):
             safe_file(workspace, relative.as_posix())
             if path.is_file():
                 # Session credentials must never enter the public asset bundle.
-                if path.suffix.lower() in {".json", ".txt", ".md", ".html", ".xml"}:
+                if path.suffix.lower() in {".json", ".txt", ".md", ".html", ".xml", ".log"}:
                     data = path.read_bytes()
                     if b"#token=" in data or b'"token":' in data or b"Bearer " in data:
                         omitted.append(relative.as_posix())
