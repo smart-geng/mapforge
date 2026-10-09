@@ -53,6 +53,14 @@ METRICS = {
     "connector_width_min_m": ("validity", "m", "higher"),
     "paving_components": ("validity", "count", "info"),
     "paving_holes_gt1cm2": ("validity", "count", "lower"),
+    # holes on outlines sampled at every record breakpoint, without those coinciding with source holes bound by
+    # source-surface reconstruction evidence (paving_holes, user decisions 2026-10-09; T1 from 0.9-draft)
+    "paving_holes_counted": ("validity", "count", "lower"),
+    "paving_holes_resampled": ("validity", "count", "info"),
+    "paving_holes_source_void": ("validity", "count", "info"),
+    "paving_hole_counted_area_max_m2": ("validity", "m2", "info"),
+    "paving_source_void_area_m2": ("validity", "m2", "info"),
+    "paving_source_void_evidence": ("validity", "", "info"),
     "g8_status": ("fidelity", "", "pass"),
     "lane_center_median_m": ("fidelity", "m", "lower"),
     "lane_center_p95_m": ("fidelity", "m", "lower"),
@@ -329,6 +337,8 @@ def evaluate(xodr: Path, pipeline: str, schema=None, shp_source=None) -> dict:
     m.update(connector_widths(root))
     m["paving_components"] = audit.get("paving_components")
     m["paving_holes_gt1cm2"] = audit.get("paving_holes_gt1cm2")
+    from mapforge.validate.paving_holes import audit as paving_audit
+    m.update(paving_audit(root, _sidecar(xodr, ".surface-evidence.json")))
 
     if g8:
         gm = g8.get("metrics", {})

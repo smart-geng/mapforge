@@ -80,7 +80,7 @@ def test_a_conflict_lane_is_left_out_whole(monkeypatch):
 
 def test_policy_grades_shp_lane_centres_without_conflicts_with_unchanged_thresholds():
     policy = yaml.safe_load(sb.POLICY.read_bytes())
-    assert policy["version"] == "0.8-draft"
+    assert float(policy["version"].removesuffix("-draft")) >= 0.8   # the 0.8 clause stays in later drafts
     t2 = {c["metric"]: c for c in policy["tiers"]["T2"]["checks"]}
     assert t2["lane_center_noconflict_p95_m"]["value"] == 0.15 and t2["lane_center_noconflict_p95_m"]["applies_to"] == ["shp"]
     assert t2["lane_center_noconflict_max_m"]["value"] == 0.35 and t2["lane_center_noconflict_max_m"]["applies_to"] == ["shp"]

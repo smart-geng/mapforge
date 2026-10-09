@@ -32,7 +32,7 @@ BASELINE = {"status": "UNAVAILABLE", "reason": "unavailable-original-generation-
 _BUNDLE = r"validation-[0-9a-f]{24}-[0-9a-f]{8}"
 _OUTPUTS = frozenset({"request.json", "worker-result.json", "process.json", "worker.stdout.txt",
     "worker.stderr.txt", "candidate.xodr", "candidate.source-lanes.json", "candidate.source-review.json",
-    "candidate.g8.json", "candidate.g11.json", "candidate.edge-contacts.json",
+    "candidate.surface-evidence.json", "candidate.g8.json", "candidate.g11.json", "candidate.edge-contacts.json",
     "candidate.quality-report.json", "candidate.delivery-decision.json", "scoreboard.json", "scoreboard.md"})
 _PACKAGE_FIELDS = {"bundle_id", "candidate_id", "candidate_hash", "context", "checks", "decision"}
 MAX_FILE_BYTES = 64 * 1024 * 1024
@@ -127,16 +127,18 @@ def _load_inputs(payload):
         _reject("candidate-source-mismatch", "候选来源不属于当前工程")
     primary = Path(verified["primary_path"])
     manifest, review = primary.with_suffix(".source-lanes.json"), primary.with_suffix(".source-review.json")
+    # Source-surface reconstruction evidence: binds the source holes the scoreboard lists apart (0.9-draft).
+    evidence = primary.with_name("surface-evidence.json")
     inputs = {}
     for item in candidate["artifacts"]:
         path, data = _artifact(directory, item)
         if item["relative_path"] in inputs:
             _reject("duplicate-candidate-artifact", "候选清单含重复产物")
         inputs[item["relative_path"]] = _sha(data)
-    if any(p.relative_to(directory).as_posix() not in inputs for p in (primary, manifest, review)):
-        _reject("missing-source-sidecars", "主候选、来源清单和源复核必须同时绑定")
+    if any(p.relative_to(directory).as_posix() not in inputs for p in (primary, manifest, review, evidence)):
+        _reject("missing-source-sidecars", "主候选、来源清单、源复核和源路面证据必须同时绑定")
     return {"project": project, "directory": directory, "registration": registration,
-            "primary": primary, "manifest": manifest, "review": review,
+            "primary": primary, "manifest": manifest, "review": review, "evidence": evidence,
             "input_files_sha256": inputs, "candidate_sha256": inputs[primary.relative_to(directory).as_posix()]}
 
 
@@ -161,6 +163,7 @@ def _evaluate_single(output, inputs):
     candidate = output / "candidate.xodr"
     _write_new(candidate, _read(inputs["primary"]))
     _write_new(candidate.with_suffix(".source-review.json"), _read(inputs["review"]))
+    _write_new(candidate.with_suffix(".surface-evidence.json"), _read(inputs["evidence"]))
     manifest = _json(_read(inputs["manifest"]))
     # The original finalizer writes the same manifest plus G8/G11/contact reports.
     finalize_opendrive_g8(candidate, manifest, ROOT / "profiles/validation/g8-opendrive-jinfeng-v1.yaml")
@@ -232,6 +235,7 @@ def _evaluation(output, request, inputs, request_sha):
         _reject("worker-evidence-mismatch", "后台检查报告与候选、来源或请求不一致")
     if (_read(output / "candidate.xodr") != _read(inputs["primary"])
             or _read(output / "candidate.source-review.json") != _read(inputs["review"])
+            or _read(output / "candidate.surface-evidence.json") != _read(inputs["evidence"])
             or _json(_read(output / "candidate.source-lanes.json")) != _json(_read(inputs["manifest"]))):
         _reject("candidate-copy-mismatch", "整图检查没有使用原实际候选及其来源报告")
     board = _json(_read(output / "scoreboard.json"))

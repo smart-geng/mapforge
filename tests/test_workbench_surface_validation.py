@@ -38,6 +38,7 @@ def setup(tmp_path, monkeypatch):
     original = {"candidate.xodr": b"<?xml version='1.0'?><OpenDRIVE/>",
                 "candidate.source-lanes.json": canonical_bytes({"source_format": "shp", "lanes": []}),
                 "candidate.source-review.json": canonical_bytes({"schema": "synthetic-source-review", "source": "current"}),
+                "surface-evidence.json": canonical_bytes({"schema": "synthetic-surface-evidence", "source": "current"}),
                 # A deliberately unrelated old board must never become the new check.
                 "scoreboard.json": canonical_bytes({"old": True, "rows": [{"metrics": {"paving_holes_gt1cm2": 999}}]})}
     for name, data in original.items():
@@ -71,11 +72,13 @@ def setup(tmp_path, monkeypatch):
     policy = yaml.safe_load(sb.POLICY.read_bytes())
     metrics = {check["metric"]: check["value"] for tier in policy["tiers"].values() for check in tier["checks"]
                if not check.get("applies_to") or "shp" in check["applies_to"]}
-    metrics.update(paving_holes_gt1cm2=2, boundary_inside_p95_m=0.118)
+    metrics.update(paving_holes_gt1cm2=2, paving_holes_counted=2, boundary_inside_p95_m=0.118)
     state.metrics = metrics
+    state.evidence_seen = []
 
     def evaluate(candidate, pipeline, **kwargs):
         state.calls.append((candidate, pipeline, candidate.read_bytes()))
+        state.evidence_seen.append(candidate.with_suffix(".surface-evidence.json").read_bytes())
         return deepcopy(state.metrics), {"schema": consumer_metrics.SCHEMA, "status": "CHECKED", "synthetic": True}
 
     monkeypatch.setattr(consumer_metrics, "evaluate", evaluate)
@@ -116,6 +119,8 @@ def test_fresh_single_candidate_retains_failures_and_missing_baseline(setup):
     path, pipeline, data = setup.calls[0]
     assert path.parent == output(setup, result) and pipeline == "shp"
     assert data == setup.original["candidate.xodr"]
+    # The scoreboard reads the bound source-surface evidence next to the copied candidate (0.9-draft).
+    assert setup.evidence_seen == [setup.original["surface-evidence.json"]]
     assert {p.name: p.read_bytes() for p in setup.run.iterdir()} == setup.original
     report = M.verify_validation_artifacts(setup.directory, result["validation"])
     assert report == result["report"]
@@ -123,7 +128,7 @@ def test_fresh_single_candidate_retains_failures_and_missing_baseline(setup):
     assert report["changed_metrics"] is None
     assert report["scoreboard"]["files"] == 1
     row = report["scoreboard"]["rows"][0]
-    assert row["metrics"]["paving_holes_gt1cm2"] == 2
+    assert row["metrics"]["paving_holes_gt1cm2"] == row["metrics"]["paving_holes_counted"] == 2
     assert row["tiers"]["T1"]["status"] == row["tiers"]["T2"]["status"] == "FAIL"
     assert result["validation"]["decision"] == "BLOCKED"
     assert report["formal_delivery"] is result["accepted"] is False
@@ -150,6 +155,7 @@ def test_repeat_checks_use_new_independent_directory(setup):
     lambda p: p["project"]["context"].update(compiler_hash="0" * 64),
     lambda p: p["project"]["candidate"]["artifacts"].append(deepcopy(p["project"]["candidate"]["artifacts"][0])),
     lambda p: p["project"]["candidate"]["artifacts"].pop(2),
+    lambda p: p["project"]["candidate"]["artifacts"].pop(3),
 ])
 def test_rejects_ineligible_input_before_evaluation(setup, mutation):
     mutation(setup.payload)
@@ -167,7 +173,8 @@ def test_each_output_is_bound_to_recorded_bytes(setup, name):
         M.verify_validation_artifacts(setup.directory, result["validation"])
 
 
-@pytest.mark.parametrize("part", ["candidate.xodr", "candidate.source-lanes.json", "candidate.source-review.json", "scoreboard.json"])
+@pytest.mark.parametrize("part", ["candidate.xodr", "candidate.source-lanes.json", "candidate.source-review.json",
+                                  "surface-evidence.json", "scoreboard.json"])
 def test_original_candidate_inputs_are_rechecked(setup, part):
     result = validated(setup)
     (setup.run / part).write_bytes(b"changed")
@@ -286,7 +293,7 @@ def test_checking_attaches_only_current_owned_surface_result(setup, monkeypatch,
         assert attached[0][-1] == result["validation"]
 
 
-@pytest.mark.parametrize("change", ["extra", "missing", "copy", "manifest", "quality"])
+@pytest.mark.parametrize("change", ["extra", "missing", "copy", "evidence", "manifest", "quality"])
 def test_cross_binding_rejects_bad_outputs_before_manifest_is_created(setup, monkeypatch, change):
     evaluate = M._evaluate_single
     def changed(out, inputs):
@@ -297,6 +304,8 @@ def test_cross_binding_rejects_bad_outputs_before_manifest_is_created(setup, mon
             (out / "candidate.g11.json").unlink()
         elif change == "copy":
             (out / "candidate.xodr").write_bytes(b"different candidate")
+        elif change == "evidence":
+            rewrite(out / "candidate.surface-evidence.json", lambda v: v.update(source="forged"))
         elif change == "manifest":
             rewrite(out / "candidate.source-lanes.json", lambda v: v.update(lanes=["wrong-source"]))
         elif change == "quality":
