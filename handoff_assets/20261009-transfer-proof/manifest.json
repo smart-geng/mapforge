@@ -1,0 +1,1773 @@
+{
+  "schema": "mapforge/git-handoff/v1",
+  "purpose": "DEVELOPMENT_CONTINUATION_NOT_FORMAL_DELIVERY",
+  "source_revision": "ae9a6e5b49bed3ab518e0e06e8e62e7bf1ebbaa2",
+  "bundles": [
+    {
+      "id": "transfer-proof",
+      "roots": [
+        "out/workbench/transfer-main-20261009"
+      ],
+      "files": [
+        {
+          "path": "out/workbench/transfer-main-20261009/0621-export-visible.txt",
+          "size": 921,
+          "sha256": "76228090308d3fdb9c88cf663487176963fcc2ce37125352ea7e9390ef1458f1"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/0621-final-check.png",
+          "size": 80515,
+          "sha256": "131a3f4253c459f670304fec5a5b5ef1036aeae2bc779a94574906e5eb38768d"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/0621-final-export-visible.txt",
+          "size": 5239,
+          "sha256": "12579407f8d79bddf184cdc9de406a74ff3cbd1ea2edf9b20cbfb3604a6bc104"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/0621-final-reopen-visible.txt",
+          "size": 5210,
+          "sha256": "410f3259381c6f3fdbbe2f0612c42f04228557e97e79f85f7dfe0b89d204b5e6"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/0621-import-complete.txt",
+          "size": 1064,
+          "sha256": "78f3414040c2734de90d8b5c793338bded8b2647526b6ad5a6015c5c7296206a"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/0621-import-visible.txt",
+          "size": 847,
+          "sha256": "73b26a6c41af3427fda5fc65ea32dfe9a253542bbc044131a16c7e4b17fedaa0"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/0621-package-record.json",
+          "size": 858,
+          "sha256": "700308d6ea6f68616550270270ec3b1feb6d15abc27c8feb0c70d658bf6f37b2"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/840944dc9b1c464b84427635211963b2.mapforge-project.zip",
+          "size": 13614407,
+          "sha256": "5defb4ef60dfa1432935d46ebbcaaa0faf4009e4a7d6a732007d462b4fdaf539"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/all-frontend-tests.txt",
+          "size": 28739,
+          "sha256": "af72ed0bf2f7af40ab9a2877b62aa841aa1627800f3cb264ee7a925bcc592e55"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/asset-selection.json",
+          "size": 3457,
+          "sha256": "f5b6f5c95910a2d082e148370eaa707fbe8a305562069bdbfec8950ba01de62e"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/assets-final.xml",
+          "size": 2413,
+          "sha256": "a92e5ace71ed27bab9881ba44f734e314f2b283d4a4315e47f9b3e410076091d"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/assets-tests.xml",
+          "size": 2283,
+          "sha256": "37ee3171db2a84c37b0dedf241443608645c26140714f6aad24854c07eaba427"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/before/AGENTS.md",
+          "size": 10995,
+          "sha256": "19c69d4a0e199eca783a261e0641d037152835da4dcc8064a8b2af0497e198bb"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/before/CLAUDE.md",
+          "size": 10909,
+          "sha256": "e108896ed08e4f0629728e8279c3c69eb24d9e3dd5cf62c1c003db2164adccbd"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/before/fidelity_inspection.py",
+          "size": 10470,
+          "sha256": "f8e049f4d3a7aa6c98c3fa3845edd31546d4dd50098618b7fdd9e50164ca8c12"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/before/HANDOFF.md",
+          "size": 37239,
+          "sha256": "b00f12446c0339362b65e29d216a5cdd5e303918e6c7f3dbbf8d34573474bbbd"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/before/manifest.json",
+          "size": 1271,
+          "sha256": "09881b594f87608caf5e274ec1534d94f0e55482e0d37564581d8bae2162eb59"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/before/mapforge/workbench/app.py",
+          "size": 17333,
+          "sha256": "feeb1e5283274dfef9232d3653df4e796413636aa245cc65e23b895067922fed"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/before/mapforge/workbench/project_relocation.py",
+          "size": 27274,
+          "sha256": "a9730ddc7ef95a260a9ddc7fc60699775975e7df3594a23d1ee8d590bcbdabf9"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/before/mapforge/workbench/static/app.js",
+          "size": 19199,
+          "sha256": "05a9a4f3f3b027c71fd64eb1ba903d667f5ed24f28ed34841ec0792a5d7e583f"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/before/mapforge/workbench/static/index.html",
+          "size": 12885,
+          "sha256": "b1f3bfa3fd9e2d820aa01af0155e01dd9e95953b85b698ff3180375134652c2d"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/before/mapforge/workbench/static/style.css",
+          "size": 12269,
+          "sha256": "b2027092589fc75bb203f6de1f3b684b2ad9dc6b999256a7d59ba30a564ff798"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/before/README.md",
+          "size": 8094,
+          "sha256": "43f08bf2402828154aa88d73bc5e666c0ee06189a4b0b1a8cb6c156ed87792a1"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/canonical-context-proof.json",
+          "size": 740,
+          "sha256": "35e98b06210ea1048f17c2c415c0cbee8296a7eb37dac36e239307eee09e100b"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/e7dc5f33d1ef4815977428f3a4c3f896.mapforge-project.zip",
+          "size": 2171135,
+          "sha256": "d80a21c15160abd6e67758755f75ba5664862d133527a8002e4199278069ef77"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/fidelity-portable.xml",
+          "size": 6129,
+          "sha256": "9b71116c60341da48b26fc262156c792807f0ccaec55f86ef8d4ce2bdaf5cd5d"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/final-evidence-audit.json",
+          "size": 1792,
+          "sha256": "dddc6b625da7e2362d6e6141c6a2b4296cc801d69682ba4be1dad7d70d020933"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/final_evidence_audit.py",
+          "size": 3961,
+          "sha256": "cb08888bef398576da8b37d55a0260c6ff39a851a54592e9734584513a0c68b3"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/fix-tests-v2.xml",
+          "size": 21861,
+          "sha256": "d5f45b46b823408a97df2d72027e3db2fb73aaf52abc824d5317f8890fd6fe04"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/fix-tests.xml",
+          "size": 8901,
+          "sha256": "dc95a6b5652d0c4a48026d17634e75eda6f6d828435a9ef22013f973def4118a"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/frontend-tests.txt",
+          "size": 4477,
+          "sha256": "fa6894ea7cdcf2b2dedda232b6c4322687cdaacd2b07bdfa4196877839a50872"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/git-byte-differences.json",
+          "size": 3348,
+          "sha256": "b9491a3a33622aebcd2ef7a9f5604fbc0970556aaed5da30b3a357e114f5f94c"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/git-byte-freeze.json",
+          "size": 3348,
+          "sha256": "5cdb0924655f47d72c3b92cfd7d5ed1e104451dac774b76ba4431c5faa6eb7e1"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/large-package-browser.json",
+          "size": 4650,
+          "sha256": "600e0056318cf628a097b67c83d8727a0185c51916fd44676bd8de0766d63da7"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/linux-fidelity-diff.py",
+          "size": 1456,
+          "sha256": "5cbf031e105df5568c0bb4a98c2b72febb29003e418e4efa302cd38889599fba"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/linux-fidelity-replay-diff.json",
+          "size": 963,
+          "sha256": "ba4f0faa95f7dfe0c5a19134546f423363b0b4ff89ffe71dd8abad365453d993"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/linux-final.txt",
+          "size": 6454,
+          "sha256": "d7ed8e875b38200e00b4ecefbbb217c7626594677d3dace513559704d1c1e615"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/linux-portable-final.txt",
+          "size": 784,
+          "sha256": "c5746da9c4ecf89e86cf61d5e8680cfba5b3debba4964346b945a9707d7e5631"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/linux-portable-final.xml",
+          "size": 30061,
+          "sha256": "7acf3961f5cc1bd8ad8ccb3c1ee63b0b0717f541205e281103920496c8336dc8"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/linux-python-install.txt",
+          "size": 197,
+          "sha256": "1966e30c8f0d13f01623bf04abf36cae2a400c9422584150b26cd858172e682a"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/linux-real-source-projects-final.json",
+          "size": 6181,
+          "sha256": "862a2b0ad69b6a57f76c8bd33c7e1acdf8d7c4594f8c3bce713372e612f375d3"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/linux-real-source-projects.json",
+          "size": 6181,
+          "sha256": "81710e3dd31db93f574bdb19f1ac6805e921ff86146fc9493a51824ccd951a91"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/linux-real-source-projects.txt",
+          "size": 151,
+          "sha256": "45006d7d1f96fa81a1bf84cf45178c0e7f872418045f8568ad0e22cfcd8819ee"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/linux-real-transfer.json",
+          "size": 1067,
+          "sha256": "9ec9d2a8da3d66aff8ecb13264a3ad501b789cd11167b27d21823fe8e6fb131c"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/linux-real-transfer.py",
+          "size": 2549,
+          "sha256": "aa2824b15c049dbd34a601976a5420e6ec728d1abd02a899eede5ef262a7b552"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/linux-real-transfer.txt",
+          "size": 348,
+          "sha256": "d495abe25e71599718cf3d09e9491a06c9f88bb3ec32f47459976e4bdea95ae3"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/linux-restore.txt",
+          "size": 3004,
+          "sha256": "e2dfd212a903ff6e6b8913aac88af8475eaffff746193d1a0ef17a54a744a40a"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/linux-sync.txt",
+          "size": 2097,
+          "sha256": "94ae39346df77938c996541b5f94092a48bb8120f7614aa2368aca7acc31cc0c"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/linux-targeted-final.xml",
+          "size": 29255,
+          "sha256": "84b64a07a8d1cd1ea7bbb2f2b68492d650b967bff4bb2aaae34a235620394c05"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/linux-transfer-targeted.txt",
+          "size": 781,
+          "sha256": "ba95125e6a3b8840413b83343b2d55ba651ecfae1f4e6a2128142a770e1aa2f4"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/linux-transfer-targeted.xml",
+          "size": 24040,
+          "sha256": "6e01a3a38ab9b22c6d264101c9d1f6e193060a9d7b6cca4487ebf14188be3999"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/linux-workbench-final.txt",
+          "size": 89363,
+          "sha256": "2e2f1ab028302cad1699c18ab106880f5809a8f5bcd952bf57b5d175882120e5"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/linux-workbench-final.xml",
+          "size": 332044,
+          "sha256": "b42bfab4ef6db0b38c7ca5cb53c74216e5a9d04c827df964db466315d4f1258b"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/linux-workbench.txt",
+          "size": 130137,
+          "sha256": "8834aeaf8532699ecb1c6ec589ee3d3f3ffc46e46ef96a46c21ab19b84bd6afe"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/linux-workbench.xml",
+          "size": 369336,
+          "sha256": "1c8548327bd1c0453416e85565087c4d80ecf19260939854e951cf6c48542002"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/old-validation-context-audit.json",
+          "size": 3761,
+          "sha256": "0f79187131e2196ba857eeb7d8a36278d8b714324a1001ab23b349456e3ca7ae"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/original-project-hashes.json",
+          "size": 8131,
+          "sha256": "56348876c6852f5b700e6279485aad4e24539b63d21ba67e03f1732b1b1c1a62"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/policy-byte-bindings.json",
+          "size": 363,
+          "sha256": "6d3ca699a387d615e65b9f4672c9f3f6631dfed441ee07093da2dbdfaf1d45dc"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/profile-byte-binding.json",
+          "size": 267,
+          "sha256": "12530c7dbcb971dfba8ead9c76d6a80c651bc74d74518466614025868d165d63"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/profile-original.yaml",
+          "size": 2493,
+          "sha256": "7309c3b4029ab49cb5e5cfb3ab613bbb98484ddfb3e20aaf974c401b1c9469fe"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/targeted-final.txt",
+          "size": 577,
+          "sha256": "78b5e0773815b87b3622263f19885b8d9b81eb9ee0ad6a75858197605c194d30"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/targeted-final.xml",
+          "size": 4976,
+          "sha256": "5dd17716a5444836d9a6e823ff08a2323dc6c49a7cd5d22d110e7ce7ad021fa5"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/transfer-record-summary-final.json",
+          "size": 6306,
+          "sha256": "4dc8291c2c822ddcfb055fbb5e0a56c465a2ebab0e4d27b2db4cc93a24288c6a"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/transfer-record-summary.json",
+          "size": 4229,
+          "sha256": "1961f4a20169430d26244d35ce18eb2817677a4ef0541c150ca46fce9076fc86"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/uncompiled-export-visible.txt",
+          "size": 1032,
+          "sha256": "73158709ede3a6fa06add123e9bbe30302080188535e300a194ea1e9a4513709"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/uncompiled-import-open-visible.txt",
+          "size": 572,
+          "sha256": "300b3cddacb1fee9d462013f9cf81d09e925f149d0c0ad49f693c582401ac5a8"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/uncompiled-import-open.png",
+          "size": 117071,
+          "sha256": "ec4c8afa66b00244e77762d02db19949fc37e3c390bb89ec89c3e91e9ecbb32b"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/workbench-regression-v2.txt",
+          "size": 9321,
+          "sha256": "8ed9aeadce6660ba7692e12f2f49872b3a3d4e84f7c2b0844864fea9e12d22b1"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/workbench-regression-v2.xml",
+          "size": 244845,
+          "sha256": "dfa34ace05901e8e764246acf1827e42666c21847ab3c4ab3b600e23987fb935"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/workbench-regression.txt",
+          "size": 90,
+          "sha256": "2e702324cc9b4fb28a3ba591afcc091018161476ea8b6213612cf958a1b18e25"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/workbench-regression.xml",
+          "size": 230,
+          "sha256": "9e24253e6b3c5644ad12dbd7f10819ede70524f1886b6daff207b76ccc1f867d"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/.jobs/7b88e5daf2f348fc8c9867eec4d6cb66.json",
+          "size": 537343,
+          "sha256": "9f684500ee4c4393f94753bacfc3e42a5445a84cb059b7e3d68e9b0dade29ab8"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/.jobs/a586abfa1a5040a6a809b39b37945c34.json",
+          "size": 68280,
+          "sha256": "c4b468d9c76495c6e4e38e9399fa08c03a6a97a25166bd2efb8dc70f9cab1ca7"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/.jobs/request-7b72d0c461cd71ecd314474ff2f662cef69e7a38eaf8b3453258602703dc66c1.json",
+          "size": 379,
+          "sha256": "d588ed4a697ffdf290a6745c92a6aaf0aedbad05544f47f01039042c4e8c3860"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/.jobs/request-925cc20d010ab180562a3d6ccba455cd7662246e791772f422de50581efbebb4.json",
+          "size": 379,
+          "sha256": "fcaff25ebf8fae722903cdd4408380d49f6907d08441ef8887d2c36fc51ae68d"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/evidence.json",
+          "size": 514021,
+          "sha256": "a8af81fcceec59c1c5c9616079213d2c3677c35d7e68879605af9693168b1bbf"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/candidate.delivery-decision.json",
+          "size": 894,
+          "sha256": "55f23492213611f86ad7664f4d4ff837a5c3dc6a0367b2b083cf4b47ecc30819"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/candidate.edge-contacts.json",
+          "size": 14420,
+          "sha256": "45d05316027fd9649efa44128e0f4026ca7a9211cc3f8a726d03cfabc77854dd"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/candidate.g11.json",
+          "size": 301816,
+          "sha256": "874bf667d960c60f9d55b48cf5a42dd99631eae1c95d3b295334530c42f7420a"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/candidate.g8.json",
+          "size": 63353,
+          "sha256": "96985bf0aa299357634cc8b033c254dff3267f24d6f88f4c0198090c5ed8871c"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/candidate.quality-report.json",
+          "size": 429915,
+          "sha256": "9abd108c76ca26d9ebe3ec083d72238904b333dacc64239fec13eaa62a89355a"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/candidate.source-lanes.json",
+          "size": 225520,
+          "sha256": "b27158e922de89d83cc7d7938144572ecaf01fbdcc0010bf41e0d06a18a35687"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/candidate.source-review.json",
+          "size": 8630,
+          "sha256": "2265b07ec16e5a8c0f22b1e9b63de910b99ee49a7596294e83cf1bc17b0763be"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/candidate.transform.json",
+          "size": 101521,
+          "sha256": "3e68b334b5008abf476a087cc284b097f1d4c23088e8232eb90a777d7da64511"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/candidate.xodr",
+          "size": 417419,
+          "sha256": "9aed2e47be1fc04deee6220d7f4bccdcc02004f65e31c99c1d7e3888aa96c224"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/code-policy-binding.json",
+          "size": 36781,
+          "sha256": "024ec9674a1792932f0da43962341b32ced9efc7cb70beb13ee5cfc7ebb63ae7"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/code-snapshots/mapforge/workbench/source_surface_reconstruction.py",
+          "size": 18231,
+          "sha256": "c2b49d7a01f4bafbee9f806821aa68e4918c3233eaad8314ba5cabf8b16674b6"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/code-snapshots/mapforge/workbench/source_surface_support.py",
+          "size": 24532,
+          "sha256": "9e0d95d12194d1978616e34b582e8c054c216106fea62a44f0ae91be10b5b51a"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/code-snapshots/mapforge/workbench/source_surface_tracks.py",
+          "size": 25646,
+          "sha256": "b27d3b05a0464840488e5ab02645bf8129ae58f45bd03e5c19333a66dd7e1051"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/code-snapshots/scripts/workbench_probe_source_tracks.py",
+          "size": 14734,
+          "sha256": "17274a52bc8ddcc509c3ac476b7d2277ac7d5c7bcea05523f8f22b1729f760e1"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/confirmed-probe-intent.json",
+          "size": 1340,
+          "sha256": "844dd362c6e115b8cce5ecaa9124480abfb67dcee21b49608a4090f9fd9d088e"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/local-consumer.json",
+          "size": 2125664,
+          "sha256": "2bcdbeeb5af5b8cbae5b91251345d294e2a8bc060dc9c8a9f04fdc4979e897d2"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/local-structure.json",
+          "size": 36592,
+          "sha256": "03a1a4e690071e7ff7b7a9b5bf22134329ade462e66c144ffb927f6b3d956cb9"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/original-surface.reference-evidence.json",
+          "size": 274483,
+          "sha256": "6b82e5dfc8ae7e439a1c9386edd839fc2e82e704b0470fc9b405be8f3958b669"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/original-surface.reference.unaccepted.xodr",
+          "size": 212342,
+          "sha256": "1b9b35f87165345e0db79a47cf9b7b3e1aee706de5d9cc3f516d96bbbc9067a8"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/postprocessed-support-audit.json",
+          "size": 22288,
+          "sha256": "01c66978ec6d3c0506e8756add9368150acf5482b6051702264550c2c6084c26"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/preprocess-mouth-comparison.json",
+          "size": 24641,
+          "sha256": "8badf972798315fc786d37bf9b6f0582a66ab9cbcfc6a5e879de45b011187c4e"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/report.json",
+          "size": 2416777,
+          "sha256": "e79687573a7ae7ad9585efbd6f3bcb1825744abac677e039deaa139eec9884e9"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/runner-child.stderr.txt",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/runner-child.stdout.txt",
+          "size": 402,
+          "sha256": "28baa374a7288112df2baf3324221d5a445bb38fedb3ff0a94b41d96b205e683"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/runner-result.json",
+          "size": 10141,
+          "sha256": "9b228518c00b51b7c2048c6841f07a579738b7454bd3dd5db32305b1499fd5a7"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/scoreboard.json",
+          "size": 5487,
+          "sha256": "59a9e48c18b7f70bceb02fd47fa16e7cedabf8216fe696a614ba493e4b9347df"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/scoreboard.md",
+          "size": 3768,
+          "sha256": "8f677076dcf06cd15159c65558f912b40f6c0595f988f7f203e0ba753bdcece1"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/source-generated.partial.source-lanes.json",
+          "size": 219085,
+          "sha256": "7ff3811752da3a51a909380b5fd36eb78557d5ac41e6d9e3322de917bd697cd2"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/source-generated.partial.xodr",
+          "size": 184853,
+          "sha256": "8be5aaab7f6e3feaf480e12672b2b7a79dfa91d118c053c7d57b739f878a4b42"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/source-generation.stats.json",
+          "size": 248528,
+          "sha256": "5708e0d4a4f80747d582f4b86b84f88d371bcbe431f6864cb0ef204ec83a733d"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/source-snapshot.json",
+          "size": 831935,
+          "sha256": "7f8f6c103147395598dacace7cb07351ad3255662f3e37abf87399a41a0af801"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/surface-evidence.json",
+          "size": 590185,
+          "sha256": "cd6df6bedc3c9db165d93b080daca2095a24caf87d0cd9e19b0e8576d89c8813"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/surface.unaccepted.source-lanes.json",
+          "size": 170715,
+          "sha256": "138ff58442bc07b899fa383c6074c260bb8717ebec5c5cae7e0524014382183f"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/surface.unaccepted.xodr",
+          "size": 217960,
+          "sha256": "bbc2d7523ac210fb268dd70251442247418a9342d62a62459f0b99fe74b37dca"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/worker.log",
+          "size": 237,
+          "sha256": "ea67c739c47ca3e67c05114fbdee4b41cf417217e1703ad955f12ba24f1640c9"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/candidate.delivery-decision.json",
+          "size": 894,
+          "sha256": "55f23492213611f86ad7664f4d4ff837a5c3dc6a0367b2b083cf4b47ecc30819"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/candidate.edge-contacts.json",
+          "size": 14420,
+          "sha256": "45d05316027fd9649efa44128e0f4026ca7a9211cc3f8a726d03cfabc77854dd"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/candidate.g11.json",
+          "size": 301823,
+          "sha256": "e4e6945d13021566d9de10dc89525f37e9f65a4e41aa933390917878d6356f8a"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/candidate.g8.json",
+          "size": 63353,
+          "sha256": "96985bf0aa299357634cc8b033c254dff3267f24d6f88f4c0198090c5ed8871c"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/candidate.quality-report.json",
+          "size": 429929,
+          "sha256": "a149a3f2bc6650a2afbdd44feb140460b10daaaf1793970aca3fbdfe37c1c5e8"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/candidate.source-lanes.json",
+          "size": 225520,
+          "sha256": "b27158e922de89d83cc7d7938144572ecaf01fbdcc0010bf41e0d06a18a35687"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/candidate.source-review.json",
+          "size": 8630,
+          "sha256": "2265b07ec16e5a8c0f22b1e9b63de910b99ee49a7596294e83cf1bc17b0763be"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/candidate.xodr",
+          "size": 417419,
+          "sha256": "9aed2e47be1fc04deee6220d7f4bccdcc02004f65e31c99c1d7e3888aa96c224"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/process.json",
+          "size": 702,
+          "sha256": "6f3e889cc860904b0dc146b4d802928cbe7d08f4bcb412d32ac42fd3a5115f5c"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/request.json",
+          "size": 559064,
+          "sha256": "db68661511ae65d1166a978ea6a5d204bf136d00d7005fcb109991085051b2ef"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/scoreboard.json",
+          "size": 11892,
+          "sha256": "13f9f81c5ee10ddadd1596b31d0da1519b0735e1aeb0832003a98a6119193da2"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/scoreboard.md",
+          "size": 3726,
+          "sha256": "f50767ab546007055aef4b24d9494981feb10993d0bd98443b0f39c1306febed"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/validation-result.json",
+          "size": 67518,
+          "sha256": "6585e156ce2bee1210b6e0aa81034574a910ac454839c0fab99fb63b29668466"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/worker-result.json",
+          "size": 46261,
+          "sha256": "c47db97854ec623047a518600b6a4dc62df905daf9193dfff537b45fbba6d3a9"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/worker.stderr.txt",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/worker.stdout.txt",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/previous.json",
+          "size": 512741,
+          "sha256": "b0b27b969d9bb6a939f90bc94dbe55f71465ecfd9c794a32ff0387e025e90c90"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/840944dc9b1c464b84427635211963b2/project.json",
+          "size": 517939,
+          "sha256": "39fbf79b4a2bf4108e5e7ef2d88eef371308a60cce6d9c26869996e5acc0d06a"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/e7dc5f33d1ef4815977428f3a4c3f896/previous.json",
+          "size": 1084835,
+          "sha256": "a18fb61fbc0c977d0e945967fd071029de82e158dca66a5a9d20fcd93e9a1873"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面源工程/projects/e7dc5f33d1ef4815977428f3a4c3f896/project.json",
+          "size": 1084833,
+          "sha256": "f079f47443f1d39f5c17e7db0b3e76b9fb3de4425e20e4e1d8885967a1904dec"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/.jobs/3c5de44bea974d828e6fa1d6a07c60c6.json",
+          "size": 69766,
+          "sha256": "f2181c2b01fc6d412ab5080c25758e76dc4656ed6e9158a89ff1997581fc75c1"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/.jobs/3c6ffd8ca8d442b18a8195698005ae29.json",
+          "size": 538630,
+          "sha256": "d2ceafe1246311db6b55e642a5a67444eedb21f43f82a1e6f7205c244f67885c"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/.jobs/5da33f96fec44cc3a0b7ca43333f61b8.json",
+          "size": 538739,
+          "sha256": "8f0b5cf42bdb874314e78d4173eba23839c60d9741bd76fd1b2ce4d49d51b165"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/.jobs/94c20a9a276e435f9ac86fe6e781dd5b.json",
+          "size": 69657,
+          "sha256": "0cd6ade6bd534f10a6e32f1d79a49e25ec899f140aa42ae932d8e3a62a6452ff"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/.jobs/c6c6cdc7bb074114986b06aadc5250eb.json",
+          "size": 538633,
+          "sha256": "7dceef85bfca9fd07d66160a44c75e1cf120c7c6028bbbaa305014ee1f3ab73a"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/.jobs/request-55d708b52105988facc7898a051ad46f275a98f35f198715f2cf5f2f397f1fc1.json",
+          "size": 379,
+          "sha256": "ba90238f91504eddb1954fb52284c5326f4d25816951f99145e49ebc9dee0387"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/.jobs/request-96d52b5211ab6fb5eef76ae4adc17afbd24615ec3d53967a79c3c72167ececfd.json",
+          "size": 379,
+          "sha256": "90d683aaad5dfdd6a16dddcc4c61cf2c3a518d2c1628133038f928bc6d0c6951"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/.jobs/request-9c14dcc8e04970dacf4241f8c9def0153e382ebffe0cf5d2103217fb0227ef2e.json",
+          "size": 379,
+          "sha256": "426244f4bd8be6811ff5185a57e2bcf962e32de628f69838478d280923d20f57"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/.jobs/request-fdd3cf94d43c301a9c0ce984e144c3617fdebef29c6ae739c77681a3a0f7835d.json",
+          "size": 379,
+          "sha256": "459c2dffffbc3414d96117ef8992db679634b995f517be49e4cf3ce74011c014"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/.jobs/request-ff60601414ddcf4d61b45a22d078bc4f05bc538516baf00cffcede1e251a3e72.json",
+          "size": 379,
+          "sha256": "013c8a2702915724e730c550796157c414cf82f121889366ddfef156961274b4"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/.research-exports/research-fb2b1fd8f0e2f6e22f8b4c97031c42f7/receipt.json",
+          "size": 532,
+          "sha256": "a3a42d4155d7f3ed63b4d4cecb357397d212086d87c129236728013d7ee5e7e3"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/.research-exports/research-fb2b1fd8f0e2f6e22f8b4c97031c42f7/research.zip",
+          "size": 1508258,
+          "sha256": "8d4efcac690bc17e59f1df032fcf5caddb6d141945591fd375a71a50b73a2273"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/evidence.json",
+          "size": 515309,
+          "sha256": "beabe7193897ca399675bc811a48faa6a80fc8f1ba5f175f6b2d6d5f0ba83ab7"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/candidate.delivery-decision.json",
+          "size": 894,
+          "sha256": "55f23492213611f86ad7664f4d4ff837a5c3dc6a0367b2b083cf4b47ecc30819"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/candidate.edge-contacts.json",
+          "size": 14420,
+          "sha256": "45d05316027fd9649efa44128e0f4026ca7a9211cc3f8a726d03cfabc77854dd"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/candidate.g11.json",
+          "size": 301827,
+          "sha256": "eb4b62125e6cb6d6486e320c720f7564236781f9dff184d9031481d92af5da71"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/candidate.g8.json",
+          "size": 63353,
+          "sha256": "96985bf0aa299357634cc8b033c254dff3267f24d6f88f4c0198090c5ed8871c"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/candidate.quality-report.json",
+          "size": 429937,
+          "sha256": "73396ac13047594d663c772036115c3fb572000122d442ec97ae04e78ecbb4de"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/candidate.source-lanes.json",
+          "size": 225520,
+          "sha256": "b27158e922de89d83cc7d7938144572ecaf01fbdcc0010bf41e0d06a18a35687"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/candidate.source-review.json",
+          "size": 8630,
+          "sha256": "2265b07ec16e5a8c0f22b1e9b63de910b99ee49a7596294e83cf1bc17b0763be"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/candidate.transform.json",
+          "size": 101521,
+          "sha256": "3e68b334b5008abf476a087cc284b097f1d4c23088e8232eb90a777d7da64511"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/candidate.xodr",
+          "size": 417419,
+          "sha256": "9aed2e47be1fc04deee6220d7f4bccdcc02004f65e31c99c1d7e3888aa96c224"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/code-policy-binding.json",
+          "size": 38129,
+          "sha256": "24b84f0da0aafb83e7d295e2974825d87de65e19f057799de8099def62812004"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/code-snapshots/mapforge/workbench/source_surface_reconstruction.py",
+          "size": 18231,
+          "sha256": "c2b49d7a01f4bafbee9f806821aa68e4918c3233eaad8314ba5cabf8b16674b6"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/code-snapshots/mapforge/workbench/source_surface_support.py",
+          "size": 24532,
+          "sha256": "9e0d95d12194d1978616e34b582e8c054c216106fea62a44f0ae91be10b5b51a"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/code-snapshots/mapforge/workbench/source_surface_tracks.py",
+          "size": 25646,
+          "sha256": "b27d3b05a0464840488e5ab02645bf8129ae58f45bd03e5c19333a66dd7e1051"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/code-snapshots/scripts/workbench_probe_source_tracks.py",
+          "size": 14867,
+          "sha256": "51a21b1105106177aca7a1e9c2d06c009727c149e52efd13d497e5add91bd6d2"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/confirmed-probe-intent.json",
+          "size": 1340,
+          "sha256": "844dd362c6e115b8cce5ecaa9124480abfb67dcee21b49608a4090f9fd9d088e"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/local-consumer.json",
+          "size": 2126663,
+          "sha256": "f78a5717020ab8d749c01f0f15837d7064882a97cd1fd93caab3d744de7da250"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/local-structure.json",
+          "size": 36592,
+          "sha256": "03a1a4e690071e7ff7b7a9b5bf22134329ade462e66c144ffb927f6b3d956cb9"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/original-surface.reference-evidence.json",
+          "size": 274483,
+          "sha256": "6b82e5dfc8ae7e439a1c9386edd839fc2e82e704b0470fc9b405be8f3958b669"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/original-surface.reference.unaccepted.xodr",
+          "size": 212342,
+          "sha256": "1b9b35f87165345e0db79a47cf9b7b3e1aee706de5d9cc3f516d96bbbc9067a8"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/postprocessed-support-audit.json",
+          "size": 22288,
+          "sha256": "01c66978ec6d3c0506e8756add9368150acf5482b6051702264550c2c6084c26"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/preprocess-mouth-comparison.json",
+          "size": 24641,
+          "sha256": "8badf972798315fc786d37bf9b6f0582a66ab9cbcfc6a5e879de45b011187c4e"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/report.json",
+          "size": 2417826,
+          "sha256": "3d2781cd6281e8cc839e4997fd10b056700e337ff54399606bcf7dbd5025e653"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/runner-child.stderr.txt",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/runner-child.stdout.txt",
+          "size": 431,
+          "sha256": "5dc25a2ea7f7dc80939e0200b0d70fc6e9bcb4200151f557cb9ea5b497642db9"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/runner-result.json",
+          "size": 10212,
+          "sha256": "55e20161c8cd1ed71c9aeb6f19d9aa2498eee6c9bb11c2598169261e2341c36d"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/scoreboard.json",
+          "size": 17137,
+          "sha256": "3cc15b3921736af70fdc9876badf31bb7be891432382b59c74da248024d3dd13"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/scoreboard.md",
+          "size": 3768,
+          "sha256": "8f677076dcf06cd15159c65558f912b40f6c0595f988f7f203e0ba753bdcece1"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/source-generated.partial.source-lanes.json",
+          "size": 219085,
+          "sha256": "7ff3811752da3a51a909380b5fd36eb78557d5ac41e6d9e3322de917bd697cd2"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/source-generated.partial.xodr",
+          "size": 184853,
+          "sha256": "8be5aaab7f6e3feaf480e12672b2b7a79dfa91d118c053c7d57b739f878a4b42"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/source-generation.stats.json",
+          "size": 248528,
+          "sha256": "5708e0d4a4f80747d582f4b86b84f88d371bcbe431f6864cb0ef204ec83a733d"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/source-snapshot.json",
+          "size": 831935,
+          "sha256": "7f8f6c103147395598dacace7cb07351ad3255662f3e37abf87399a41a0af801"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/surface-evidence.json",
+          "size": 590185,
+          "sha256": "cd6df6bedc3c9db165d93b080daca2095a24caf87d0cd9e19b0e8576d89c8813"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/surface.unaccepted.source-lanes.json",
+          "size": 170715,
+          "sha256": "138ff58442bc07b899fa383c6074c260bb8717ebec5c5cae7e0524014382183f"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/surface.unaccepted.xodr",
+          "size": 217960,
+          "sha256": "bbc2d7523ac210fb268dd70251442247418a9342d62a62459f0b99fe74b37dca"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/5dbfaeda0b424d5785778c8257b0bd65/run/worker.log",
+          "size": 237,
+          "sha256": "2391d11e6e834563de4d5861e40b2eb21d9593da30152edd39aabbad318eb47f"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/evidence.json",
+          "size": 515416,
+          "sha256": "cd8827b82ea991f623e44d842cf802d3f02a73d5f758b488c2a3487592987b70"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/candidate.delivery-decision.json",
+          "size": 894,
+          "sha256": "55f23492213611f86ad7664f4d4ff837a5c3dc6a0367b2b083cf4b47ecc30819"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/candidate.edge-contacts.json",
+          "size": 14420,
+          "sha256": "45d05316027fd9649efa44128e0f4026ca7a9211cc3f8a726d03cfabc77854dd"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/candidate.g11.json",
+          "size": 301827,
+          "sha256": "a47ab58621c447a38d9dd35f3a25febf22e933b0f5f7f500f14b6eccd2604375"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/candidate.g8.json",
+          "size": 63353,
+          "sha256": "96985bf0aa299357634cc8b033c254dff3267f24d6f88f4c0198090c5ed8871c"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/candidate.quality-report.json",
+          "size": 429937,
+          "sha256": "45a0a49f4504e626c32550bd70e9a7aeb6c0a30ae8c53f281dd5e867b215f7bc"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/candidate.source-lanes.json",
+          "size": 225520,
+          "sha256": "b27158e922de89d83cc7d7938144572ecaf01fbdcc0010bf41e0d06a18a35687"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/candidate.source-review.json",
+          "size": 8630,
+          "sha256": "2265b07ec16e5a8c0f22b1e9b63de910b99ee49a7596294e83cf1bc17b0763be"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/candidate.transform.json",
+          "size": 101521,
+          "sha256": "3e68b334b5008abf476a087cc284b097f1d4c23088e8232eb90a777d7da64511"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/candidate.xodr",
+          "size": 417419,
+          "sha256": "9aed2e47be1fc04deee6220d7f4bccdcc02004f65e31c99c1d7e3888aa96c224"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/code-policy-binding.json",
+          "size": 38241,
+          "sha256": "1d219aea2269c28745ea17b9c967df30c08e6b427e436c7a3e306b50a840022f"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/code-snapshots/mapforge/workbench/source_surface_reconstruction.py",
+          "size": 18231,
+          "sha256": "c2b49d7a01f4bafbee9f806821aa68e4918c3233eaad8314ba5cabf8b16674b6"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/code-snapshots/mapforge/workbench/source_surface_support.py",
+          "size": 24532,
+          "sha256": "9e0d95d12194d1978616e34b582e8c054c216106fea62a44f0ae91be10b5b51a"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/code-snapshots/mapforge/workbench/source_surface_tracks.py",
+          "size": 25646,
+          "sha256": "b27d3b05a0464840488e5ab02645bf8129ae58f45bd03e5c19333a66dd7e1051"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/code-snapshots/scripts/workbench_probe_source_tracks.py",
+          "size": 14867,
+          "sha256": "51a21b1105106177aca7a1e9c2d06c009727c149e52efd13d497e5add91bd6d2"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/confirmed-probe-intent.json",
+          "size": 1340,
+          "sha256": "844dd362c6e115b8cce5ecaa9124480abfb67dcee21b49608a4090f9fd9d088e"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/local-consumer.json",
+          "size": 2126663,
+          "sha256": "a1663d334ad9f475d6d7dd0fd8f637ca261b7ea83d4ad8ab79d47dd1a1d6f990"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/local-structure.json",
+          "size": 36592,
+          "sha256": "03a1a4e690071e7ff7b7a9b5bf22134329ade462e66c144ffb927f6b3d956cb9"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/original-surface.reference-evidence.json",
+          "size": 274483,
+          "sha256": "6b82e5dfc8ae7e439a1c9386edd839fc2e82e704b0470fc9b405be8f3958b669"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/original-surface.reference.unaccepted.xodr",
+          "size": 212342,
+          "sha256": "1b9b35f87165345e0db79a47cf9b7b3e1aee706de5d9cc3f516d96bbbc9067a8"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/postprocessed-support-audit.json",
+          "size": 22288,
+          "sha256": "01c66978ec6d3c0506e8756add9368150acf5482b6051702264550c2c6084c26"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/preprocess-mouth-comparison.json",
+          "size": 24641,
+          "sha256": "8badf972798315fc786d37bf9b6f0582a66ab9cbcfc6a5e879de45b011187c4e"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/report.json",
+          "size": 2417826,
+          "sha256": "2550ae1950d8a4871dd30aa34cf9dd3e26b808bd1454e1b8d6610e29b947165e"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/runner-child.stderr.txt",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/runner-child.stdout.txt",
+          "size": 431,
+          "sha256": "c0e71e6ed03d9c3e6173640f457f1bbf1d14e2c2a81e06127585f14d75b5f643"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/runner-result.json",
+          "size": 10223,
+          "sha256": "72ebf2d2d1db9455ed45c707d9971f52474a89f8eaf35dabf48ea8d07efcf61d"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/scoreboard.json",
+          "size": 17137,
+          "sha256": "c050d5edb1387784d3229a4e7712dbd28db06c30a9ddbecb508b158cb3dcf417"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/scoreboard.md",
+          "size": 3768,
+          "sha256": "8f677076dcf06cd15159c65558f912b40f6c0595f988f7f203e0ba753bdcece1"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/source-generated.partial.source-lanes.json",
+          "size": 219085,
+          "sha256": "7ff3811752da3a51a909380b5fd36eb78557d5ac41e6d9e3322de917bd697cd2"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/source-generated.partial.xodr",
+          "size": 184853,
+          "sha256": "8be5aaab7f6e3feaf480e12672b2b7a79dfa91d118c053c7d57b739f878a4b42"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/source-generation.stats.json",
+          "size": 248528,
+          "sha256": "5708e0d4a4f80747d582f4b86b84f88d371bcbe431f6864cb0ef204ec83a733d"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/source-snapshot.json",
+          "size": 831935,
+          "sha256": "7f8f6c103147395598dacace7cb07351ad3255662f3e37abf87399a41a0af801"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/surface-evidence.json",
+          "size": 590185,
+          "sha256": "cd6df6bedc3c9db165d93b080daca2095a24caf87d0cd9e19b0e8576d89c8813"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/surface.unaccepted.source-lanes.json",
+          "size": 170715,
+          "sha256": "138ff58442bc07b899fa383c6074c260bb8717ebec5c5cae7e0524014382183f"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/surface.unaccepted.xodr",
+          "size": 217960,
+          "sha256": "bbc2d7523ac210fb268dd70251442247418a9342d62a62459f0b99fe74b37dca"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/96a4c98a1ea4406c959476b1a31bad13/run/worker.log",
+          "size": 237,
+          "sha256": "4cc451495e3e1fc73a764d053928e9de1f1a1e3d5bf776feaa7044fc2dc35595"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/evidence.json",
+          "size": 515309,
+          "sha256": "812429e5898eb21d997c05514088e84a8701ce36e3830a92b2e214fd286445d4"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/candidate.delivery-decision.json",
+          "size": 894,
+          "sha256": "55f23492213611f86ad7664f4d4ff837a5c3dc6a0367b2b083cf4b47ecc30819"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/candidate.edge-contacts.json",
+          "size": 14420,
+          "sha256": "45d05316027fd9649efa44128e0f4026ca7a9211cc3f8a726d03cfabc77854dd"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/candidate.g11.json",
+          "size": 301827,
+          "sha256": "421bac8f269fdee0d168735255ab17dcbf87a1ae756ed83bf7df5832de6019d4"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/candidate.g8.json",
+          "size": 63353,
+          "sha256": "96985bf0aa299357634cc8b033c254dff3267f24d6f88f4c0198090c5ed8871c"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/candidate.quality-report.json",
+          "size": 429937,
+          "sha256": "0c280745a36e93e61294dd863e8c6c3469335ffa891fc0dcdd210722f8a6b9c8"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/candidate.source-lanes.json",
+          "size": 225520,
+          "sha256": "b27158e922de89d83cc7d7938144572ecaf01fbdcc0010bf41e0d06a18a35687"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/candidate.source-review.json",
+          "size": 8630,
+          "sha256": "2265b07ec16e5a8c0f22b1e9b63de910b99ee49a7596294e83cf1bc17b0763be"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/candidate.transform.json",
+          "size": 101521,
+          "sha256": "3e68b334b5008abf476a087cc284b097f1d4c23088e8232eb90a777d7da64511"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/candidate.xodr",
+          "size": 417419,
+          "sha256": "9aed2e47be1fc04deee6220d7f4bccdcc02004f65e31c99c1d7e3888aa96c224"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/code-policy-binding.json",
+          "size": 38129,
+          "sha256": "f7ac5883fb27110c7d0cbacccb68d43939e86941775e0795dfd2efb1c141c9cf"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/code-snapshots/mapforge/workbench/source_surface_reconstruction.py",
+          "size": 18231,
+          "sha256": "c2b49d7a01f4bafbee9f806821aa68e4918c3233eaad8314ba5cabf8b16674b6"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/code-snapshots/mapforge/workbench/source_surface_support.py",
+          "size": 24532,
+          "sha256": "9e0d95d12194d1978616e34b582e8c054c216106fea62a44f0ae91be10b5b51a"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/code-snapshots/mapforge/workbench/source_surface_tracks.py",
+          "size": 25646,
+          "sha256": "b27d3b05a0464840488e5ab02645bf8129ae58f45bd03e5c19333a66dd7e1051"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/code-snapshots/scripts/workbench_probe_source_tracks.py",
+          "size": 14867,
+          "sha256": "51a21b1105106177aca7a1e9c2d06c009727c149e52efd13d497e5add91bd6d2"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/confirmed-probe-intent.json",
+          "size": 1340,
+          "sha256": "844dd362c6e115b8cce5ecaa9124480abfb67dcee21b49608a4090f9fd9d088e"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/local-consumer.json",
+          "size": 2126663,
+          "sha256": "41c2c81b73c9373304e8065b3f71fe71dfdfa819ef7b5c7dd4ce3eb67e56fd44"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/local-structure.json",
+          "size": 36592,
+          "sha256": "03a1a4e690071e7ff7b7a9b5bf22134329ade462e66c144ffb927f6b3d956cb9"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/original-surface.reference-evidence.json",
+          "size": 274483,
+          "sha256": "6b82e5dfc8ae7e439a1c9386edd839fc2e82e704b0470fc9b405be8f3958b669"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/original-surface.reference.unaccepted.xodr",
+          "size": 212342,
+          "sha256": "1b9b35f87165345e0db79a47cf9b7b3e1aee706de5d9cc3f516d96bbbc9067a8"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/postprocessed-support-audit.json",
+          "size": 22288,
+          "sha256": "01c66978ec6d3c0506e8756add9368150acf5482b6051702264550c2c6084c26"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/preprocess-mouth-comparison.json",
+          "size": 24641,
+          "sha256": "8badf972798315fc786d37bf9b6f0582a66ab9cbcfc6a5e879de45b011187c4e"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/report.json",
+          "size": 2417826,
+          "sha256": "2f042c60aa35bf13a1211910d26ed8182314ea18fdcbfd70d76d86c5fc1d0497"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/runner-child.stderr.txt",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/runner-child.stdout.txt",
+          "size": 431,
+          "sha256": "c9a8ba09cabf13438b9a90865064e8666fa2cd73734bdc9ef64bf37da260cda8"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/runner-result.json",
+          "size": 10223,
+          "sha256": "51f03c168056cd2b7ed9208e5a27d0f4b30903d7115c7c97c95930aa6fb2f61a"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/scoreboard.json",
+          "size": 17137,
+          "sha256": "2fc0767b96f50d7854602978ed0104ba6ee767300a0b0bebbdd72e82f1a06ab4"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/scoreboard.md",
+          "size": 3768,
+          "sha256": "8f677076dcf06cd15159c65558f912b40f6c0595f988f7f203e0ba753bdcece1"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/source-generated.partial.source-lanes.json",
+          "size": 219085,
+          "sha256": "7ff3811752da3a51a909380b5fd36eb78557d5ac41e6d9e3322de917bd697cd2"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/source-generated.partial.xodr",
+          "size": 184853,
+          "sha256": "8be5aaab7f6e3feaf480e12672b2b7a79dfa91d118c053c7d57b739f878a4b42"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/source-generation.stats.json",
+          "size": 248528,
+          "sha256": "5708e0d4a4f80747d582f4b86b84f88d371bcbe431f6864cb0ef204ec83a733d"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/source-snapshot.json",
+          "size": 831935,
+          "sha256": "7f8f6c103147395598dacace7cb07351ad3255662f3e37abf87399a41a0af801"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/surface-evidence.json",
+          "size": 590185,
+          "sha256": "cd6df6bedc3c9db165d93b080daca2095a24caf87d0cd9e19b0e8576d89c8813"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/surface.unaccepted.source-lanes.json",
+          "size": 170715,
+          "sha256": "138ff58442bc07b899fa383c6074c260bb8717ebec5c5cae7e0524014382183f"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/surface.unaccepted.xodr",
+          "size": 217960,
+          "sha256": "bbc2d7523ac210fb268dd70251442247418a9342d62a62459f0b99fe74b37dca"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/a18f6d1d71f54297a71d5b079e9a5ed4/run/worker.log",
+          "size": 237,
+          "sha256": "e00876d398b899d284d2408d53a65946360c52d207e6a3a631666363a2fb376d"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/evidence.json",
+          "size": 514021,
+          "sha256": "a8af81fcceec59c1c5c9616079213d2c3677c35d7e68879605af9693168b1bbf"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/candidate.delivery-decision.json",
+          "size": 894,
+          "sha256": "55f23492213611f86ad7664f4d4ff837a5c3dc6a0367b2b083cf4b47ecc30819"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/candidate.edge-contacts.json",
+          "size": 14420,
+          "sha256": "45d05316027fd9649efa44128e0f4026ca7a9211cc3f8a726d03cfabc77854dd"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/candidate.g11.json",
+          "size": 301816,
+          "sha256": "874bf667d960c60f9d55b48cf5a42dd99631eae1c95d3b295334530c42f7420a"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/candidate.g8.json",
+          "size": 63353,
+          "sha256": "96985bf0aa299357634cc8b033c254dff3267f24d6f88f4c0198090c5ed8871c"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/candidate.quality-report.json",
+          "size": 429915,
+          "sha256": "9abd108c76ca26d9ebe3ec083d72238904b333dacc64239fec13eaa62a89355a"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/candidate.source-lanes.json",
+          "size": 225520,
+          "sha256": "b27158e922de89d83cc7d7938144572ecaf01fbdcc0010bf41e0d06a18a35687"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/candidate.source-review.json",
+          "size": 8630,
+          "sha256": "2265b07ec16e5a8c0f22b1e9b63de910b99ee49a7596294e83cf1bc17b0763be"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/candidate.transform.json",
+          "size": 101521,
+          "sha256": "3e68b334b5008abf476a087cc284b097f1d4c23088e8232eb90a777d7da64511"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/candidate.xodr",
+          "size": 417419,
+          "sha256": "9aed2e47be1fc04deee6220d7f4bccdcc02004f65e31c99c1d7e3888aa96c224"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/code-policy-binding.json",
+          "size": 36781,
+          "sha256": "024ec9674a1792932f0da43962341b32ced9efc7cb70beb13ee5cfc7ebb63ae7"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/code-snapshots/mapforge/workbench/source_surface_reconstruction.py",
+          "size": 18231,
+          "sha256": "c2b49d7a01f4bafbee9f806821aa68e4918c3233eaad8314ba5cabf8b16674b6"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/code-snapshots/mapforge/workbench/source_surface_support.py",
+          "size": 24532,
+          "sha256": "9e0d95d12194d1978616e34b582e8c054c216106fea62a44f0ae91be10b5b51a"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/code-snapshots/mapforge/workbench/source_surface_tracks.py",
+          "size": 25646,
+          "sha256": "b27d3b05a0464840488e5ab02645bf8129ae58f45bd03e5c19333a66dd7e1051"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/code-snapshots/scripts/workbench_probe_source_tracks.py",
+          "size": 14734,
+          "sha256": "17274a52bc8ddcc509c3ac476b7d2277ac7d5c7bcea05523f8f22b1729f760e1"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/confirmed-probe-intent.json",
+          "size": 1340,
+          "sha256": "844dd362c6e115b8cce5ecaa9124480abfb67dcee21b49608a4090f9fd9d088e"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/local-consumer.json",
+          "size": 2125664,
+          "sha256": "2bcdbeeb5af5b8cbae5b91251345d294e2a8bc060dc9c8a9f04fdc4979e897d2"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/local-structure.json",
+          "size": 36592,
+          "sha256": "03a1a4e690071e7ff7b7a9b5bf22134329ade462e66c144ffb927f6b3d956cb9"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/original-surface.reference-evidence.json",
+          "size": 274483,
+          "sha256": "6b82e5dfc8ae7e439a1c9386edd839fc2e82e704b0470fc9b405be8f3958b669"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/original-surface.reference.unaccepted.xodr",
+          "size": 212342,
+          "sha256": "1b9b35f87165345e0db79a47cf9b7b3e1aee706de5d9cc3f516d96bbbc9067a8"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/postprocessed-support-audit.json",
+          "size": 22288,
+          "sha256": "01c66978ec6d3c0506e8756add9368150acf5482b6051702264550c2c6084c26"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/preprocess-mouth-comparison.json",
+          "size": 24641,
+          "sha256": "8badf972798315fc786d37bf9b6f0582a66ab9cbcfc6a5e879de45b011187c4e"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/report.json",
+          "size": 2416777,
+          "sha256": "e79687573a7ae7ad9585efbd6f3bcb1825744abac677e039deaa139eec9884e9"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/runner-child.stderr.txt",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/runner-child.stdout.txt",
+          "size": 402,
+          "sha256": "28baa374a7288112df2baf3324221d5a445bb38fedb3ff0a94b41d96b205e683"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/runner-result.json",
+          "size": 10141,
+          "sha256": "9b228518c00b51b7c2048c6841f07a579738b7454bd3dd5db32305b1499fd5a7"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/scoreboard.json",
+          "size": 5487,
+          "sha256": "59a9e48c18b7f70bceb02fd47fa16e7cedabf8216fe696a614ba493e4b9347df"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/scoreboard.md",
+          "size": 3768,
+          "sha256": "8f677076dcf06cd15159c65558f912b40f6c0595f988f7f203e0ba753bdcece1"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/source-generated.partial.source-lanes.json",
+          "size": 219085,
+          "sha256": "7ff3811752da3a51a909380b5fd36eb78557d5ac41e6d9e3322de917bd697cd2"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/source-generated.partial.xodr",
+          "size": 184853,
+          "sha256": "8be5aaab7f6e3feaf480e12672b2b7a79dfa91d118c053c7d57b739f878a4b42"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/source-generation.stats.json",
+          "size": 248528,
+          "sha256": "5708e0d4a4f80747d582f4b86b84f88d371bcbe431f6864cb0ef204ec83a733d"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/source-snapshot.json",
+          "size": 831935,
+          "sha256": "7f8f6c103147395598dacace7cb07351ad3255662f3e37abf87399a41a0af801"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/surface-evidence.json",
+          "size": 590185,
+          "sha256": "cd6df6bedc3c9db165d93b080daca2095a24caf87d0cd9e19b0e8576d89c8813"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/surface.unaccepted.source-lanes.json",
+          "size": 170715,
+          "sha256": "138ff58442bc07b899fa383c6074c260bb8717ebec5c5cae7e0524014382183f"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/surface.unaccepted.xodr",
+          "size": 217960,
+          "sha256": "bbc2d7523ac210fb268dd70251442247418a9342d62a62459f0b99fe74b37dca"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/eeab18300809427d98badf4dd61ace60/run/worker.log",
+          "size": 237,
+          "sha256": "ea67c739c47ca3e67c05114fbdee4b41cf417217e1703ad955f12ba24f1640c9"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-7c745f255c667c8ec3b8da10-eaf4f926/candidate.delivery-decision.json",
+          "size": 894,
+          "sha256": "55f23492213611f86ad7664f4d4ff837a5c3dc6a0367b2b083cf4b47ecc30819"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-7c745f255c667c8ec3b8da10-eaf4f926/candidate.edge-contacts.json",
+          "size": 14420,
+          "sha256": "45d05316027fd9649efa44128e0f4026ca7a9211cc3f8a726d03cfabc77854dd"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-7c745f255c667c8ec3b8da10-eaf4f926/candidate.g11.json",
+          "size": 301834,
+          "sha256": "0fab42739fbd80aa2cdf6ad19dd02966093dd48502cf39fbb81d7de6cea9a2fc"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-7c745f255c667c8ec3b8da10-eaf4f926/candidate.g8.json",
+          "size": 63353,
+          "sha256": "96985bf0aa299357634cc8b033c254dff3267f24d6f88f4c0198090c5ed8871c"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-7c745f255c667c8ec3b8da10-eaf4f926/candidate.quality-report.json",
+          "size": 429951,
+          "sha256": "66772e7a9815b81c0c9950922260e3334ebde92713f4b69b4f99aa91eae12df9"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-7c745f255c667c8ec3b8da10-eaf4f926/candidate.source-lanes.json",
+          "size": 225520,
+          "sha256": "b27158e922de89d83cc7d7938144572ecaf01fbdcc0010bf41e0d06a18a35687"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-7c745f255c667c8ec3b8da10-eaf4f926/candidate.source-review.json",
+          "size": 8630,
+          "sha256": "2265b07ec16e5a8c0f22b1e9b63de910b99ee49a7596294e83cf1bc17b0763be"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-7c745f255c667c8ec3b8da10-eaf4f926/candidate.xodr",
+          "size": 417419,
+          "sha256": "9aed2e47be1fc04deee6220d7f4bccdcc02004f65e31c99c1d7e3888aa96c224"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-7c745f255c667c8ec3b8da10-eaf4f926/process.json",
+          "size": 739,
+          "sha256": "4a3741bfcc4dd029f4004ea85d032755a6b887674d436d674ae384049cb1ca94"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-7c745f255c667c8ec3b8da10-eaf4f926/request.json",
+          "size": 612714,
+          "sha256": "3ccd22eaa03a468233a2897bde9de6b260abdd6c4eff895d70cf516d1b2cfbb7"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-7c745f255c667c8ec3b8da10-eaf4f926/scoreboard.json",
+          "size": 11971,
+          "sha256": "2ac2dd791047fa1995481afc7b9a0c4911cdbadc8a04e99e976d8f2f50d887d4"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-7c745f255c667c8ec3b8da10-eaf4f926/scoreboard.md",
+          "size": 3726,
+          "sha256": "fc55200c46f655d753a7a612f881a75e195d3184558134b48e9be5ee823f33d0"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-7c745f255c667c8ec3b8da10-eaf4f926/validation-result.json",
+          "size": 69004,
+          "sha256": "b0707898a0183f845a15849f2966a16f022d95e83a27dd6ffc00116ab5aaf77c"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-7c745f255c667c8ec3b8da10-eaf4f926/worker-result.json",
+          "size": 47656,
+          "sha256": "75515865014216af3b87d73aadb6fe50a762808b03074c649f1911d60e6d272b"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-7c745f255c667c8ec3b8da10-eaf4f926/worker.stderr.txt",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-7c745f255c667c8ec3b8da10-eaf4f926/worker.stdout.txt",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ba3c850f803f93fe0276cbaa-e4c4cc11/candidate.delivery-decision.json",
+          "size": 894,
+          "sha256": "55f23492213611f86ad7664f4d4ff837a5c3dc6a0367b2b083cf4b47ecc30819"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ba3c850f803f93fe0276cbaa-e4c4cc11/candidate.edge-contacts.json",
+          "size": 14420,
+          "sha256": "45d05316027fd9649efa44128e0f4026ca7a9211cc3f8a726d03cfabc77854dd"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ba3c850f803f93fe0276cbaa-e4c4cc11/candidate.g11.json",
+          "size": 301834,
+          "sha256": "70849b1c8c7496ed290fa85fa3f9ac34ad15c5965d3f898377be303415e072d4"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ba3c850f803f93fe0276cbaa-e4c4cc11/candidate.g8.json",
+          "size": 63353,
+          "sha256": "96985bf0aa299357634cc8b033c254dff3267f24d6f88f4c0198090c5ed8871c"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ba3c850f803f93fe0276cbaa-e4c4cc11/candidate.quality-report.json",
+          "size": 429951,
+          "sha256": "e7e735c9682a7af75d4b9c8cd7351808180147a15fddc3ea2a52c40b3248e881"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ba3c850f803f93fe0276cbaa-e4c4cc11/candidate.source-lanes.json",
+          "size": 225520,
+          "sha256": "b27158e922de89d83cc7d7938144572ecaf01fbdcc0010bf41e0d06a18a35687"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ba3c850f803f93fe0276cbaa-e4c4cc11/candidate.source-review.json",
+          "size": 8630,
+          "sha256": "2265b07ec16e5a8c0f22b1e9b63de910b99ee49a7596294e83cf1bc17b0763be"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ba3c850f803f93fe0276cbaa-e4c4cc11/candidate.xodr",
+          "size": 417419,
+          "sha256": "9aed2e47be1fc04deee6220d7f4bccdcc02004f65e31c99c1d7e3888aa96c224"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ba3c850f803f93fe0276cbaa-e4c4cc11/process.json",
+          "size": 739,
+          "sha256": "4eaec6d8ed1680dafe7af9242b71938fe70f15d939a543581c33ffd9a1f6bef0"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ba3c850f803f93fe0276cbaa-e4c4cc11/request.json",
+          "size": 589052,
+          "sha256": "d69c296f40a1bea8e851574c5510fecfed958e2ebd16a19efd274c39227c4019"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ba3c850f803f93fe0276cbaa-e4c4cc11/scoreboard.json",
+          "size": 11971,
+          "sha256": "1832f9e0918970b7ea36d852cbd07d9b2776df21f2dca1db4eabac52ac0ef294"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ba3c850f803f93fe0276cbaa-e4c4cc11/scoreboard.md",
+          "size": 3726,
+          "sha256": "d7ad29fddd6bad975e5894339cfb5bc2efe154f70cf6a633ae73c1a43a34cc46"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ba3c850f803f93fe0276cbaa-e4c4cc11/validation-result.json",
+          "size": 68896,
+          "sha256": "da6d720d5d04f7e7e0e198128df15a6b17a5a2c5340f546aaa3ed583522709da"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ba3c850f803f93fe0276cbaa-e4c4cc11/worker-result.json",
+          "size": 47549,
+          "sha256": "35365cd82647a5568a285ee4bc2b45e56fc88fd3f2d8ba6a9f2441e0c41fa151"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ba3c850f803f93fe0276cbaa-e4c4cc11/worker.stderr.txt",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ba3c850f803f93fe0276cbaa-e4c4cc11/worker.stdout.txt",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/candidate.delivery-decision.json",
+          "size": 894,
+          "sha256": "55f23492213611f86ad7664f4d4ff837a5c3dc6a0367b2b083cf4b47ecc30819"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/candidate.edge-contacts.json",
+          "size": 14420,
+          "sha256": "45d05316027fd9649efa44128e0f4026ca7a9211cc3f8a726d03cfabc77854dd"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/candidate.g11.json",
+          "size": 301823,
+          "sha256": "e4e6945d13021566d9de10dc89525f37e9f65a4e41aa933390917878d6356f8a"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/candidate.g8.json",
+          "size": 63353,
+          "sha256": "96985bf0aa299357634cc8b033c254dff3267f24d6f88f4c0198090c5ed8871c"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/candidate.quality-report.json",
+          "size": 429929,
+          "sha256": "a149a3f2bc6650a2afbdd44feb140460b10daaaf1793970aca3fbdfe37c1c5e8"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/candidate.source-lanes.json",
+          "size": 225520,
+          "sha256": "b27158e922de89d83cc7d7938144572ecaf01fbdcc0010bf41e0d06a18a35687"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/candidate.source-review.json",
+          "size": 8630,
+          "sha256": "2265b07ec16e5a8c0f22b1e9b63de910b99ee49a7596294e83cf1bc17b0763be"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/candidate.xodr",
+          "size": 417419,
+          "sha256": "9aed2e47be1fc04deee6220d7f4bccdcc02004f65e31c99c1d7e3888aa96c224"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/process.json",
+          "size": 702,
+          "sha256": "6f3e889cc860904b0dc146b4d802928cbe7d08f4bcb412d32ac42fd3a5115f5c"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/request.json",
+          "size": 559064,
+          "sha256": "db68661511ae65d1166a978ea6a5d204bf136d00d7005fcb109991085051b2ef"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/scoreboard.json",
+          "size": 11892,
+          "sha256": "13f9f81c5ee10ddadd1596b31d0da1519b0735e1aeb0832003a98a6119193da2"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/scoreboard.md",
+          "size": 3726,
+          "sha256": "f50767ab546007055aef4b24d9494981feb10993d0bd98443b0f39c1306febed"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/validation-result.json",
+          "size": 67518,
+          "sha256": "6585e156ce2bee1210b6e0aa81034574a910ac454839c0fab99fb63b29668466"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/worker-result.json",
+          "size": 46261,
+          "sha256": "c47db97854ec623047a518600b6a4dc62df905daf9193dfff537b45fbba6d3a9"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/worker.stderr.txt",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/artifacts/validation-ff248c7facb5bb683ef188f8-d113cb22/worker.stdout.txt",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/previous.json",
+          "size": 564986,
+          "sha256": "7dbf5ad7ccd066b57a532f1ec7ab296033c3f8907a97986bc54562bb30bc0efb"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/project.json",
+          "size": 570190,
+          "sha256": "7e5c2d21809b6fd8b69885c5b090de314d73c75321543f60f27ca125bbf8bbcf"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/relocation-history/f590476b955d4a42927ec80a094f336f/jobs/7b88e5daf2f348fc8c9867eec4d6cb66.json",
+          "size": 537343,
+          "sha256": "9f684500ee4c4393f94753bacfc3e42a5445a84cb059b7e3d68e9b0dade29ab8"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/relocation-history/f590476b955d4a42927ec80a094f336f/jobs/a586abfa1a5040a6a809b39b37945c34.json",
+          "size": 68280,
+          "sha256": "c4b468d9c76495c6e4e38e9399fa08c03a6a97a25166bd2efb8dc70f9cab1ca7"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/relocation-history/f590476b955d4a42927ec80a094f336f/jobs/request-7b72d0c461cd71ecd314474ff2f662cef69e7a38eaf8b3453258602703dc66c1.json",
+          "size": 379,
+          "sha256": "d588ed4a697ffdf290a6745c92a6aaf0aedbad05544f47f01039042c4e8c3860"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/relocation-history/f590476b955d4a42927ec80a094f336f/jobs/request-925cc20d010ab180562a3d6ccba455cd7662246e791772f422de50581efbebb4.json",
+          "size": 379,
+          "sha256": "fcaff25ebf8fae722903cdd4408380d49f6907d08441ef8887d2c36fc51ae68d"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/relocation-history/f590476b955d4a42927ec80a094f336f/project.original.json",
+          "size": 517939,
+          "sha256": "39fbf79b4a2bf4108e5e7ef2d88eef371308a60cce6d9c26869996e5acc0d06a"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/relocation-history/f590476b955d4a42927ec80a094f336f/receipt.json",
+          "size": 36399,
+          "sha256": "761de750c5635e6fb8dccb46217502174a7215b568d48876e7789b07b2f86781"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/840944dc9b1c464b84427635211963b2/transfer-publication/5c1a0756418d4153bf27d3d9b90dc75d/receipt.json",
+          "size": 11867,
+          "sha256": "1fa47dac8883d7e2740b9fe3b6ce950e3c985f583c6ff4f90f3446f0e4545a1a"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/e7dc5f33d1ef4815977428f3a4c3f896/previous.json",
+          "size": 1084835,
+          "sha256": "a18fb61fbc0c977d0e945967fd071029de82e158dca66a5a9d20fcd93e9a1873"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/e7dc5f33d1ef4815977428f3a4c3f896/project.json",
+          "size": 1085122,
+          "sha256": "47058e2d2298ea8155b0c9c092b700cb8c35c592cd4d0146ba23b10caeacec28"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/e7dc5f33d1ef4815977428f3a4c3f896/relocation-history/7850b151c4214bd79e6449e99c9579fe/project.original.json",
+          "size": 1084833,
+          "sha256": "f079f47443f1d39f5c17e7db0b3e76b9fb3de4425e20e4e1d8885967a1904dec"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/e7dc5f33d1ef4815977428f3a4c3f896/relocation-history/7850b151c4214bd79e6449e99c9579fe/receipt.json",
+          "size": 27107,
+          "sha256": "a7780c16ab3ad154302767e31132dc07faa44d1b070f1b71c0a224cc6d9f5dd6"
+        },
+        {
+          "path": "out/workbench/transfer-main-20261009/页面目标工程/projects/e7dc5f33d1ef4815977428f3a4c3f896/transfer-publication/f58def92a429493db1e3780aa152fa69/receipt.json",
+          "size": 1742,
+          "sha256": "afdd28e36314b3b39e73922df938a0030c220701ea6835a4ba9bfdbcee00bdc2"
+        }
+      ],
+      "excluded_files": [
+        "out/workbench/transfer-main-20261009/before/docs/交接说明-2026-10-09-工作台接续.md",
+        "out/workbench/transfer-main-20261009/before/docs/工作台-工程迁移页面接入-2026-10-09.md"
+      ],
+      "size": 13280804,
+      "sha256": "e5aff64789a2fc6469a8cf79e08bc718aee30340ddc0d5495ac961ae7d61c06b",
+      "parts": [
+        {
+          "path": "parts/transfer-proof.001.part",
+          "size": 13280804,
+          "sha256": "e5aff64789a2fc6469a8cf79e08bc718aee30340ddc0d5495ac961ae7d61c06b"
+        }
+      ]
+    }
+  ]
+}
