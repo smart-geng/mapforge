@@ -20,6 +20,7 @@ from uuid import uuid4
 from .contracts import canonical_bytes, content_hash, digest, identifier, sha256, validate_context, validate_snapshot
 from .jobs import ARCHIVE_SCHEMA, JobManager, _TERMINAL
 from .sources import SourceCatalog, verify_source_snapshot
+from .project_context import validate_project_context
 from .store import ENVELOPE, SCHEMA as PROJECT_SCHEMA, ProjectStore
 
 SCHEMA = "mapforge/workbench-project-relocation/v1"
@@ -263,7 +264,7 @@ def _project(raw, base, project_id):
             or project["intents"] != project["timeline"][:project["cursor"]]):
         _reject("invalid-project", "工程历史或当前意图不一致")
     validate_snapshot(project["source_snapshot"])
-    validate_context(project["context"])
+    validate_project_context(project)
     if (project["content_hash"] != content_hash(project["source_snapshot"], project["intents"])
             or project["context"].get("source_hash") != digest({k: v for k, v in project["source_snapshot"].items() if k != "locator"})):
         _reject("invalid-project", "工程草稿或来源身份不一致")
