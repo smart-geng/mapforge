@@ -1,0 +1,399 @@
+{
+ "schema": "slow-junctions",
+ "junctions": [
+  {
+   "pid": "2023061310244790027",
+   "side": "keep-slope",
+   "pipeline": "shp",
+   "generated": true,
+   "metrics": {
+    "xsd_valid": true,
+    "esmini_pass": false,
+    "esmini_gap_max_cm": 19.1,
+    "planview_violations": 0,
+    "route_gap_max_m": 0.1912232653716301,
+    "road_interface_position_max_m": 0.1912232653716301,
+    "road_interface_heading_max_deg": 0.3767929758221284,
+    "road_interface_curvature_max_per_m": 0.04290688451929958,
+    "edge_contacts": 148,
+    "edge_contact_position_max_m": 0.5345858233496696,
+    "edge_contact_heading_max_deg": 6.046497427913324,
+    "edge_contact_curvature_max_per_m": 0.04404944292414981,
+    "lane_edge_step_max_m": 0.0006666224969631429,
+    "connector_width_bulge_max_m": 0.2934841971763458,
+    "connector_width_min_m": 3.201887473985993,
+    "paving_components": 1,
+    "paving_holes_gt1cm2": 0,
+    "paving_holes_resampled": 0,
+    "paving_holes_source_void": 0,
+    "paving_holes_counted": 0,
+    "paving_hole_counted_area_max_m2": 0.0,
+    "paving_source_void_area_m2": 0.0,
+    "paving_source_void_evidence": "none",
+    "g8_status": "FAIL",
+    "lane_center_median_m": 0.019462968357904845,
+    "lane_center_p95_m": 0.12844014894936323,
+    "lane_center_max_m": 2.673781783285883,
+    "lane_endpoint_max_m": 1.1712224758881096,
+    "lane_center_poly_median_m": 0.01405264199800911,
+    "lane_center_poly_p95_m": 0.12009585682530875,
+    "lane_center_poly_max_m": 2.640252019617767,
+    "mouth_curb_flares": 4,
+    "lane_center_flare_samples_left_out": 196,
+    "lane_center_noflare_median_m": 0.018961507808743103,
+    "lane_center_noflare_p95_m": 0.11460548275382358,
+    "lane_center_noflare_max_m": 2.673781783285883,
+    "tight_turn_source_conflicts": 0,
+    "lane_center_conflict_lanes_left_out": 0,
+    "lane_center_conflict_samples_left_out": 0,
+    "lane_center_noconflict_median_m": 0.018961507808743103,
+    "lane_center_noconflict_p95_m": 0.11460548275382358,
+    "lane_center_noconflict_max_m": 2.673781783285883,
+    "lane_endpoint_lateral_max_m": 1.1374599457528807,
+    "stopline_matched": 0,
+    "stopline_source_absent": 0,
+    "stopline_match_distance_max_m": null,
+    "stopline_matched_delta_max_m": null,
+    "g8_status_stopline_resolved": "FAIL",
+    "g8_stopline_requirements_left_out": 0,
+    "boundary_median_m": 0.006072967489627727,
+    "boundary_p95_m": 0.051325341887088226,
+    "boundary_max_m": 0.9784642031658871,
+    "boundary_inside_p95_m": 0.028367411449493982,
+    "boundary_inside_max_m": 0.9392217367627166,
+    "source_dropped_points": 0,
+    "source_review_open": 0,
+    "source_issues_recorded": 72,
+    "ref_kappa_step_max_per_m": 0.0,
+    "primitives": 293,
+    "leg_seg_min_m": 13.27249786,
+    "conn_seg_min_m": 3.00000000000003,
+    "leg_sharp_flips_per_100m_max": 1.751669015330466,
+    "outer_curvature_max_per_m": 0.08302502050329963,
+    "outer_heading_step_max_deg": 0.0009718944763721817,
+    "outer_curvature_flips_per_100m_max": 0.0,
+    "lane_join_curvature_jump_max_per_m": 0.000992696483569866,
+    "lane_join_jumps_gt_1e-07": 223,
+    "lane_join_jumps_gt_1e-04": 4,
+    "lane_join_jumps_gt_1e-03": 0,
+    "lane_edge_join_curvature_jump_max_per_m": 0.18113886308593863,
+    "lane_edge_join_jumps_gt_1e-03": 25,
+    "conn_edge_join_curvature_jump_max_per_m": 0.0022377764586182583,
+    "turn_counter_curvature_max_per_m": 0.019632595565452497,
+    "turn_counter_curvature_gt_0.02": 0,
+    "fair_road_kappa_max_per_m": 0.03824850453699842,
+    "fair_road_kappa_p90_per_m": 0.004365245556610671,
+    "fair_road_sharpness_max_per_m2": 0.0503249505371149,
+    "fair_road_event_kappa_max_per_m": 0.045384497379772605,
+    "fair_straight_conn_kappa_max_per_m": 0.20089093059261343,
+    "fair_straight_conn_kappa_median_per_m": 0.021754809519272285,
+    "fair_straight_conn_s_bends": 8,
+    "fair_turn_conn_sharpness_p90_per_m2": 0.0203283534718845,
+    "fair_turn_conn_sharpness_max_per_m2": 0.029571238288498034,
+    "width_records": 1950,
+    "lane_sections": 101,
+    "policy_speed_ay_max_mps2": 24.80134945091793,
+    "policy_speed_jerk_max_mps3": 155.70029949948508,
+    "kappa_max_per_m": 0.20089093059261343,
+    "crs": "internally-consistent",
+    "cli_delivery": "BLOCKED"
+   },
+   "tiers": {
+    "T1": {
+     "status": "FAIL",
+     "failed": [
+      {
+       "metric": "esmini_pass",
+       "op": "eq",
+       "value": true,
+       "actual": false,
+       "pass": false
+      },
+      {
+       "metric": "route_gap_max_m",
+       "op": "le",
+       "value": 0.01,
+       "actual": 0.1912232653716301,
+       "pass": false
+      },
+      {
+       "metric": "road_interface_position_max_m",
+       "op": "le",
+       "value": 0.01,
+       "actual": 0.1912232653716301,
+       "pass": false
+      },
+      {
+       "metric": "road_interface_heading_max_deg",
+       "op": "le",
+       "value": 0.1,
+       "actual": 0.3767929758221284,
+       "pass": false
+      },
+      {
+       "metric": "edge_contact_position_max_m",
+       "op": "le",
+       "value": 0.05,
+       "actual": 0.5345858233496696,
+       "pass": false
+      },
+      {
+       "metric": "edge_contact_heading_max_deg",
+       "op": "le",
+       "value": 1.0,
+       "actual": 6.046497427913324,
+       "pass": false
+      },
+      {
+       "metric": "g8_status_stopline_resolved",
+       "op": "eq",
+       "value": "PASS",
+       "actual": "FAIL",
+       "pass": false
+      }
+     ],
+     "unavailable": []
+    },
+    "T2": {
+     "status": "FAIL",
+     "failed": [
+      {
+       "metric": "lane_center_noconflict_max_m",
+       "op": "le",
+       "value": 0.35,
+       "applies_to": [
+        "shp"
+       ],
+       "actual": 2.673781783285883,
+       "pass": false
+      },
+      {
+       "metric": "lane_endpoint_lateral_max_m",
+       "op": "le",
+       "value": 0.2,
+       "applies_to": [
+        "shp"
+       ],
+       "actual": 1.1374599457528807,
+       "pass": false
+      },
+      {
+       "metric": "boundary_inside_max_m",
+       "op": "le",
+       "value": 0.35,
+       "applies_to": [
+        "shp"
+       ],
+       "actual": 0.9392217367627166,
+       "pass": false
+      },
+      {
+       "metric": "edge_contact_position_max_m",
+       "op": "le",
+       "value": 0.01,
+       "actual": 0.5345858233496696,
+       "pass": false
+      },
+      {
+       "metric": "edge_contact_heading_max_deg",
+       "op": "le",
+       "value": 0.1,
+       "actual": 6.046497427913324,
+       "pass": false
+      },
+      {
+       "metric": "road_interface_curvature_max_per_m",
+       "op": "le",
+       "value": 0.001,
+       "actual": 0.04290688451929958,
+       "pass": false
+      },
+      {
+       "metric": "edge_contact_curvature_max_per_m",
+       "op": "le",
+       "value": 0.001,
+       "actual": 0.04404944292414981,
+       "pass": false
+      }
+     ],
+     "unavailable": []
+    }
+   }
+  },
+  {
+   "pid": "2023070710412621654",
+   "side": "keep-slope",
+   "pipeline": "shp",
+   "generated": true,
+   "metrics": {
+    "xsd_valid": true,
+    "esmini_pass": true,
+    "esmini_gap_max_cm": 0.0,
+    "planview_violations": 0,
+    "route_gap_max_m": 8.936905782310218e-08,
+    "road_interface_position_max_m": 8.936905782310218e-08,
+    "road_interface_heading_max_deg": 5.648665114279206e-12,
+    "road_interface_curvature_max_per_m": 2.005184538377003e-12,
+    "edge_contacts": 164,
+    "edge_contact_position_max_m": 8.936906107865533e-08,
+    "edge_contact_heading_max_deg": 5.638487339298522e-11,
+    "edge_contact_curvature_max_per_m": 0.0018207489777222626,
+    "lane_edge_step_max_m": 0.011568002267825506,
+    "connector_width_bulge_max_m": 0.26498969354671464,
+    "connector_width_min_m": 2.689941066592375,
+    "paving_components": 1,
+    "paving_holes_gt1cm2": 0,
+    "paving_holes_resampled": 0,
+    "paving_holes_source_void": 0,
+    "paving_holes_counted": 0,
+    "paving_hole_counted_area_max_m2": 0.0,
+    "paving_source_void_area_m2": 0.0,
+    "paving_source_void_evidence": "none",
+    "g8_status": "PASS",
+    "lane_center_median_m": 0.04139117257827995,
+    "lane_center_p95_m": 0.22904799897017925,
+    "lane_center_max_m": 0.7087127380491252,
+    "lane_endpoint_max_m": 0.2583349260022323,
+    "lane_center_poly_median_m": 0.03498749452518092,
+    "lane_center_poly_p95_m": 0.22115526267694277,
+    "lane_center_poly_max_m": 0.7086336392496533,
+    "mouth_curb_flares": 4,
+    "lane_center_flare_samples_left_out": 284,
+    "lane_center_noflare_median_m": 0.03876933688213863,
+    "lane_center_noflare_p95_m": 0.1911111532533083,
+    "lane_center_noflare_max_m": 0.7087127380491252,
+    "tight_turn_source_conflicts": 0,
+    "lane_center_conflict_lanes_left_out": 0,
+    "lane_center_conflict_samples_left_out": 0,
+    "lane_center_noconflict_median_m": 0.03876933688213863,
+    "lane_center_noconflict_p95_m": 0.1911111532533083,
+    "lane_center_noconflict_max_m": 0.7087127380491252,
+    "lane_endpoint_lateral_max_m": 0.2583340203923624,
+    "stopline_matched": 0,
+    "stopline_source_absent": 0,
+    "stopline_match_distance_max_m": null,
+    "stopline_matched_delta_max_m": null,
+    "g8_status_stopline_resolved": "PASS",
+    "g8_stopline_requirements_left_out": 0,
+    "boundary_median_m": 0.024532308330600945,
+    "boundary_p95_m": 0.6664008389176483,
+    "boundary_max_m": 1.7575348673229378,
+    "boundary_inside_p95_m": 0.6484960819387188,
+    "boundary_inside_max_m": 1.7575348673229378,
+    "source_dropped_points": 0,
+    "source_review_open": 0,
+    "source_issues_recorded": 125,
+    "ref_kappa_step_max_per_m": 0.0,
+    "primitives": 288,
+    "leg_seg_min_m": 6.951468337,
+    "conn_seg_min_m": 3.00000033145216,
+    "leg_sharp_flips_per_100m_max": 2.274421147618505,
+    "outer_curvature_max_per_m": 0.33193859458022545,
+    "outer_heading_step_max_deg": 0.001362029820566492,
+    "outer_curvature_flips_per_100m_max": 0.5686052869692886,
+    "lane_join_curvature_jump_max_per_m": 0.17408434352379076,
+    "lane_join_jumps_gt_1e-07": 247,
+    "lane_join_jumps_gt_1e-04": 28,
+    "lane_join_jumps_gt_1e-03": 4,
+    "lane_edge_join_curvature_jump_max_per_m": 0.17461923089367387,
+    "lane_edge_join_jumps_gt_1e-03": 39,
+    "conn_edge_join_curvature_jump_max_per_m": 0.0020854386120198187,
+    "turn_counter_curvature_max_per_m": 0.018489400389780787,
+    "turn_counter_curvature_gt_0.02": 0,
+    "fair_road_kappa_max_per_m": 0.12189442797490418,
+    "fair_road_kappa_p90_per_m": 0.01568553484220175,
+    "fair_road_sharpness_max_per_m2": 0.08786295115178133,
+    "fair_road_event_kappa_max_per_m": 0.34137370133031386,
+    "fair_straight_conn_kappa_max_per_m": 0.046245591125589625,
+    "fair_straight_conn_kappa_median_per_m": 0.01872964325863066,
+    "fair_straight_conn_s_bends": 4,
+    "fair_turn_conn_sharpness_p90_per_m2": 0.026080120256267346,
+    "fair_turn_conn_sharpness_max_per_m2": 0.044168548678453684,
+    "width_records": 1906,
+    "lane_sections": 100,
+    "policy_speed_ay_max_mps2": 42.144901390375196,
+    "policy_speed_jerk_max_mps3": 618.2979175986105,
+    "kappa_max_per_m": 0.34137370133031386,
+    "crs": "internally-consistent",
+    "cli_delivery": "BLOCKED"
+   },
+   "tiers": {
+    "T1": {
+     "status": "PASS",
+     "failed": [],
+     "unavailable": []
+    },
+    "T2": {
+     "status": "FAIL",
+     "failed": [
+      {
+       "metric": "lane_center_noconflict_p95_m",
+       "op": "le",
+       "value": 0.15,
+       "applies_to": [
+        "shp"
+       ],
+       "actual": 0.1911111532533083,
+       "pass": false
+      },
+      {
+       "metric": "lane_center_noconflict_max_m",
+       "op": "le",
+       "value": 0.35,
+       "applies_to": [
+        "shp"
+       ],
+       "actual": 0.7087127380491252,
+       "pass": false
+      },
+      {
+       "metric": "lane_endpoint_lateral_max_m",
+       "op": "le",
+       "value": 0.2,
+       "applies_to": [
+        "shp"
+       ],
+       "actual": 0.2583340203923624,
+       "pass": false
+      },
+      {
+       "metric": "boundary_inside_p95_m",
+       "op": "le",
+       "value": 0.1,
+       "applies_to": [
+        "shp"
+       ],
+       "actual": 0.6484960819387188,
+       "pass": false
+      },
+      {
+       "metric": "boundary_inside_max_m",
+       "op": "le",
+       "value": 0.35,
+       "applies_to": [
+        "shp"
+       ],
+       "actual": 1.7575348673229378,
+       "pass": false
+      },
+      {
+       "metric": "lane_join_curvature_jump_max_per_m",
+       "op": "le",
+       "value": 0.001,
+       "actual": 0.17408434352379076,
+       "pass": false
+      },
+      {
+       "metric": "edge_contact_curvature_max_per_m",
+       "op": "le",
+       "value": 0.001,
+       "actual": 0.0018207489777222626,
+       "pass": false
+      }
+     ],
+     "unavailable": []
+    }
+   }
+  }
+ ]
+}

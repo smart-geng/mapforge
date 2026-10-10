@@ -1,0 +1,18 @@
+{"which": "end", "a": 0.0, "b": 116.578695184268, "straight": false, "anchor": null, "kept_slope": null, "dropped": [[113.09129831978136, 16.61061024786266], [114.58589697598991, 16.64540384769837]]}
+{"which": "end", "a": 0.0, "b": 116.578695184268, "straight": false, "anchor": 108.578695184268, "kept_slope": 0.004361775589642459, "dropped": [[113.09129831978136, 16.61061024786266], [114.58589697598991, 16.64540384769837]]}
+{"which": "end", "a": 0.0, "b": 157.1665163, "straight": true, "anchor": null, "kept_slope": null, "dropped": [[152.177103084127, 5.04824944215241]]}
+{"which": "end", "a": 0.0, "b": 157.1665163, "straight": true, "anchor": 149.1665163, "kept_slope": -0.038922879381548384, "dropped": [[152.177103084127, 5.04824944215241]]}
+{"which": "end", "a": 0.0, "b": 157.1665163, "straight": true, "anchor": null, "kept_slope": null, "dropped": [[152.177103084127, 1.9398750683336619]]}
+{"which": "end", "a": 0.0, "b": 157.1665163, "straight": true, "anchor": 149.1665163, "kept_slope": -0.038453338544187, "dropped": [[152.177103084127, 1.9398750683336619]]}
+{"which": "end", "a": 0.0, "b": 157.1665163, "straight": true, "anchor": null, "kept_slope": null, "dropped": [[151.6781617625397, -1.2462649987992442]]}
+{"which": "end", "a": 0.0, "b": 157.1665163, "straight": true, "anchor": 149.1665163, "kept_slope": -0.03699727549301878, "dropped": [[151.6781617625397, -1.2462649987992442]]}
+{"which": "end", "a": 79.63296873144017, "b": 157.1665163, "straight": true, "anchor": null, "kept_slope": null, "dropped": [[151.69940717657593, -3.167092169118992]]}
+{"which": "end", "a": 79.63296873144017, "b": 157.1665163, "straight": true, "anchor": 149.1665163, "kept_slope": -0.002816795199365682, "dropped": [[151.69940717657593, -3.167092169118992]]}
+{"which": "end", "a": 79.63296873144017, "b": 157.1665163, "straight": true, "anchor": null, "kept_slope": null, "dropped": [[151.69940717657593, -3.167092169118992]]}
+{"which": "end", "a": 79.63296873144017, "b": 157.1665163, "straight": true, "anchor": 149.1665163, "kept_slope": -0.002816795199365682, "dropped": [[151.69940717657593, -3.167092169118992]]}
+{"which": "end", "a": 87.4475583696111, "b": 157.1665163, "straight": true, "anchor": null, "kept_slope": null, "dropped": [[151.1906056202524, -4.437269778677068]]}
+{"which": "end", "a": 87.4475583696111, "b": 157.1665163, "straight": true, "anchor": 149.1665163, "kept_slope": -0.04137446183037461, "dropped": [[151.1906056202524, -4.437269778677068]]}
+{"which": "end", "a": 0.0, "b": 157.1665163, "straight": false, "anchor": null, "kept_slope": null, "dropped": [[155.66969233523812, 16.842192958997185]]}
+{"which": "end", "a": 0.0, "b": 157.1665163, "straight": false, "anchor": 149.1665163, "kept_slope": -0.04398676928408199, "dropped": [[155.66969233523812, 16.842192958997185]]}
+{"which": "end", "a": 38.1133, "b": 166.6580935, "straight": false, "anchor": null, "kept_slope": null, "dropped": [[162.17397279651163, 16.26142271292069]]}
+{"which": "end", "a": 38.1133, "b": 166.6580935, "straight": false, "anchor": 158.6580935, "kept_slope": -0.05, "dropped": [[162.17397279651163, 16.26142271292069]]}

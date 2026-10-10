@@ -1,0 +1,87 @@
+--- formal-tree/mapforge/ops/lane_refit.py	2026-10-09 14:55:39.930085343 +0000
++++ ks-tree/mapforge/ops/lane_refit.py	2026-10-10 05:32:30.761461324 +0000
+@@ -389,12 +389,48 @@
+         line = vals[j] + (vals[k] - vals[j]) * (x - grid[j]) / (grid[k] - grid[j])
+         return bool(np.max(np.abs(vals[lo + 1:hi] - line)) <= rdp_tol)
+ 
++    import os as _os, json as _json
++    _mode = _os.environ.get("MF_KS_MODE", "straight")   # straight | ks-all | ks-nonstraight | off
++    _log = _os.environ.get("MF_ANCHOR_LOG")
++    kept_slope = {}
++
++    def plain_slope(which):
++        n0 = len(FLARES)
++        pinfo = {}
++        fit_boundary(obs_s, obs_t, a, b, start=start, end=end, ramp_start=ramp_start, ramp_end=ramp_end, mode=mode,
++                     kappa_cap=kappa_cap, rdp_tol=rdp_tol, seg_min=seg_min, c2_ends=c2_ends, protect=protect,
++                     corner_h=corner_h, protect_values=protect_values, free_end_runs=free_end_runs, info=pinfo,
++                     short_kappa=short_kappa, lsq_refine=lsq_refine, mouth_anchor=False)
++        del FLARES[n0:]
++        return pinfo.get("m0" if which == "start" else "mn")
++
++    def mouth_end(which, lo, hi, edge, k):
++        nonlocal keep
++        inside = [i for i in keep if lo < grid[i] < hi]
++        straight = straight_into_mouth(edge, k)
++        anchor, ks = None, False
++        if mouth_anchor and inside and _mode != "off":
++            if _mode == "straight":
++                anchor = edge if straight else None
++            elif _mode == "ks-all" or (_mode == "ks-nonstraight" and not straight):
++                m = plain_slope(which)
++                if m is not None:
++                    anchor, ks = edge, True
++                    kept_slope[which] = m
++            elif _mode == "ks-nonstraight" and straight:
++                anchor = edge
++        if _log and inside:
++            with open(_log, "a") as fh:
++                fh.write(_json.dumps({"which": which, "a": float(a), "b": float(b), "straight": straight,
++                                      "anchor": anchor, "kept_slope": kept_slope.get(which),
++                                      "zone_slope": float((vals[k] - vals[int(np.argmin(np.abs(grid - edge)))]) / (grid[k] - grid[int(np.argmin(np.abs(grid - edge)))])),
++                                      "dropped": [[float(grid[i]), float(vals[i])] for i in inside]}) + "\n")
++        keep = clear(keep, lo, hi, anchor)
++
+     if start and start[1] == "mouth":
+-        anchor = a + zone if mouth_anchor and straight_into_mouth(a + zone, 0) else None
+-        keep = clear(keep, a, a + zone, anchor)
++        mouth_end("start", a, a + zone, a + zone, 0)
+     if end and end[1] == "mouth":
+-        anchor = b - zone if mouth_anchor and straight_into_mouth(b - zone, last) else None
+-        keep = clear(keep, b - zone, b, anchor)
++        mouth_end("end", b - zone, b, b - zone, last)
+     keep = [i for i in keep if 0 <= i <= last]
+     protected = {float(grid[j]) for j in pinned}
+     keep = sorted(set(keep) | set(pinned))
+@@ -420,9 +456,11 @@
+     if free_end_runs and (start is None or end is None) and not (free_start and free_end):
+         vs, vt = _prune(grid[keep], vals[keep], min(seg_min, 0.5 * (b - a)), protected=protected,
+                         keep_first=free_start, keep_last=free_end, protected_runs=bool(protected), short_kappa=short)
+-    def target(cond, run_slope):
++    def target(cond, run_slope, which=None):
+         if not cond or cond[1] is None:
+             return None
++        if cond[1] == "mouth" and which in kept_slope:
++            return kept_slope[which]
+         if cond[1] == "mouth":
+             if abs(run_slope) > MOUTH_FLARE_MAX:
+                 flares.append(float(run_slope))
+@@ -449,7 +487,7 @@
+         """Run slopes, end slopes, end blend and corner half lengths for the vertex values vt_."""
+         slopes = np.diff(vt_) / np.diff(vs)
+         lengths = np.diff(vs)
+-        m_start, m_end = target(start, slopes[0]), target(end, slopes[-1])
++        m_start, m_end = target(start, slopes[0], "start"), target(end, slopes[-1], "end")
+         h0 = end_h(ramp_start, lengths[0], (m_start or 0.0) - slopes[0]) if m_start is not None else 0.0
+         hn = end_h(ramp_end, lengths[-1], (m_end or 0.0) - slopes[-1]) if m_end is not None else 0.0
+         if m_start is not None and abs(m_start - slopes[0]) < 1e-12 and abs(a_start) < 1e-12:
+@@ -554,7 +592,8 @@
+     slopes, m_start, m_end, h0, hn, h = sizes(vt)
+     FLARES.extend(flares)
+     if info is not None:
+-        info.update({"vs": np.asarray(vs, float), "vt": np.asarray(vt, float), "h": h.copy(), "h0": h0, "hn": hn})
++        info.update({"vs": np.asarray(vs, float), "vt": np.asarray(vt, float), "h": h.copy(), "h0": h0, "hn": hn,
++                     "m0": m_start, "mn": m_end})
+     if len(vs) == 2 and m_start is not None and m_end is not None and (ramp_start or ramp_end) and not c2_ends:
+         # (C1 variants) one Hermite over the whole chain. With c2_ends the end blends stay local:
+         # one transition across a long chain amplifies an end curvature into a deep dip.
