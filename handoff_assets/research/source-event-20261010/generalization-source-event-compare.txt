@@ -1,0 +1,17 @@
+== 2023041111160971268 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== 2023061310244790027 shp base None anchor None 
+== 2023062713394062899 shp base {'T1': 'PASS', 'T2': 'FAIL'} anchor {'T1': 'PASS', 'T2': 'FAIL'} 
+== 2023063015350832057 shp base None anchor None 
+== 2023070710412621654 shp base None anchor None 
+== 2023080118313036830 shp base {'T1': 'PASS', 'T2': 'FAIL'} anchor {'T1': 'PASS', 'T2': 'FAIL'} 
+== 2023041216222042093 shp base {'T1': 'FAIL', 'T2': 'FAIL'} anchor {'T1': 'FAIL', 'T2': 'FAIL'} 
+== 2023062110304177600 shp base None anchor None 
+== 2023070118182048481 shp base None anchor None 
+== 2023080810023203229 shp base {'T1': 'PASS', 'T2': 'FAIL'} anchor {'T1': 'PASS', 'T2': 'FAIL'} 
+== 2023062913464138453 shp base None anchor None 
+== 2023072914272536839 shp base None anchor None 
+== 2023041810414040830 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== 2023070710324132429 shp base {'T1': 'PASS', 'T2': 'FAIL'} anchor {'T1': 'PASS', 'T2': 'FAIL'} 
+== 2023081110220126408 shp base None anchor None 
+== 2023071109582525264 shp base {'T1': 'PASS', 'T2': 'FAIL'} anchor {'T1': 'PASS', 'T2': 'FAIL'} 
+rows with any change: 0 / 16

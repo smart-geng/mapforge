@@ -1,0 +1,26 @@
+== map-node3 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node3 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== map-node4 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node4 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== map-NODE5 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-NODE5 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== map-node13 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node13 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== map-node16 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node16 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== map-node17 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node17 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+   * boundary_inside_p95_m                      0.036637022686406534 -> 0.03743490519499557
+     boundary_median_m                          0.007990129498989607 -> 0.008270417686148083
+     boundary_p95_m                             0.05938457944767665 -> 0.05264309183912381
+     lane_center_median_m                       0.017818736701925297 -> 0.01782540827261541
+     lane_center_noconflict_median_m            0.015949118365629993 -> 0.016012876216205896
+     lane_center_noflare_median_m               0.015949118365629993 -> 0.016012876216205896
+     lane_center_poly_median_m                  0.01075405175697184 -> 0.010827710903668563
+   * lane_join_curvature_jump_max_per_m         0.0002411442126784471 -> 0.00023924602297825236
+     lane_join_jumps_gt_1e-07                   178 -> 177
+     primitives                                 218 -> 217
+     width_records                              2033 -> 2036
+== map-node18 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node18 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+rows with any change: 1 / 14

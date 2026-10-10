@@ -1,0 +1,75 @@
+--- ks2-tree/mapforge/ops/lane_refit.py	2026-10-10 05:34:02.260353916 +0000
++++ exp2-tree/mapforge/ops/lane_refit.py	2026-10-10 07:57:31.764459187 +0000
+@@ -922,6 +922,38 @@
+                 rel = obs[:, 1] - np.array([_at(base, x) for x in obs[:, 0]])
+                 obs_s = obs[:, 0]
+                 protect, corner_h, fills = [], {}, {}
++                import os as _os
++                if _os.environ.get("MF_EVENT_SOURCE"):
++                    moved = {}
++                    for kind, (x, d, fill_w) in advanced.items():
++                        if d is None:
++                            moved[kind] = (x, d, fill_w)
++                            continue
++                        # the source width's own zero point inside the zero-width extension (death: after x)
++                        sel = (obs_s >= x - 1e-9) & (obs_s <= x + d) if kind == "death" else (obs_s <= x + 1e-9) & (obs_s >= x - d)
++                        xs, ws = obs_s[sel], rel[sel]
++                        if _os.environ.get("MF_EVENT_LOG"):
++                            with open(_os.environ["MF_EVENT_LOG"], "a") as _fh:
++                                _near = np.abs(obs_s - x) < 2.0
++                                _fh.write(f"obs range {obs_s.min():.2f}..{obs_s.max():.2f} near x: " + " ".join(f"{a_:.2f}:{w_:.3f}" for a_, w_ in sorted(zip(obs_s[_near], rel[_near]))) + "\n")
++                        order = np.argsort(xs) if kind == "death" else np.argsort(-xs)
++                        xs, ws = xs[order], ws[order]
++                        x_new = x
++                        w_x = float(np.interp(x, np.sort(xs), ws[np.argsort(xs)])) if len(xs) else 0.0
++                        if len(xs) >= 2 and abs(xs[-1] - x) > GRID and w_x > 0.05:
++                            tail = np.abs(xs - xs[-1]) <= 2.0
++                            if tail.sum() >= 2:
++                                k_, c_ = np.polyfit(xs[tail], ws[tail], 1)
++                                toward = k_ < 0 if kind == "death" else k_ > 0
++                                if toward and abs(k_) > 0.02:
++                                    x_new = float(-c_ / k_)
++                                    lim = x + d - H_MIN if kind == "death" else x - d + H_MIN
++                                    x_new = min(x_new, lim) if kind == "death" else max(x_new, lim)
++                        if _os.environ.get("MF_EVENT_LOG"):
++                            with open(_os.environ["MF_EVENT_LOG"], "a") as _fh:
++                                _fh.write(f"road {road_el.get('id')} {kind} x={x:.3f} -> {x_new:.3f} d={d:.2f} w_at_x={float(np.interp(x, np.sort(xs), ws[np.argsort(xs)])) if len(xs) else None}\n")
++                        moved[kind] = (float(x_new), d - abs(float(x_new) - x) if d is not None else None, fill_w)
++                    advanced = moved
+                 for kind, (x, d, fill_w) in advanced.items():
+                     # the lane exists d ahead of its source event with zero width; the source corner at x is
+                     # rounded symmetrically (half length d, or as the curvature target asks where d is None)
+@@ -996,10 +1028,14 @@
+         if kind == "death" and rel_end is None:
+             rel_end = (fills[x], None)
+ 
++    import os as _os
++    _tk = _os.environ.get("MF_TAPER_KAPPA")
++    _wp = dict(params, kappa_cap=float(_tk)) if _tk else params
++
+     def run(ch, info=None):
+         out = fit_boundary(obs_s, rel, a, b, start=rel_start, end=rel_end,
+                            ramp_start=ramp_start, ramp_end=ramp_end, protect=protect, corner_h=ch,
+-                           protect_values=fills, info=info, **params)
++                           protect_values=fills, info=info, **_wp)
+         del FLARES[flares0:]        # mouth flares are judged on the absolute fit, not on the width
+         return out
+ 
+@@ -1036,10 +1072,16 @@
+             hi = 0.5 * (cand[-1][0] + cand[-1][1]) if cand else a
+     # hand over only where the relative fit lies on the source: a cut on a run that already misses it (a chord
+     # into a rounded knee, shp-node13 road 10 lane 5: 0.27 m) would pass that error on to the own fit
++    import os as _os
++    _tol = float(_os.environ.get("MF_CUT_TOL", RDP_TOL))
+     for q in (lo, hi):
+         if a < q < b:
+             near = obs[np.abs(obs[:, 0] - q) <= 1.0]
+-            if not len(near) or float(np.median(np.abs([_at(whole, x) - t for x, t in near]))) > RDP_TOL:
++            _med = float(np.median(np.abs([_at(whole, x) - t for x, t in near]))) if len(near) else None
++            if _os.environ.get("MF_CUT_LOG"):
++                with open(_os.environ["MF_CUT_LOG"], "a") as _fh:
++                    _fh.write(f"{a:.2f} {b:.2f} q={q:.2f} med={_med}\n")
++            if not len(near) or _med > _tol:
+                 lo, hi = (b, hi) if q == lo else (lo, a)
+     if hi - lo < 2 * H_MIN:
+         return whole, None
