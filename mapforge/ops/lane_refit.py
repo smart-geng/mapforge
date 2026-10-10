@@ -32,7 +32,9 @@ polyline, relative to the unchanged reference line:
 * SHP boundary step (2026-10-04; variant parameters, SHP only): lane births/deaths moved half a corner ahead of
   their source events (mapforge.ops.lane_birth_advance) are fitted as width on their inner boundary near the
   event, with the shortest corner whose boundary curvature stays within the target, and hand over to the
-  boundary's own fit after it (_advanced_fit); free road ends where a source lane starts narrow get zero width
+  boundary's own fit after it (_advanced_fit); the event is where the source taper reaches zero when the source
+  lane runs on past its section boundary still open (_source_event, 2026-10-10); free road ends where a source
+  lane starts narrow get zero width
   up to it (_zero_starts); short runs stay where their corners fit the curvature target (short_kappa); vertex
   values are set by least squares on the finished curve, mouth ends and mouth-run starts staying on the data
   (lsq_refine); a gap between the lanes of two parallel source links becomes a lane of its own before the refit
@@ -922,6 +924,12 @@ def refit_road(road_el, src, origin, params=None, observe=None, relative=None):
                 rel = obs[:, 1] - np.array([_at(base, x) for x in obs[:, 0]])
                 obs_s = obs[:, 0]
                 protect, corner_h, fills = [], {}, {}
+                for kind, (x, d, fill_w) in list(advanced.items()):
+                    x_src = _source_event(kind, x, d, obs_s, rel)
+                    if x_src != x:
+                        advanced[kind] = (x_src, d - abs(x_src - x), fill_w)
+                        report.setdefault("source_events", []).append(
+                            {"side": side, "kind": kind, "section_s": round(x, 3), "source_s": round(x_src, 3)})
                 for kind, (x, d, fill_w) in advanced.items():
                     # the lane exists d ahead of its source event with zero width; the source corner at x is
                     # rounded symmetrically (half length d, or as the curvature target asks where d is None)
@@ -967,6 +975,43 @@ def refit_road(road_el, src, origin, params=None, observe=None, relative=None):
     report["strong_mouth_flares"] = [round(x, 3) for x in FLARES]
     report["curb_return_shoulders"] = shoulders
     return road, fitted, report
+
+
+EVENT_TAIL_M = 2.0        # an advanced event's source zero point is extrapolated over this much of the taper
+
+
+def _source_event(kind, x, d, obs_s, rel):
+    """Station of an advanced birth/death (lane_birth_advance): its section boundary ``x``, or, where the source lane
+    reaches past it into the zero-width extension (length ``d``) still open there (wider than ZERO_WIDTH_M) and
+    narrowing toward the extension, the point where its width reaches zero, extrapolated linearly over its last
+    EVENT_TAIL_M, at most to the source lane's own tip and kept H_MIN inside the extension. 0621 road 11 lane 4: the
+    converter closed the lane where the next source link starts, 0.6 m before its 1:4 taper does; zero width forced
+    there shifted the whole taper and its outer edge ran 0.1-0.17 m off the source for 12 m (``rel``: the width
+    observations against the fitted inner boundary)."""
+    from mapforge.ops.lane_birth_advance import SLOPE_MIN, ZERO_WIDTH_M
+    if d is None:
+        return x
+    death = kind == "death"
+    sel = (obs_s >= x) & (obs_s <= x + d) if death else (obs_s <= x) & (obs_s >= x - d)
+    order = np.argsort(obs_s[sel])
+    xs, ws = obs_s[sel][order], rel[sel][order]
+    if len(xs) < 2:
+        return x
+    tip = xs[-1] if death else xs[0]
+    if abs(tip - x) <= GRID or float(np.interp(x, xs, ws)) <= ZERO_WIDTH_M:
+        return x
+    tail = np.abs(xs - tip) <= EVENT_TAIL_M
+    if tail.sum() < 2:
+        return x
+    slope, icpt = np.polyfit(xs[tail], ws[tail], 1)
+    if (slope >= -SLOPE_MIN) if death else (slope <= SLOPE_MIN):
+        return x
+    zero = -icpt / slope
+    if (zero <= x) if death else (zero >= x):
+        return x
+    # never past the source lane's own tip: a lane that starts (ends) abruptly, still open there, is not extrapolated
+    # (shp-node17 road 12 lane 4 starts 0.13 m wide 0.7 m before its section boundary; zero would lie 1.6 m further)
+    return float(min(zero, tip, x + d - H_MIN)) if death else float(max(zero, tip, x - d + H_MIN))
 
 
 def _advanced_fit(obs_s, rel, obs, a, b, base, start, end, ramp_start, ramp_end, events, corner_h, params,
