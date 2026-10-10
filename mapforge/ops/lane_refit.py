@@ -18,9 +18,10 @@ polyline, relative to the unchanged reference line:
 * junction mouths: no vertex within MOUTH_ZONE_M, end slope clipped to
   +/-MOUTH_SLOPE_CAP so connectors can meet the edge smoothly; a steeper source flare
   (> MOUTH_FLARE_MAX) is kept and reported (``strong_mouth_flares``); with ``mouth_anchor`` (2026-10-09) a
-  source corner dropped from a mouth zone through which the source runs straight into the mouth leaves a vertex on
-  the data at the zone edge, so the run before it still follows the source (0621 road 10: a corner 7.8 m before the
-  mouth had pulled 16 m of the median edge 0.23 m off);
+  source corner dropped from a mouth zone leaves a vertex on the data at the zone edge, so the run before it still
+  follows the source (0621 road 10: a corner 7.8 m before the mouth had pulled 16 m of the median edge 0.23 m off);
+  where the source does not run straight from there into the mouth (a flare), the mouth keeps the slope it had
+  without the anchor, and a flare steeper than MOUTH_FLARE_MAX (a curb return) gets no anchor (2026-10-10);
 * curb returns: a strong flare on the outermost boundary at a mouth is the start of the
   corner curb return, not lane width (no connector can continue it without a width bulge).
   The driving lane keeps the pre-flare edge into the mouth; a non-driving shoulder lane,
@@ -334,12 +335,17 @@ def fit_boundary(obs_s, obs_t, a, b, start=None, end=None, ramp_start=False, ram
     smooth bend and the corner blends cut inside once more (shp-node13 road 10 lane 5: a rounded knee 0.3 m
     inside); the curve is linear in the vertex values for fixed corner sizes, so this is a linear problem.
     ``mouth_anchor``: a junction-mouth zone that loses source vertices gets one at its inner edge, on the data, like
-    a birth/death ramp, where the source itself runs straight (within ``rdp_tol``) from there into the mouth: the
-    dropped corner sat at the zone edge, and the run before it no longer stretches over it (2026-10-09). A corner
-    deeper in the zone is a mouth flare or curb return and is still left out as before: anchoring one steepens the
-    run into the mouth and bends the connectors meeting it (shp-node17 road 10, flare 0.5-4.5 m before the mouth:
-    edge contact curvature 0.0009 -> 0.0033 /m, T2 FAIL). The zone stays one straight run into the mouth with the
-    capped slope either way.
+    a birth/death ramp, so the run before it no longer stretches over the dropped corner (0621 road 10: a corner
+    7.8 m before the mouth pulled 16 m of the median edge 0.23 m off; 2026-10-09). Where the source runs straight
+    (within ``rdp_tol``) from there into the mouth, the corner sat at the zone edge and the mouth slope follows the
+    run from the anchor (capped as before). Where it does not, the dropped corner is a mouth flare or curb return:
+    the mouth keeps the slope the fit without the anchor has, and the end blend inside the zone takes up the
+    difference (2026-10-10). Steepening the mouth there bent the connectors meeting it (shp-node17 road 10, flare
+    0.5-4.5 m before the mouth: edge contact curvature 0.0009 -> 0.0033 /m, T2 FAIL), so the first version left such
+    zones unanchored (shp-node18 boundary P95 inside 0.097 m; anchored this way 0.048). A strong flare is left as it
+    was: one the fit without the anchor keeps (> MOUTH_FLARE_MAX), or a run from the anchor into the mouth steeper
+    than that, a curb return across the whole zone (generalization 0412 road 30: -0.25 against a held -0.05; the end
+    blend bent the outer edge at 0.26 /m). The zone never gets a corner vertex either way.
     """
     mode = mode or MODE
     kappa_cap = kappa_cap or KAPPA_CAP
@@ -389,12 +395,33 @@ def fit_boundary(obs_s, obs_t, a, b, start=None, end=None, ramp_start=False, ram
         line = vals[j] + (vals[k] - vals[j]) * (x - grid[j]) / (grid[k] - grid[j])
         return bool(np.max(np.abs(vals[lo + 1:hi] - line)) <= rdp_tol)
 
+    held = {}                 # mouth end -> slope it keeps from the fit without the anchor
+
+    def mouth_anchor_at(which, lo, hi, edge, k):
+        """The zone-edge anchor of a mouth zone that drops source vertices (None: no anchor)."""
+        if not (mouth_anchor and any(lo < grid[i] < hi for i in keep)):
+            return None
+        if straight_into_mouth(edge, k):
+            return edge
+        j = int(np.argmin(np.abs(grid - edge)))
+        if abs((vals[k] - vals[j]) / (grid[k] - grid[j])) > MOUTH_FLARE_MAX:
+            return None       # a strong flare across the zone (a curb return): left as it was
+        n0, plain = len(FLARES), {}
+        fit_boundary(obs_s, obs_t, a, b, start=start, end=end, ramp_start=ramp_start, ramp_end=ramp_end, mode=mode,
+                     kappa_cap=kappa_cap, rdp_tol=rdp_tol, seg_min=seg_min, c2_ends=c2_ends, protect=protect,
+                     corner_h=corner_h, protect_values=protect_values, free_end_runs=free_end_runs, info=plain,
+                     short_kappa=short_kappa, lsq_refine=lsq_refine)
+        del FLARES[n0:]
+        slope = plain["m0" if which == "start" else "mn"]
+        if slope is None:     # a strong flare the plain fit keeps: left as it was
+            return None
+        held[which] = slope
+        return edge
+
     if start and start[1] == "mouth":
-        anchor = a + zone if mouth_anchor and straight_into_mouth(a + zone, 0) else None
-        keep = clear(keep, a, a + zone, anchor)
+        keep = clear(keep, a, a + zone, mouth_anchor_at("start", a, a + zone, a + zone, 0))
     if end and end[1] == "mouth":
-        anchor = b - zone if mouth_anchor and straight_into_mouth(b - zone, last) else None
-        keep = clear(keep, b - zone, b, anchor)
+        keep = clear(keep, b - zone, b, mouth_anchor_at("end", b - zone, b, b - zone, last))
     keep = [i for i in keep if 0 <= i <= last]
     protected = {float(grid[j]) for j in pinned}
     keep = sorted(set(keep) | set(pinned))
@@ -420,9 +447,11 @@ def fit_boundary(obs_s, obs_t, a, b, start=None, end=None, ramp_start=False, ram
     if free_end_runs and (start is None or end is None) and not (free_start and free_end):
         vs, vt = _prune(grid[keep], vals[keep], min(seg_min, 0.5 * (b - a)), protected=protected,
                         keep_first=free_start, keep_last=free_end, protected_runs=bool(protected), short_kappa=short)
-    def target(cond, run_slope):
+    def target(cond, run_slope, which):
         if not cond or cond[1] is None:
             return None
+        if cond[1] == "mouth" and which in held:
+            return held[which]
         if cond[1] == "mouth":
             if abs(run_slope) > MOUTH_FLARE_MAX:
                 flares.append(float(run_slope))
@@ -449,7 +478,7 @@ def fit_boundary(obs_s, obs_t, a, b, start=None, end=None, ramp_start=False, ram
         """Run slopes, end slopes, end blend and corner half lengths for the vertex values vt_."""
         slopes = np.diff(vt_) / np.diff(vs)
         lengths = np.diff(vs)
-        m_start, m_end = target(start, slopes[0]), target(end, slopes[-1])
+        m_start, m_end = target(start, slopes[0], "start"), target(end, slopes[-1], "end")
         h0 = end_h(ramp_start, lengths[0], (m_start or 0.0) - slopes[0]) if m_start is not None else 0.0
         hn = end_h(ramp_end, lengths[-1], (m_end or 0.0) - slopes[-1]) if m_end is not None else 0.0
         if m_start is not None and abs(m_start - slopes[0]) < 1e-12 and abs(a_start) < 1e-12:
@@ -554,7 +583,8 @@ def fit_boundary(obs_s, obs_t, a, b, start=None, end=None, ramp_start=False, ram
     slopes, m_start, m_end, h0, hn, h = sizes(vt)
     FLARES.extend(flares)
     if info is not None:
-        info.update({"vs": np.asarray(vs, float), "vt": np.asarray(vt, float), "h": h.copy(), "h0": h0, "hn": hn})
+        info.update({"vs": np.asarray(vs, float), "vt": np.asarray(vt, float), "h": h.copy(), "h0": h0, "hn": hn,
+                     "m0": m_start, "mn": m_end})
     if len(vs) == 2 and m_start is not None and m_end is not None and (ramp_start or ramp_end) and not c2_ends:
         # (C1 variants) one Hermite over the whole chain. With c2_ends the end blends stay local:
         # one transition across a long chain amplifies an end curvature into a deep dip.
@@ -1534,7 +1564,8 @@ VARIANTS = {"g2-k04": {"mode": "g2", **LEVEL_A}, "g2-k02": {"mode": "g2", **LEVE
             # sides eased where they bend (departure_ease, 2026-10-07; MAP only), and before that the MAP approach
             # sides faired within 5 cm of their point lists (approach_fair, 2026-10-07; MAP only); one-lane connectors
             # width slopes at reference joins chosen so their edges barely jump in curvature (edge_joins, 2026-10-07); a source corner
-            # dropped from a junction-mouth zone leaves a vertex on the data at the zone edge (mouth_anchor, 2026-10-09)
+            # dropped from a junction-mouth zone leaves a vertex on the data at the zone edge (mouth_anchor, 2026-10-09;
+            # a flare zone keeps its mouth slope, 2026-10-10)
             "g2-k04-c2": {"mode": "g2", **LEVEL_A, "curb_shoulder": True, "c2_ends": True, "merge_short_ref": True,
                           "rechain": True, "birth_advance": True, "short_kappa": True, "lsq_refine": True,
                           "link_gaps": True, "approach_fair": True, "departure_ease": True, "edge_joins": True,
