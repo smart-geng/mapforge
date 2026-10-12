@@ -12,7 +12,9 @@ fitted to the real incoming-tail -> via -> outgoing-head chain, and the junction
 rebuilt from the source surface plus the real lane tails. This module only runs that path
 with the CLI's own finalization (same G8 policy, same sidecars); it changes no converter
 code. The junction paving is then rebuilt by mapforge.ops.envelope_surface (gap-aware: separate
-carriageways are paved apart, gaps inside the source junction polygon are not holes); any other
+carriageways are paved apart, gaps inside the source junction polygon are not holes); where it fails,
+mapforge.ops.surface_seams retries only the seams the source explains (a median continued along the junction polygon,
+a seam the source road surface covers; 2026-10-12); any other
 unexplained gap still fails loudly and is never passed off as a result. Legs whose reference line the
 converter's own fit rejects are fitted by mapforge.ops.leg_fit_fallback (2026-10-08); a junction whose legs all fit
 is built exactly as before.
@@ -43,7 +45,7 @@ def convert(shp_dir, like, out, margin_m=3.0, profile="ibd-smarteditor-v1", rebu
     import xml.etree.ElementTree as ET
     from mapforge.adapters.shp.profile_source import ProfileSource
     from mapforge.adapters.v2xmap.xml_reader import parse_map_xml
-    from mapforge.ops import envelope_surface, leg_fit_fallback
+    from mapforge.ops import leg_fit_fallback, surface_seams
     from mapforge.ops.shp_to_xodr import CandidateSurfaceError, _proj
     from mapforge.report.decision import finalize_opendrive_g8
 
@@ -78,7 +80,8 @@ def convert(shp_dir, like, out, margin_m=3.0, profile="ibd-smarteditor-v1", rebu
         lon0, lat0 = float(junc.center[0]), float(junc.center[1])
         root = ET.parse(out).getroot()
         try:
-            surface = envelope_surface.replace_source_paving(
+            # envelope_surface, and where it fails only the seams the source explains (surface_seams, 2026-10-12)
+            surface = surface_seams.replace_source_paving(
                 root, src, junc, lambda p: _proj(p, lat0, lon0), stats.get("mouth_envelope_decisions", []))
         except ValueError as exc:
             record.update(status="CANDIDATE_SURFACE_FAILED", surface_error=str(exc), stats=_jsonable(stats))

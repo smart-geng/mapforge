@@ -328,7 +328,7 @@ def rebuild_paving(root, src, junction, project, decisions, moved):
     (pose at the road start, heading into the junction; their source lanes give the tails); the paving axes stay
     those of the converter's mouths."""
     from mapforge.adapters.opendrive import writer as W
-    from mapforge.ops.envelope_surface import append_source_paving
+    from mapforge.ops.surface_seams import append_source_paving   # envelope_surface + source-explained seams (2026-10-12)
     from mapforge.ops.junction_surface import written_mouth_specs
     from mapforge.ops.map_to_xodr import _mouth_apron_axes
     from mapforge.validate.smoothness import sample_road_ref

@@ -1,0 +1,12 @@
+# ibd-smarteditor-v1 的伴随声明：路口铺面接缝规则（mapforge.ops.surface_seams）读取的原件对象图层。
+# 2026-10-12 用户决定：ROAD_SURFACE 纳入 Profile，但不改 v1 Profile 本身——工作台的源快照身份和全部源对象 ID
+# 由 v1 的字节算出，已登记的编译能力也按它锁定。这里只增加 v1 没有声明的图层；v1 自己声明的同名图层优先。
+# 以后出 v2 Profile 时并入 layers，本文件随之作废。DBF 编码沿用 v1 的 encoding。
+extends: ibd-smarteditor-v1        # 只对这个 Profile 生效（按文件名核对）
+layers:
+  road_surface:                    # 路面（已铺装）多边形：铺面接缝的正向证据、分隔带接替的反证
+    file: IBD_OBJECT_ROAD_SURFACE
+    fields: {id: OBJECT_PID}
+  traffic_barrier:                 # 护栏：分隔带接替时只作佐证记录
+    file: IBD_OBJECT_TRAFFIC_BARRIER
+    fields: {id: OBJECT_PID}
