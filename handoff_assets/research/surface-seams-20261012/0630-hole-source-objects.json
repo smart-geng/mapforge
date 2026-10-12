@@ -1,0 +1,418 @@
+{
+ "pid": "2023063015350832057",
+ "target_area_m2": 0.20062965145527964,
+ "target_bounds": [
+  -25.45608560016846,
+  9.271809486144187,
+  -25.226477695435324,
+  12.786837497989712
+ ],
+ "layers": {
+  "IBD_OBJECT_INTERSECTION_SURFACE": [
+   {
+    "fields": {
+     "OBJECT_PID": "2023063015350832057",
+     "GUID": "298EC9F7-723C-4EB1-A7DB-95E99528E2E3",
+     "MESH": "19297308",
+     "TYPE": 1,
+     "FORM": 2,
+     "NAME": "思贤路-景阳路",
+     "ENTER_ROAD": "2023070410065255655;2023062815094668831;2023070410062459203;2023063014022493672",
+     "LEAVE_ROAD": "2023063014022748058;2023062810100830403;2023063014062074854;2023062813474558464",
+     "ROAD_PID": "-1",
+     "PHOTO": "0",
+     "MEMO": ""
+    },
+    "type": "Polygon",
+    "distance_to_target_m": 0.0,
+    "overlap_with_target_m2": 0.0,
+    "target_fraction_covered": 0.0
+   }
+  ],
+  "IBD_OBJECT_ROAD_SURFACE": [
+   {
+    "fields": {
+     "OBJECT_PID": "2024022214510743289",
+     "GUID": "6CBE3D04-8394-445C-969A-BC30B3525B87",
+     "MESH": "19297303",
+     "ROADLEVEL": 1,
+     "MATERIAL": 1,
+     "ROAD_PID": "-1",
+     "PHOTO": "0",
+     "MEMO": ""
+    },
+    "type": "Polygon",
+    "distance_to_target_m": 0.0,
+    "overlap_with_target_m2": 0.19627419194077309,
+    "target_fraction_covered": 0.978291047794212
+   },
+   {
+    "fields": {
+     "OBJECT_PID": "2024022214512852896",
+     "GUID": "65B5EB3D-6F82-4AB1-8426-30B2E23780E7",
+     "MESH": "19297303",
+     "ROADLEVEL": 1,
+     "MATERIAL": 1,
+     "ROAD_PID": "-1",
+     "PHOTO": "0",
+     "MEMO": ""
+    },
+    "type": "Polygon",
+    "distance_to_target_m": 0.060956166696809,
+    "overlap_with_target_m2": 0.0,
+    "target_fraction_covered": 0.0
+   },
+   {
+    "fields": {
+     "OBJECT_PID": "2024022214512860446",
+     "GUID": "D9E7BD68-B962-4020-84A3-D162F856E020",
+     "MESH": "19297303",
+     "ROADLEVEL": 1,
+     "MATERIAL": 1,
+     "ROAD_PID": "-1",
+     "PHOTO": "0",
+     "MEMO": ""
+    },
+    "type": "Polygon",
+    "distance_to_target_m": 0.15775969414382476,
+    "overlap_with_target_m2": 0.0,
+    "target_fraction_covered": 0.0
+   },
+   {
+    "fields": {
+     "OBJECT_PID": "2024022214512862025",
+     "GUID": "0246476C-2E54-46D9-8471-8E43FCA1C6AC",
+     "MESH": "19297303",
+     "ROADLEVEL": 1,
+     "MATERIAL": 1,
+     "ROAD_PID": "-1",
+     "PHOTO": "0",
+     "MEMO": ""
+    },
+    "type": "Polygon",
+    "distance_to_target_m": 0.0,
+    "overlap_with_target_m2": 0.1878253544468339,
+    "target_fraction_covered": 0.9361794385048822
+   },
+   {
+    "fields": {
+     "OBJECT_PID": "2024022214512876087",
+     "GUID": "BA8D0A22-EFF7-45D4-BF6F-6E40C4DC1020",
+     "MESH": "19297303",
+     "ROADLEVEL": 1,
+     "MATERIAL": 1,
+     "ROAD_PID": "-1",
+     "PHOTO": "0",
+     "MEMO": ""
+    },
+    "type": "Polygon",
+    "distance_to_target_m": 0.0,
+    "overlap_with_target_m2": 0.19758727618926805,
+    "target_fraction_covered": 0.9848358642705924
+   }
+  ],
+  "IBD_OBJECT_DIVERSION": [],
+  "IBD_OBJECT_ISOLATION_BELTS": [],
+  "IBD_OBJECT_CURB": [],
+  "IBD_OBJECT_TRAFFIC_BARRIER": [],
+  "IBD_OBJECT_ZEBRA": [],
+  "IBD_OBJECT_STOPLINE": [],
+  "IBD_OBJECT_CROSS_BIKE": [],
+  "IBD_OBJECT_WALL": [],
+  "IBD_LANE_BOUNDARY": [
+   {
+    "fields": {
+     "BORDER_PID": "2023062909362894490",
+     "GUID": "568E5F7A-1150-4A4E-9A58-9114965E897B",
+     "START_PID": "2023062814350109286",
+     "END_PID": "2023063014062080887",
+     "BORDERTYPE": 1,
+     "MARK_COUNT": 1,
+     "TRAVERSAL": 1,
+     "ADJACENCY": 0,
+     "MEMO": ""
+    },
+    "type": "LineString",
+    "distance_to_target_m": 0.0,
+    "length_inside_target_m": 0.05688068068755056
+   },
+   {
+    "fields": {
+     "BORDER_PID": "2023062909362895688",
+     "GUID": "51830B3D-84E9-4B55-985F-FF1122806E84",
+     "START_PID": "2023063014022503623",
+     "END_PID": "2023063014062084092",
+     "BORDERTYPE": 1,
+     "MARK_COUNT": 1,
+     "TRAVERSAL": 1,
+     "ADJACENCY": 0,
+     "MEMO": ""
+    },
+    "type": "LineString",
+    "distance_to_target_m": 0.0,
+    "length_inside_target_m": 0.0018709841879684108
+   },
+   {
+    "fields": {
+     "BORDER_PID": "2023122515362587239",
+     "GUID": "DC6B8E95-161E-4083-9A09-1CC776394C22",
+     "START_PID": "2023062815580026485",
+     "END_PID": "2023063014062084092",
+     "BORDERTYPE": 1,
+     "MARK_COUNT": 1,
+     "TRAVERSAL": 1,
+     "ADJACENCY": 0,
+     "MEMO": ""
+    },
+    "type": "LineString",
+    "distance_to_target_m": 0.06323348156085684,
+    "length_inside_target_m": 0.0
+   },
+   {
+    "fields": {
+     "BORDER_PID": "2023122516195881653",
+     "GUID": "A6CB8407-37EF-49FE-BA75-AA828D62D2D9",
+     "START_PID": "2023122516195877612",
+     "END_PID": "2023063014062084092",
+     "BORDERTYPE": 1,
+     "MARK_COUNT": 1,
+     "TRAVERSAL": 1,
+     "ADJACENCY": 0,
+     "MEMO": ""
+    },
+    "type": "LineString",
+    "distance_to_target_m": 0.0,
+    "length_inside_target_m": 0.0024784143754556964
+   },
+   {
+    "fields": {
+     "BORDER_PID": "2023122516195887287",
+     "GUID": "AAA56592-291F-40CC-BEDE-9E165A6A62C9",
+     "START_PID": "2023122516195883239",
+     "END_PID": "2023063014062080887",
+     "BORDERTYPE": 1,
+     "MARK_COUNT": 1,
+     "TRAVERSAL": 1,
+     "ADJACENCY": 0,
+     "MEMO": ""
+    },
+    "type": "LineString",
+    "distance_to_target_m": 0.0,
+    "length_inside_target_m": 0.04437140748807609
+   },
+   {
+    "fields": {
+     "BORDER_PID": "2023122517065058433",
+     "GUID": "DE0062D2-AD5C-48BE-BCEC-E75537A0848E",
+     "START_PID": "2023070410065270092",
+     "END_PID": "2023063014062084092",
+     "BORDERTYPE": 1,
+     "MARK_COUNT": 1,
+     "TRAVERSAL": 1,
+     "ADJACENCY": 0,
+     "MEMO": ""
+    },
+    "type": "LineString",
+    "distance_to_target_m": 0.13916377922329887,
+    "length_inside_target_m": 0.0
+   },
+   {
+    "fields": {
+     "BORDER_PID": "2023122517065066867",
+     "GUID": "C06E8F07-D8AE-4918-9837-3166ACEA8257",
+     "START_PID": "2023070410065270092",
+     "END_PID": "2023063014062080887",
+     "BORDERTYPE": 1,
+     "MARK_COUNT": 1,
+     "TRAVERSAL": 1,
+     "ADJACENCY": 0,
+     "MEMO": ""
+    },
+    "type": "LineString",
+    "distance_to_target_m": 0.0,
+    "length_inside_target_m": 0.07646562892158065
+   },
+   {
+    "fields": {
+     "BORDER_PID": "2023122517065069685",
+     "GUID": "B2F0B515-C65C-4AC3-B6DB-0CC3ADF34D10",
+     "START_PID": "2023122517065062496",
+     "END_PID": "2023063014062084092",
+     "BORDERTYPE": 1,
+     "MARK_COUNT": 1,
+     "TRAVERSAL": 1,
+     "ADJACENCY": 0,
+     "MEMO": ""
+    },
+    "type": "LineString",
+    "distance_to_target_m": 0.06519821438072812,
+    "length_inside_target_m": 0.0
+   }
+  ],
+  "IBD_LANE_LINK": [
+   {
+    "fields": {
+     "LANE_PID": "2023070410533414832",
+     "GUID": "9BA0DFB4-EDF7-4426-9C7F-24DC018B47BD",
+     "LINK_PID": "2023062909355197220",
+     "S_LANE_PID": "2023070410533791293",
+     "E_LANE_PID": "2023110910425443273",
+     "SEQ_NUM": 1,
+     "LANE_DIR": 2,
+     "LANE_TYPE": 134217728,
+     "WIDECHANGE": 0,
+     "WIDTH": 3350,
+     "S_WIDTH": 3450,
+     "E_WIDTH": 3300,
+     "MAX_SPEED": 40,
+     "MIN_SPEED": 0,
+     "MAX_SOURCE": 1,
+     "MIN_SOURCE": 0,
+     "RAMP_SPEED": 0,
+     "VARI_SPEED": 0,
+     "TRANTYPE": 0,
+     "LENGTH": 55649,
+     "MEMO": ""
+    },
+    "type": "LineString",
+    "distance_to_target_m": 0.0,
+    "length_inside_target_m": 0.06092373650268575
+   },
+   {
+    "fields": {
+     "LANE_PID": "2023122516195894449",
+     "GUID": "AA9C893F-4B4D-44D0-AE30-4952E45CCC13",
+     "LINK_PID": "2023122516195876041",
+     "S_LANE_PID": "2023122516195889629",
+     "E_LANE_PID": "2023110910425443273",
+     "SEQ_NUM": 1,
+     "LANE_DIR": 2,
+     "LANE_TYPE": 134217728,
+     "WIDECHANGE": 0,
+     "WIDTH": 3400,
+     "S_WIDTH": 3600,
+     "E_WIDTH": 3300,
+     "MAX_SPEED": 40,
+     "MIN_SPEED": 0,
+     "MAX_SOURCE": 1,
+     "MIN_SOURCE": 0,
+     "RAMP_SPEED": 0,
+     "VARI_SPEED": 0,
+     "TRANTYPE": 0,
+     "LENGTH": 14697,
+     "MEMO": ""
+    },
+    "type": "LineString",
+    "distance_to_target_m": 0.0,
+    "length_inside_target_m": 0.06185941735679796
+   },
+   {
+    "fields": {
+     "LANE_PID": "2023122517140512040",
+     "GUID": "3A4988FA-18B7-49C4-ACC4-DAD97511C167",
+     "LINK_PID": "2023122515052383690",
+     "S_LANE_PID": "2023122517140511250",
+     "E_LANE_PID": "2023110910425443273",
+     "SEQ_NUM": 1,
+     "LANE_DIR": 2,
+     "LANE_TYPE": 134217728,
+     "WIDECHANGE": 0,
+     "WIDTH": 3750,
+     "S_WIDTH": 3250,
+     "E_WIDTH": 3300,
+     "MAX_SPEED": 40,
+     "MIN_SPEED": 0,
+     "MAX_SOURCE": 1,
+     "MIN_SOURCE": 0,
+     "RAMP_SPEED": 0,
+     "VARI_SPEED": 0,
+     "TRANTYPE": 0,
+     "LENGTH": 31556,
+     "MEMO": ""
+    },
+    "type": "LineString",
+    "distance_to_target_m": 0.0,
+    "length_inside_target_m": 0.05729796891902813
+   }
+  ],
+  "IBD_ROADCENTER": [
+   {
+    "fields": {
+     "CENTER_PID": "2023071313193179263",
+     "GUID": "7E5EBB51-C1BD-4008-AACA-DA8A568CA6FA",
+     "MESH": "19297308",
+     "LINK_PID": "2023062909355197220",
+     "S_MID_PID": "2023071313193460050",
+     "E_MID_PID": "2023122517152273676",
+     "IS_JUNC": 1,
+     "MEMO": ""
+    },
+    "type": "LineString",
+    "distance_to_target_m": 0.0,
+    "length_inside_target_m": 0.058378500828196726
+   },
+   {
+    "fields": {
+     "CENTER_PID": "2023122515461145286",
+     "GUID": "A623745F-9E58-495F-BA14-5788BCD63892",
+     "MESH": "19297303",
+     "LINK_PID": "2023122515004973288",
+     "S_MID_PID": "2023071313193498408",
+     "E_MID_PID": "2023122517152273676",
+     "IS_JUNC": 1,
+     "MEMO": ""
+    },
+    "type": "LineString",
+    "distance_to_target_m": 0.0,
+    "length_inside_target_m": 0.057462906271080215
+   },
+   {
+    "fields": {
+     "CENTER_PID": "2023122516203673655",
+     "GUID": "62BB1E0C-7BCA-4711-9614-E2445DB3CCEF",
+     "MESH": "19297303",
+     "LINK_PID": "2023122516195876041",
+     "S_MID_PID": "2023122516203672088",
+     "E_MID_PID": "2023122517152273676",
+     "IS_JUNC": 1,
+     "MEMO": ""
+    },
+    "type": "LineString",
+    "distance_to_target_m": 0.0,
+    "length_inside_target_m": 0.0657763710662534
+   },
+   {
+    "fields": {
+     "CENTER_PID": "2023122517152271219",
+     "GUID": "64AFEF1C-C43E-4031-91ED-100424E52737",
+     "MESH": "19297303",
+     "LINK_PID": "2023122515050365605",
+     "S_MID_PID": "2023071313193504810",
+     "E_MID_PID": "2023122517152273676",
+     "IS_JUNC": 1,
+     "MEMO": ""
+    },
+    "type": "LineString",
+    "distance_to_target_m": 0.0,
+    "length_inside_target_m": 0.0421666466817502
+   },
+   {
+    "fields": {
+     "CENTER_PID": "2023122517152275294",
+     "GUID": "FF130BB2-B86A-4C23-8CAD-79D08394D3E5",
+     "MESH": "19297303",
+     "LINK_PID": "2023122515052383690",
+     "S_MID_PID": "2023071313193504810",
+     "E_MID_PID": "2023122517152273676",
+     "IS_JUNC": 1,
+     "MEMO": ""
+    },
+    "type": "LineString",
+    "distance_to_target_m": 0.0,
+    "length_inside_target_m": 0.05006029727057595
+   }
+  ],
+  "IBD_OBJECT_ARROW": [],
+  "IBD_OBJECT_SYMBOL": []
+ }
+}

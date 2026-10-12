@@ -1,0 +1,20 @@
+R1-prime precheck: merge the refused seed into its upstream link when the lane topology is a bijection (all lanes of both links paired 1:1)
+2023061210232024067 2023060814530824073 A-no-chain:upstream-other-roadname | bijection with 2023060815032231606 (unlisted, 51.9 m): mouth 6.16 m back, merged seed 59.4 m -> PASS
+2023061916512416034 2023061515213965672 A-no-chain:upstream-other-roadname | not a bijection (1 of 2 upstream lanes feed the seed)
+2023062110293721234 2023061413291620822 A-no-chain:upstream-other-roadname | bijection with 2023061413291619261 (unlisted, 86.0 m): mouth 3.00 m back, merged seed 88.7 m -> PASS
+2023062913464138453 2023063016310909672 C-shared-mouth:opposite-lanes-far-to-the-side | not a bijection (1 of 5 upstream lanes feed the seed)
+2023070118182048481 2023063010394548043 A-no-chain:seed-has-no-usable-centre | bijection with 2023063010392607255 (listed, 141.6 m): mouth 3.00 m back, merged seed 146.7 m -> PASS
+2023070316535469212 2023090612121573641 C-shared-mouth:opposite-lanes-far-to-the-side | bijection with 2023090612103274869 (unlisted, 11.9 m): mouth 28.86 m back, merged seed 25.1 m -> FAIL
+2023062514322152821 2023062110585322823 B-chained:seed-link-shorter-than-margin | bijection with 2023070617110829234 (unlisted, 21.5 m): mouth 3.19 m back, merged seed 23.7 m -> PASS
+2023062514351471299 2023062508570456837 B-chained:seed-link-shorter-than-margin | bijection with 2023062508570454826 (unlisted, 20.6 m): mouth 6.44 m back, merged seed 24.9 m -> PASS
+2023071208503857657 2023071009552968493 B-chained:seed-link-shorter-than-margin | bijection with 2023071009552967232 (unlisted, 6.2 m): mouth 3.01 m back, merged seed 9.1 m -> PASS
+2023071113532903272 2023090716224414467 A-no-chain:ambiguous-upstream | not a bijection (2 of 3 upstream lanes feed the seed)
+2023071414472175241 2023070608364605637 B-chained:seed-link-shorter-than-margin | not a bijection (3 of 3 upstream lanes feed the seed)
+2023080209483308027 2023080110473081627 A-no-chain:seed-has-no-usable-centre | bijection with 2023080110472416448 (unlisted, 1.5 m): mouth 3.00 m back, merged seed 9.9 m -> PASS
+2023080913500135233 2023080913454092837 A-no-chain:upstream-other-roadname | not a bijection (1 of 2 upstream lanes feed the seed)
+2023072914272536839 2023072915122270474 A-no-chain:slip-diverging-from-wide-road | not a bijection (1 of 7 upstream lanes feed the seed)
+2023072914272536839 2023072917302761643 B-chained:seed-link-shorter-than-margin | not a bijection (5 of 6 upstream lanes feed the seed)
+2023072914272536839 2023072917341806428 A-no-chain:slip-diverging-from-wide-road | not a bijection (1 of 6 upstream lanes feed the seed)
+2023073113531802009 2023073113305058409 C-shared-mouth:opposite-lanes-far-to-the-side | not a bijection (2 of 3 upstream lanes feed the seed)
+2023080114264091212 2023080114300746413 B-chained:seed-link-shorter-than-margin | bijection with 2023080114300744851 (unlisted, 7.9 m): mouth 3.92 m back, merged seed 9.4 m -> PASS
+would pass: 8 of 18

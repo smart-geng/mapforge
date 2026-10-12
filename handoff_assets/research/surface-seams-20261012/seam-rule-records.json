@@ -1,0 +1,348 @@
+{
+ "2023062110304177600": {
+  "record_path": "surface",
+  "record": {
+   "mouth_tail_source_issues": [],
+   "mouth_tail_bridge_issues": [],
+   "mouth_tail_bridges": [
+    {
+     "road_id": "10",
+     "sweep_m": 0.0,
+     "added_area_m2": 0.0,
+     "gap_m": 0.0
+    },
+    {
+     "road_id": "10",
+     "sweep_m": 0.0,
+     "added_area_m2": 0.0,
+     "gap_m": 0.0
+    },
+    {
+     "road_id": "11",
+     "sweep_m": 0.0,
+     "added_area_m2": 0.0,
+     "gap_m": 0.0
+    },
+    {
+     "road_id": "11",
+     "sweep_m": 0.0,
+     "added_area_m2": 0.0,
+     "gap_m": 0.0
+    },
+    {
+     "road_id": "12",
+     "sweep_m": 0.4427615662487949,
+     "added_area_m2": 1.5347858956725773,
+     "gap_m": 0.06613916966887907
+    },
+    {
+     "road_id": "12",
+     "sweep_m": 0.2901504801550211,
+     "added_area_m2": 0.9886636383035263,
+     "gap_m": 0.0
+    }
+   ],
+   "median_tail_issues": [],
+   "median_tail_areas_m2": [
+    4.986141083293386,
+    3.1854697381575026,
+    0.495225702521471
+   ],
+   "surface_family_parts": [
+    {
+     "road_id": "10",
+     "parts": 1
+    },
+    {
+     "road_id": "11",
+     "parts": 1
+    },
+    {
+     "road_id": "12",
+     "parts": 1
+    }
+   ],
+   "covered_gap_stations": 2,
+   "filled_slivers": 5,
+   "seam_rules": [
+    {
+     "rule": "median-takeover",
+     "road_id": "10",
+     "rows": 63,
+     "takeover_rows": 46,
+     "closed_at_s": 15.239978632345817,
+     "takeover_s_range": [
+      3.7472958214266474,
+      14.990137701673662
+     ],
+     "takeover_width_m": [
+      0.8322570564869938,
+      0.9776865103331345
+     ],
+     "written_median_width_m": 1.1801798934078929,
+     "island_area_m2": 14.743085104339132,
+     "road_surface_overlap_m2": 0.06467577010602557,
+     "road_surface_overlap_beyond_cover_band_m2": 0.0,
+     "barriers": [
+      {
+       "object": "2023061416330532091",
+       "length_inside_m": 15.54180458635138
+      }
+     ],
+     "status": "INFERRED",
+     "support_kind": "median-continued-on-source-junction-polygon",
+     "replaced_island_area_m2": 4.986141083293386
+    }
+   ],
+   "paving": "source-boundary-regions-gap-aware",
+   "paving_roads": 4,
+   "surface_builder_fallback": "mapforge.surface_seams/v1",
+   "source_surface_status": "GENERATED",
+   "surface_builder": "mapforge.envelope_surface/v1"
+  },
+  "lanes_naming_the_rule": [
+   {
+    "road": "51",
+    "section": 0,
+    "s": 0.0,
+    "lane": "2",
+    "type": "median",
+    "code": "mapforge.provenance/v1",
+    "value": {
+     "eligibility": "excluded",
+     "exclusion_code": "source-polygon-paving",
+     "physical_road": "10",
+     "role": "paving",
+     "seam_rules": [
+      {
+       "barriers": [
+        "2023061416330532091"
+       ],
+       "code": "mapforge.surface_seams/v1",
+       "rule": "median-takeover",
+       "support_kind": "median-continued-on-source-junction-polygon",
+       "takeover_s_range": [
+        3.7472958214266474,
+        14.990137701673662
+       ]
+      }
+     ],
+     "source_ids": [
+      "2023061413362614443",
+      "2023061413362616440",
+      "2023061413291634834",
+      "2023061413291638832"
+     ],
+     "status": "INFERRED",
+     "support_kind": "source-boundary-family",
+     "travel_direction": "against_s"
+    }
+   }
+  ]
+ },
+ "2023063015350832057": {
+  "record_path": "leave_mouth.surface",
+  "record": {
+   "mouth_tail_source_issues": [],
+   "mouth_tail_bridge_issues": [],
+   "mouth_tail_bridges": [
+    {
+     "road_id": "10",
+     "sweep_m": 1.25173955992822,
+     "added_area_m2": 16.13507228514765,
+     "gap_m": 0.47672803327773383
+    },
+    {
+     "road_id": "10",
+     "sweep_m": 0.5779921701909424,
+     "added_area_m2": 7.052720729735711,
+     "gap_m": 0.06748041968477769
+    },
+    {
+     "road_id": "11",
+     "sweep_m": 0.8659137559562502,
+     "added_area_m2": 13.71800390390868,
+     "gap_m": 0.05323717098018544
+    },
+    {
+     "road_id": "12",
+     "sweep_m": 1.084353499207308,
+     "added_area_m2": 14.40933940638287,
+     "gap_m": 0.5051349451095314
+    },
+    {
+     "road_id": "12",
+     "sweep_m": 0.8611572286020188,
+     "added_area_m2": 10.977377009886986,
+     "gap_m": 0.04012182236343732
+    },
+    {
+     "road_id": "13",
+     "sweep_m": 0.8066850613871173,
+     "added_area_m2": 12.462813101288745,
+     "gap_m": 0.37545088265455423
+    },
+    {
+     "road_id": "30",
+     "sweep_m": 1.5,
+     "added_area_m2": 15.026209507605358,
+     "gap_m": 0.4537719070369039,
+     "end_cap_misses": 9,
+     "road_surface_seam": [
+      {
+       "area_m2": 0.20062965145527964,
+       "road_surface_uncovered_m2": 0.0010755689769741156,
+       "outside_forward_corridor_m2": 0.0,
+       "other_tails_overlap_m2": 0.0,
+       "road_surface_objects": [
+        "2024022214510743289",
+        "2024022214512862025",
+        "2024022214512876087"
+       ],
+       "long_ray_max_m": 1.6141130430534723
+      }
+     ],
+     "status": "INFERRED",
+     "support_kind": "source-road-surface-seam"
+    },
+    {
+     "road_id": "31",
+     "sweep_m": 0.3949609532006748,
+     "added_area_m2": 3.9340016316242696,
+     "gap_m": 0.0
+    }
+   ],
+   "median_tail_issues": [],
+   "median_tail_areas_m2": [
+    10.162842540009269,
+    7.930036904843873
+   ],
+   "surface_family_parts": [
+    {
+     "road_id": "10",
+     "parts": 1
+    },
+    {
+     "road_id": "11",
+     "parts": 1
+    },
+    {
+     "road_id": "12",
+     "parts": 1
+    },
+    {
+     "road_id": "13",
+     "parts": 1
+    },
+    {
+     "road_id": "30",
+     "parts": 1
+    },
+    {
+     "road_id": "31",
+     "parts": 1
+    }
+   ],
+   "covered_gap_stations": 3,
+   "filled_slivers": 3,
+   "seam_rules": [
+    {
+     "rule": "road-surface-seam",
+     "road_id": "30",
+     "sweep_m": 1.5,
+     "end_cap_misses": 9,
+     "holes": [
+      {
+       "area_m2": 0.20062965145527964,
+       "road_surface_uncovered_m2": 0.0010755689769741156,
+       "outside_forward_corridor_m2": 0.0,
+       "other_tails_overlap_m2": 0.0,
+       "road_surface_objects": [
+        "2024022214510743289",
+        "2024022214512862025",
+        "2024022214512876087"
+       ],
+       "long_ray_max_m": 1.6141130430534723
+      }
+     ],
+     "status": "INFERRED",
+     "support_kind": "source-road-surface-seam"
+    }
+   ],
+   "paving": "source-boundary-regions-gap-aware",
+   "paving_roads": 8,
+   "surface_builder_fallback": "mapforge.surface_seams/v1",
+   "source_surface_status": "GENERATED"
+  },
+  "lanes_naming_the_rule": [
+   {
+    "road": "56",
+    "section": 0,
+    "s": 0.0,
+    "lane": "3",
+    "type": "restricted",
+    "code": "mapforge.provenance/v1",
+    "value": {
+     "eligibility": "excluded",
+     "exclusion_code": "source-polygon-paving",
+     "physical_road": "30",
+     "role": "paving",
+     "seam_rules": [
+      {
+       "code": "mapforge.surface_seams/v1",
+       "hole_area_m2": 0.20062965145527964,
+       "road_surface_objects": [
+        "2024022214510743289",
+        "2024022214512862025",
+        "2024022214512876087"
+       ],
+       "rule": "road-surface-seam"
+      }
+     ],
+     "source_ids": [
+      "2023070410533822425",
+      "2023070410533824802",
+      "2023070410533828030"
+     ],
+     "status": "INFERRED",
+     "support_kind": "source-boundary-family",
+     "travel_direction": "against_s"
+    }
+   },
+   {
+    "road": "56",
+    "section": 0,
+    "s": 0.0,
+    "lane": "1",
+    "type": "restricted",
+    "code": "mapforge.provenance/v1",
+    "value": {
+     "eligibility": "excluded",
+     "exclusion_code": "source-polygon-paving",
+     "physical_road": "30",
+     "role": "paving",
+     "seam_rules": [
+      {
+       "code": "mapforge.surface_seams/v1",
+       "hole_area_m2": 0.20062965145527964,
+       "road_surface_objects": [
+        "2024022214510743289",
+        "2024022214512862025",
+        "2024022214512876087"
+       ],
+       "rule": "road-surface-seam"
+      }
+     ],
+     "source_ids": [
+      "2023070410533822425",
+      "2023070410533824802",
+      "2023070410533828030"
+     ],
+     "status": "INFERRED",
+     "support_kind": "source-boundary-family",
+     "travel_direction": "against_s"
+    }
+   }
+  ]
+ }
+}

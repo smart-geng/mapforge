@@ -1,0 +1,179 @@
+{
+ "junction": "2023062913464138453",
+ "name": "大学城北路-大学城中路",
+ "error": "source-envelope mouth would remove the seed road: station=138.917, min_keep=150.503, axis_length=168.249, delta=-29.333",
+ "listed_enter": [
+  "2023063016133426805",
+  "2023062916401270486",
+  "2023062916465136085",
+  "2023063014004111254",
+  "2023063014512421270",
+  "2023063016310909672",
+  "2023063020175008870",
+  "2023063020222151203"
+ ],
+ "listed_leave": [
+  "2023063016160247681",
+  "2023062917143657253",
+  "2023062916510408056",
+  "2023063008415396468",
+  "2023063015333828048",
+  "2023063015282368037",
+  "2023063016101462864",
+  "2023063020220244441"
+ ],
+ "dangling_listed_enter": [
+  "2023063016133426805",
+  "2023062916401270486"
+ ],
+ "dangling_note": "these two ids occur only in IBD_OBJECT_INTERSECTION_SURFACE.dbf (no ROADLINK/LANE/CENTER)",
+ "unlisted_topological_enter": {
+  "2024022014091095228": "east approach main carriageway, 4 lanes, ends x=43.6-43.7",
+  "2024022013530728003": "west approach main carriageway, 3 lanes"
+ },
+ "converter_pairs": [
+  [
+   "2023062916465136085",
+   [
+    "2023062917143657253"
+   ]
+  ],
+  [
+   "2023063014004111254",
+   []
+  ],
+  [
+   "2023063014512421270",
+   [
+    "2023063015333828048"
+   ]
+  ],
+  [
+   "2023063016310909672",
+   [
+    "2023063016160247681"
+   ]
+  ],
+  [
+   "2023063020175008870",
+   []
+  ],
+  [
+   "2023063020222151203",
+   [
+    "2023063020220244441"
+   ]
+  ]
+ ],
+ "single_leaves": [
+  "2023062916510408056",
+  "2023063008415396468",
+  "2023063015282368037",
+  "2023063016101462864"
+ ],
+ "failing_leg": {
+  "enter_link": "2023063016310909672",
+  "leave_links": [
+   "2023063016160247681"
+  ],
+  "seed": "1-lane right-turn slip road fed by lane 5 of 2023070819384191610 (lanes 1-4 -> 2024022014091094027 -> 2024022014091095228)",
+  "chain": [
+   {
+    "link": "2023070819321472063",
+    "lane_num": 4,
+    "length_m": 52.97,
+    "station_range": [
+     0.0,
+     52.97
+    ]
+   },
+   {
+    "link": "2023070819321475273",
+    "lane_num": 4,
+    "length_m": 23.648,
+    "station_range": [
+     52.97,
+     76.618
+    ]
+   },
+   {
+    "link": "2023070819384188499",
+    "lane_num": 4,
+    "length_m": 56.937,
+    "station_range": [
+     76.618,
+     133.555
+    ]
+   },
+   {
+    "link": "2023070819384191610",
+    "lane_num": 5,
+    "length_m": 16.448,
+    "station_range": [
+     133.555,
+     150.003
+    ]
+   },
+   {
+    "link": "2023063016310909672",
+    "lane_num": 1,
+    "length_m": 18.246,
+    "station_range": [
+     150.003,
+     168.249
+    ]
+   }
+  ],
+  "axis_length_m": 168.249,
+  "seed_station_range": [
+   150.003,
+   168.249
+  ],
+  "mouth_station_m": 138.916,
+  "min_keep_m": 150.503,
+  "own_lanes_mouth_station_m": 165.249,
+  "mouth_points": [
+   {
+    "owner_link": "2023063016160247681",
+    "side": "leave",
+    "lane": "2023063018470488862",
+    "seq": 3,
+    "end_proj_along_axis_end_dir_m": -26.333,
+    "junction_end_offset": 24.985,
+    "junction_end_dist_to_surface_m": 0.812
+   },
+   {
+    "owner_link": "2023063016160247681",
+    "side": "leave",
+    "lane": "2023063018470483224",
+    "seq": 2,
+    "end_proj_along_axis_end_dir_m": -23.556,
+    "junction_end_offset": 21.487,
+    "junction_end_dist_to_surface_m": 0.757
+   },
+   {
+    "owner_link": "2023063016160247681",
+    "side": "leave",
+    "lane": "2023063018470478034",
+    "seq": 1,
+    "end_proj_along_axis_end_dir_m": -20.707,
+    "junction_end_offset": 17.896,
+    "junction_end_dist_to_surface_m": 0.702
+   },
+   {
+    "owner_link": "2023063016310909672",
+    "side": "enter",
+    "lane": "2023091115303091623",
+    "seq": 1,
+    "end_proj_along_axis_end_dir_m": 0.0,
+    "junction_end_offset": -0.001,
+    "junction_end_dist_to_surface_m": 1.254
+   }
+  ]
+ },
+ "west_slip_leg_passing_but_pulled_back": {
+  "enter_link": "2023062916465136085",
+  "leave_link": "2023062917143657253",
+  "axis_shift_m": -23.498
+ }
+}

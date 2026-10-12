@@ -1,0 +1,15 @@
+46c46
+<     from mapforge.ops import envelope_surface, leg_fit_fallback
+---
+>     from mapforge.ops import envelope_surface, leg_lane_axis
+63,66c63,67
+<         # whose legs all fit is built exactly as before
+<         stats, _legs = leg_fit_fallback.build(src, junc, out, connect_mode="data", allow_uturn=False,
+<                                               mouth_policy="source-envelope-candidate",
+<                                               mouth_margin_m=float(margin_m))
+---
+>         # whose legs all fit is built exactly as before. If that still fails, links whose ROADCENTER leaves their own
+>         # lanes are rebuilt on their lane axis (mapforge.ops.leg_lane_axis, 2026-10-12 experiment)
+>         stats, _legs = leg_lane_axis.build(src, junc, out, connect_mode="data", allow_uturn=False,
+>                                            mouth_policy="source-envelope-candidate",
+>                                            mouth_margin_m=float(margin_m))

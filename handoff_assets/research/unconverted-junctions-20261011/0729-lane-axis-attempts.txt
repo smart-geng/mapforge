@@ -1,0 +1,36 @@
+junction 2023072914272536839 status=ValueError attempts=3 secs=6.3
+error: source-envelope mouth would remove the seed road: station=4.306, min_keep=6.000, axis_length=7.306, delta=-3.000
+fallback report: {'schema': 'mapforge.leg_fit_fallback/v1', 'legs': [], 'truncated_enter_links': {}, 'capped_departure_m': {}, 'relaxed': []}
+
+fit calls (converter fit_leg_refline):
+  att1 enter             seed …822038 chain[…822038(13.6m) + …820438(12.3m)] pts=7 -> OK dev=0.49 fallback-single-arc
+  att1 enter             seed …876425 chain[…876425(19.0m)] pts=33 -> FAIL  caps={} relaxed=[]
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=1.95/3.35/3.37 fails: source_to_target.median 1.95>0.2; source_to_target.p95 3.34>0.3; source_to_target.max 3.37>0.35; target_to_source.median 1.73>0.2
+      single-arc     kappa_max=0.1086 sharp=0.00000 s2t med/p95/max=0.36/0.77/0.80 fails: kappa 0.1086>0.009
+      single-spiral  kappa_max=0.0760 sharp=0.00092 s2t med/p95/max=0.56/1.48/1.50 fails: kappa 0.0760>0.009; sharpness 0.000920>0.000216; source_to_target.p95 1.48>1.25; source_to_target.max 1.50>1.5
+      solve-g2-3     kappa_max=0.1099 sharp=0.02211 s2t med/p95/max=0.26/0.94/0.96 fails: kappa 0.1099>0.009; sharpness 0.022106>0.000216
+      constrained-3  optimiser found no G2 solution under the caps
+      constrained-4  optimiser found no G2 solution under the caps
+      constrained-5  optimiser found no G2 solution under the caps
+  att2 enter             seed …822038 chain[…822038(13.6m) + …820438(12.3m)] pts=7 -> OK dev=0.49 fallback-single-arc
+  att2 enter             seed …876425 chain[…876425(19.0m)] pts=33 -> FAIL  caps={} relaxed=['…876425']
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=1.95/3.35/3.37 fails: source_to_target.median 1.95>0.2; source_to_target.p95 3.34>0.3; source_to_target.max 3.37>0.35; target_to_source.median 1.73>0.2
+      single-arc     kappa_max=0.1086 sharp=0.00000 s2t med/p95/max=0.36/0.77/0.80 fails: kappa 0.1086>0.009
+      single-spiral  kappa_max=0.0760 sharp=0.00092 s2t med/p95/max=0.56/1.48/1.50 fails: kappa 0.0760>0.009; sharpness 0.000920>0.000216; source_to_target.p95 1.48>1.25; source_to_target.max 1.50>1.5
+      solve-g2-3     kappa_max=0.1099 sharp=0.02211 s2t med/p95/max=0.26/0.94/0.96 fails: kappa 0.1099>0.009; sharpness 0.022106>0.000216
+      constrained-3  optimiser found no G2 solution under the caps
+      constrained-4  optimiser found no G2 solution under the caps
+      constrained-5  optimiser found no G2 solution under the caps
+  att3 enter             seed …822038 chain[…822038(13.6m) + …820438(12.3m)] pts=7 -> OK dev=0.49 fallback-single-arc
+  att3 enter             seed …876425 chain[…876425(11.7m)] pts=19 -> OK dev=0.23 single-line
+
+fallback fit_leg calls (leg_fit_fallback):
+  att1 leg=enter:…876425 relaxed=False accepted=False pts=33
+      kcap=0.009 n=3 med=3.56 outP95=4.42 outMax=4.46 zoneMax=4.44 max=4.46 fieldCov=0.50 headP95=12.9 headMax=13.9 flips=0.0 | heading_ok=False near_centre=False with_lanes=False
+  att2 leg=enter:…876425 relaxed=True accepted=False pts=33
+      kcap=0.009 n=3 med=3.56 outP95=4.42 outMax=4.46 zoneMax=4.44 max=4.46 fieldCov=0.50 headP95=12.9 headMax=13.9 flips=0.0 | heading_ok=False near_centre=False with_lanes=False
+      kcap=0.015 n=3 med=3.49 outP95=4.11 outMax=4.14 zoneMax=4.13 max=4.14 fieldCov=0.50 headP95=11.8 headMax=13.1 flips=0.0 | heading_ok=False near_centre=False with_lanes=False
+      kcap=0.025 n=3 med=3.16 outP95=3.74 outMax=3.77 zoneMax=3.75 max=3.77 fieldCov=0.50 headP95=12.3 headMax=13.5 flips=0.0 | heading_ok=False near_centre=False with_lanes=False
+      kcap=0.040 n=3 med=2.15 outP95=2.87 outMax=2.89 zoneMax=2.84 max=2.89 fieldCov=0.50 headP95=14.9 headMax=16.2 flips=0.0 | heading_ok=False near_centre=False with_lanes=False
+      kcap=0.065 n=3 med=1.14 outP95=1.82 outMax=1.84 zoneMax=1.78 max=1.84 fieldCov=0.50 headP95=15.9 headMax=17.2 flips=0.0 | heading_ok=False near_centre=False with_lanes=False
+      kcap=0.100 n=3 med=0.57 outP95=1.46 outMax=1.50 zoneMax=0.88 max=1.50 fieldCov=0.50 headP95=14.0 headMax=15.2 flips=0.0 | heading_ok=False near_centre=False with_lanes=False

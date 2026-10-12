@@ -1,0 +1,272 @@
+{
+ "2023062110304177600": {
+  "road_surface_objects_within_200m": 82,
+  "junction_polygon_area_m2": 427.589914922414,
+  "junction_polygon_covered_by_road_surface": 0.865900843951961,
+  "problem_area_m2": 9.740974211560633,
+  "problem_covered_by_road_surface": 1.2815607136372795e-10,
+  "problem_covered_by_road_surface_grown_5cm": 0.05563292179650808,
+  "tails": [
+   {
+    "road_id": "10",
+    "source_lane": "2023061413362614443",
+    "area_m2": 51.061906966795185,
+    "covered_by_road_surface": 1.0000000000000002
+   },
+   {
+    "road_id": "10",
+    "source_lane": "2023061413362616440",
+    "area_m2": 51.86961075527044,
+    "covered_by_road_surface": 1.0
+   },
+   {
+    "road_id": "10",
+    "source_lane": "2023061413291634834",
+    "area_m2": 15.089726168688097,
+    "covered_by_road_surface": 0.99999999995974
+   },
+   {
+    "road_id": "10",
+    "source_lane": "2023061413291638832",
+    "area_m2": 15.55780656705385,
+    "covered_by_road_surface": 1.0000000000000002
+   },
+   {
+    "road_id": "11",
+    "source_lane": "2023061413201352024",
+    "area_m2": 15.085548023376564,
+    "covered_by_road_surface": 0.999999999932784
+   },
+   {
+    "road_id": "11",
+    "source_lane": "2023061413201354840",
+    "area_m2": 15.284224640737778,
+    "covered_by_road_surface": 1.0
+   },
+   {
+    "road_id": "11",
+    "source_lane": "2023061413201357229",
+    "area_m2": 13.85272854881078,
+    "covered_by_road_surface": 1.0
+   },
+   {
+    "road_id": "11",
+    "source_lane": "2023061413201358813",
+    "area_m2": 11.336111478304174,
+    "covered_by_road_surface": 1.0000000000000002
+   },
+   {
+    "road_id": "11",
+    "source_lane": "2023061413393523290",
+    "area_m2": 13.580987335657436,
+    "covered_by_road_surface": 0.9999999999999998
+   },
+   {
+    "road_id": "11",
+    "source_lane": "2023061413393526490",
+    "area_m2": 13.149469400510448,
+    "covered_by_road_surface": 0.9999999999109039
+   },
+   {
+    "road_id": "12",
+    "source_lane": "2023061413450449227",
+    "area_m2": 12.860049154852181,
+    "covered_by_road_surface": 0.9999999999999999
+   },
+   {
+    "road_id": "12",
+    "source_lane": "2023061413450451686",
+    "area_m2": 12.979264354033482,
+    "covered_by_road_surface": 1.0
+   }
+  ],
+  "tail_coverage_min_median_max": [
+   0.9999999999109039,
+   1.0,
+   1.0000000000000002
+  ]
+ },
+ "2023063015350832057": {
+  "road_surface_objects_within_200m": 65,
+  "junction_polygon_area_m2": 2266.446875825719,
+  "junction_polygon_covered_by_road_surface": 0.9064786205537942,
+  "problem_area_m2": 0.20062965145527964,
+  "problem_covered_by_road_surface": 0.9852265526077099,
+  "problem_covered_by_road_surface_grown_5cm": 0.9946390328190688,
+  "tails": [
+   {
+    "road_id": "10",
+    "source_lane": "2023070410533883649",
+    "area_m2": 16.436659510647136,
+    "covered_by_road_surface": 1.0
+   },
+   {
+    "road_id": "10",
+    "source_lane": "2023070410533885630",
+    "area_m2": 15.801941277461067,
+    "covered_by_road_surface": 1.0000000000000002
+   },
+   {
+    "road_id": "10",
+    "source_lane": "2023070410533887250",
+    "area_m2": 17.202982757382795,
+    "covered_by_road_surface": 0.9999999999999998
+   },
+   {
+    "road_id": "10",
+    "source_lane": "2023070410533888825",
+    "area_m2": 17.5788946686876,
+    "covered_by_road_surface": 0.9999999999925044
+   },
+   {
+    "road_id": "10",
+    "source_lane": "2023070410533219211",
+    "area_m2": 11.05497565901379,
+    "covered_by_road_surface": 0.9999999999955862
+   },
+   {
+    "road_id": "10",
+    "source_lane": "2023070410533221667",
+    "area_m2": 17.833560307105348,
+    "covered_by_road_surface": 1.0000000000000002
+   },
+   {
+    "road_id": "10",
+    "source_lane": "2023070410533224040",
+    "area_m2": 26.98863210350267,
+    "covered_by_road_surface": 0.9999999999983239
+   },
+   {
+    "road_id": "11",
+    "source_lane": "2023070410533357263",
+    "area_m2": 14.376751973830348,
+    "covered_by_road_surface": 0.9999999997795277
+   },
+   {
+    "road_id": "11",
+    "source_lane": "2023070410533359683",
+    "area_m2": 16.98127880209377,
+    "covered_by_road_surface": 1.0
+   },
+   {
+    "road_id": "11",
+    "source_lane": "2023070410533361635",
+    "area_m2": 17.079177424201895,
+    "covered_by_road_surface": 1.0
+   },
+   {
+    "road_id": "11",
+    "source_lane": "2023070410533363648",
+    "area_m2": 20.53004333769844,
+    "covered_by_road_surface": 1.0
+   },
+   {
+    "road_id": "12",
+    "source_lane": "2023070410533868038",
+    "area_m2": 12.1532517648559,
+    "covered_by_road_surface": 0.9999999999999999
+   },
+   {
+    "road_id": "12",
+    "source_lane": "2023070410533870475",
+    "area_m2": 12.872862935515297,
+    "covered_by_road_surface": 1.0
+   },
+   {
+    "road_id": "12",
+    "source_lane": "2023070410533872021",
+    "area_m2": 13.283992305620783,
+    "covered_by_road_surface": 1.0
+   },
+   {
+    "road_id": "12",
+    "source_lane": "2023070410533873615",
+    "area_m2": 15.856996861033476,
+    "covered_by_road_surface": 1.0000000000000002
+   },
+   {
+    "road_id": "12",
+    "source_lane": "2023070410533266862",
+    "area_m2": 8.091980445768428,
+    "covered_by_road_surface": 0.999999999848387
+   },
+   {
+    "road_id": "12",
+    "source_lane": "2023070410533268837",
+    "area_m2": 15.528396449733034,
+    "covered_by_road_surface": 1.0
+   },
+   {
+    "road_id": "12",
+    "source_lane": "2023070410533271225",
+    "area_m2": 21.164328247929582,
+    "covered_by_road_surface": 1.0
+   },
+   {
+    "road_id": "13",
+    "source_lane": "2023070410533789690",
+    "area_m2": 15.806568033513942,
+    "covered_by_road_surface": 1.0000000000000002
+   },
+   {
+    "road_id": "13",
+    "source_lane": "2023070410533791696",
+    "area_m2": 15.791039940133658,
+    "covered_by_road_surface": 1.0
+   },
+   {
+    "road_id": "13",
+    "source_lane": "2023070410533793654",
+    "area_m2": 16.703641491858207,
+    "covered_by_road_surface": 1.0000000000000002
+   },
+   {
+    "road_id": "13",
+    "source_lane": "2023070410533795208",
+    "area_m2": 21.020906761889215,
+    "covered_by_road_surface": 0.9999999999999998
+   },
+   {
+    "road_id": "30",
+    "source_lane": "2023070410533822425",
+    "area_m2": 13.749313173958196,
+    "covered_by_road_surface": 0.9999999999400435
+   },
+   {
+    "road_id": "30",
+    "source_lane": "2023070410533824802",
+    "area_m2": 12.422545149979317,
+    "covered_by_road_surface": 1.0
+   },
+   {
+    "road_id": "30",
+    "source_lane": "2023070410533828030",
+    "area_m2": 12.551991481908455,
+    "covered_by_road_surface": 1.0
+   },
+   {
+    "road_id": "31",
+    "source_lane": "2023070410533798012",
+    "area_m2": 19.14283298796529,
+    "covered_by_road_surface": 0.9999999997469554
+   },
+   {
+    "road_id": "31",
+    "source_lane": "2023070410533800839",
+    "area_m2": 35.719964473474796,
+    "covered_by_road_surface": 1.0
+   },
+   {
+    "road_id": "31",
+    "source_lane": "2023070410533803204",
+    "area_m2": 30.200261487071664,
+    "covered_by_road_surface": 1.0
+   }
+  ],
+  "tail_coverage_min_median_max": [
+   0.9999999997469554,
+   1.0,
+   1.0000000000000002
+  ]
+ }
+}

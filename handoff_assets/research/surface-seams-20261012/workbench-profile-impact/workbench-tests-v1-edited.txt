@@ -1,0 +1,20 @@
+# same 15 files with the v1 Profile edited in place (not adopted)
+FAILED tests/test_workbench_compile_jobs.py::test_real_node16_spawn_publishes_exact_candidate_without_accepting
+ERROR tests/test_workbench_compiler.py::test_registered_identity_and_scope_come_from_real_source
+ERROR tests/test_workbench_compiler.py::test_zero_bytes_and_actual_registered_target_bytes
+ERROR tests/test_workbench_compiler.py::test_stale_context_cannot_publish[source_hash]
+ERROR tests/test_workbench_compiler.py::test_stale_context_cannot_publish[profile_hash]
+ERROR tests/test_workbench_compiler.py::test_stale_context_cannot_publish[compiler_hash]
+ERROR tests/test_workbench_compiler.py::test_stale_context_cannot_publish[policy_hash]
+ERROR tests/test_workbench_compiler.py::test_draft_hash_and_exact_dependency_scope_checked
+ERROR tests/test_workbench_compiler.py::test_invalid_finite_targets_rejected[0.101]
+ERROR tests/test_workbench_compiler.py::test_invalid_finite_targets_rejected[-0.101]
+ERROR tests/test_workbench_compiler.py::test_invalid_finite_targets_rejected[True]
+ERROR tests/test_workbench_compiler.py::test_invalid_finite_targets_rejected[-0.015]
+ERROR tests/test_workbench_compiler.py::test_nonfinite_request_is_structured_rejection
+ERROR tests/test_workbench_compiler.py::test_target_identity_survives_baseline_relocation
+ERROR tests/test_workbench_compiler.py::test_source_objects_checked_against_original_rows
+ERROR tests/test_workbench_compiler.py::test_missing_original_source_rejected_without_editing_it
+ERROR tests/test_workbench_compiler.py::test_rejected_real_target_saved_but_last_candidate_retained
+ERROR tests/test_workbench_compiler.py::test_latest_intent_is_absolute_not_accumulated
+1 failed, 456 passed, 1 skipped, 1 warning, 17 errors in 342.92s (0:05:42)

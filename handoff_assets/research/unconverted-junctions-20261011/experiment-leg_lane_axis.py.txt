@@ -1,0 +1,215 @@
+"""SHP legs whose ROADCENTER does not run along the link's own lanes (2026-10-12, experiment).
+
+Two of the 16 generalization junctions stopped at the entering-road reference fit even with
+mapforge.ops.leg_fit_fallback. Both failing legs are single-lane links whose IBD_ROADCENTER is a road-graph edge
+rather than the centre of their carriageway:
+
+* 2023072914272536839 (8x8), enter 2023072911534876425 (LINK_FORM 104, a channelised right-turn slip road): the
+  ROADCENTER starts at the through carriageway's centre node, runs 7.7 m across the through lanes (heading -4 deg)
+  and only then bends 57 deg into the slip lane (heading 64 deg); 31 % of it lies more than 0.5 m outside the slip
+  lane (up to 5.5 m), the lane field covers 50 % of the leg, and every candidate is 12-16 deg off the lane heading;
+* 2023081110220126408 (6x4), enter 2023081015482000476 (LINK_FORM 105, a U-turn bay): the ROADCENTER starts at the
+  through carriageway's centre node (the S_NODE it shares with the through link 2023080917072285699) and cuts the
+  corner of a lane that turns 64 deg in 10 m; the converter therefore also chains the bay into the through road's
+  upstream links (two legs over the same links) and pairs it with the opposite departure.
+
+In the 7 scoreboard junctions no ROADCENTER leaves its lanes by more than 0.22 m; in the 16 generalization junctions
+all 18 LINK_FORM 104/105 links leave them by 2-11.5 m.
+
+Rule, only after the converter's fit and leg_fit_fallback have both failed for a junction: every enter/leave link of
+that junction whose ROADCENTER runs more than OFF_LEN_M outside the corridor of its own lanes (OFF_TOL_M beyond the
+lanes' half widths) is treated as a link without ROADCENTER, i.e. its axis is the middle lane's centre line - the
+converter's own rule for a missing centre line (shp_to_xodr._center_of). The axis is used everywhere the converter
+reads ROADCENTER (leg reference polyline, upstream chaining by end points); upstream chaining then stops at the
+link's own lanes, because no ROADCENTER of the through road ends at the branch lane's start. Such a link is a
+separate single-lane carriageway and is not paired with an opposite-direction leg (drop_branches: the converter's
+own pairing, computed on the source ROADCENTERs, minus these links). The junction is then built again through
+leg_fit_fallback, so its truncation and design-speed tiers still apply. Links are never changed in the source; the
+substitution is recorded (``stats["leg_lane_axis"]``). Junctions that convert today never reach this module's second
+build, so their output is byte-identical.
+
+Optional (EXTRA_KAPPA, off by default): single-link lane-axis legs may continue the fallback's design-speed ladder
+below 0.1 /m (same lateral acceleration and jerk), for turning bays whose lane itself turns at R ~ 5-9 m.
+"""
+from __future__ import annotations
+
+import contextlib
+import math
+
+import numpy as np
+
+from mapforge.ops import leg_fit_fallback as LF
+from mapforge.ops import refline_fit as RF
+
+CODE = "mapforge.leg_lane_axis/v1"
+OFF_TOL_M = 0.5          # a ROADCENTER sample farther than this outside its lanes' corridor is off the carriageway
+OFF_LEN_M = 2.0          # ROADCENTER length off the carriageway that marks it as a road-graph edge
+SAMPLE_M = 0.5
+EXTRA_KAPPA = ()         # e.g. (0.15, 0.2): optional continuation of leg_fit_fallback.RELAXED_KAPPA (experiment)
+
+
+def _resample(p, step=SAMPLE_M):
+    p = np.asarray(p, float)
+    s = np.r_[0.0, np.cumsum(np.linalg.norm(np.diff(p, axis=0), axis=1))]
+    if s[-1] <= 0.0:
+        return p[:1]
+    q = np.linspace(0.0, s[-1], max(2, int(s[-1] / step) + 1))
+    return np.column_stack([np.interp(q, s, p[:, 0]), np.interp(q, s, p[:, 1])])
+
+
+def _lanes(src, pid):
+    return [l for l in src.lanes_of(pid) if l.geometry.shape[0] >= 2]
+
+
+def off_lanes(src, pid, proj):
+    """How far the link's ROADCENTER runs outside its own lanes: None without ROADCENTER or lanes, else a record with
+    the length (m) of ROADCENTER farther than OFF_TOL_M outside the union of the lanes (each its centre line buffered
+    by half its largest source width) and the largest distance."""
+    from shapely.geometry import LineString, Point
+    from shapely.ops import unary_union
+    centre = src.roadcenters.get(pid)
+    lanes = _lanes(src, pid)
+    if centre is None or len(centre) < 2 or not lanes:
+        return None
+    parts = []
+    for lane in lanes:
+        g = proj(lane.geometry)
+        width = max(lane.width_mm, lane.s_width_mm, lane.e_width_mm) / 1000.0
+        if LineString(g).length > 0.2 and width > 0.0:
+            parts.append(LineString(g).buffer(width / 2.0, cap_style=2))
+    if not parts:
+        return None
+    corridor = unary_union(parts)
+    q = _resample(proj(centre))
+    dist = np.array([corridor.distance(Point(float(x), float(y))) for x, y in q])
+    seg = np.r_[np.linalg.norm(np.diff(q, axis=0), axis=1), 0.0]
+    off = dist > OFF_TOL_M
+    return {"centre_length_m": round(float(seg.sum()), 3), "off_length_m": round(float(seg[off].sum()), 3),
+            "off_max_m": round(float(dist.max()), 3), "lanes": len(lanes)}
+
+
+def detached_links(src, junc, proj):
+    """{link: record} for the junction's enter/leave links whose ROADCENTER leaves their lanes by > OFF_LEN_M."""
+    out = {}
+    for role, links in (("enter", junc.enter_roads), ("leave", junc.leave_roads)):
+        for pid in links:
+            rec = off_lanes(src, pid, proj)
+            if rec is not None and rec["off_length_m"] > OFF_LEN_M:
+                lanes = _lanes(src, pid)
+                out[pid] = {"role": role, **rec, "axis_lane": lanes[len(lanes) // 2].lane_pid}
+    return out
+
+
+@contextlib.contextmanager
+def lane_axes(src, links):
+    """Within the block the given links read as links without ROADCENTER: their centre is the middle lane's centre
+    line (lon/lat, as shp_to_xodr._center_of uses it). The source object is restored afterwards."""
+    centres = src.roadcenters
+    saved = {pid: centres.get(pid) for pid in links}
+    try:
+        for pid in links:
+            lanes = _lanes(src, pid)
+            centres[pid] = np.asarray(lanes[len(lanes) // 2].geometry, float)
+        yield
+    finally:
+        for pid, g in saved.items():
+            if g is None:
+                centres.pop(pid, None)
+            else:
+                centres[pid] = g
+
+
+PAIRING = "drop"         # drop: the converter's pairing minus lane-axis links | repair: pair the rest again
+
+
+def drop_branches(pairs, single, links, junc):
+    """The converter's own pairing (computed on the source ROADCENTERs) without lane-axis links: a lane-axis link is a
+    single-lane branch carriageway (slip road, U-turn bay), not the opposite direction of another leg. Lane-axis enter
+    links become one-sided legs; lane-axis leave links, and leave links the converter had matched to a lane-axis enter
+    link, become independent leave roads. Every other pair stays as the converter made it."""
+    out, alone = [], set(single)
+    for e, ls in pairs:
+        keep = [] if e in links else [p for p in ls if p not in links]
+        alone.update(p for p in ls if p not in keep)
+        out.append((e, keep))
+    alone.update(p for p in junc.leave_roads if p in links)
+    return out, [p for p in junc.leave_roads if p in alone]
+
+
+@contextlib.contextmanager
+def separate_carriageways(links, original_pairing=None):
+    """Within the block shp_to_xodr._pair_legs leaves lane-axis links out of enter/leave pairing (see drop_branches).
+    PAIRING="repair" instead pairs the remaining links again by the converter's rule among themselves."""
+    import dataclasses
+    from mapforge.ops import shp_to_xodr as S
+    original = S._pair_legs
+
+    def pair_legs(src, junc, proj, cj):
+        if PAIRING == "drop" and original_pairing is not None:
+            return drop_branches(*original_pairing, links, junc)
+        rest = dataclasses.replace(junc, enter_roads=[p for p in junc.enter_roads if p not in links],
+                                   leave_roads=[p for p in junc.leave_roads if p not in links])
+        pairs, single = original(src, rest, proj, cj)
+        paired = dict(pairs)
+        out = [(e, [] if e in links else paired[e]) for e in junc.enter_roads if e in links or e in paired]
+        alone = set(single) | {p for p in junc.leave_roads if p in links}
+        return out, [p for p in junc.leave_roads if p in alone]
+
+    S._pair_legs = pair_legs
+    try:
+        yield
+    finally:
+        S._pair_legs = original
+
+
+@contextlib.contextmanager
+def _extra_tiers(links):
+    """Optional: continue leg_fit_fallback's design-speed ladder for single-link lane-axis legs."""
+    if not EXTRA_KAPPA:
+        yield
+        return
+    saved = LF.RELAXED_KAPPA
+    LF.RELAXED_KAPPA = tuple(saved) + tuple(k for k in EXTRA_KAPPA if k > max(saved))
+    try:
+        yield
+    finally:
+        LF.RELAXED_KAPPA = saved
+
+
+def build(src, junc, out_path, **kwargs):
+    """leg_fit_fallback.build; when it fails at a leg reference fit and the junction has links whose ROADCENTER leaves
+    their lanes, the junction is built again with those links on their lane axis. Returns (stats, report)."""
+    from mapforge.ops import shp_to_xodr as S
+    try:
+        return LF.build(src, junc, out_path, **kwargs)
+    except RF.ReflineFitError as exc:
+        first = " ".join(str(exc).split())
+        lon0, lat0 = float(junc.center[0]), float(junc.center[1])
+        proj = lambda p: S._proj(p, lat0, lon0)  # noqa: E731  (the converter's own frame)
+        links = detached_links(src, junc, proj)
+        if not links:
+            raise
+    pairing = S._pair_legs(src, junc, proj, proj(junc.polygon).mean(axis=0))   # the converter's, source ROADCENTERs
+    record = {"schema": CODE, "trigger": first, "off_tol_m": OFF_TOL_M, "off_len_m": OFF_LEN_M,
+              "extra_kappa": list(EXTRA_KAPPA), "pairing": PAIRING, "links": links,
+              "pairs": [[e, list(ls)] for e, ls in drop_branches(*pairing, links, junc)[0]]
+              if PAIRING == "drop" else None}
+    with lane_axes(src, links), separate_carriageways(links, pairing), _extra_tiers(links):
+        try:
+            stats, report = LF.build(src, junc, out_path, **kwargs)
+        except S.CandidateSurfaceError as exc:
+            exc.stats["leg_lane_axis"] = record
+            raise
+        except RF.ReflineFitError as exc:
+            raise RF.ReflineFitError(f"{exc} [leg_lane_axis: {len(links)} links on lane axis]") from exc
+    stats["leg_lane_axis"] = record
+    return stats, report
+
+
+def kappa_of_axis(src, pid, proj):
+    """Average curvature of a link's lane axis (diagnostics)."""
+    lanes = _lanes(src, pid)
+    g = proj(lanes[len(lanes) // 2].geometry)
+    d = np.diff(g, axis=0)
+    h = np.unwrap(np.arctan2(d[:, 1], d[:, 0]))
+    return float((h[-1] - h[0]) / max(np.linalg.norm(d, axis=1).sum(), 1e-9)), math.degrees(h[-1] - h[0])

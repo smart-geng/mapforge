@@ -1,0 +1,34 @@
+junction 2023072914272536839 status=ReflineFitError attempts=2 secs=5.5
+error: SHP junction=2023072914272536839 enter_link=2023072911534876425 leave_links=['2023080313464415622'] points=33: 参考线拟合无合格候选：1–5 段内无法同时满足 dev≤1.500m, |κ|≤0.009000, |dκ/ds|≤0.000216
+fallback report: {'schema': 'mapforge.leg_fit_fallback/v1', 'legs': [{'kind': 'enter', 'seed': '2023072911534876425', 'links': ['2023072911534876425'], 'accepted': False, 'chosen': None, 'tried': 2, 'last': {'kappa_cap': 0.009, 'sharp_cap': 0.000216, 'free_end_curvature': False, 'segments': 3, 'solver_success': True, 'end_offsets_m': [-0.0, -0.0, 1.5, -3.5], 'zone_m': 6.381, 'median_m': 3.5635079915256815, 'outside_median_m': 2.149681930950032, 'outside_p95_m': 4.416841568449345, 'outside_max_m': 4.456117677069483, 'zone_max_m': 4.440112053913856, 'max_m': 4.456117677069483, 'field_coverage': 0.5, 'heading_p95_deg': 12.861979422738354, 'heading_max_deg': 13.90306549006577, 'kappa_max': 0.0009607203092799006, 'sharpness_max': 0.000216000000034142, 'flips_per_100m': 0.0, 'primitives': 3, 'min_primitive_m': 4.447779208926132, 'heading': False, 'near_centre': False, 'with_lanes': False, 'accepted': False}}, {'kind': 'enter', 'seed': '2023072911534876425', 'links': ['2023072911534876425'], 'accepted': False, 'chosen': None, 'tried': 12, 'last': {'kappa_cap': 0.1, 'sharp_cap': 0.008, 'free_end_curvature': True, 'segments': 3, 'solver_success': True, 'end_offsets_m': [0.0, 0.0, 1.5, -0.482], 'zone_m': 6.381, 'median_m': 0.5723421758153863, 'outside_median_m': 0.8286308250576623, 'outside_p95_m': 1.464758577858676, 'outside_max_m': 1.5000000000014209, 'zone_max_m': 0.8755266397072209, 'max_m': 1.5000000000014209, 'field_coverage': 0.5, 'heading_p95_deg': 13.967973689705483, 'heading_max_deg': 15.238407028398388, 'kappa_max': 0.0999999999999995, 'sharpness_max': 0.008000000000000914, 'flips_per_100m': 0.0, 'primitives': 2, 'min_primitive_m': 5.275778282120807, 'heading': False, 'near_centre': False, 'with_lanes': False, 'accepted': False}}], 'truncated_enter_links': {}, 'capped_departure_m': {}, 'relaxed': ['enter:2023072911534876425']}
+
+fit calls (converter fit_leg_refline):
+  att1 enter             seed …822038 chain[…822038(13.6m) + …820438(12.3m)] pts=7 -> OK dev=0.49 fallback-single-arc
+  att1 enter             seed …876425 chain[…876425(19.0m)] pts=33 -> FAIL  caps={} relaxed=[]
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=1.95/3.35/3.37 fails: source_to_target.median 1.95>0.2; source_to_target.p95 3.34>0.3; source_to_target.max 3.37>0.35; target_to_source.median 1.73>0.2
+      single-arc     kappa_max=0.1086 sharp=0.00000 s2t med/p95/max=0.36/0.77/0.80 fails: kappa 0.1086>0.009
+      single-spiral  kappa_max=0.0760 sharp=0.00092 s2t med/p95/max=0.56/1.48/1.50 fails: kappa 0.0760>0.009; sharpness 0.000920>0.000216; source_to_target.p95 1.48>1.25; source_to_target.max 1.50>1.5
+      solve-g2-3     kappa_max=0.1099 sharp=0.02211 s2t med/p95/max=0.26/0.94/0.96 fails: kappa 0.1099>0.009; sharpness 0.022106>0.000216
+      constrained-3  optimiser found no G2 solution under the caps
+      constrained-4  optimiser found no G2 solution under the caps
+      constrained-5  optimiser found no G2 solution under the caps
+  att2 enter             seed …822038 chain[…822038(13.6m) + …820438(12.3m)] pts=7 -> OK dev=0.49 fallback-single-arc
+  att2 enter             seed …876425 chain[…876425(19.0m)] pts=33 -> FAIL  caps={} relaxed=['…876425']
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=1.95/3.35/3.37 fails: source_to_target.median 1.95>0.2; source_to_target.p95 3.34>0.3; source_to_target.max 3.37>0.35; target_to_source.median 1.73>0.2
+      single-arc     kappa_max=0.1086 sharp=0.00000 s2t med/p95/max=0.36/0.77/0.80 fails: kappa 0.1086>0.009
+      single-spiral  kappa_max=0.0760 sharp=0.00092 s2t med/p95/max=0.56/1.48/1.50 fails: kappa 0.0760>0.009; sharpness 0.000920>0.000216; source_to_target.p95 1.48>1.25; source_to_target.max 1.50>1.5
+      solve-g2-3     kappa_max=0.1099 sharp=0.02211 s2t med/p95/max=0.26/0.94/0.96 fails: kappa 0.1099>0.009; sharpness 0.022106>0.000216
+      constrained-3  optimiser found no G2 solution under the caps
+      constrained-4  optimiser found no G2 solution under the caps
+      constrained-5  optimiser found no G2 solution under the caps
+
+fallback fit_leg calls (leg_fit_fallback):
+  att1 leg=enter:…876425 relaxed=False accepted=False pts=33
+      kcap=0.009 n=3 med=3.56 outP95=4.42 outMax=4.46 zoneMax=4.44 max=4.46 fieldCov=0.50 headP95=12.9 headMax=13.9 flips=0.0 | heading_ok=False near_centre=False with_lanes=False
+  att2 leg=enter:…876425 relaxed=True accepted=False pts=33
+      kcap=0.009 n=3 med=3.56 outP95=4.42 outMax=4.46 zoneMax=4.44 max=4.46 fieldCov=0.50 headP95=12.9 headMax=13.9 flips=0.0 | heading_ok=False near_centre=False with_lanes=False
+      kcap=0.015 n=3 med=3.49 outP95=4.11 outMax=4.14 zoneMax=4.13 max=4.14 fieldCov=0.50 headP95=11.8 headMax=13.1 flips=0.0 | heading_ok=False near_centre=False with_lanes=False
+      kcap=0.025 n=3 med=3.16 outP95=3.74 outMax=3.77 zoneMax=3.75 max=3.77 fieldCov=0.50 headP95=12.3 headMax=13.5 flips=0.0 | heading_ok=False near_centre=False with_lanes=False
+      kcap=0.040 n=3 med=2.15 outP95=2.87 outMax=2.89 zoneMax=2.84 max=2.89 fieldCov=0.50 headP95=14.9 headMax=16.2 flips=0.0 | heading_ok=False near_centre=False with_lanes=False
+      kcap=0.065 n=3 med=1.14 outP95=1.82 outMax=1.84 zoneMax=1.78 max=1.84 fieldCov=0.50 headP95=15.9 headMax=17.2 flips=0.0 | heading_ok=False near_centre=False with_lanes=False
+      kcap=0.100 n=3 med=0.57 outP95=1.46 outMax=1.50 zoneMax=0.88 max=1.50 fieldCov=0.50 headP95=14.0 headMax=15.2 flips=0.0 | heading_ok=False near_centre=False with_lanes=False

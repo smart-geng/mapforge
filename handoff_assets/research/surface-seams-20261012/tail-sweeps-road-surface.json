@@ -1,0 +1,101 @@
+{
+ "2023062110304177600": [
+  {
+   "road": "10",
+   "sweep_m": 0.0,
+   "added_m2": 0.0,
+   "added_outside_base_and_raw_5cm_m2": 0.0,
+   "of_which_not_road_surface_m2": 0.0
+  },
+  {
+   "road": "10",
+   "sweep_m": 0.0,
+   "added_m2": 0.0,
+   "added_outside_base_and_raw_5cm_m2": 0.0,
+   "of_which_not_road_surface_m2": 0.0
+  },
+  {
+   "road": "11",
+   "sweep_m": 0.0,
+   "added_m2": 0.0,
+   "added_outside_base_and_raw_5cm_m2": 0.0,
+   "of_which_not_road_surface_m2": 0.0
+  },
+  {
+   "road": "11",
+   "sweep_m": 0.0,
+   "added_m2": 0.0,
+   "added_outside_base_and_raw_5cm_m2": 0.0,
+   "of_which_not_road_surface_m2": 0.0
+  },
+  {
+   "road": "12",
+   "sweep_m": 0.443,
+   "added_m2": 1.535,
+   "added_outside_base_and_raw_5cm_m2": 0.118,
+   "of_which_not_road_surface_m2": 0.0
+  },
+  {
+   "road": "12",
+   "sweep_m": 0.29,
+   "added_m2": 0.989,
+   "added_outside_base_and_raw_5cm_m2": 0.0,
+   "of_which_not_road_surface_m2": 0.0
+  }
+ ],
+ "2023063015350832057": [
+  {
+   "road": "10",
+   "sweep_m": 1.252,
+   "added_m2": 16.135,
+   "added_outside_base_and_raw_5cm_m2": 9.783,
+   "of_which_not_road_surface_m2": 1.396
+  },
+  {
+   "road": "10",
+   "sweep_m": 0.578,
+   "added_m2": 7.053,
+   "added_outside_base_and_raw_5cm_m2": 1.841,
+   "of_which_not_road_surface_m2": 0.0
+  },
+  {
+   "road": "11",
+   "sweep_m": 0.866,
+   "added_m2": 13.718,
+   "added_outside_base_and_raw_5cm_m2": 4.761,
+   "of_which_not_road_surface_m2": 0.0
+  },
+  {
+   "road": "12",
+   "sweep_m": 1.084,
+   "added_m2": 14.409,
+   "added_outside_base_and_raw_5cm_m2": 7.546,
+   "of_which_not_road_surface_m2": 0.0
+  },
+  {
+   "road": "12",
+   "sweep_m": 0.861,
+   "added_m2": 10.977,
+   "added_outside_base_and_raw_5cm_m2": 0.976,
+   "of_which_not_road_surface_m2": 0.938
+  },
+  {
+   "road": "13",
+   "sweep_m": 0.807,
+   "added_m2": 12.463,
+   "added_outside_base_and_raw_5cm_m2": 6.283,
+   "of_which_not_road_surface_m2": 0.0
+  },
+  {
+   "road": "30",
+   "issue": "end-cap-encloses-gap"
+  },
+  {
+   "road": "31",
+   "sweep_m": 0.395,
+   "added_m2": 3.934,
+   "added_outside_base_and_raw_5cm_m2": 0.028,
+   "of_which_not_road_surface_m2": 0.002
+  }
+ ]
+}

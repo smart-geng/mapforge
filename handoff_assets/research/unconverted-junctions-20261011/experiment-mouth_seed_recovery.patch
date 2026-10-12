@@ -1,0 +1,324 @@
+--- cloud-verify/mapforge/mapforge/ops/shp_mouth_envelope.py	2026-10-09 02:12:03.243572624 +0000
++++ diag-mouth-tree/mapforge/ops/shp_mouth_envelope.py	2026-10-12 00:47:41.473488949 +0000
+@@ -43,7 +43,7 @@
+     import xml.etree.ElementTree as ET
+     from mapforge.adapters.shp.profile_source import ProfileSource
+     from mapforge.adapters.v2xmap.xml_reader import parse_map_xml
+-    from mapforge.ops import envelope_surface, leg_fit_fallback
++    from mapforge.ops import envelope_surface, mouth_seed_recovery
+     from mapforge.ops.shp_to_xodr import CandidateSurfaceError, _proj
+     from mapforge.report.decision import finalize_opendrive_g8
+ 
+@@ -61,9 +61,11 @@
+     try:
+         # legs the converter's own reference fit rejects get mapforge.ops.leg_fit_fallback (2026-10-08); a junction
+         # whose legs all fit is built exactly as before
+-        stats, _legs = leg_fit_fallback.build(src, junc, out, connect_mode="data", allow_uturn=False,
+-                                              mouth_policy="source-envelope-candidate",
+-                                              mouth_margin_m=float(margin_m))
++        # EXPERIMENT 2026-10-12 (diag tree only): mouth_seed_recovery wraps leg_fit_fallback.build and acts only on the
++        # converter's 'source-envelope mouth would remove the seed road' error
++        stats, _legs = mouth_seed_recovery.build(src, junc, out, connect_mode="data", allow_uturn=False,
++                                                 mouth_policy="source-envelope-candidate",
++                                                 mouth_margin_m=float(margin_m))
+         record["converter_surface"] = "GENERATED"
+     except CandidateSurfaceError as exc:
+         stats = exc.stats
+--- /dev/null	2026-10-09 23:22:37.993732548 +0000
++++ diag-mouth-tree/mapforge/ops/mouth_seed_recovery.py	2026-10-12 00:51:07.386450817 +0000
+@@ -0,0 +1,295 @@
++"""SHP legs whose source-envelope mouth would remove the seed road (diagnosis 2026-10-12, experiment).
++
++``shp_to_xodr._source_envelope_axis`` (bound by evidence) refuses a leg when the common mouth -- ``margin_m`` before
++the earliest real lane end of the leg's lanes in both directions -- would fall before the start of its seed link (the
++junction-side link whose lanes carry the connectors), i.e. less than 0.5 m of the seed would stay in the road. On the
++16-junction generalization set two conversions stop there, for two different reasons found in the source:
++
++* **head-to-tail listed roads** (2023070118182048481): the junction lists the approach link A *and* the 5.2 m link B
++  that continues it into the junction (B's ROADCENTER is IS_JUNC=1, its ROADLINK MEMO is the junction id, every lane of
++  B is fed one-to-one by a lane of A); the same on the departure side (B' -> A'). The converter builds every listed
++  road as a leg of its own: B has no usable centreline (IS_JUNC centres are skipped), so it cannot chain upstream, and
++  a 5.2 m seed cannot hold a mouth 3 m before its lane ends (min 6 m). A's own leg ends where B starts and gets no
++  connectors (A's lanes lead into B, not into a via link). Rule R1: B is merged into A lane by lane along the lane
++  topology (centrelines and boundaries concatenated, widths from both ends; B's lane ids recorded) and taken off the
++  list; B' is merged into A' likewise. The leg is then A's, its mouth is placed by the same 3 m rule, and B runs
++  inside the connectors -- which is where the source's own IS_JUNC flag puts it.
++* **a shared mouth across separate carriageways** (2023062913464138453): a one-lane right-turn slip road is paired
++  with the departure road of the main carriageway 18-25 m away (the junction lists two link ids that do not exist in
++  the delivery instead of the main carriageway's entering links, so that carriageway has no leg and the slip road is
++  the nearest enter road). Along the slip road's diverging direction the departure lanes end 26 m earlier, so the
++  shared mouth would cut 29 m back, through the whole 18 m slip link. Rule R2: when the leg's own approach lanes alone
++  allow the mouth, the pair is built as two directional carriageways (the converter's own 'directional-carriageway'
++  split: approach leg plus single departure road), each with its own mouth.
++
++Only the converter's error engages either rule; a junction the converter completes is never touched (no hook changes
++behaviour before the guard has refused once). Every merge and split is recorded under ``mouth_seed_recovery``.
++"""
++from __future__ import annotations
++
++import contextlib
++import dataclasses
++
++import numpy as np
++
++CODE = "mapforge.mouth_seed_recovery/v0-experiment"
++GUARD = "source-envelope mouth would remove the seed road"
++MAX_ATTEMPTS = 4
++JOIN_TOL_DEG = 2e-6          # ~0.2 m, the reader's own segment chaining tolerance (ibd_reader._chain_segments)
++
++
++# ---------------------------------------------------------------- probe of the converter's failing leg
++class _Probe:
++    def __init__(self, src, split_enters):
++        self.src = src
++        self.split_enters = split_enters      # enter pid -> leave pids to build as single departures
++        self.last_enter = None
++        self.failed = None
++        self.raw_pairs = None
++
++    @contextlib.contextmanager
++    def installed(self):
++        from mapforge.ops import shp_to_xodr as S
++        chain0, axis0, pair0 = S._chained_links, S._source_envelope_axis, S._pair_legs
++        probe = self
++
++        def chained_links(src, seed_pid, is_enter, proj, cj, max_len=160.0, hops=5):
++            if is_enter:
++                probe.last_enter = seed_pid
++            return chain0(src, seed_pid, is_enter, proj, cj, max_len=max_len, hops=hops)
++
++        def source_envelope_axis(points, mouth_points, *, margin_m=3.0, min_keep_m=6.0):
++            try:
++                return axis0(points, mouth_points, margin_m=margin_m, min_keep_m=min_keep_m)
++            except ValueError as exc:
++                if GUARD in str(exc):
++                    probe.failed = _guard_facts(probe.src, probe.last_enter, points, mouth_points, margin_m,
++                                                min_keep_m, str(exc))
++                raise
++
++        def pair_legs(src, junc, proj, cj):
++            pairs, single = pair0(src, junc, proj, cj)
++            probe.raw_pairs = [(e, list(ls)) for e, ls in pairs]
++            if not probe.split_enters:
++                return pairs, single
++            single = list(single)
++            out = []
++            for e, ls in pairs:
++                if e in probe.split_enters and ls:
++                    single += [x for x in ls if x not in single]
++                    out.append((e, []))
++                else:
++                    out.append((e, ls))
++            return out, single
++
++        S._chained_links, S._source_envelope_axis, S._pair_legs = chained_links, source_envelope_axis, pair_legs
++        try:
++            yield self
++        finally:
++            S._chained_links, S._source_envelope_axis, S._pair_legs = chain0, axis0, pair0
++
++
++def _guard_facts(src, e_pid, points, mouth_points, margin_m, min_keep_m, message):
++    """The refused leg: its seed, the shared mouth station and the station its own approach lanes alone give."""
++    g = np.asarray(points, float)
++    ends = np.asarray(mouth_points, float)
++    ss = np.r_[0.0, np.cumsum(np.linalg.norm(np.diff(g, axis=0), axis=1))]
++    dv = g[-1] - g[-2]
++    dv /= max(float(np.linalg.norm(dv)), 1e-12)
++    n_seed = len([l for l in src.lanes_of(e_pid) if l.geometry.shape[0] >= 2]) if e_pid else 0
++    along = (ends - g[-1]) @ dv
++    own = float(ss[-1] + along[:n_seed].min() - margin_m) if n_seed else None
++    return {"enter_link": e_pid, "message": message, "axis_length_m": float(ss[-1]), "min_keep_m": float(min_keep_m),
++            "station_m": float(ss[-1] + along.min() - margin_m), "station_own_lanes_m": own,
++            "opposite_lanes": int(len(ends) - n_seed),
++            "own_lanes_allow_mouth": bool(own is not None and own >= min_keep_m)}
++
++
++# ---------------------------------------------------------------- R1: head-to-tail listed roads
++def _junction_interior_flags(src):
++    """link pid -> set of IS_JUNC values of its ROADCENTER records (the reader skips the interior ones)."""
++    spec = src.L.get("road_center") or {}
++    F = spec.get("fields") or {}
++    flag, road = F.get("is_junction_interior"), F.get("road")
++    out = {}
++    if not (flag and road):
++        return out
++    for row in src.layer_raw_records("road_center"):
++        a = row["attributes"]
++        try:
++            v = int(a.get(flag) or 0)
++        except (TypeError, ValueError):
++            v = 0
++        out.setdefault(str(a.get(road, "")).strip(), set()).add(v)
++    return out
++
++
++def head_to_tail(src, junc):
++    """Listed roads that continue another listed road of the same side one-to-one along the lane topology.
++
++    Returns [{"side", "keep", "absorb", "lanes": {keep lane: absorbed lane}}]: for an enter pair the absorbed link is
++    downstream of the kept one (A -> B), for a leave pair upstream (B' -> A')."""
++    found = []
++    for side, ids in (("enter", junc.enter_roads), ("leave", junc.leave_roads)):
++        listed = set(ids)
++        for b in ids:
++            b_lanes = [l for l in src.lanes_of(b) if l.geometry.shape[0] >= 2]
++            if not b_lanes:
++                continue
++            nb = src.topo_in if side == "enter" else src.topo_out
++            feeders = {}
++            for l in b_lanes:
++                for q in nb.get(l.lane_pid, []):
++                    ql = src.lane(q)
++                    if ql is not None:
++                        feeders.setdefault(ql.link_pid, []).append((ql.lane_pid, l.lane_pid))
++            if len(feeders) != 1:
++                continue
++            a, links = next(iter(feeders.items()))
++            if a == b or a not in listed:
++                continue
++            a_lanes = {l.lane_pid for l in src.lanes_of(a) if l.geometry.shape[0] >= 2}
++            m = dict(links)
++            # one-to-one: every lane of both links in exactly one pair
++            if (len(m) != len(links) or set(m) != a_lanes or len(set(m.values())) != len(m)
++                    or set(m.values()) != {l.lane_pid for l in b_lanes}):
++                continue
++            found.append({"side": side, "keep": a, "absorb": b, "lanes": m})
++    return found
++
++
++def _concat(first, second):
++    first, second = np.asarray(first, float), np.asarray(second, float)
++    gap = float(np.linalg.norm(first[-1] - second[0]))
++    if gap > JOIN_TOL_DEG:
++        raise ValueError(f"lane ends do not meet ({gap:.2e} deg)")
++    return np.vstack([first, second[1:]])
++
++
++LAST_REPORT = None   # the report of the latest build in this process (diagnostics)
++_PLANS = {}          # junction pid -> R1 pairs applied in this process (re-applied to every fresh ProfileSource)
++_PATCHED = []
++
++
++def _install_fresh_source_hook():
++    """Later pipeline steps (shp_leave_mouth, window_midpoint, source review) open the SHP again and locate the
++    junction with ``find_junction``; the same R1 merges are applied there so every step sees one source view.
++    EXPERIMENT ONLY: production would pass the derived view explicitly (like the MAP source corrections)."""
++    if _PATCHED:
++        return
++    from mapforge.adapters.shp.profile_source import ProfileSource
++    original = ProfileSource.find_junction
++
++    def find_junction(self, lon, lat):
++        junc, dist = original(self, lon, lat)
++        plan = _PLANS.get(junc.pid)
++        if plan and not getattr(self, "_mouth_seed_recovery_applied", False):
++            self._mouth_seed_recovery_applied = True
++            merge_head_to_tail(self, junc, plan, register=False)
++        return junc, dist
++
++    ProfileSource.find_junction = find_junction
++    _PATCHED.append(original)
++
++
++def merge_head_to_tail(src, junc, pairs, register=True):
++    """Apply R1 in place on this conversion's in-memory source and junction record (the files are not touched)."""
++    if register:
++        _PLANS.setdefault(junc.pid, []).extend(pairs)
++        src._mouth_seed_recovery_applied = True
++        _install_fresh_source_hook()
++    src._load_lanes()
++    src._load_topo()
++    src._load_boundaries()
++    by_link, by_pid = src._lanes_by_link, src._lane_by_pid
++    out, inv = src._topo
++    _geom, rel = src._bnd
++    records = []
++    for p in pairs:
++        a_link, b_link, side = p["keep"], p["absorb"], p["side"]
++        merged = []
++        for a_pid, b_pid in p["lanes"].items():
++            a, b = by_pid[a_pid], by_pid[b_pid]
++            if side == "enter":                                   # A -> B: B appended at the junction end
++                geom = _concat(a.geometry, b.geometry)
++                new = dataclasses.replace(a, geometry=geom, e_width_mm=b.e_width_mm, e_width_known=b.e_width_known)
++                out[a_pid] = list(out.get(b_pid, []))
++                for s in out[a_pid]:
++                    inv[s] = [a_pid if x == b_pid else x for x in inv.get(s, [])]
++                for sl in ("left", "right"):
++                    rel.setdefault(a_pid, {})[sl] = rel.get(a_pid, {}).get(sl, []) + rel.get(b_pid, {}).get(sl, [])
++            else:                                                 # B' -> A': B' prepended at the junction end
++                geom = _concat(b.geometry, a.geometry)
++                new = dataclasses.replace(a, geometry=geom, s_width_mm=b.s_width_mm, s_width_known=b.s_width_known)
++                inv[a_pid] = list(inv.get(b_pid, []))
++                for s in inv[a_pid]:
++                    out[s] = [a_pid if x == b_pid else x for x in out.get(s, [])]
++                for sl in ("left", "right"):
++                    rel.setdefault(a_pid, {})[sl] = rel.get(b_pid, {}).get(sl, []) + rel.get(a_pid, {}).get(sl, [])
++            by_pid[a_pid] = new
++            by_link[a_link] = [new if l.lane_pid == a_pid else l for l in by_link[a_link]]
++            stops = getattr(src, "_stoplines_by_lane", None)
++            if stops is not None and b_pid in stops:
++                stops[a_pid] = stops.get(a_pid, []) + stops[b_pid]
++            merged.append({"lane": a_pid, "absorbed_lane": b_pid,
++                           "length_m_deg": float(np.linalg.norm(np.diff(geom, axis=0), axis=1).sum())})
++        (junc.enter_roads if side == "enter" else junc.leave_roads).remove(b_link)
++        records.append({"side": side, "kept_link": a_link, "absorbed_link": b_link, "lanes": merged})
++    return records
++
++
++# ---------------------------------------------------------------- driver
++def build(src, junc, out_path, **kwargs):
++    """``leg_fit_fallback.build`` (the converter with its leg-fit fallback) with R1/R2 on the mouth guard's error.
++    Returns (stats, legs report) like leg_fit_fallback.build."""
++    from mapforge.ops import leg_fit_fallback as LFF
++    from mapforge.ops.shp_to_xodr import CandidateSurfaceError
++    global LAST_REPORT
++    report = {"schema": CODE, "attempts": [], "merged": [], "split": []}
++    LAST_REPORT = report
++    split = {}
++    flags = None
++    for _ in range(MAX_ATTEMPTS):
++        probe = _Probe(src, split)
++        try:
++            with probe.installed():
++                stats, legs = LFF.build(src, junc, out_path, **kwargs)
++        except CandidateSurfaceError as exc:
++            # the converter's own paving failed after a complete build (shp_mouth_envelope rebuilds it)
++            if report["merged"] or report["split"]:
++                exc.stats["mouth_seed_recovery"] = report
++            raise
++        except ValueError as exc:
++            if GUARD not in str(exc) or probe.failed is None:
++                raise
++            fact = probe.failed
++            report["attempts"].append(fact)
++            e_pid = fact["enter_link"]
++            if flags is None:
++                flags = _junction_interior_flags(src)
++            h2t = [p for p in head_to_tail(src, junc) if not any(r["absorbed_link"] == p["absorb"]
++                                                                 for r in report["merged"])]
++            if any(p["side"] == "enter" and p["absorb"] == e_pid for p in h2t):
++                # R1: the refused seed continues another listed enter road; merge every such pair of this junction
++                for p in h2t:
++                    p["absorbed_is_junc"] = sorted(flags.get(p["absorb"], set()))
++                recs = merge_head_to_tail(src, junc, h2t)
++                for r, p in zip(recs, h2t):
++                    r["absorbed_is_junc"] = p["absorbed_is_junc"]
++                report["merged"] += recs
++                continue
++            if fact["opposite_lanes"] and fact["own_lanes_allow_mouth"] and e_pid not in split:
++                pairs = dict(probe.raw_pairs or [])
++                split[e_pid] = list(pairs.get(e_pid, []))
++                report["split"].append({"enter_link": e_pid, "leave_links": split[e_pid],
++                                        "shared_mouth_station_m": round(fact["station_m"], 3),
++                                        "own_mouth_station_m": round(fact["station_own_lanes_m"], 3),
++                                        "min_keep_m": round(fact["min_keep_m"], 3),
++                                        "decision": "directional-carriageways",
++                                        "reason": "shared-mouth-would-remove-seed"})
++                continue
++            raise
++        if report["merged"] or report["split"]:
++            stats["mouth_seed_recovery"] = report
++        return stats, legs
++    raise ValueError(f"mouth seed recovery: no result after {MAX_ATTEMPTS} attempts: {report['attempts'][-1]}")

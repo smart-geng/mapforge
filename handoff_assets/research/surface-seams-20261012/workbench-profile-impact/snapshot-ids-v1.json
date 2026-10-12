@@ -1,0 +1,49 @@
+{
+ "profile_sha256": "7309c3b4029ab49cb5e5cfb3ab613bbb98484ddfb3e20aaf974c401b1c9469fe",
+ "snapshot_id": "c7e9b7866dad49d00f46f27a96ed60d852572e031bd102be9ee2d5716820ab71",
+ "load_seconds": 64.9,
+ "layers": [
+  "boundary",
+  "junction",
+  "lane",
+  "lane_boundary_rel",
+  "lane_merge",
+  "road",
+  "road_center",
+  "stop_line",
+  "topo"
+ ],
+ "load_issues": [],
+ "2023061509381992034": {
+  "snapshot_id": "c7e9b7866dad49d00f46f27a96ed60d852572e031bd102be9ee2d5716820ab71",
+  "content_hash": "062e009d8e29415b074d0907ecd013534cec6bd56d5b9e3ec01663cfcc06ab10",
+  "objects": 285,
+  "roles": [
+   "boundary",
+   "junction",
+   "lane",
+   "lane_boundary_rel",
+   "lane_merge",
+   "road",
+   "road_center",
+   "stop_line",
+   "topo"
+  ]
+ },
+ "2023062110304177600": {
+  "snapshot_id": "c7e9b7866dad49d00f46f27a96ed60d852572e031bd102be9ee2d5716820ab71",
+  "content_hash": "f8472eac81d121ba1bdb4e8639ac69b162833c902031835ef2922e24b348f8a4",
+  "objects": 210,
+  "roles": [
+   "boundary",
+   "junction",
+   "lane",
+   "lane_boundary_rel",
+   "lane_merge",
+   "road",
+   "road_center",
+   "stop_line",
+   "topo"
+  ]
+ }
+}

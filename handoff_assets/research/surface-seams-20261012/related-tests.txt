@@ -1,0 +1,13 @@
+Related tests: the 33 files of the last three rounds + tests/test_lane_refit_mouth_anchor.py, tests/test_lane_refit_source_event.py,
+tests/test_surface_seams.py; main (4a92d8e) vs this change, same Linux machine, per test id.
+
+main:   578 passed, 2 skipped, 1 failed (tests/test_separated_acceptance.py::test_real_written_candidate_keeps_old_failure_and_blocks_missing_case: research file missing)
+change: 594 passed, 5 skipped, 1 failed (the same test, same cause)
+
+Differences by test id:
+  19  tests/test_surface_seams.py (new)                                  -> passed
+   3  skipped in the code-only tree for want of out/ evidence (0621 workbench candidate, 0412 generalization output):
+      tests/test_stopline_match.py::test_0621_has_no_source_stop_line_for_its_two_approaches
+      tests/test_stopline_match.py::test_0412_matches_the_stop_line_across_its_approach_and_keeps_its_other_failure
+      tests/test_paving_holes.py::test_0621_keeps_only_the_source_void
+      run again in the checkout that has out/ with this change: 3 passed

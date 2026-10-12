@@ -1,0 +1,36 @@
+{
+ "2023062110304177600": [
+  {
+   "road_id": "10",
+   "area_m2": 4.986141083293386,
+   "road_surface_cover": 0.009728694209311658,
+   "barrier_length_inside_m": 4.800532955529382
+  },
+  {
+   "road_id": "11",
+   "area_m2": 3.1854697381575026,
+   "road_surface_cover": 3.414728276671407e-10,
+   "barrier_length_inside_m": 3.5928728330373065
+  },
+  {
+   "road_id": "12",
+   "area_m2": 0.495225702521471,
+   "road_surface_cover": 8.301831761632308e-06,
+   "barrier_length_inside_m": 0.0
+  }
+ ],
+ "2023063015350832057": [
+  {
+   "road_id": "10",
+   "area_m2": 10.162842540009269,
+   "road_surface_cover": 9.354962924307359e-06,
+   "barrier_length_inside_m": 5.1510414128968005
+  },
+  {
+   "road_id": "12",
+   "area_m2": 7.930036904843873,
+   "road_surface_cover": 0.0007611644183521369,
+   "barrier_length_inside_m": 0.0
+  }
+ ]
+}

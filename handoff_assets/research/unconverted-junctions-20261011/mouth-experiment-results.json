@@ -1,0 +1,112 @@
+{
+ "module": "diag-mouth-tree/mapforge/ops/mouth_seed_recovery.py (new, free) wired by a one-line change in bound mapforge/ops/shp_mouth_envelope.py (leg_fit_fallback.build -> mouth_seed_recovery.build)",
+ "case1_2023070118182048481": {
+  "rule": "R1 head-to-tail listed roads merged along lane topology",
+  "merged": [
+   {
+    "kept": "2023063010392607255",
+    "absorbed": "2023063010394548043",
+    "side": "enter",
+    "absorbed_IS_JUNC": 1
+   },
+   {
+    "kept": "2023063010391836450",
+    "absorbed": "2023063010394022483",
+    "side": "leave",
+    "absorbed_IS_JUNC": 1
+   }
+  ],
+  "guard": "passed (westbound leg axis_shift +2.167 m: mouth x=10.28, 3 m before the absorbed lanes' end x=7.28)",
+  "cli_exit": 2,
+  "seconds": 58,
+  "g8": "UNAVAILABLE",
+  "g11": "FAIL",
+  "roads": {
+   "10": "eastbound approach + westbound departure (two-way), mouth x=-12.98",
+   "11": "westbound approach one-way 313.7 m (converter's own directional split, coverage 311.6 vs 200.4 m), mouth x=10.28",
+   "30": "eastbound departure single road, start moved +4.18 m by shp_leave_mouth to x=15.66",
+   "100-103": "eastbound through connectors 28.6-28.8 m",
+   "104-105": "westbound through connectors 23.6 m"
+  },
+  "scoreboard_policy_tiers": {
+   "T1": {
+    "status": "FAIL",
+    "failed": [
+     "g8_status_stopline_resolved"
+    ]
+   },
+   "T2": {
+    "status": "FAIL",
+    "failed": [
+     "lane_center_noconflict_max_m",
+     "lane_endpoint_lateral_max_m",
+     "boundary_inside_p95_m",
+     "boundary_inside_max_m"
+    ]
+   }
+  },
+  "metrics": {
+   "xsd_valid": true,
+   "esmini_pass": true,
+   "route_gap_max_m": 8.511882340535412e-13,
+   "road_interface_position_max_m": 8.511882340535412e-13,
+   "edge_contact_position_max_m": 9.807237796684965e-12,
+   "g8_status": "UNAVAILABLE",
+   "g8_status_stopline_resolved": "FAIL",
+   "stopline_source_absent": 3,
+   "lane_center_max_m": 1.9977589724083962,
+   "lane_center_p95_m": 0.10342755065309069,
+   "lane_endpoint_lateral_max_m": 1.1153292754219648,
+   "boundary_inside_p95_m": 0.2236416220862599,
+   "boundary_inside_max_m": 1.702386513025243,
+   "paving_holes_counted": 0
+  },
+  "lane_center_max_from": "2023063010375689665 (eastbound departure lane 4 merging into lane 3 at its end; G8 coverage/endpoint)",
+  "first_attempt_without_shared_view": "failed in shp_leave_mouth: leave-mouth paving end cap gap 2.006 m on road 10, because the step re-reads the SHP and saw the unmerged departure lanes (exp1/)"
+ },
+ "case2_2023062913464138453": {
+  "rule": "R2 directional split when the shared mouth would remove the seed but the approach's own lanes allow it",
+  "split": [
+   {
+    "enter_link": "2023063016310909672",
+    "leave_links": [
+     "2023063016160247681"
+    ],
+    "shared_mouth_station_m": 138.917,
+    "own_mouth_station_m": 165.249,
+    "min_keep_m": 150.503,
+    "decision": "directional-carriageways",
+    "reason": "shared-mouth-would-remove-seed"
+   }
+  ],
+  "after_guard_default_budget": "ReflineFitError: leg fit fallback: no result after 12 rebuilds",
+  "lff_rebuild_steps_default": 22,
+  "after_guard_budget_40_diagnostic": "ReflineFitError: SHP junction=2023062913464138453 enter_link=2023063020175008870 leave_links=[] points=48: 参考线拟合无合格候选：1–5 段内无法同时满足 dev≤1.500m, |κ|≤0.009000, |dκ/ds|≤0.000216",
+  "slip_leg_fit": "needed its chain cut to the seed only (link caps 4->3->2->1) before the fit was accepted",
+  "next_blocker": "2023063020175008870 (大学城中路 one-lane right-turn slip): reference line not accepted even with relaxed caps",
+  "R3_list_repair_precheck": "see probe/case2-r3-precheck.txt: all 8 legs pass the guard, every mouth 3.0-3.36 m before its lane ends",
+  "R3_precheck_file": "probe/case2-r3-precheck.txt"
+ },
+ "node17_control": {
+  "tree_run": "python -m mapforge.score --cases node17 --pipelines shp (experiment tree): T1 PASS, T2 PASS; build stats carry no mouth_seed_recovery",
+  "baseline": "same CLI command in scratchpad/diag-mouth-baseline-tree (current main code without the experiment change), same machine",
+  "byte_identical": [
+   "shp-node17.xodr",
+   "source-lanes.json",
+   "transform.json",
+   "mouth-envelope.json",
+   "g8.json",
+   "source-review.json",
+   "edge-contacts.json",
+   "delivery-decision.json",
+   "raw.xodr",
+   "raw.source-lanes.json"
+  ],
+  "differ_only_in_output_path": [
+   "g11.json",
+   "quality-report.json"
+  ],
+  "note": "the 10-08 reference scoreboard differs in 65 metrics because of later main commits (lane_refit 10-09/10-10) and platform; it is not a byte baseline"
+ },
+ "R1prime_precheck_file": "probe/r1prime-precheck.txt"
+}

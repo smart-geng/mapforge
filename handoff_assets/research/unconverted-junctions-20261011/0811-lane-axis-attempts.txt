@@ -1,0 +1,273 @@
+junction 2023081110220126408 status=ValueError attempts=13 secs=313.3
+error: source-envelope mouth would remove the seed road: station=5.962, min_keep=6.000, axis_length=8.962, delta=-3.000
+fallback report: {'schema': 'mapforge.leg_fit_fallback/v1', 'legs': [{'kind': 'enter', 'seed': '2023080917072285699', 'links': ['2023061415312473253', '2023061415325063623', '2023061415315470005', '2023081010523589627', '2023081010523591299', '2023080917072285699'], 'accepted': False, 'chosen': None, 'tried': 2, 'last': {'kappa_cap': 0.009, 'sharp_cap': 0.000216, 'free_end_curvature': False, 'segments': 13, 'solver_success': True, 'end_offsets_m': [0.0, 0.0, -0.2682, -0.0754], 'zone_m': 30.0, 'median_m': 0.41341621520776617, 'outside_median_m': 0.527652816260167, 'outside_p95_m': 2.6991602669459485, 'outside_max_m': 3.347392541850613, 'zone_max_m': 0.10883782577721383, 'max_m': 3.347392541850613, 'field_coverage': 1.0, 'heading_p95_deg': 12.546457539720505, 'heading_max_deg': 13.706656912553587, 'kappa_max': 0.006215986652392267, 'sharpness_max': 0.00021600000004219394, 'flips_per_100m': 2.6730084130110634, 'primitives': 9, 'min_primitive_m': 14.388857990242046, 'heading': False, 'near_centre': False, 'with_lanes': True, 'accepted': False}}, {'kind': 'enter', 'seed': '2023080917072285699', 'links': ['2023061415325063623', '2023061415315470005', '2023081010523589627', '2023081010523591299', '2023080917072285699'], 'accepted': False, 'chosen': None, 'tried': 2, 'last': {'kappa_cap': 0.009, 'sharp_cap': 0.000216, 'free_end_curvature': False, 'segments': 10, 'solver_success': True, 'end_offsets_m': [0.0, 0.0, 1.5, -0.0864], 'zone_m': 30.0, 'median_m': 0.4603333267384515, 'outside_median_m': 0.6520557387220652, 'outside_p95_m': 2.5141066174597433, 'outside_max_m': 3.114571243415983, 'zone_max_m': 0.0987706825034946, 'max_m': 3.114571243415983, 'field_coverage': 1.0, 'heading_p95_deg': 10.035500066099093, 'heading_max_deg': 12.046704754203962, 'kappa_max': 0.006222007631713734, 'sharpness_max': 0.00021600000000438936, 'flips_per_100m': 2.777238637708525, 'primitives': 8, 'min_primitive_m': 14.402795444688053, 'heading': False, 'near_centre': False, 'with_lanes': True, 'accepted': False}}, {'kind': 'enter', 'seed': '2023080917083032899', 'links': ['2023080917083030434', '2023080917083032899'], 'accepted': True, 'chosen': {'kappa_cap': 0.009, 'sharp_cap': 0.000216, 'free_end_curvature': False, 'segments': 3, 'solver_success': True, 'end_offsets_m': [0.0, 0.0, -0.9787, -0.4215], 'zone_m': 11.128, 'median_m': 0.31454976373923627, 'outside_median_m': 0.3365223346998276, 'outside_p95_m': 0.8764853283867906, 'outside_max_m': 0.9787025816916974, 'zone_max_m': 0.42154843859335017, 'max_m': 0.9787025816916974, 'field_coverage': 1.0, 'heading_p95_deg': 0.6758684536831747, 'heading_max_deg': 0.6841494103848098, 'kappa_max': 0.001770582420619333, 'sharpness_max': 0.00021599999999999536, 'flips_per_100m': 7.219702184615047, 'primitives': 3, 'min_primitive_m': 9.233991231484753, 'heading': True, 'near_centre': True, 'with_lanes': True, 'accepted': True}, 'tried': 1}, {'kind': 'enter', 'seed': '2023081015482000476', 'links': ['2023081015482000476'], 'accepted': False, 'chosen': None, 'tried': 2, 'last': {'kappa_cap': 0.009, 'sharp_cap': 0.000216, 'free_end_curvature': False, 'segments': 3, 'solver_success': True, 'end_offsets_m': [0.0, -0.0, 0.2122, 0.5389], 'zone_m': 2.869, 'median_m': 0.15740708171938453, 'outside_median_m': 0.15026023861361293, 'outside_p95_m': 0.22979839294253052, 'outside_max_m': 0.2337529546557615, 'zone_max_m': 0.53888473785615, 'max_m': 0.53888473785615, 'field_coverage': 1.0, 'heading_p95_deg': 24.10484600822865, 'heading_max_deg': 26.128620823350253, 'kappa_max': 0.0005063816425617386, 'sharpness_max': 0.00021599999997442724, 'flips_per_100m': 0.0, 'primitives': 3, 'min_primitive_m': 2.3443594565818997, 'heading': False, 'near_centre': True, 'with_lanes': True, 'accepted': False}}, {'kind': 'enter', 'seed': '2023080917083032899', 'links': ['2023080917083030434', '2023080917083032899'], 'accepted': True, 'chosen': {'kappa_cap': 0.009, 'sharp_cap': 0.000216, 'free_end_curvature': False, 'segments': 3, 'solver_success': True, 'end_offsets_m': [0.0, 0.0, -0.9787, -0.4215], 'zone_m': 11.128, 'median_m': 0.31454976373923627, 'outside_median_m': 0.3365223346998276, 'outside_p95_m': 0.8764853283867906, 'outside_max_m': 0.9787025816916974, 'zone_max_m': 0.42154843859335017, 'max_m': 0.9787025816916974, 'field_coverage': 1.0, 'heading_p95_deg': 0.6758684536831747, 'heading_max_deg': 0.6841494103848098, 'kappa_max': 0.001770582420619333, 'sharpness_max': 0.00021599999999999536, 'flips_per_100m': 7.219702184615047, 'primitives': 3, 'min_primitive_m': 9.233991231484753, 'heading': True, 'near_centre': True, 'with_lanes': True, 'accepted': True}, 'tried': 1}, {'kind': 'enter', 'seed': '2023081015482000476', 'links': ['2023081015482000476'], 'accepted': True, 'chosen': {'kappa_cap': 0.1, 'sharp_cap': 0.008, 'free_end_curvature': True, 'segments': 3, 'solver_success': True, 'end_offsets_m': [0.0, -0.0, 0.0488, 0.0148], 'zone_m': 2.869, 'median_m': 0.029053429945399268, 'outside_median_m': 0.07057848816262856, 'outside_p95_m': 0.10493010719599483, 'outside_max_m': 0.10534326303173927, 'zone_max_m': 0.03129870141608166, 'max_m': 0.1283323046628344, 'field_coverage': 1.0, 'heading_p95_deg': 4.285340363636387, 'heading_max_deg': 4.8274110606098555, 'kappa_max': 0.1, 'sharpness_max': 0.00800000000000042, 'flips_per_100m': 0.0, 'primitives': 2, 'min_primitive_m': 2.393182585386322, 'heading': True, 'near_centre': True, 'with_lanes': True, 'accepted': True}, 'tried': 11}], 'truncated_enter_links': {'2023080917072285699': 4}, 'capped_departure_m': {}, 'relaxed': ['enter:2023081015482000476']}
+
+fit calls (converter fit_leg_refline):
+  att1 enter             seed …285699 chain[…285699(10.7m) + …591299(38.7m) + …589627(38.0m) + …470005(39.4m) + …063623(21.5m) + …473253(43.6m)] pts=14 -> FAIL  caps={} relaxed=[]
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=0.82/3.67/4.07 fails: source_to_target.median 0.82>0.2; source_to_target.p95 3.67>0.3; source_to_target.max 4.07>0.35; target_to_source.median 0.82>0.2
+      single-arc     kappa_max=0.0013 sharp=0.00000 s2t med/p95/max=4.52/8.65/8.99 fails: source_to_target.median 4.52>0.6; source_to_target.p95 8.65>1.25; source_to_target.max 8.99>1.5; target_to_source.median 4.45>0.6
+      single-spiral  kappa_max=0.0021 sharp=0.00002 s2t med/p95/max=1.51/5.80/6.40 fails: source_to_target.median 1.52>0.6; source_to_target.p95 5.80>1.25; source_to_target.max 6.40>1.5; target_to_source.median 1.49>0.6
+      solve-g2-3     kappa_max=0.0031 sharp=0.00008 s2t med/p95/max=1.10/7.04/7.71 fails: source_to_target.median 1.10>0.6; source_to_target.p95 7.04>1.25; source_to_target.max 7.70>1.5; target_to_source.median 1.08>0.6
+      constrained-3  kappa_max=0.0053 sharp=0.00022 s2t med/p95/max=0.55/4.04/4.75 fails: source_to_target.p95 4.04>1.25; source_to_target.max 4.75>1.5; target_to_source.p95 3.94>1.25; target_to_source.max 4.69>1.5
+      constrained-4  kappa_max=0.0063 sharp=0.00022 s2t med/p95/max=0.43/2.65/3.46 fails: source_to_target.p95 2.65>1.25; source_to_target.max 3.46>1.5; target_to_source.p95 2.58>1.25; target_to_source.max 3.39>1.5
+      constrained-5  kappa_max=0.0063 sharp=0.00022 s2t med/p95/max=0.45/2.64/3.45 fails: source_to_target.p95 2.64>1.25; source_to_target.max 3.45>1.5; target_to_source.p95 2.57>1.25; target_to_source.max 3.38>1.5
+  att2 enter             seed …285699 chain[…285699(10.7m) + …591299(38.7m) + …589627(38.0m) + …470005(39.4m) + …063623(21.5m)] pts=13 -> FAIL  caps={'…285699': 5} relaxed=[]
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=2.26/6.85/7.37 fails: source_to_target.median 2.26>0.2; source_to_target.p95 6.85>0.3; source_to_target.max 7.37>0.35; target_to_source.median 2.26>0.2
+      single-arc     kappa_max=0.0056 sharp=0.00000 s2t med/p95/max=7.86/12.58/12.65 fails: source_to_target.median 7.86>0.6; source_to_target.p95 12.58>1.25; source_to_target.max 12.65>1.5; target_to_source.median 7.91>0.6
+      single-spiral  kappa_max=0.0079 sharp=0.00008 s2t med/p95/max=1.43/3.76/3.83 fails: source_to_target.median 1.43>0.6; source_to_target.p95 3.76>1.25; source_to_target.max 3.83>1.5; target_to_source.median 1.42>0.6
+      solve-g2-3     kappa_max=0.0117 sharp=0.00034 s2t med/p95/max=1.12/6.20/6.34 fails: kappa 0.0117>0.009; sharpness 0.000337>0.000216; source_to_target.median 1.12>0.6; source_to_target.p95 6.20>1.25
+      constrained-3  optimiser found no G2 solution under the caps
+      constrained-4  optimiser found no G2 solution under the caps
+      constrained-5  optimiser found no G2 solution under the caps
+  att3 enter             seed …285699 chain[…285699(10.7m) + …591299(38.7m) + …589627(38.0m) + …470005(39.4m)] pts=12 -> OK dev=0.64 strict-constrained-4-clothoid
+  att3 enter             seed …046029 chain[…046029(51.3m) + …966418(21.4m) + …963237(14.0m) + …208082(130.0m)] pts=22 -> OK dev=0.36 strict-constrained-4-clothoid
+  att3 enter             seed …032899 chain[…032899(9.8m) + …030434(22.1m)] pts=6 -> FAIL  caps={'…285699': 4} relaxed=[]
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=0.82/1.10/1.12 fails: source_to_target.median 0.82>0.2; source_to_target.p95 1.10>0.3; source_to_target.max 1.12>0.35; target_to_source.median 0.81>0.2
+      single-arc     kappa_max=0.0116 sharp=0.00000 s2t med/p95/max=0.08/0.16/0.17 fails: kappa 0.0116>0.009
+      single-spiral  kappa_max=0.0159 sharp=0.00050 s2t med/p95/max=0.15/0.23/0.25 fails: kappa 0.0159>0.009; sharpness 0.000497>0.000216
+      solve-g2-3     kappa_max=0.0238 sharp=0.00257 s2t med/p95/max=0.04/0.12/0.13 fails: kappa 0.0238>0.009; sharpness 0.002574>0.000216
+      constrained-3  optimiser found no G2 solution under the caps
+      constrained-4  optimiser found no G2 solution under the caps
+      constrained-5  optimiser found no G2 solution under the caps
+  att3 enter             seed …447213 chain[…447213(30.2m) + …443610(13.7m) + …440822(16.2m) + …167241(22.4m) + …163683(30.7m) + …777229(74.0m)] pts=16 -> OK dev=0.62 strict-constrained-3-clothoid
+  att3 enter             seed …000476 chain[…000476(12.7m) + …591299(38.7m) + …589627(38.0m) + …470005(39.4m) + …063623(21.5m) + …473253(43.6m)] pts=32 -> FAIL  caps={'…285699': 4} relaxed=[]
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=4.58/6.11/6.25 fails: source_to_target.median 4.58>0.2; source_to_target.p95 6.11>0.3; source_to_target.max 6.25>0.35; target_to_source.median 4.55>0.2
+      single-arc     kappa_max=0.0073 sharp=0.00000 s2t med/p95/max=24.45/31.97/32.10 fails: source_to_target.median 24.45>0.6; source_to_target.p95 31.97>1.25; source_to_target.max 32.10>1.5; target_to_source.median 24.95>0.6
+      single-spiral  kappa_max=0.0151 sharp=0.00012 s2t med/p95/max=5.55/13.71/13.83 fails: kappa 0.0151>0.009; source_to_target.median 5.55>0.6; source_to_target.p95 13.71>1.25; source_to_target.max 13.83>1.5
+      solve-g2-3     kappa_max=0.0210 sharp=0.00040 s2t med/p95/max=3.02/20.52/20.80 fails: kappa 0.0210>0.009; sharpness 0.000403>0.000216; source_to_target.median 3.02>0.6; source_to_target.p95 20.52>1.25
+      constrained-3  optimiser found no G2 solution under the caps
+      constrained-4  optimiser found no G2 solution under the caps
+      constrained-5  optimiser found no G2 solution under the caps
+  att4 enter             seed …285699 chain[…285699(10.7m) + …591299(38.7m) + …589627(38.0m) + …470005(39.4m)] pts=12 -> OK dev=0.64 strict-constrained-4-clothoid
+  att4 enter             seed …046029 chain[…046029(51.3m) + …966418(21.4m) + …963237(14.0m) + …208082(130.0m)] pts=22 -> OK dev=0.36 strict-constrained-4-clothoid
+  att4 enter             seed …032899 chain[…032899(9.8m) + …030434(22.1m)] pts=6 -> FAIL  caps={'…285699': 4, '…000476': 5} relaxed=[]
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=0.82/1.10/1.12 fails: source_to_target.median 0.82>0.2; source_to_target.p95 1.10>0.3; source_to_target.max 1.12>0.35; target_to_source.median 0.81>0.2
+      single-arc     kappa_max=0.0116 sharp=0.00000 s2t med/p95/max=0.08/0.16/0.17 fails: kappa 0.0116>0.009
+      single-spiral  kappa_max=0.0159 sharp=0.00050 s2t med/p95/max=0.15/0.23/0.25 fails: kappa 0.0159>0.009; sharpness 0.000497>0.000216
+      solve-g2-3     kappa_max=0.0238 sharp=0.00257 s2t med/p95/max=0.04/0.12/0.13 fails: kappa 0.0238>0.009; sharpness 0.002574>0.000216
+      constrained-3  optimiser found no G2 solution under the caps
+      constrained-4  optimiser found no G2 solution under the caps
+      constrained-5  optimiser found no G2 solution under the caps
+  att4 enter             seed …447213 chain[…447213(30.2m) + …443610(13.7m) + …440822(16.2m) + …167241(22.4m) + …163683(30.7m) + …777229(74.0m)] pts=16 -> OK dev=0.62 strict-constrained-3-clothoid
+  att4 enter             seed …000476 chain[…000476(12.7m) + …591299(38.7m) + …589627(38.0m) + …470005(39.4m) + …063623(21.5m)] pts=31 -> FAIL  caps={'…285699': 4, '…000476': 5} relaxed=[]
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=6.39/7.96/8.28 fails: source_to_target.median 6.39>0.2; source_to_target.p95 7.95>0.3; source_to_target.max 8.28>0.35; target_to_source.median 6.39>0.2
+      single-arc     kappa_max=0.0062 sharp=0.00000 s2t med/p95/max=5.51/11.24/11.35 fails: source_to_target.median 5.51>0.6; source_to_target.p95 11.24>1.25; source_to_target.max 11.35>1.5; target_to_source.median 5.69>0.6
+      single-spiral  kappa_max=0.0144 sharp=0.00010 s2t med/p95/max=7.52/14.03/14.10 fails: kappa 0.0144>0.009; source_to_target.median 7.52>0.6; source_to_target.p95 14.03>1.25; source_to_target.max 14.10>1.5
+      solve-g2-3     kappa_max=0.0204 sharp=0.00041 s2t med/p95/max=9.57/20.65/20.80 fails: kappa 0.0203>0.009; sharpness 0.000406>0.000216; source_to_target.median 9.57>0.6; source_to_target.p95 20.65>1.25
+      constrained-3  optimiser found no G2 solution under the caps
+      constrained-4  optimiser found no G2 solution under the caps
+      constrained-5  optimiser found no G2 solution under the caps
+  att5 enter             seed …285699 chain[…285699(10.7m) + …591299(38.7m) + …589627(38.0m) + …470005(39.4m)] pts=12 -> OK dev=0.64 strict-constrained-4-clothoid
+  att5 enter             seed …046029 chain[…046029(51.3m) + …966418(21.4m) + …963237(14.0m) + …208082(130.0m)] pts=22 -> OK dev=0.36 strict-constrained-4-clothoid
+  att5 enter             seed …032899 chain[…032899(9.8m) + …030434(22.1m)] pts=6 -> FAIL  caps={'…285699': 4, '…000476': 4} relaxed=[]
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=0.82/1.10/1.12 fails: source_to_target.median 0.82>0.2; source_to_target.p95 1.10>0.3; source_to_target.max 1.12>0.35; target_to_source.median 0.81>0.2
+      single-arc     kappa_max=0.0116 sharp=0.00000 s2t med/p95/max=0.08/0.16/0.17 fails: kappa 0.0116>0.009
+      single-spiral  kappa_max=0.0159 sharp=0.00050 s2t med/p95/max=0.15/0.23/0.25 fails: kappa 0.0159>0.009; sharpness 0.000497>0.000216
+      solve-g2-3     kappa_max=0.0238 sharp=0.00257 s2t med/p95/max=0.04/0.12/0.13 fails: kappa 0.0238>0.009; sharpness 0.002574>0.000216
+      constrained-3  optimiser found no G2 solution under the caps
+      constrained-4  optimiser found no G2 solution under the caps
+      constrained-5  optimiser found no G2 solution under the caps
+  att5 enter             seed …447213 chain[…447213(30.2m) + …443610(13.7m) + …440822(16.2m) + …167241(22.4m) + …163683(30.7m) + …777229(74.0m)] pts=16 -> OK dev=0.62 strict-constrained-3-clothoid
+  att5 enter             seed …000476 chain[…000476(12.7m) + …591299(38.7m) + …589627(38.0m) + …470005(39.4m)] pts=30 -> FAIL  caps={'…285699': 4, '…000476': 4} relaxed=[]
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=1.66/5.53/5.88 fails: source_to_target.median 1.66>0.2; source_to_target.p95 5.53>0.3; source_to_target.max 5.88>0.35; target_to_source.median 1.54>0.2
+      single-arc     kappa_max=0.0106 sharp=0.00000 s2t med/p95/max=14.31/21.59/21.69 fails: kappa 0.0106>0.009; source_to_target.median 14.31>0.6; source_to_target.p95 21.59>1.25; source_to_target.max 21.69>1.5
+      single-spiral  kappa_max=0.0200 sharp=0.00023 s2t med/p95/max=5.40/8.68/8.71 fails: kappa 0.0200>0.009; sharpness 0.000231>0.000216; source_to_target.median 5.40>0.6; source_to_target.p95 8.68>1.25
+      solve-g2-3     kappa_max=0.0283 sharp=0.00083 s2t med/p95/max=5.10/13.57/13.75 fails: kappa 0.0283>0.009; sharpness 0.000832>0.000216; source_to_target.median 5.10>0.6; source_to_target.p95 13.57>1.25
+      constrained-3  optimiser found no G2 solution under the caps
+      constrained-4  optimiser found no G2 solution under the caps
+      constrained-5  optimiser found no G2 solution under the caps
+  att6 enter             seed …285699 chain[…285699(10.7m) + …591299(38.7m) + …589627(38.0m) + …470005(39.4m)] pts=12 -> OK dev=0.64 strict-constrained-4-clothoid
+  att6 enter             seed …046029 chain[…046029(51.3m) + …966418(21.4m) + …963237(14.0m) + …208082(130.0m)] pts=22 -> OK dev=0.36 strict-constrained-4-clothoid
+  att6 enter             seed …032899 chain[…032899(9.8m) + …030434(22.1m)] pts=6 -> FAIL  caps={'…285699': 4, '…000476': 3} relaxed=[]
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=0.82/1.10/1.12 fails: source_to_target.median 0.82>0.2; source_to_target.p95 1.10>0.3; source_to_target.max 1.12>0.35; target_to_source.median 0.81>0.2
+      single-arc     kappa_max=0.0116 sharp=0.00000 s2t med/p95/max=0.08/0.16/0.17 fails: kappa 0.0116>0.009
+      single-spiral  kappa_max=0.0159 sharp=0.00050 s2t med/p95/max=0.15/0.23/0.25 fails: kappa 0.0159>0.009; sharpness 0.000497>0.000216
+      solve-g2-3     kappa_max=0.0238 sharp=0.00257 s2t med/p95/max=0.04/0.12/0.13 fails: kappa 0.0238>0.009; sharpness 0.002574>0.000216
+      constrained-3  optimiser found no G2 solution under the caps
+      constrained-4  optimiser found no G2 solution under the caps
+      constrained-5  optimiser found no G2 solution under the caps
+  att6 enter             seed …447213 chain[…447213(30.2m) + …443610(13.7m) + …440822(16.2m) + …167241(22.4m) + …163683(30.7m) + …777229(74.0m)] pts=16 -> OK dev=0.62 strict-constrained-3-clothoid
+  att6 enter             seed …000476 chain[…000476(12.7m) + …591299(38.7m) + …589627(38.0m)] pts=28 -> FAIL  caps={'…285699': 4, '…000476': 3} relaxed=[]
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=3.51/5.64/5.88 fails: source_to_target.median 3.51>0.2; source_to_target.p95 5.64>0.3; source_to_target.max 5.88>0.35; target_to_source.median 3.45>0.2
+      single-arc     kappa_max=0.0161 sharp=0.00000 s2t med/p95/max=8.60/12.61/12.64 fails: kappa 0.0161>0.009; source_to_target.median 8.60>0.6; source_to_target.p95 12.61>1.25; source_to_target.max 12.64>1.5
+      single-spiral  kappa_max=0.0285 sharp=0.00047 s2t med/p95/max=1.96/4.16/4.19 fails: kappa 0.0285>0.009; sharpness 0.000466>0.000216; source_to_target.median 1.96>0.6; source_to_target.p95 4.16>1.25
+      solve-g2-3     kappa_max=0.0404 sharp=0.00174 s2t med/p95/max=1.75/7.65/7.75 fails: kappa 0.0404>0.009; sharpness 0.001741>0.000216; source_to_target.median 1.75>0.6; source_to_target.p95 7.65>1.25
+      constrained-3  optimiser found no G2 solution under the caps
+      constrained-4  optimiser found no G2 solution under the caps
+      constrained-5  optimiser found no G2 solution under the caps
+  att7 enter             seed …285699 chain[…285699(10.7m) + …591299(38.7m) + …589627(38.0m) + …470005(39.4m)] pts=12 -> OK dev=0.64 strict-constrained-4-clothoid
+  att7 enter             seed …046029 chain[…046029(51.3m) + …966418(21.4m) + …963237(14.0m) + …208082(130.0m)] pts=22 -> OK dev=0.36 strict-constrained-4-clothoid
+  att7 enter             seed …032899 chain[…032899(9.8m) + …030434(22.1m)] pts=6 -> FAIL  caps={'…285699': 4, '…000476': 2} relaxed=[]
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=0.82/1.10/1.12 fails: source_to_target.median 0.82>0.2; source_to_target.p95 1.10>0.3; source_to_target.max 1.12>0.35; target_to_source.median 0.81>0.2
+      single-arc     kappa_max=0.0116 sharp=0.00000 s2t med/p95/max=0.08/0.16/0.17 fails: kappa 0.0116>0.009
+      single-spiral  kappa_max=0.0159 sharp=0.00050 s2t med/p95/max=0.15/0.23/0.25 fails: kappa 0.0159>0.009; sharpness 0.000497>0.000216
+      solve-g2-3     kappa_max=0.0238 sharp=0.00257 s2t med/p95/max=0.04/0.12/0.13 fails: kappa 0.0238>0.009; sharpness 0.002574>0.000216
+      constrained-3  optimiser found no G2 solution under the caps
+      constrained-4  optimiser found no G2 solution under the caps
+      constrained-5  optimiser found no G2 solution under the caps
+  att7 enter             seed …447213 chain[…447213(30.2m) + …443610(13.7m) + …440822(16.2m) + …167241(22.4m) + …163683(30.7m) + …777229(74.0m)] pts=16 -> OK dev=0.62 strict-constrained-3-clothoid
+  att7 enter             seed …000476 chain[…000476(12.7m) + …591299(38.7m)] pts=23 -> FAIL  caps={'…285699': 4, '…000476': 2} relaxed=[]
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=2.73/5.03/5.29 fails: source_to_target.median 2.73>0.2; source_to_target.p95 5.03>0.3; source_to_target.max 5.29>0.35; target_to_source.median 2.65>0.2
+      single-arc     kappa_max=0.0287 sharp=0.00000 s2t med/p95/max=3.44/5.86/5.89 fails: kappa 0.0287>0.009; source_to_target.median 3.44>0.6; source_to_target.p95 5.86>1.25; source_to_target.max 5.89>1.5
+      single-spiral  kappa_max=0.0429 sharp=0.00118 s2t med/p95/max=0.70/1.56/1.82 fails: kappa 0.0429>0.009; sharpness 0.001181>0.000216; source_to_target.median 0.70>0.6; source_to_target.p95 1.56>1.25
+      solve-g2-3     kappa_max=0.0620 sharp=0.00479 s2t med/p95/max=0.75/2.29/2.33 fails: kappa 0.0620>0.009; sharpness 0.004791>0.000216; source_to_target.median 0.75>0.6; source_to_target.p95 2.29>1.25
+      constrained-3  optimiser found no G2 solution under the caps
+      constrained-4  optimiser found no G2 solution under the caps
+      constrained-5  optimiser found no G2 solution under the caps
+  att8 enter             seed …285699 chain[…285699(10.7m) + …591299(38.7m) + …589627(38.0m) + …470005(39.4m)] pts=12 -> OK dev=0.64 strict-constrained-4-clothoid
+  att8 enter             seed …046029 chain[…046029(51.3m) + …966418(21.4m) + …963237(14.0m) + …208082(130.0m)] pts=22 -> OK dev=0.36 strict-constrained-4-clothoid
+  att8 enter             seed …032899 chain[…032899(9.8m) + …030434(22.1m)] pts=6 -> FAIL  caps={'…285699': 4, '…000476': 1} relaxed=[]
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=0.82/1.10/1.12 fails: source_to_target.median 0.82>0.2; source_to_target.p95 1.10>0.3; source_to_target.max 1.12>0.35; target_to_source.median 0.81>0.2
+      single-arc     kappa_max=0.0116 sharp=0.00000 s2t med/p95/max=0.08/0.16/0.17 fails: kappa 0.0116>0.009
+      single-spiral  kappa_max=0.0159 sharp=0.00050 s2t med/p95/max=0.15/0.23/0.25 fails: kappa 0.0159>0.009; sharpness 0.000497>0.000216
+      solve-g2-3     kappa_max=0.0238 sharp=0.00257 s2t med/p95/max=0.04/0.12/0.13 fails: kappa 0.0238>0.009; sharpness 0.002574>0.000216
+      constrained-3  optimiser found no G2 solution under the caps
+      constrained-4  optimiser found no G2 solution under the caps
+      constrained-5  optimiser found no G2 solution under the caps
+  att8 enter             seed …447213 chain[…447213(30.2m) + …443610(13.7m) + …440822(16.2m) + …167241(22.4m) + …163683(30.7m) + …777229(74.0m)] pts=16 -> OK dev=0.62 strict-constrained-3-clothoid
+  att8 enter             seed …000476 chain[…000476(12.7m)] pts=21 -> FAIL  caps={'…285699': 4, '…000476': 1} relaxed=[]
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=0.53/0.83/0.83 fails: source_to_target.median 0.53>0.2; source_to_target.p95 0.83>0.3; source_to_target.max 0.84>0.35; target_to_source.median 0.53>0.2
+      single-arc     kappa_max=0.0758 sharp=0.00000 s2t med/p95/max=0.08/0.25/0.26 fails: kappa 0.0758>0.009
+      single-spiral  kappa_max=0.0462 sharp=0.00195 s2t med/p95/max=0.20/0.43/0.43 fails: kappa 0.0462>0.009; sharpness 0.001951>0.000216
+      solve-g2-3     kappa_max=0.0690 sharp=0.02156 s2t med/p95/max=0.14/0.31/0.32 fails: kappa 0.0690>0.009; sharpness 0.021556>0.000216
+      constrained-3  optimiser found no G2 solution under the caps
+      constrained-4  optimiser found no G2 solution under the caps
+      constrained-5  optimiser found no G2 solution under the caps
+  att9 enter             seed …285699 chain[…285699(10.7m) + …591299(38.7m) + …589627(38.0m) + …470005(39.4m)] pts=12 -> OK dev=0.64 strict-constrained-4-clothoid
+  att9 enter             seed …046029 chain[…046029(51.3m) + …966418(21.4m) + …963237(14.0m) + …208082(130.0m)] pts=22 -> OK dev=0.36 strict-constrained-4-clothoid
+  att9 enter             seed …032899 chain[…032899(9.8m) + …030434(22.1m)] pts=6 -> FAIL  caps={'…285699': 4, '…000476': 1} relaxed=['…000476']
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=0.82/1.10/1.12 fails: source_to_target.median 0.82>0.2; source_to_target.p95 1.10>0.3; source_to_target.max 1.12>0.35; target_to_source.median 0.81>0.2
+      single-arc     kappa_max=0.0116 sharp=0.00000 s2t med/p95/max=0.08/0.16/0.17 fails: kappa 0.0116>0.009
+      single-spiral  kappa_max=0.0159 sharp=0.00050 s2t med/p95/max=0.15/0.23/0.25 fails: kappa 0.0159>0.009; sharpness 0.000497>0.000216
+      solve-g2-3     kappa_max=0.0238 sharp=0.00257 s2t med/p95/max=0.04/0.12/0.13 fails: kappa 0.0238>0.009; sharpness 0.002574>0.000216
+      constrained-3  optimiser found no G2 solution under the caps
+      constrained-4  optimiser found no G2 solution under the caps
+      constrained-5  optimiser found no G2 solution under the caps
+  att9 enter             seed …447213 chain[…447213(30.2m) + …443610(13.7m) + …440822(16.2m) + …167241(22.4m) + …163683(30.7m) + …777229(74.0m)] pts=16 -> OK dev=0.62 strict-constrained-3-clothoid
+  att9 enter             seed …000476 chain[…000476(12.7m)] pts=21 -> FAIL  caps={'…285699': 4, '…000476': 1} relaxed=['…000476']
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=0.53/0.83/0.83 fails: source_to_target.median 0.53>0.2; source_to_target.p95 0.83>0.3; source_to_target.max 0.84>0.35; target_to_source.median 0.53>0.2
+      single-arc     kappa_max=0.0758 sharp=0.00000 s2t med/p95/max=0.08/0.25/0.26 fails: kappa 0.0758>0.009
+      single-spiral  kappa_max=0.0462 sharp=0.00195 s2t med/p95/max=0.20/0.43/0.43 fails: kappa 0.0462>0.009; sharpness 0.001951>0.000216
+      solve-g2-3     kappa_max=0.0690 sharp=0.02156 s2t med/p95/max=0.14/0.31/0.32 fails: kappa 0.0690>0.009; sharpness 0.021556>0.000216
+      constrained-3  optimiser found no G2 solution under the caps
+      constrained-4  optimiser found no G2 solution under the caps
+      constrained-5  optimiser found no G2 solution under the caps
+  att10 enter             seed …285699 chain[…285699(10.7m) + …591299(38.7m) + …589627(38.0m) + …470005(39.4m) + …063623(21.5m) + …473253(43.6m)] pts=14 -> FAIL  caps={} relaxed=[]
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=0.82/3.67/4.07 fails: source_to_target.median 0.82>0.2; source_to_target.p95 3.67>0.3; source_to_target.max 4.07>0.35; target_to_source.median 0.82>0.2
+      single-arc     kappa_max=0.0013 sharp=0.00000 s2t med/p95/max=4.52/8.65/8.99 fails: source_to_target.median 4.52>0.6; source_to_target.p95 8.65>1.25; source_to_target.max 8.99>1.5; target_to_source.median 4.45>0.6
+      single-spiral  kappa_max=0.0021 sharp=0.00002 s2t med/p95/max=1.51/5.80/6.40 fails: source_to_target.median 1.52>0.6; source_to_target.p95 5.80>1.25; source_to_target.max 6.40>1.5; target_to_source.median 1.49>0.6
+      solve-g2-3     kappa_max=0.0031 sharp=0.00008 s2t med/p95/max=1.10/7.04/7.71 fails: source_to_target.median 1.10>0.6; source_to_target.p95 7.04>1.25; source_to_target.max 7.70>1.5; target_to_source.median 1.08>0.6
+      constrained-3  kappa_max=0.0053 sharp=0.00022 s2t med/p95/max=0.55/4.04/4.75 fails: source_to_target.p95 4.04>1.25; source_to_target.max 4.75>1.5; target_to_source.p95 3.94>1.25; target_to_source.max 4.69>1.5
+      constrained-4  kappa_max=0.0063 sharp=0.00022 s2t med/p95/max=0.43/2.65/3.46 fails: source_to_target.p95 2.65>1.25; source_to_target.max 3.46>1.5; target_to_source.p95 2.58>1.25; target_to_source.max 3.39>1.5
+      constrained-5  kappa_max=0.0063 sharp=0.00022 s2t med/p95/max=0.45/2.64/3.45 fails: source_to_target.p95 2.64>1.25; source_to_target.max 3.45>1.5; target_to_source.p95 2.57>1.25; target_to_source.max 3.38>1.5
+  att11 enter             seed …285699 chain[…285699(10.7m) + …591299(38.7m) + …589627(38.0m) + …470005(39.4m) + …063623(21.5m)] pts=13 -> FAIL  caps={'…285699': 5} relaxed=[]
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=2.26/6.85/7.37 fails: source_to_target.median 2.26>0.2; source_to_target.p95 6.85>0.3; source_to_target.max 7.37>0.35; target_to_source.median 2.26>0.2
+      single-arc     kappa_max=0.0056 sharp=0.00000 s2t med/p95/max=7.86/12.58/12.65 fails: source_to_target.median 7.86>0.6; source_to_target.p95 12.58>1.25; source_to_target.max 12.65>1.5; target_to_source.median 7.91>0.6
+      single-spiral  kappa_max=0.0079 sharp=0.00008 s2t med/p95/max=1.43/3.76/3.83 fails: source_to_target.median 1.43>0.6; source_to_target.p95 3.76>1.25; source_to_target.max 3.83>1.5; target_to_source.median 1.42>0.6
+      solve-g2-3     kappa_max=0.0117 sharp=0.00034 s2t med/p95/max=1.12/6.20/6.34 fails: kappa 0.0117>0.009; sharpness 0.000337>0.000216; source_to_target.median 1.12>0.6; source_to_target.p95 6.20>1.25
+      constrained-3  optimiser found no G2 solution under the caps
+      constrained-4  optimiser found no G2 solution under the caps
+      constrained-5  optimiser found no G2 solution under the caps
+  att12 enter             seed …285699 chain[…285699(10.7m) + …591299(38.7m) + …589627(38.0m) + …470005(39.4m)] pts=12 -> OK dev=0.64 strict-constrained-4-clothoid
+  att12 enter             seed …046029 chain[…046029(51.3m) + …966418(21.4m) + …963237(14.0m) + …208082(130.0m)] pts=22 -> OK dev=0.36 strict-constrained-4-clothoid
+  att12 enter             seed …032899 chain[…032899(9.8m) + …030434(22.1m)] pts=6 -> FAIL  caps={'…285699': 4} relaxed=[]
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=0.82/1.10/1.12 fails: source_to_target.median 0.82>0.2; source_to_target.p95 1.10>0.3; source_to_target.max 1.12>0.35; target_to_source.median 0.81>0.2
+      single-arc     kappa_max=0.0116 sharp=0.00000 s2t med/p95/max=0.08/0.16/0.17 fails: kappa 0.0116>0.009
+      single-spiral  kappa_max=0.0159 sharp=0.00050 s2t med/p95/max=0.15/0.23/0.25 fails: kappa 0.0159>0.009; sharpness 0.000497>0.000216
+      solve-g2-3     kappa_max=0.0238 sharp=0.00257 s2t med/p95/max=0.04/0.12/0.13 fails: kappa 0.0238>0.009; sharpness 0.002574>0.000216
+      constrained-3  optimiser found no G2 solution under the caps
+      constrained-4  optimiser found no G2 solution under the caps
+      constrained-5  optimiser found no G2 solution under the caps
+  att12 enter             seed …447213 chain[…447213(30.2m) + …443610(13.7m) + …440822(16.2m) + …167241(22.4m) + …163683(30.7m) + …777229(74.0m)] pts=16 -> OK dev=0.62 strict-constrained-3-clothoid
+  att12 enter             seed …000476 chain[…000476(10.2m)] pts=16 -> FAIL  caps={'…285699': 4} relaxed=[]
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=0.40/0.62/0.62 fails: source_to_target.median 0.40>0.2; source_to_target.p95 0.62>0.3; source_to_target.max 0.62>0.35; target_to_source.median 0.40>0.2
+      single-arc     kappa_max=0.0998 sharp=0.00000 s2t med/p95/max=0.03/0.13/0.14 fails: kappa 0.0999>0.009
+      single-spiral  kappa_max=0.0466 sharp=0.00264 s2t med/p95/max=0.23/0.39/0.40 fails: kappa 0.0466>0.009; sharpness 0.002644>0.000216
+      solve-g2-3     kappa_max=0.0697 sharp=0.02962 s2t med/p95/max=0.20/0.34/0.34 fails: min_primitive 2.35<3.00; kappa 0.0697>0.009; sharpness 0.029618>0.000216
+      constrained-3  optimiser found no G2 solution under the caps
+      constrained-4  optimiser found no G2 solution under the caps
+      constrained-5  optimiser found no G2 solution under the caps
+  att13 enter             seed …285699 chain[…285699(10.7m) + …591299(38.7m) + …589627(38.0m) + …470005(39.4m)] pts=12 -> OK dev=0.64 strict-constrained-4-clothoid
+  att13 enter             seed …046029 chain[…046029(51.3m) + …966418(21.4m) + …963237(14.0m) + …208082(130.0m)] pts=22 -> OK dev=0.36 strict-constrained-4-clothoid
+  att13 enter             seed …032899 chain[…032899(9.8m) + …030434(22.1m)] pts=6 -> FAIL  caps={'…285699': 4} relaxed=['…000476']
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=0.82/1.10/1.12 fails: source_to_target.median 0.82>0.2; source_to_target.p95 1.10>0.3; source_to_target.max 1.12>0.35; target_to_source.median 0.81>0.2
+      single-arc     kappa_max=0.0116 sharp=0.00000 s2t med/p95/max=0.08/0.16/0.17 fails: kappa 0.0116>0.009
+      single-spiral  kappa_max=0.0159 sharp=0.00050 s2t med/p95/max=0.15/0.23/0.25 fails: kappa 0.0159>0.009; sharpness 0.000497>0.000216
+      solve-g2-3     kappa_max=0.0238 sharp=0.00257 s2t med/p95/max=0.04/0.12/0.13 fails: kappa 0.0238>0.009; sharpness 0.002574>0.000216
+      constrained-3  optimiser found no G2 solution under the caps
+      constrained-4  optimiser found no G2 solution under the caps
+      constrained-5  optimiser found no G2 solution under the caps
+  att13 enter             seed …447213 chain[…447213(30.2m) + …443610(13.7m) + …440822(16.2m) + …167241(22.4m) + …163683(30.7m) + …777229(74.0m)] pts=16 -> OK dev=0.62 strict-constrained-3-clothoid
+  att13 enter             seed …000476 chain[…000476(10.2m)] pts=16 -> FAIL  caps={'…285699': 4} relaxed=['…000476']
+      single-line    kappa_max=0.0000 sharp=0.00000 s2t med/p95/max=0.40/0.62/0.62 fails: source_to_target.median 0.40>0.2; source_to_target.p95 0.62>0.3; source_to_target.max 0.62>0.35; target_to_source.median 0.40>0.2
+      single-arc     kappa_max=0.0998 sharp=0.00000 s2t med/p95/max=0.03/0.13/0.14 fails: kappa 0.0999>0.009
+      single-spiral  kappa_max=0.0466 sharp=0.00264 s2t med/p95/max=0.23/0.39/0.40 fails: kappa 0.0466>0.009; sharpness 0.002644>0.000216
+      solve-g2-3     kappa_max=0.0697 sharp=0.02962 s2t med/p95/max=0.20/0.34/0.34 fails: min_primitive 2.35<3.00; kappa 0.0697>0.009; sharpness 0.029618>0.000216
+      constrained-3  optimiser found no G2 solution under the caps
+      constrained-4  optimiser found no G2 solution under the caps
+      constrained-5  optimiser found no G2 solution under the caps
+
+fallback fit_leg calls (leg_fit_fallback):
+  att1 leg=enter:…285699 relaxed=False accepted=False pts=14
+      kcap=0.009 n=8 med=0.44 outP95=2.83 outMax=3.34 zoneMax=0.17 max=3.34 fieldCov=1.00 headP95=13.1 headMax=14.3 flips=2.1 | heading_ok=False near_centre=False with_lanes=True
+      kcap=0.009 n=13 med=0.41 outP95=2.70 outMax=3.35 zoneMax=0.11 max=3.35 fieldCov=1.00 headP95=12.5 headMax=13.7 flips=2.7 | heading_ok=False near_centre=False with_lanes=True
+  att2 leg=enter:…285699 relaxed=False accepted=False pts=13
+      kcap=0.009 n=6 med=0.50 outP95=2.67 outMax=3.26 zoneMax=0.17 max=3.26 fieldCov=1.00 headP95=9.7 headMax=11.7 flips=2.1 | heading_ok=False near_centre=False with_lanes=True
+      kcap=0.009 n=10 med=0.46 outP95=2.51 outMax=3.11 zoneMax=0.10 max=3.11 fieldCov=1.00 headP95=10.0 headMax=12.0 flips=2.8 | heading_ok=False near_centre=False with_lanes=True
+  att3 leg=enter:…032899 relaxed=False accepted=True pts=6
+      kcap=0.009 n=3 med=0.31 outP95=0.88 outMax=0.98 zoneMax=0.42 max=0.98 fieldCov=1.00 headP95=0.7 headMax=0.7 flips=7.2 | heading_ok=True near_centre=True with_lanes=True
+  att3 leg=enter:…000476 relaxed=False accepted=False pts=32
+      kcap=0.009 n=8 med=0.65 outP95=2.81 outMax=3.49 zoneMax=3.50 max=3.50 fieldCov=1.00 headP95=13.5 headMax=26.0 flips=2.1 | heading_ok=False near_centre=False with_lanes=False
+      kcap=0.009 n=13 med=0.64 outP95=2.76 outMax=3.24 zoneMax=3.50 max=3.50 fieldCov=1.00 headP95=12.9 headMax=26.1 flips=2.1 | heading_ok=False near_centre=False with_lanes=False
+  att4 leg=enter:…032899 relaxed=False accepted=True pts=6
+      kcap=0.009 n=3 med=0.31 outP95=0.88 outMax=0.98 zoneMax=0.42 max=0.98 fieldCov=1.00 headP95=0.7 headMax=0.7 flips=7.2 | heading_ok=True near_centre=True with_lanes=True
+  att4 leg=enter:…000476 relaxed=False accepted=False pts=31
+      kcap=0.009 n=6 med=0.70 outP95=2.92 outMax=3.51 zoneMax=3.50 max=3.51 fieldCov=1.00 headP95=10.1 headMax=25.4 flips=2.1 | heading_ok=False near_centre=False with_lanes=False
+      kcap=0.009 n=10 med=0.72 outP95=2.72 outMax=3.33 zoneMax=3.50 max=3.50 fieldCov=1.00 headP95=10.4 headMax=25.5 flips=2.1 | heading_ok=False near_centre=False with_lanes=False
+  att5 leg=enter:…032899 relaxed=False accepted=True pts=6
+      kcap=0.009 n=3 med=0.31 outP95=0.88 outMax=0.98 zoneMax=0.42 max=0.98 fieldCov=1.00 headP95=0.7 headMax=0.7 flips=7.2 | heading_ok=True near_centre=True with_lanes=True
+  att5 leg=enter:…000476 relaxed=False accepted=False pts=30
+      kcap=0.009 n=6 med=0.41 outP95=0.65 outMax=0.68 zoneMax=3.50 max=3.50 fieldCov=1.00 headP95=5.6 headMax=24.3 flips=1.6 | heading_ok=False near_centre=True with_lanes=True
+      kcap=0.009 n=9 med=0.40 outP95=0.60 outMax=0.62 zoneMax=3.50 max=3.50 fieldCov=1.00 headP95=5.8 headMax=24.0 flips=1.6 | heading_ok=False near_centre=True with_lanes=True
+  att6 leg=enter:…032899 relaxed=False accepted=True pts=6
+      kcap=0.009 n=3 med=0.31 outP95=0.88 outMax=0.98 zoneMax=0.42 max=0.98 fieldCov=1.00 headP95=0.7 headMax=0.7 flips=7.2 | heading_ok=True near_centre=True with_lanes=True
+  att6 leg=enter:…000476 relaxed=False accepted=False pts=28
+      kcap=0.009 n=4 med=0.65 outP95=0.79 outMax=0.85 zoneMax=3.50 max=3.50 fieldCov=1.00 headP95=5.8 headMax=25.2 flips=2.4 | heading_ok=False near_centre=True with_lanes=False
+      kcap=0.009 n=6 med=0.58 outP95=0.77 outMax=0.83 zoneMax=3.50 max=3.50 fieldCov=1.00 headP95=6.0 headMax=25.1 flips=2.4 | heading_ok=False near_centre=True with_lanes=True
+  att7 leg=enter:…032899 relaxed=False accepted=True pts=6
+      kcap=0.009 n=3 med=0.31 outP95=0.88 outMax=0.98 zoneMax=0.42 max=0.98 fieldCov=1.00 headP95=0.7 headMax=0.7 flips=7.2 | heading_ok=True near_centre=True with_lanes=True
+  att7 leg=enter:…000476 relaxed=False accepted=False pts=23
+      kcap=0.009 n=3 med=0.62 outP95=1.00 outMax=1.11 zoneMax=3.50 max=3.50 fieldCov=1.00 headP95=17.0 headMax=24.9 flips=0.0 | heading_ok=False near_centre=True with_lanes=False
+      kcap=0.009 n=4 med=0.52 outP95=0.88 outMax=1.00 zoneMax=3.50 max=3.50 fieldCov=1.00 headP95=16.6 headMax=24.5 flips=2.2 | heading_ok=False near_centre=True with_lanes=True
+  att8 leg=enter:…032899 relaxed=False accepted=True pts=6
+      kcap=0.009 n=3 med=0.31 outP95=0.88 outMax=0.98 zoneMax=0.42 max=0.98 fieldCov=1.00 headP95=0.7 headMax=0.7 flips=7.2 | heading_ok=True near_centre=True with_lanes=True
+  att8 leg=enter:…000476 relaxed=False accepted=False pts=21
+      kcap=0.009 n=3 med=0.73 outP95=1.09 outMax=1.15 zoneMax=2.51 max=2.51 fieldCov=0.68 headP95=14.3 headMax=14.4 flips=0.0 | heading_ok=False near_centre=True with_lanes=False
+  att9 leg=enter:…032899 relaxed=False accepted=True pts=6
+      kcap=0.009 n=3 med=0.31 outP95=0.88 outMax=0.98 zoneMax=0.42 max=0.98 fieldCov=1.00 headP95=0.7 headMax=0.7 flips=7.2 | heading_ok=True near_centre=True with_lanes=True
+  att9 leg=enter:…000476 relaxed=True accepted=False pts=21
+      kcap=0.009 n=3 med=0.73 outP95=1.09 outMax=1.15 zoneMax=2.51 max=2.51 fieldCov=0.68 headP95=14.3 headMax=14.4 flips=0.0 | heading_ok=False near_centre=True with_lanes=False
+      kcap=0.015 n=3 med=0.83 outP95=1.31 outMax=1.39 zoneMax=2.48 max=2.48 fieldCov=0.68 headP95=12.1 headMax=12.2 flips=0.0 | heading_ok=False near_centre=False with_lanes=False
+      kcap=0.025 n=3 med=0.85 outP95=1.40 outMax=1.50 zoneMax=2.51 max=2.51 fieldCov=0.68 headP95=10.9 headMax=10.9 flips=0.0 | heading_ok=False near_centre=False with_lanes=False
+      kcap=0.040 n=3 med=0.91 outP95=1.38 outMax=1.50 zoneMax=2.69 max=2.69 fieldCov=0.68 headP95=9.2 headMax=9.2 flips=0.0 | heading_ok=False near_centre=False with_lanes=False
+      kcap=0.065 n=3 med=1.07 outP95=1.36 outMax=1.50 zoneMax=3.10 max=3.10 fieldCov=0.68 headP95=5.5 headMax=5.7 flips=0.0 | heading_ok=False near_centre=False with_lanes=False
+      kcap=0.100 n=3 med=1.23 outP95=1.36 outMax=1.50 zoneMax=3.49 max=3.49 fieldCov=0.68 headP95=4.2 headMax=4.4 flips=0.0 | heading_ok=True near_centre=False with_lanes=False
+  att10 leg=enter:…285699 relaxed=False accepted=False pts=14
+      kcap=0.009 n=8 med=0.44 outP95=2.83 outMax=3.34 zoneMax=0.17 max=3.34 fieldCov=1.00 headP95=13.1 headMax=14.3 flips=2.1 | heading_ok=False near_centre=False with_lanes=True
+      kcap=0.009 n=13 med=0.41 outP95=2.70 outMax=3.35 zoneMax=0.11 max=3.35 fieldCov=1.00 headP95=12.5 headMax=13.7 flips=2.7 | heading_ok=False near_centre=False with_lanes=True
+  att11 leg=enter:…285699 relaxed=False accepted=False pts=13
+      kcap=0.009 n=6 med=0.50 outP95=2.67 outMax=3.26 zoneMax=0.17 max=3.26 fieldCov=1.00 headP95=9.7 headMax=11.7 flips=2.1 | heading_ok=False near_centre=False with_lanes=True
+      kcap=0.009 n=10 med=0.46 outP95=2.51 outMax=3.11 zoneMax=0.10 max=3.11 fieldCov=1.00 headP95=10.0 headMax=12.0 flips=2.8 | heading_ok=False near_centre=False with_lanes=True
+  att12 leg=enter:…032899 relaxed=False accepted=True pts=6
+      kcap=0.009 n=3 med=0.31 outP95=0.88 outMax=0.98 zoneMax=0.42 max=0.98 fieldCov=1.00 headP95=0.7 headMax=0.7 flips=7.2 | heading_ok=True near_centre=True with_lanes=True
+  att12 leg=enter:…000476 relaxed=False accepted=False pts=16
+      kcap=0.009 n=3 med=0.16 outP95=0.23 outMax=0.23 zoneMax=0.54 max=0.54 fieldCov=1.00 headP95=24.1 headMax=26.1 flips=0.0 | heading_ok=False near_centre=True with_lanes=True
+  att13 leg=enter:…032899 relaxed=False accepted=True pts=6
+      kcap=0.009 n=3 med=0.31 outP95=0.88 outMax=0.98 zoneMax=0.42 max=0.98 fieldCov=1.00 headP95=0.7 headMax=0.7 flips=7.2 | heading_ok=True near_centre=True with_lanes=True
+  att13 leg=enter:…000476 relaxed=True accepted=True pts=16
+      kcap=0.009 n=3 med=0.16 outP95=0.23 outMax=0.23 zoneMax=0.54 max=0.54 fieldCov=1.00 headP95=24.1 headMax=26.1 flips=0.0 | heading_ok=False near_centre=True with_lanes=True
+      kcap=0.015 n=3 med=0.12 outP95=0.20 outMax=0.20 zoneMax=0.48 max=0.48 fieldCov=1.00 headP95=21.4 headMax=23.3 flips=0.0 | heading_ok=False near_centre=True with_lanes=True
+      kcap=0.025 n=3 med=0.11 outP95=0.17 outMax=0.17 zoneMax=0.45 max=0.45 fieldCov=1.00 headP95=19.6 headMax=21.3 flips=0.0 | heading_ok=False near_centre=True with_lanes=True
+      kcap=0.040 n=3 med=0.09 outP95=0.12 outMax=0.12 zoneMax=0.37 max=0.37 fieldCov=1.00 headP95=16.3 headMax=17.8 flips=0.0 | heading_ok=False near_centre=True with_lanes=True
+      kcap=0.065 n=3 med=0.06 outP95=0.15 outMax=0.15 zoneMax=0.17 max=0.17 fieldCov=1.00 headP95=9.7 headMax=11.0 flips=0.0 | heading_ok=False near_centre=True with_lanes=True
+      kcap=0.100 n=3 med=0.03 outP95=0.10 outMax=0.11 zoneMax=0.03 max=0.13 fieldCov=1.00 headP95=4.3 headMax=4.8 flips=0.0 | heading_ok=True near_centre=True with_lanes=True
