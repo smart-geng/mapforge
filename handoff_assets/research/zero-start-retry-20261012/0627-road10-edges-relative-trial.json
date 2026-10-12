@@ -1,0 +1,2829 @@
+{
+ "road": "10",
+ "length": 461.1964244,
+ "sections": [
+  {
+   "k": 0,
+   "s0": 0.0,
+   "s1": 60.026,
+   "lanes": [
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023062517463636869",
+     "status": "TRANSFORMED",
+     "eligibility": "comparable",
+     "exclusion_code": null,
+     "support_s": [
+      0.0,
+      60.0256
+     ],
+     "support_kind": "shp-field-centerline",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023062517463635292",
+     "status": "TRANSFORMED",
+     "eligibility": "comparable",
+     "exclusion_code": null,
+     "support_s": [
+      0.07289179659860254,
+      60.0256
+     ],
+     "support_kind": "shp-field-centerline",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": 1,
+     "type": "median",
+     "source": null,
+     "status": "TRANSFORMED",
+     "eligibility": "excluded",
+     "exclusion_code": "median-non-driving",
+     "support_s": null,
+     "support_kind": "median",
+     "role": "median",
+     "trusted": null
+    },
+    {
+     "id": 2,
+     "type": "driving",
+     "source": "2023063018052248802",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "source-extension",
+     "support_s": null,
+     "support_kind": "source-extension",
+     "role": "departure",
+     "trusted": null
+    },
+    {
+     "id": 3,
+     "type": "driving",
+     "source": "2023063018052253616",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "source-extension",
+     "support_s": null,
+     "support_kind": "source-extension",
+     "role": "departure",
+     "trusted": null
+    }
+   ]
+  },
+  {
+   "k": 1,
+   "s0": 60.026,
+   "s1": 90.0,
+   "lanes": [
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023062517463636869",
+     "status": "TRANSFORMED",
+     "eligibility": "comparable",
+     "exclusion_code": null,
+     "support_s": [
+      60.0256,
+      90.0
+     ],
+     "support_kind": "shp-field-centerline",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023062517463635292",
+     "status": "TRANSFORMED",
+     "eligibility": "comparable",
+     "exclusion_code": null,
+     "support_s": [
+      60.0256,
+      90.0
+     ],
+     "support_kind": "shp-field-centerline",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": 1,
+     "type": "median",
+     "source": null,
+     "status": "TRANSFORMED",
+     "eligibility": "excluded",
+     "exclusion_code": "median-non-driving",
+     "support_s": null,
+     "support_kind": "median",
+     "role": "median",
+     "trusted": null
+    },
+    {
+     "id": 2,
+     "type": "driving",
+     "source": "2023063018052248802",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": true
+    },
+    {
+     "id": 3,
+     "type": "driving",
+     "source": "2023063018052253616",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": true
+    }
+   ]
+  },
+  {
+   "k": 2,
+   "s0": 90.0,
+   "s1": 100.0,
+   "lanes": [
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023062517463636869",
+     "status": "TRANSFORMED",
+     "eligibility": "comparable",
+     "exclusion_code": null,
+     "support_s": [
+      90.0,
+      100.0
+     ],
+     "support_kind": "shp-field-centerline",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023062517463635292",
+     "status": "TRANSFORMED",
+     "eligibility": "comparable",
+     "exclusion_code": null,
+     "support_s": [
+      90.0,
+      100.0
+     ],
+     "support_kind": "shp-field-centerline",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": 1,
+     "type": "median",
+     "source": null,
+     "status": "TRANSFORMED",
+     "eligibility": "excluded",
+     "exclusion_code": "median-non-driving",
+     "support_s": null,
+     "support_kind": "median",
+     "role": "median",
+     "trusted": null
+    },
+    {
+     "id": 2,
+     "type": "driving",
+     "source": "2023063018052248802",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": true
+    },
+    {
+     "id": 3,
+     "type": "driving",
+     "source": "2023063018052253616",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": true
+    }
+   ]
+  },
+  {
+   "k": 3,
+   "s0": 100.0,
+   "s1": 180.0,
+   "lanes": [
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023062517463636869",
+     "status": "TRANSFORMED",
+     "eligibility": "comparable",
+     "exclusion_code": null,
+     "support_s": [
+      100.0,
+      180.0
+     ],
+     "support_kind": "shp-field-centerline",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023062517463635292",
+     "status": "TRANSFORMED",
+     "eligibility": "comparable",
+     "exclusion_code": null,
+     "support_s": [
+      100.0,
+      180.0
+     ],
+     "support_kind": "shp-field-centerline",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": 1,
+     "type": "median",
+     "source": null,
+     "status": "TRANSFORMED",
+     "eligibility": "excluded",
+     "exclusion_code": "median-non-driving",
+     "support_s": null,
+     "support_kind": "median",
+     "role": "median",
+     "trusted": null
+    },
+    {
+     "id": 2,
+     "type": "driving",
+     "source": "2023063018052248802",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": true
+    },
+    {
+     "id": 3,
+     "type": "driving",
+     "source": "2023063018052253616",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": true
+    }
+   ]
+  },
+  {
+   "k": 4,
+   "s0": 180.0,
+   "s1": 190.0,
+   "lanes": [
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023062517463636869",
+     "status": "TRANSFORMED",
+     "eligibility": "comparable",
+     "exclusion_code": null,
+     "support_s": [
+      180.0,
+      190.0
+     ],
+     "support_kind": "shp-field-centerline",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023062517463635292",
+     "status": "TRANSFORMED",
+     "eligibility": "comparable",
+     "exclusion_code": null,
+     "support_s": [
+      180.0,
+      190.0
+     ],
+     "support_kind": "shp-field-centerline",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": 1,
+     "type": "median",
+     "source": null,
+     "status": "TRANSFORMED",
+     "eligibility": "excluded",
+     "exclusion_code": "median-non-driving",
+     "support_s": null,
+     "support_kind": "median",
+     "role": "median",
+     "trusted": null
+    },
+    {
+     "id": 2,
+     "type": "driving",
+     "source": "2023063018052248802",
+     "status": "TRANSFORMED",
+     "eligibility": "comparable",
+     "exclusion_code": null,
+     "support_s": [
+      180.0,
+      190.0
+     ],
+     "support_kind": "shp-field-centerline",
+     "role": "departure",
+     "trusted": true
+    },
+    {
+     "id": 3,
+     "type": "driving",
+     "source": "2023063018052253616",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": true
+    }
+   ]
+  },
+  {
+   "k": 5,
+   "s0": 190.0,
+   "s1": 200.0,
+   "lanes": [
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023062517463636869",
+     "status": "TRANSFORMED",
+     "eligibility": "comparable",
+     "exclusion_code": null,
+     "support_s": [
+      190.0,
+      200.0
+     ],
+     "support_kind": "shp-field-centerline",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023062517463635292",
+     "status": "TRANSFORMED",
+     "eligibility": "comparable",
+     "exclusion_code": null,
+     "support_s": [
+      190.0,
+      200.0
+     ],
+     "support_kind": "shp-field-centerline",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": 1,
+     "type": "median",
+     "source": null,
+     "status": "TRANSFORMED",
+     "eligibility": "excluded",
+     "exclusion_code": "median-non-driving",
+     "support_s": null,
+     "support_kind": "median",
+     "role": "median",
+     "trusted": null
+    },
+    {
+     "id": 2,
+     "type": "driving",
+     "source": "2023063018052248802",
+     "status": "TRANSFORMED",
+     "eligibility": "comparable",
+     "exclusion_code": null,
+     "support_s": [
+      190.0,
+      200.0
+     ],
+     "support_kind": "shp-field-centerline",
+     "role": "departure",
+     "trusted": true
+    },
+    {
+     "id": 3,
+     "type": "driving",
+     "source": "2023063018052253616",
+     "status": "TRANSFORMED",
+     "eligibility": "comparable",
+     "exclusion_code": null,
+     "support_s": [
+      190.0,
+      200.0
+     ],
+     "support_kind": "shp-field-centerline",
+     "role": "departure",
+     "trusted": true
+    }
+   ]
+  },
+  {
+   "k": 6,
+   "s0": 200.0,
+   "s1": 210.0,
+   "lanes": [
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023062517463636869",
+     "status": "TRANSFORMED",
+     "eligibility": "comparable",
+     "exclusion_code": null,
+     "support_s": [
+      200.0,
+      210.0
+     ],
+     "support_kind": "shp-field-centerline",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023062517463635292",
+     "status": "TRANSFORMED",
+     "eligibility": "comparable",
+     "exclusion_code": null,
+     "support_s": [
+      200.0,
+      210.0
+     ],
+     "support_kind": "shp-field-centerline",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": 1,
+     "type": "median",
+     "source": null,
+     "status": "TRANSFORMED",
+     "eligibility": "excluded",
+     "exclusion_code": "median-non-driving",
+     "support_s": null,
+     "support_kind": "median",
+     "role": "median",
+     "trusted": null
+    },
+    {
+     "id": 2,
+     "type": "driving",
+     "source": "2023063018052248802",
+     "status": "TRANSFORMED",
+     "eligibility": "comparable",
+     "exclusion_code": null,
+     "support_s": [
+      200.0,
+      210.0
+     ],
+     "support_kind": "shp-field-centerline",
+     "role": "departure",
+     "trusted": true
+    },
+    {
+     "id": 3,
+     "type": "driving",
+     "source": "2023063018052253616",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": true
+    }
+   ]
+  },
+  {
+   "k": 7,
+   "s0": 210.0,
+   "s1": 220.0,
+   "lanes": [
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023062517463636869",
+     "status": "TRANSFORMED",
+     "eligibility": "comparable",
+     "exclusion_code": null,
+     "support_s": [
+      210.0,
+      220.0
+     ],
+     "support_kind": "shp-field-centerline",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023062517463635292",
+     "status": "TRANSFORMED",
+     "eligibility": "comparable",
+     "exclusion_code": null,
+     "support_s": [
+      210.0,
+      220.0
+     ],
+     "support_kind": "shp-field-centerline",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": 1,
+     "type": "median",
+     "source": null,
+     "status": "TRANSFORMED",
+     "eligibility": "excluded",
+     "exclusion_code": "median-non-driving",
+     "support_s": null,
+     "support_kind": "median",
+     "role": "median",
+     "trusted": null
+    },
+    {
+     "id": 2,
+     "type": "driving",
+     "source": "2023063018052248802",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": true
+    },
+    {
+     "id": 3,
+     "type": "driving",
+     "source": "2023063018052253616",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": true
+    }
+   ]
+  },
+  {
+   "k": 8,
+   "s0": 220.0,
+   "s1": 310.0,
+   "lanes": [
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023062517463636869",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023062517463635292",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": 1,
+     "type": "median",
+     "source": null,
+     "status": "TRANSFORMED",
+     "eligibility": "excluded",
+     "exclusion_code": "median-non-driving",
+     "support_s": null,
+     "support_kind": "median",
+     "role": "median",
+     "trusted": null
+    },
+    {
+     "id": 2,
+     "type": "driving",
+     "source": "2023063018052248802",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": true
+    },
+    {
+     "id": 3,
+     "type": "driving",
+     "source": "2023063018052253616",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": true
+    }
+   ]
+  },
+  {
+   "k": 9,
+   "s0": 310.0,
+   "s1": 319.81,
+   "lanes": [
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023062517463636869",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023062517463635292",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": 1,
+     "type": "median",
+     "source": null,
+     "status": "TRANSFORMED",
+     "eligibility": "excluded",
+     "exclusion_code": "median-non-driving",
+     "support_s": null,
+     "support_kind": "median",
+     "role": "median",
+     "trusted": null
+    },
+    {
+     "id": 2,
+     "type": "driving",
+     "source": "2023063018052248802",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": true
+    },
+    {
+     "id": 3,
+     "type": "driving",
+     "source": "2023063018052253616",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": true
+    }
+   ]
+  },
+  {
+   "k": 10,
+   "s0": 319.81,
+   "s1": 320.0,
+   "lanes": [
+    {
+     "id": -3,
+     "type": "driving",
+     "source": "2023090916553572848",
+     "status": "INFERRED",
+     "eligibility": "excluded",
+     "exclusion_code": "source-extension",
+     "support_s": null,
+     "support_kind": "lane-transition-taper",
+     "role": "approach",
+     "trusted": null
+    },
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023062517463636869",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023062517463635292",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": 1,
+     "type": "median",
+     "source": null,
+     "status": "TRANSFORMED",
+     "eligibility": "excluded",
+     "exclusion_code": "median-non-driving",
+     "support_s": null,
+     "support_kind": "median",
+     "role": "median",
+     "trusted": null
+    },
+    {
+     "id": 2,
+     "type": "driving",
+     "source": "2023063018052248802",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": true
+    },
+    {
+     "id": 3,
+     "type": "driving",
+     "source": "2023063018052253616",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": true
+    }
+   ]
+  },
+  {
+   "k": 11,
+   "s0": 320.0,
+   "s1": 322.909,
+   "lanes": [
+    {
+     "id": -3,
+     "type": "driving",
+     "source": "2023090916553572848",
+     "status": "INFERRED",
+     "eligibility": "excluded",
+     "exclusion_code": "source-extension",
+     "support_s": null,
+     "support_kind": "lane-transition-taper",
+     "role": "approach",
+     "trusted": null
+    },
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023062517463636869",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "source-support-too-short",
+     "support_s": null,
+     "support_kind": "source-support-too-short",
+     "role": "approach",
+     "trusted": null
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023062517463635292",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "source-support-too-short",
+     "support_s": null,
+     "support_kind": "source-support-too-short",
+     "role": "approach",
+     "trusted": null
+    },
+    {
+     "id": 1,
+     "type": "median",
+     "source": null,
+     "status": "TRANSFORMED",
+     "eligibility": "excluded",
+     "exclusion_code": "median-non-driving",
+     "support_s": null,
+     "support_kind": "median",
+     "role": "median",
+     "trusted": null
+    },
+    {
+     "id": 2,
+     "type": "driving",
+     "source": "2023063018052248802",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "source-support-too-short",
+     "support_s": null,
+     "support_kind": "source-support-too-short",
+     "role": "departure",
+     "trusted": null
+    },
+    {
+     "id": 3,
+     "type": "driving",
+     "source": "2023063018052253616",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "source-support-too-short",
+     "support_s": null,
+     "support_kind": "source-support-too-short",
+     "role": "departure",
+     "trusted": null
+    }
+   ]
+  },
+  {
+   "k": 12,
+   "s0": 322.909,
+   "s1": 326.922,
+   "lanes": [
+    {
+     "id": -3,
+     "type": "driving",
+     "source": "2023090916553572848",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-taper",
+     "role": "approach",
+     "trusted": null
+    },
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023090916553570093",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023090916553568001",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": 1,
+     "type": "median",
+     "source": null,
+     "status": "TRANSFORMED",
+     "eligibility": "excluded",
+     "exclusion_code": "median-non-driving",
+     "support_s": null,
+     "support_kind": "median",
+     "role": "median",
+     "trusted": null
+    },
+    {
+     "id": 2,
+     "type": "driving",
+     "source": "2023063018052248802",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": true
+    },
+    {
+     "id": 3,
+     "type": "driving",
+     "source": "2023063018052253616",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": true
+    }
+   ]
+  },
+  {
+   "k": 13,
+   "s0": 326.922,
+   "s1": 330.0,
+   "lanes": [
+    {
+     "id": -3,
+     "type": "driving",
+     "source": "2023090916553572848",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-taper",
+     "role": "approach",
+     "trusted": null
+    },
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023090916553570093",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023090916553568001",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": 1,
+     "type": "median",
+     "source": null,
+     "status": "TRANSFORMED",
+     "eligibility": "excluded",
+     "exclusion_code": "median-non-driving",
+     "support_s": null,
+     "support_kind": "median",
+     "role": "median",
+     "trusted": null
+    },
+    {
+     "id": 2,
+     "type": "driving",
+     "source": "2023063018052248802",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": true
+    },
+    {
+     "id": 3,
+     "type": "driving",
+     "source": "2023063018052253616",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": true
+    },
+    {
+     "id": 4,
+     "type": "driving",
+     "source": "2023090216125440496",
+     "status": "INFERRED",
+     "eligibility": "excluded",
+     "exclusion_code": "source-extension",
+     "support_s": null,
+     "support_kind": "lane-transition-taper",
+     "role": "departure",
+     "trusted": null
+    }
+   ]
+  },
+  {
+   "k": 14,
+   "s0": 330.0,
+   "s1": 338.656,
+   "lanes": [
+    {
+     "id": -3,
+     "type": "driving",
+     "source": "2023090916553572848",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": false
+    },
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023090916553570093",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023090916553568001",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": 1,
+     "type": "median",
+     "source": null,
+     "status": "TRANSFORMED",
+     "eligibility": "excluded",
+     "exclusion_code": "median-non-driving",
+     "support_s": null,
+     "support_kind": "median",
+     "role": "median",
+     "trusted": null
+    },
+    {
+     "id": 2,
+     "type": "driving",
+     "source": "2023090817360007241",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": false
+    },
+    {
+     "id": 3,
+     "type": "driving",
+     "source": "2023090216125437623",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": false
+    },
+    {
+     "id": 4,
+     "type": "driving",
+     "source": "2023090216125440496",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-taper",
+     "role": "departure",
+     "trusted": null
+    }
+   ]
+  },
+  {
+   "k": 15,
+   "s0": 338.656,
+   "s1": 340.0,
+   "lanes": [
+    {
+     "id": -4,
+     "type": "driving",
+     "source": "2023090916523086429",
+     "status": "INFERRED",
+     "eligibility": "excluded",
+     "exclusion_code": "source-extension",
+     "support_s": null,
+     "support_kind": "lane-transition-taper",
+     "role": "approach",
+     "trusted": null
+    },
+    {
+     "id": -3,
+     "type": "driving",
+     "source": "2023090916553572848",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": false
+    },
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023090916553570093",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023090916553568001",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": 1,
+     "type": "median",
+     "source": null,
+     "status": "TRANSFORMED",
+     "eligibility": "excluded",
+     "exclusion_code": "median-non-driving",
+     "support_s": null,
+     "support_kind": "median",
+     "role": "median",
+     "trusted": null
+    },
+    {
+     "id": 2,
+     "type": "driving",
+     "source": "2023090817360007241",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": false
+    },
+    {
+     "id": 3,
+     "type": "driving",
+     "source": "2023090216125437623",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": false
+    },
+    {
+     "id": 4,
+     "type": "driving",
+     "source": "2023090216125440496",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-taper",
+     "role": "departure",
+     "trusted": null
+    }
+   ]
+  },
+  {
+   "k": 16,
+   "s0": 340.0,
+   "s1": 344.003,
+   "lanes": [
+    {
+     "id": -4,
+     "type": "driving",
+     "source": "2023090916523086429",
+     "status": "INFERRED",
+     "eligibility": "excluded",
+     "exclusion_code": "source-extension",
+     "support_s": null,
+     "support_kind": "lane-transition-taper",
+     "role": "approach",
+     "trusted": null
+    },
+    {
+     "id": -3,
+     "type": "driving",
+     "source": "2023090916553572848",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": false
+    },
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023090916553570093",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023090916553568001",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": 1,
+     "type": "median",
+     "source": null,
+     "status": "TRANSFORMED",
+     "eligibility": "excluded",
+     "exclusion_code": "median-non-driving",
+     "support_s": null,
+     "support_kind": "median",
+     "role": "median",
+     "trusted": null
+    },
+    {
+     "id": 2,
+     "type": "driving",
+     "source": "2023090817360007241",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": false
+    },
+    {
+     "id": 3,
+     "type": "driving",
+     "source": "2023090216125437623",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": false
+    },
+    {
+     "id": 4,
+     "type": "driving",
+     "source": "2023090216125440496",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": false
+    }
+   ]
+  },
+  {
+   "k": 17,
+   "s0": 344.003,
+   "s1": 360.0,
+   "lanes": [
+    {
+     "id": -4,
+     "type": "driving",
+     "source": "2023090916523086429",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-taper",
+     "role": "approach",
+     "trusted": null
+    },
+    {
+     "id": -3,
+     "type": "driving",
+     "source": "2023090916523078464",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023090916523070442",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": false
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023090916523062429",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": 1,
+     "type": "median",
+     "source": null,
+     "status": "TRANSFORMED",
+     "eligibility": "excluded",
+     "exclusion_code": "median-non-driving",
+     "support_s": null,
+     "support_kind": "median",
+     "role": "median",
+     "trusted": null
+    },
+    {
+     "id": 2,
+     "type": "driving",
+     "source": "2023090817360007241",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": false
+    },
+    {
+     "id": 3,
+     "type": "driving",
+     "source": "2023090216125437623",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": false
+    },
+    {
+     "id": 4,
+     "type": "driving",
+     "source": "2023090216125440496",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": false
+    }
+   ]
+  },
+  {
+   "k": 18,
+   "s0": 360.0,
+   "s1": 370.0,
+   "lanes": [
+    {
+     "id": -4,
+     "type": "driving",
+     "source": "2023090916523086429",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": false
+    },
+    {
+     "id": -3,
+     "type": "driving",
+     "source": "2023090916523078464",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023090916523070442",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": false
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023090916523062429",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": 1,
+     "type": "median",
+     "source": null,
+     "status": "TRANSFORMED",
+     "eligibility": "excluded",
+     "exclusion_code": "median-non-driving",
+     "support_s": null,
+     "support_kind": "median",
+     "role": "median",
+     "trusted": null
+    },
+    {
+     "id": 2,
+     "type": "driving",
+     "source": "2023090817360007241",
+     "status": "TRANSFORMED",
+     "eligibility": "comparable",
+     "exclusion_code": null,
+     "support_s": [
+      360.0,
+      370.0
+     ],
+     "support_kind": "shp-field-centerline",
+     "role": "departure",
+     "trusted": false
+    },
+    {
+     "id": 3,
+     "type": "driving",
+     "source": "2023090216125437623",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": false
+    },
+    {
+     "id": 4,
+     "type": "driving",
+     "source": "2023090216125440496",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": false
+    }
+   ]
+  },
+  {
+   "k": 19,
+   "s0": 370.0,
+   "s1": 414.42,
+   "lanes": [
+    {
+     "id": -4,
+     "type": "driving",
+     "source": "2023090916523086429",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": false
+    },
+    {
+     "id": -3,
+     "type": "driving",
+     "source": "2023090916523078464",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023090916523070442",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": false
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023090916523062429",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": 1,
+     "type": "median",
+     "source": null,
+     "status": "TRANSFORMED",
+     "eligibility": "excluded",
+     "exclusion_code": "median-non-driving",
+     "support_s": null,
+     "support_kind": "median",
+     "role": "median",
+     "trusted": null
+    },
+    {
+     "id": 2,
+     "type": "driving",
+     "source": "2023090817360007241",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": false
+    },
+    {
+     "id": 3,
+     "type": "driving",
+     "source": "2023090216125437623",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": false
+    },
+    {
+     "id": 4,
+     "type": "driving",
+     "source": "2023090216125440496",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": false
+    }
+   ]
+  },
+  {
+   "k": 20,
+   "s0": 414.42,
+   "s1": 430.0,
+   "lanes": [
+    {
+     "id": -4,
+     "type": "driving",
+     "source": "2023090216125430012",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -3,
+     "type": "driving",
+     "source": "2023090216125425249",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023090216125422055",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023090216125419292",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": 1,
+     "type": "median",
+     "source": null,
+     "status": "TRANSFORMED",
+     "eligibility": "excluded",
+     "exclusion_code": "median-non-driving",
+     "support_s": null,
+     "support_kind": "median",
+     "role": "median",
+     "trusted": null
+    },
+    {
+     "id": 2,
+     "type": "driving",
+     "source": "2023090817360007241",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "source-support-too-short",
+     "support_s": null,
+     "support_kind": "source-support-too-short",
+     "role": "departure",
+     "trusted": null
+    },
+    {
+     "id": 3,
+     "type": "driving",
+     "source": "2023090216125437623",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": false
+    },
+    {
+     "id": 4,
+     "type": "driving",
+     "source": "2023090216125440496",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": false
+    }
+   ]
+  },
+  {
+   "k": 21,
+   "s0": 430.0,
+   "s1": 460.0,
+   "lanes": [
+    {
+     "id": -4,
+     "type": "driving",
+     "source": "2023090216125430012",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -3,
+     "type": "driving",
+     "source": "2023090216125425249",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023090216125422055",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023090216125419292",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": 1,
+     "type": "median",
+     "source": null,
+     "status": "TRANSFORMED",
+     "eligibility": "excluded",
+     "exclusion_code": "median-non-driving",
+     "support_s": null,
+     "support_kind": "median",
+     "role": "median",
+     "trusted": null
+    },
+    {
+     "id": 2,
+     "type": "driving",
+     "source": "2023090817360007241",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "source-support-too-short",
+     "support_s": null,
+     "support_kind": "source-support-too-short",
+     "role": "departure",
+     "trusted": null
+    },
+    {
+     "id": 3,
+     "type": "driving",
+     "source": "2023090216125437623",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "source-support-too-short",
+     "support_s": null,
+     "support_kind": "source-support-too-short",
+     "role": "departure",
+     "trusted": null
+    },
+    {
+     "id": 4,
+     "type": "driving",
+     "source": "2023090216125440496",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "departure",
+     "trusted": false
+    }
+   ]
+  },
+  {
+   "k": 22,
+   "s0": 460.0,
+   "s1": 461.196,
+   "lanes": [
+    {
+     "id": -4,
+     "type": "driving",
+     "source": "2023090216125430012",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "source-support-too-short",
+     "support_s": null,
+     "support_kind": "source-support-too-short",
+     "role": "approach",
+     "trusted": null
+    },
+    {
+     "id": -3,
+     "type": "driving",
+     "source": "2023090216125425249",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "source-support-too-short",
+     "support_s": null,
+     "support_kind": "source-support-too-short",
+     "role": "approach",
+     "trusted": null
+    },
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023090216125422055",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "source-support-too-short",
+     "support_s": null,
+     "support_kind": "source-support-too-short",
+     "role": "approach",
+     "trusted": null
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023090216125419292",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "source-support-too-short",
+     "support_s": null,
+     "support_kind": "source-support-too-short",
+     "role": "approach",
+     "trusted": null
+    },
+    {
+     "id": 1,
+     "type": "median",
+     "source": null,
+     "status": "TRANSFORMED",
+     "eligibility": "excluded",
+     "exclusion_code": "median-non-driving",
+     "support_s": null,
+     "support_kind": "median",
+     "role": "median",
+     "trusted": null
+    },
+    {
+     "id": 2,
+     "type": "driving",
+     "source": "2023090817360007241",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-taper",
+     "role": "departure",
+     "trusted": null
+    },
+    {
+     "id": 3,
+     "type": "driving",
+     "source": "2023090216125437623",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-taper",
+     "role": "departure",
+     "trusted": null
+    },
+    {
+     "id": 4,
+     "type": "driving",
+     "source": "2023090216125440496",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-taper",
+     "role": "departure",
+     "trusted": null
+    }
+   ]
+  }
+ ],
+ "outer_edges": [
+  {
+   "source_lane_id": "2023062517463636869",
+   "exclusion_code": null,
+   "trusted": true,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    0.0,
+    60.03
+   ],
+   "n_target": 121,
+   "t2s_inside_max": 0.026,
+   "s2t_inside_max": 0.027,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023063018052253616",
+   "exclusion_code": "source-extension",
+   "trusted": null,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    0.0,
+    60.03
+   ],
+   "n_target": 121,
+   "t2s_inside_max": 0.005,
+   "s2t_inside_max": 0.005,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023062517463636869",
+   "exclusion_code": null,
+   "trusted": true,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    60.53,
+    89.54
+   ],
+   "n_target": 59,
+   "t2s_inside_max": 0.035,
+   "s2t_inside_max": 0.035,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023063018052253616",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": true,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    60.53,
+    89.54
+   ],
+   "n_target": 59,
+   "t2s_inside_max": 0.019,
+   "s2t_inside_max": 0.019,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023062517463636869",
+   "exclusion_code": null,
+   "trusted": true,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    90.04,
+    99.54
+   ],
+   "n_target": 20,
+   "t2s_inside_max": 0.014,
+   "s2t_inside_max": 0.014,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023063018052253616",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": true,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    90.04,
+    99.54
+   ],
+   "n_target": 20,
+   "t2s_inside_max": 0.027,
+   "s2t_inside_max": 0.028,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023062517463636869",
+   "exclusion_code": null,
+   "trusted": true,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    100.04,
+    179.58
+   ],
+   "n_target": 160,
+   "t2s_inside_max": 0.046,
+   "s2t_inside_max": 0.047,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023063018052253616",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": true,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    100.04,
+    179.58
+   ],
+   "n_target": 160,
+   "t2s_inside_max": 0.025,
+   "s2t_inside_max": 0.025,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023062517463636869",
+   "exclusion_code": null,
+   "trusted": true,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    180.08,
+    189.58
+   ],
+   "n_target": 20,
+   "t2s_inside_max": 0.027,
+   "s2t_inside_max": 0.028,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023063018052253616",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": true,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    180.08,
+    189.58
+   ],
+   "n_target": 20,
+   "t2s_inside_max": 0.004,
+   "s2t_inside_max": 0.004,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023062517463636869",
+   "exclusion_code": null,
+   "trusted": true,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    190.08,
+    199.59
+   ],
+   "n_target": 20,
+   "t2s_inside_max": 0.016,
+   "s2t_inside_max": 0.016,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023063018052253616",
+   "exclusion_code": null,
+   "trusted": true,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    190.08,
+    199.59
+   ],
+   "n_target": 20,
+   "t2s_inside_max": 0.023,
+   "s2t_inside_max": 0.023,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023062517463636869",
+   "exclusion_code": null,
+   "trusted": true,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    200.09,
+    209.59
+   ],
+   "n_target": 20,
+   "t2s_inside_max": 0.025,
+   "s2t_inside_max": 0.024,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023063018052253616",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": true,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    200.09,
+    209.59
+   ],
+   "n_target": 20,
+   "t2s_inside_max": 0.015,
+   "s2t_inside_max": 0.015,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023062517463636869",
+   "exclusion_code": null,
+   "trusted": true,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    210.09,
+    219.59
+   ],
+   "n_target": 20,
+   "t2s_inside_max": 0.018,
+   "s2t_inside_max": 0.017,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023063018052253616",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": true,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    210.09,
+    219.59
+   ],
+   "n_target": 20,
+   "t2s_inside_max": 0.013,
+   "s2t_inside_max": 0.013,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023062517463636869",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": true,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    220.09,
+    309.63
+   ],
+   "n_target": 180,
+   "t2s_inside_max": 0.027,
+   "s2t_inside_max": 0.028,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023063018052253616",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": true,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    220.09,
+    309.63
+   ],
+   "n_target": 180,
+   "t2s_inside_max": 0.032,
+   "s2t_inside_max": 0.032,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023062517463636869",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": true,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    310.13,
+    319.64
+   ],
+   "n_target": 20,
+   "t2s_inside_max": 0.01,
+   "s2t_inside_max": 0.01,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023063018052253616",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": true,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    310.13,
+    319.64
+   ],
+   "n_target": 20,
+   "t2s_inside_max": 0.014,
+   "s2t_inside_max": 0.014,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023090916553572848",
+   "exclusion_code": "source-extension",
+   "trusted": null,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    320.14,
+    322.64
+   ],
+   "n_target": 6,
+   "t2s_inside_max": null,
+   "s2t_inside_max": null,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023063018052253616",
+   "exclusion_code": "source-support-too-short",
+   "trusted": null,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    320.14,
+    322.64
+   ],
+   "n_target": 6,
+   "t2s_inside_max": 0.004,
+   "s2t_inside_max": 0.004,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023090916553572848",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": null,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    323.14,
+    326.64
+   ],
+   "n_target": 8,
+   "t2s_inside_max": 0.047,
+   "s2t_inside_max": 0.039,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023063018052253616",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": true,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    323.14,
+    326.64
+   ],
+   "n_target": 8,
+   "t2s_inside_max": 0.004,
+   "s2t_inside_max": 0.003,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023090916553572848",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": null,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    327.14,
+    329.64
+   ],
+   "n_target": 6,
+   "t2s_inside_max": 0.008,
+   "s2t_inside_max": 0.008,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023090216125440496",
+   "exclusion_code": "source-extension",
+   "trusted": null,
+   "candidates": 2,
+   "picked": 1,
+   "target_s": [
+    327.14,
+    329.64
+   ],
+   "n_target": 6,
+   "t2s_inside_max": 0.052,
+   "s2t_inside_max": 0.052,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023090916553572848",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": false,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    330.14,
+    338.64
+   ],
+   "n_target": 18,
+   "t2s_inside_max": 0.011,
+   "s2t_inside_max": 0.011,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023090216125440496",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": null,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    330.14,
+    338.64
+   ],
+   "n_target": 18,
+   "t2s_inside_max": 0.179,
+   "s2t_inside_max": 0.179,
+   "t2s_samples_gt_0.1": [
+    [
+     330.14,
+     0.157
+    ],
+    [
+     330.64,
+     0.172
+    ],
+    [
+     331.14,
+     0.179
+    ],
+    [
+     331.64,
+     0.179
+    ],
+    [
+     332.14,
+     0.174
+    ],
+    [
+     332.64,
+     0.166
+    ],
+    [
+     333.14,
+     0.158
+    ],
+    [
+     333.64,
+     0.149
+    ],
+    [
+     334.14,
+     0.14
+    ],
+    [
+     334.64,
+     0.132
+    ],
+    [
+     335.14,
+     0.124
+    ],
+    [
+     335.64,
+     0.115
+    ],
+    [
+     336.14,
+     0.107
+    ]
+   ]
+  },
+  {
+   "source_lane_id": "2023090916523086429",
+   "exclusion_code": "source-extension",
+   "trusted": null,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    339.14,
+    339.64
+   ],
+   "n_target": 2,
+   "t2s_inside_max": null,
+   "s2t_inside_max": null,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023090216125440496",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": null,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    339.14,
+    339.64
+   ],
+   "n_target": 2,
+   "t2s_inside_max": 0.058,
+   "s2t_inside_max": 0.056,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023090916523086429",
+   "exclusion_code": "source-extension",
+   "trusted": null,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    340.14,
+    343.65
+   ],
+   "n_target": 8,
+   "t2s_inside_max": null,
+   "s2t_inside_max": null,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023090216125440496",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": false,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    340.14,
+    343.65
+   ],
+   "n_target": 8,
+   "t2s_inside_max": 0.046,
+   "s2t_inside_max": 0.044,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023090916523086429",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": null,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    344.15,
+    359.65
+   ],
+   "n_target": 32,
+   "t2s_inside_max": 0.334,
+   "s2t_inside_max": 0.338,
+   "t2s_samples_gt_0.1": [
+    [
+     345.65,
+     0.122
+    ],
+    [
+     346.15,
+     0.17
+    ],
+    [
+     346.65,
+     0.216
+    ],
+    [
+     347.15,
+     0.26
+    ],
+    [
+     347.65,
+     0.305
+    ],
+    [
+     348.15,
+     0.334
+    ],
+    [
+     348.65,
+     0.317
+    ],
+    [
+     349.15,
+     0.3
+    ],
+    [
+     349.65,
+     0.283
+    ],
+    [
+     350.15,
+     0.265
+    ],
+    [
+     350.65,
+     0.248
+    ],
+    [
+     351.15,
+     0.23
+    ],
+    [
+     351.65,
+     0.213
+    ],
+    [
+     352.15,
+     0.195
+    ],
+    [
+     352.65,
+     0.177
+    ],
+    [
+     353.15,
+     0.159
+    ],
+    [
+     353.65,
+     0.141
+    ],
+    [
+     354.15,
+     0.122
+    ],
+    [
+     354.65,
+     0.104
+    ]
+   ]
+  },
+  {
+   "source_lane_id": "2023090216125440496",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": false,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    344.15,
+    359.65
+   ],
+   "n_target": 32,
+   "t2s_inside_max": 0.058,
+   "s2t_inside_max": 0.058,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023090916523086429",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": false,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    360.15,
+    369.66
+   ],
+   "n_target": 20,
+   "t2s_inside_max": 0.101,
+   "s2t_inside_max": 0.1,
+   "t2s_samples_gt_0.1": [
+    [
+     363.15,
+     0.101
+    ]
+   ]
+  },
+  {
+   "source_lane_id": "2023090216125440496",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": false,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    360.15,
+    369.66
+   ],
+   "n_target": 20,
+   "t2s_inside_max": 0.018,
+   "s2t_inside_max": 0.024,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023090916523086429",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": false,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    370.16,
+    414.18
+   ],
+   "n_target": 89,
+   "t2s_inside_max": 0.041,
+   "s2t_inside_max": 0.041,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023090216125440496",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": false,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    370.16,
+    414.18
+   ],
+   "n_target": 89,
+   "t2s_inside_max": 0.023,
+   "s2t_inside_max": 0.023,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023090216125430012",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": true,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    414.68,
+    429.68
+   ],
+   "n_target": 31,
+   "t2s_inside_max": 0.015,
+   "s2t_inside_max": 0.015,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023090216125440496",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": false,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    414.68,
+    429.68
+   ],
+   "n_target": 31,
+   "t2s_inside_max": 0.025,
+   "s2t_inside_max": 0.025,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023090216125430012",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": true,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    430.18,
+    459.7
+   ],
+   "n_target": 60,
+   "t2s_inside_max": 0.029,
+   "s2t_inside_max": 0.029,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023090216125440496",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": false,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    430.18,
+    459.7
+   ],
+   "n_target": 60,
+   "t2s_inside_max": 0.186,
+   "s2t_inside_max": 0.186,
+   "t2s_samples_gt_0.1": [
+    [
+     454.69,
+     0.133
+    ],
+    [
+     455.19,
+     0.175
+    ],
+    [
+     455.69,
+     0.186
+    ],
+    [
+     456.19,
+     0.177
+    ],
+    [
+     456.69,
+     0.167
+    ],
+    [
+     457.19,
+     0.158
+    ],
+    [
+     457.69,
+     0.148
+    ],
+    [
+     458.2,
+     0.14
+    ],
+    [
+     458.7,
+     0.142
+    ],
+    [
+     459.2,
+     0.154
+    ],
+    [
+     459.7,
+     0.163
+    ]
+   ]
+  },
+  {
+   "source_lane_id": "2023090216125430012",
+   "exclusion_code": "source-support-too-short",
+   "trusted": null,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    460.2,
+    461.2
+   ],
+   "n_target": 3,
+   "t2s_inside_max": 0.005,
+   "s2t_inside_max": 0.003,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023090216125440496",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": null,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    460.2,
+    461.2
+   ],
+   "n_target": 3,
+   "t2s_inside_max": 0.154,
+   "s2t_inside_max": 0.11,
+   "t2s_samples_gt_0.1": [
+    [
+     460.2,
+     0.154
+    ]
+   ]
+  }
+ ]
+}

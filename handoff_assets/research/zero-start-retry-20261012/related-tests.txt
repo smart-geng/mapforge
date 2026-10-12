@@ -1,0 +1,37 @@
+Related tests: the 41 files of the earlier rounds (lane_refit, its boundary step, lane_birth_advance, lane_gap, MAP
+lane refit, mouth anchor, source event, surface seams, G8 / scoreboard / generalization, workbench) and the new
+tests/test_refit_zero_start.py; same Linux machine, compared per test id (junit_compare.py).
+
+1. main (4714ba3) vs this change, code-only trees (shp_0222-0326 linked, no out/):
+
+   main:   655 passed, 15 skipped, 30 failed, 61 errors
+   change: 660 passed, 15 skipped, 30 failed, 61 errors
+
+   Differences by test id:
+      5  tests/test_refit_zero_start.py (new)                 -> passed
+   the other 761 ids: same state.
+
+   Environmental in both:
+   - 61 errors, tests/test_workbench_surface_compiler.py: the compiler refuses a linked source folder
+     ("原料与 Profile 路径不得使用链接");
+   - 30 failed, tests/test_workbench_surface_validation.py: "unsupported-platform" (the consumer check needs Windows).
+
+2. This change in the checkout with the real shp_0222-0326 and out/ (the tree committed):
+
+   725 passed, 3 skipped, 30 failed, 8 errors
+   - the 61 surface compiler tests pass;
+   - 30 failed: the same surface validation tests, "unsupported-platform";
+   - 8 errors, tests/test_workbench_validation.py: the fixture reads the accepted WB05 project at
+     F:\MapFactory\out\workbench\wb05-compiler-20261008\projects\814572b4019b48afb5de53e6ac3f3f2f\previous.json,
+     a Windows path recorded in the out/ evidence (skipped in 1 for want of out/);
+   - 4 tests skipped in 1 for want of out/ pass here (3 in test_workbench_validation, 1 in
+     test_workbench_fidelity_inspection).
+
+3. The four test files that read the real source folder and out/ (test_paving_holes, test_stopline_match,
+   test_workbench_surface_compiler, test_workbench_surface_validation), in that checkout, main vs this change:
+
+   main:   118 passed, 1 skipped, 30 failed
+   change: 123 passed, 1 skipped, 30 failed (with tests/test_refit_zero_start.py)
+
+   Differences by test id: 5 tests/test_refit_zero_start.py (new) -> passed; the other 149 ids: same state.
+   The 30 failed are the "unsupported-platform" surface validation tests.

@@ -1,0 +1,50 @@
+== 2023041111160971268 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== 2023061310244790027 shp base None anchor None 
+== 2023062713394062899 shp base {'T1': 'PASS', 'T2': 'FAIL'} anchor {'T1': 'PASS', 'T2': 'FAIL'} 
+== 2023063015350832057 shp base {'T1': 'PASS', 'T2': 'FAIL'} anchor {'T1': 'PASS', 'T2': 'FAIL'} TIER CHANGE
+   base failed {'T1': ('PASS', []), 'T2': ('FAIL', ['lane_center_noconflict_p95_m', 'lane_center_noconflict_max_m', 'lane_endpoint_lateral_max_m', 'boundary_inside_p95_m', 'boundary_inside_max_m', 'lane_join_curvature_jump_max_per_m', 'edge_contact_curvature_max_per_m'])} 
+   anch failed {'T1': ('PASS', []), 'T2': ('FAIL', ['lane_center_noconflict_p95_m', 'lane_center_noconflict_max_m', 'lane_endpoint_lateral_max_m', 'boundary_inside_max_m', 'edge_contact_curvature_max_per_m'])}
+   * boundary_inside_max_m                      2.3111325781439915 -> 0.829519414153936
+   * boundary_inside_p95_m                      0.1905184768024159 -> 0.09474249034513973
+     boundary_max_m                             2.3111325781439915 -> 0.829519414153936
+     boundary_median_m                          0.007899137183157275 -> 0.007727168225470938
+     boundary_p95_m                             0.28028697020203247 -> 0.1536511631365779
+   * connector_width_bulge_max_m                0.2520763577315561 -> 0.2518596548385661
+   * edge_contact_curvature_max_per_m           0.0042580452026299825 -> 0.0039669754344088745
+     fair_road_kappa_p90_per_m                  0.011913028526396969 -> 0.013431586204408822
+     fair_straight_conn_kappa_median_per_m      0.025188214837090463 -> 0.02652752941146256
+     fair_straight_conn_s_bends                 8 -> 6
+     fair_turn_conn_sharpness_p90_per_m2        0.061615678256970494 -> 0.05770983788682664
+     lane_center_flare_samples_left_out         386 -> 385
+   * lane_center_max_m                          1.5684830320996275 -> 1.5686560137204124
+     lane_center_median_m                       0.018369710627428006 -> 0.0196781843388086
+     lane_center_noconflict_median_m            0.01509045882319167 -> 0.016113521188270228
+   * lane_center_noconflict_p95_m               0.16781880779812142 -> 0.17372802029573256
+     lane_center_noflare_median_m               0.01509045882319167 -> 0.016113521188270228
+     lane_center_noflare_p95_m                  0.16781880779812142 -> 0.17372802029573256
+   * lane_center_p95_m                          0.32028590330378603 -> 0.33052917080924715
+     lane_center_poly_max_m                     1.5680104514738438 -> 1.5686548899640838
+     lane_center_poly_median_m                  0.011381893122706458 -> 0.012050073364943008
+     lane_center_poly_p95_m                     0.30691656420575636 -> 0.3188889700902016
+     lane_edge_join_jumps_gt_1e-03              22 -> 17
+   * lane_edge_step_max_m                       0.0004194042381353569 -> 0.0003949160925862394
+   * lane_join_curvature_jump_max_per_m         0.008613621043130803 -> 0.00037020517581454887
+     lane_join_jumps_gt_1e-03                   2 -> 0
+     lane_join_jumps_gt_1e-04                   6 -> 4
+     lane_join_jumps_gt_1e-07                   155 -> 149
+     primitives                                 156 -> 151
+     turn_counter_curvature_max_per_m           0.01921284595902612 -> 0.018913784883710153
+     width_records                              1808 -> 1931
+== 2023070710412621654 shp base None anchor None 
+== 2023080118313036830 shp base {'T1': 'PASS', 'T2': 'FAIL'} anchor {'T1': 'PASS', 'T2': 'FAIL'} 
+== 2023041216222042093 shp base {'T1': 'FAIL', 'T2': 'FAIL'} anchor {'T1': 'FAIL', 'T2': 'FAIL'} 
+== 2023062110304177600 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== 2023070118182048481 shp base None anchor None 
+== 2023080810023203229 shp base {'T1': 'PASS', 'T2': 'FAIL'} anchor {'T1': 'PASS', 'T2': 'FAIL'} 
+== 2023062913464138453 shp base None anchor None 
+== 2023072914272536839 shp base None anchor None 
+== 2023041810414040830 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== 2023070710324132429 shp base {'T1': 'PASS', 'T2': 'FAIL'} anchor {'T1': 'PASS', 'T2': 'FAIL'} 
+== 2023081110220126408 shp base None anchor None 
+== 2023071109582525264 shp base {'T1': 'PASS', 'T2': 'FAIL'} anchor {'T1': 'PASS', 'T2': 'FAIL'} 
+rows with any change: 1 / 16

@@ -1,0 +1,23 @@
+{
+ "rewritten": 6,
+ "skipped": [],
+ "retried": [
+  {
+   "road": "13",
+   "zero_start_retry": {
+    "lanes": [
+     {
+      "side": "right",
+      "section": 0,
+      "lane": 3,
+      "min_width_m": -0.1242
+     }
+    ],
+    "first_refit": "negative width -0.124 m"
+   },
+   "advanced_events": 2,
+   "crossing_repairs": [],
+   "min_width_m": 0.0
+  }
+ ]
+}

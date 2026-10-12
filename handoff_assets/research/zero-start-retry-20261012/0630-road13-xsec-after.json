@@ -1,0 +1,1305 @@
+[
+ {
+  "s": 0.0,
+  "section": 0,
+  "written_right_edges": [
+   {
+    "t": 4.154,
+    "between": "offset"
+   },
+   {
+    "t": 0.495,
+    "outer_of": -1,
+    "type": "driving",
+    "source": "72421",
+    "width": 3.659
+   },
+   {
+    "t": -4.216,
+    "outer_of": -2,
+    "type": "driving",
+    "source": "74026",
+    "width": 4.711
+   },
+   {
+    "t": -4.216,
+    "outer_of": -3,
+    "type": "driving",
+    "source": "76005",
+    "width": 0.0
+   }
+  ],
+  "source_boundaries": [
+   {
+    "source": "72421",
+    "boundary": 1,
+    "t": 4.141
+   },
+   {
+    "source": "72421",
+    "boundary": 0,
+    "t": 0.46
+   },
+   {
+    "source": "74026",
+    "boundary": 1,
+    "t": 0.46
+   }
+  ]
+ },
+ {
+  "s": 0.4,
+  "section": 0,
+  "written_right_edges": [
+   {
+    "t": 4.192,
+    "between": "offset"
+   },
+   {
+    "t": 0.53,
+    "outer_of": -1,
+    "type": "driving",
+    "source": "72421",
+    "width": 3.662
+   },
+   {
+    "t": -4.137,
+    "outer_of": -2,
+    "type": "driving",
+    "source": "74026",
+    "width": 4.667
+   },
+   {
+    "t": -4.245,
+    "outer_of": -3,
+    "type": "driving",
+    "source": "76005",
+    "width": 0.108
+   }
+  ],
+  "source_boundaries": [
+   {
+    "source": "72421",
+    "boundary": 1,
+    "t": 4.179
+   },
+   {
+    "source": "72421",
+    "boundary": 0,
+    "t": 0.498
+   },
+   {
+    "source": "74026",
+    "boundary": 1,
+    "t": 0.498
+   },
+   {
+    "source": "74026",
+    "boundary": 0,
+    "t": -4.102
+   },
+   {
+    "source": "76005",
+    "boundary": 0,
+    "t": -4.102
+   },
+   {
+    "source": "76005",
+    "boundary": 1,
+    "t": -4.102
+   }
+  ]
+ },
+ {
+  "s": 1.0,
+  "section": 0,
+  "written_right_edges": [
+   {
+    "t": 4.248,
+    "between": "offset"
+   },
+   {
+    "t": 0.583,
+    "outer_of": -1,
+    "type": "driving",
+    "source": "72421",
+    "width": 3.665
+   },
+   {
+    "t": -4.018,
+    "outer_of": -2,
+    "type": "driving",
+    "source": "74026",
+    "width": 4.601
+   },
+   {
+    "t": -4.289,
+    "outer_of": -3,
+    "type": "driving",
+    "source": "76005",
+    "width": 0.27
+   }
+  ],
+  "source_boundaries": [
+   {
+    "source": "72421",
+    "boundary": 1,
+    "t": 4.236
+   },
+   {
+    "source": "72421",
+    "boundary": 0,
+    "t": 0.555
+   },
+   {
+    "source": "74026",
+    "boundary": 1,
+    "t": 0.555
+   },
+   {
+    "source": "74026",
+    "boundary": 0,
+    "t": -3.985
+   },
+   {
+    "source": "76005",
+    "boundary": 1,
+    "t": -3.985
+   },
+   {
+    "source": "76005",
+    "boundary": 0,
+    "t": -4.134
+   }
+  ]
+ },
+ {
+  "s": 2.0,
+  "section": 0,
+  "written_right_edges": [
+   {
+    "t": 4.341,
+    "between": "offset"
+   },
+   {
+    "t": 0.67,
+    "outer_of": -1,
+    "type": "driving",
+    "source": "72421",
+    "width": 3.671
+   },
+   {
+    "t": -3.821,
+    "outer_of": -2,
+    "type": "driving",
+    "source": "74026",
+    "width": 4.491
+   },
+   {
+    "t": -4.362,
+    "outer_of": -3,
+    "type": "driving",
+    "source": "76005",
+    "width": 0.541
+   }
+  ],
+  "source_boundaries": [
+   {
+    "source": "72421",
+    "boundary": 1,
+    "t": 4.331
+   },
+   {
+    "source": "72421",
+    "boundary": 0,
+    "t": 0.65
+   },
+   {
+    "source": "74026",
+    "boundary": 1,
+    "t": 0.65
+   },
+   {
+    "source": "74026",
+    "boundary": 0,
+    "t": -3.791
+   },
+   {
+    "source": "76005",
+    "boundary": 1,
+    "t": -3.791
+   },
+   {
+    "source": "76005",
+    "boundary": 0,
+    "t": -4.187
+   }
+  ]
+ },
+ {
+  "s": 4.0,
+  "section": 0,
+  "written_right_edges": [
+   {
+    "t": 4.528,
+    "between": "offset"
+   },
+   {
+    "t": 0.845,
+    "outer_of": -1,
+    "type": "driving",
+    "source": "72421",
+    "width": 3.683
+   },
+   {
+    "t": -3.426,
+    "outer_of": -2,
+    "type": "driving",
+    "source": "74026",
+    "width": 4.271
+   },
+   {
+    "t": -4.508,
+    "outer_of": -3,
+    "type": "driving",
+    "source": "76005",
+    "width": 1.082
+   }
+  ],
+  "source_boundaries": [
+   {
+    "source": "72421",
+    "boundary": 1,
+    "t": 4.52
+   },
+   {
+    "source": "72421",
+    "boundary": 0,
+    "t": 0.839
+   },
+   {
+    "source": "74026",
+    "boundary": 1,
+    "t": 0.839
+   },
+   {
+    "source": "74026",
+    "boundary": 0,
+    "t": -3.404
+   },
+   {
+    "source": "76005",
+    "boundary": 1,
+    "t": -3.404
+   },
+   {
+    "source": "76005",
+    "boundary": 0,
+    "t": -4.294
+   }
+  ]
+ },
+ {
+  "s": 7.9,
+  "section": 0,
+  "written_right_edges": [
+   {
+    "t": 4.892,
+    "between": "offset"
+   },
+   {
+    "t": 1.187,
+    "outer_of": -1,
+    "type": "driving",
+    "source": "72421",
+    "width": 3.705
+   },
+   {
+    "t": -2.656,
+    "outer_of": -2,
+    "type": "driving",
+    "source": "74026",
+    "width": 3.843
+   },
+   {
+    "t": -4.792,
+    "outer_of": -3,
+    "type": "driving",
+    "source": "76005",
+    "width": 2.136
+   }
+  ],
+  "source_boundaries": [
+   {
+    "source": "72421",
+    "boundary": 1,
+    "t": 4.884
+   },
+   {
+    "source": "72421",
+    "boundary": 0,
+    "t": 1.204
+   },
+   {
+    "source": "74026",
+    "boundary": 1,
+    "t": 1.204
+   },
+   {
+    "source": "74026",
+    "boundary": 0,
+    "t": -2.652
+   },
+   {
+    "source": "76005",
+    "boundary": 1,
+    "t": -2.652
+   },
+   {
+    "source": "76005",
+    "boundary": 0,
+    "t": -4.676
+   }
+  ]
+ },
+ {
+  "s": 10.0,
+  "section": 2,
+  "written_right_edges": [
+   {
+    "t": 5.088,
+    "between": "offset"
+   },
+   {
+    "t": 1.371,
+    "outer_of": -1,
+    "type": "driving",
+    "source": "72421",
+    "width": 3.717
+   },
+   {
+    "t": -2.241,
+    "outer_of": -2,
+    "type": "driving",
+    "source": "74026",
+    "width": 3.612
+   },
+   {
+    "t": -4.917,
+    "outer_of": -3,
+    "type": "driving",
+    "source": "76005",
+    "width": 2.676
+   },
+   {
+    "t": -4.917,
+    "outer_of": -4,
+    "type": "driving",
+    "source": "84837",
+    "width": 0.0
+   }
+  ],
+  "source_boundaries": [
+   {
+    "source": "72421",
+    "boundary": 1,
+    "t": 5.075
+   },
+   {
+    "source": "72421",
+    "boundary": 0,
+    "t": 1.395
+   },
+   {
+    "source": "74026",
+    "boundary": 1,
+    "t": 1.395
+   },
+   {
+    "source": "74026",
+    "boundary": 0,
+    "t": -2.252
+   },
+   {
+    "source": "76005",
+    "boundary": 1,
+    "t": -2.252
+   },
+   {
+    "source": "76005",
+    "boundary": 0,
+    "t": -4.905
+   }
+  ]
+ },
+ {
+  "s": 13.15,
+  "section": 2,
+  "written_right_edges": [
+   {
+    "t": 5.366,
+    "between": "offset"
+   },
+   {
+    "t": 1.646,
+    "outer_of": -1,
+    "type": "driving",
+    "source": "72421",
+    "width": 3.72
+   },
+   {
+    "t": -1.692,
+    "outer_of": -2,
+    "type": "driving",
+    "source": "74026",
+    "width": 3.338
+   },
+   {
+    "t": -5.009,
+    "outer_of": -3,
+    "type": "driving",
+    "source": "76005",
+    "width": 3.317
+   },
+   {
+    "t": -5.111,
+    "outer_of": -4,
+    "type": "driving",
+    "source": "84837",
+    "width": 0.102
+   }
+  ],
+  "source_boundaries": [
+   {
+    "source": "78050",
+    "boundary": 1,
+    "t": 5.352
+   },
+   {
+    "source": "78050",
+    "boundary": 0,
+    "t": 1.674
+   },
+   {
+    "source": "80879",
+    "boundary": 1,
+    "t": 1.674
+   },
+   {
+    "source": "74026",
+    "boundary": 0,
+    "t": -1.666
+   },
+   {
+    "source": "76005",
+    "boundary": 1,
+    "t": -1.666
+   },
+   {
+    "source": "76005",
+    "boundary": 0,
+    "t": -5.257
+   }
+  ]
+ },
+ {
+  "s": 16.0,
+  "section": 3,
+  "written_right_edges": [
+   {
+    "t": 5.599,
+    "between": "offset"
+   },
+   {
+    "t": 1.896,
+    "outer_of": -1,
+    "type": "driving",
+    "source": "78050",
+    "width": 3.703
+   },
+   {
+    "t": -1.418,
+    "outer_of": -2,
+    "type": "driving",
+    "source": "80879",
+    "width": 3.314
+   },
+   {
+    "t": -5.016,
+    "outer_of": -3,
+    "type": "driving",
+    "source": "82893",
+    "width": 3.598
+   },
+   {
+    "t": -5.598,
+    "outer_of": -4,
+    "type": "driving",
+    "source": "84837",
+    "width": 0.582
+   }
+  ],
+  "source_boundaries": [
+   {
+    "source": "78050",
+    "boundary": 1,
+    "t": 5.592
+   },
+   {
+    "source": "78050",
+    "boundary": 0,
+    "t": 1.915
+   },
+   {
+    "source": "80879",
+    "boundary": 1,
+    "t": 1.915
+   },
+   {
+    "source": "80879",
+    "boundary": 0,
+    "t": -1.423
+   },
+   {
+    "source": "82893",
+    "boundary": 1,
+    "t": -1.423
+   },
+   {
+    "source": "82893",
+    "boundary": 0,
+    "t": -5.084
+   },
+   {
+    "source": "84837",
+    "boundary": 1,
+    "t": -5.084
+   },
+   {
+    "source": "84837",
+    "boundary": 0,
+    "t": -5.562
+   }
+  ]
+ },
+ {
+  "s": 20.0,
+  "section": 4,
+  "written_right_edges": [
+   {
+    "t": 5.922,
+    "between": "offset"
+   },
+   {
+    "t": 2.245,
+    "outer_of": -1,
+    "type": "driving",
+    "source": "78050",
+    "width": 3.677
+   },
+   {
+    "t": -1.099,
+    "outer_of": -2,
+    "type": "driving",
+    "source": "80879",
+    "width": 3.345
+   },
+   {
+    "t": -4.72,
+    "outer_of": -3,
+    "type": "driving",
+    "source": "82893",
+    "width": 3.62
+   },
+   {
+    "t": -6.089,
+    "outer_of": -4,
+    "type": "driving",
+    "source": "84837",
+    "width": 1.37
+   }
+  ],
+  "source_boundaries": [
+   {
+    "source": "78050",
+    "boundary": 1,
+    "t": 5.906
+   },
+   {
+    "source": "78050",
+    "boundary": 0,
+    "t": 2.231
+   },
+   {
+    "source": "80879",
+    "boundary": 1,
+    "t": 2.231
+   },
+   {
+    "source": "80879",
+    "boundary": 0,
+    "t": -1.103
+   },
+   {
+    "source": "82893",
+    "boundary": 1,
+    "t": -1.103
+   },
+   {
+    "source": "82893",
+    "boundary": 0,
+    "t": -4.684
+   },
+   {
+    "source": "84837",
+    "boundary": 1,
+    "t": -4.684
+   },
+   {
+    "source": "84837",
+    "boundary": 0,
+    "t": -6.003
+   }
+  ]
+ },
+ {
+  "s": 28.0,
+  "section": 4,
+  "written_right_edges": [
+   {
+    "t": 6.412,
+    "between": "offset"
+   },
+   {
+    "t": 2.76,
+    "outer_of": -1,
+    "type": "driving",
+    "source": "78050",
+    "width": 3.652
+   },
+   {
+    "t": -0.573,
+    "outer_of": -2,
+    "type": "driving",
+    "source": "80879",
+    "width": 3.333
+   },
+   {
+    "t": -4.002,
+    "outer_of": -3,
+    "type": "driving",
+    "source": "82893",
+    "width": 3.43
+   },
+   {
+    "t": -6.744,
+    "outer_of": -4,
+    "type": "driving",
+    "source": "84837",
+    "width": 2.742
+   }
+  ],
+  "source_boundaries": [
+   {
+    "source": "78050",
+    "boundary": 1,
+    "t": 6.431
+   },
+   {
+    "source": "78050",
+    "boundary": 0,
+    "t": 2.76
+   },
+   {
+    "source": "80879",
+    "boundary": 1,
+    "t": 2.76
+   },
+   {
+    "source": "80879",
+    "boundary": 0,
+    "t": -0.568
+   },
+   {
+    "source": "82893",
+    "boundary": 1,
+    "t": -0.568
+   },
+   {
+    "source": "82893",
+    "boundary": 0,
+    "t": -3.988
+   },
+   {
+    "source": "84837",
+    "boundary": 1,
+    "t": -3.988
+   },
+   {
+    "source": "84837",
+    "boundary": 0,
+    "t": -6.938
+   }
+  ]
+ },
+ {
+  "s": 32.0,
+  "section": 5,
+  "written_right_edges": [
+   {
+    "t": 6.636,
+    "between": "offset"
+   },
+   {
+    "t": 2.965,
+    "outer_of": -1,
+    "type": "driving",
+    "source": "78050",
+    "width": 3.672
+   },
+   {
+    "t": -0.362,
+    "outer_of": -2,
+    "type": "driving",
+    "source": "80879",
+    "width": 3.327
+   },
+   {
+    "t": -3.708,
+    "outer_of": -3,
+    "type": "driving",
+    "source": "82893",
+    "width": 3.346
+   },
+   {
+    "t": -7.067,
+    "outer_of": -4,
+    "type": "driving",
+    "source": "84837",
+    "width": 3.359
+   }
+  ],
+  "source_boundaries": [
+   {
+    "source": "78050",
+    "boundary": 1,
+    "t": 6.633
+   },
+   {
+    "source": "78050",
+    "boundary": 0,
+    "t": 2.964
+   },
+   {
+    "source": "80879",
+    "boundary": 1,
+    "t": 2.964
+   },
+   {
+    "source": "80879",
+    "boundary": 0,
+    "t": -0.361
+   },
+   {
+    "source": "82893",
+    "boundary": 1,
+    "t": -0.361
+   },
+   {
+    "source": "82893",
+    "boundary": 0,
+    "t": -3.7
+   },
+   {
+    "source": "84837",
+    "boundary": 1,
+    "t": -3.7
+   },
+   {
+    "source": "84837",
+    "boundary": 0,
+    "t": -7.082
+   }
+  ]
+ },
+ {
+  "s": 40.0,
+  "section": 7,
+  "written_right_edges": [
+   {
+    "t": 6.949,
+    "between": "offset"
+   },
+   {
+    "t": 3.276,
+    "outer_of": -1,
+    "type": "driving",
+    "source": "94013",
+    "width": 3.674
+   },
+   {
+    "t": -0.021,
+    "outer_of": -2,
+    "type": "driving",
+    "source": "96455",
+    "width": 3.296
+   },
+   {
+    "t": -3.419,
+    "outer_of": -3,
+    "type": "driving",
+    "source": "98442",
+    "width": 3.398
+   },
+   {
+    "t": -6.983,
+    "outer_of": -4,
+    "type": "driving",
+    "source": "00011",
+    "width": 3.564
+   }
+  ],
+  "source_boundaries": [
+   {
+    "source": "94013",
+    "boundary": 1,
+    "t": 6.947
+   },
+   {
+    "source": "94013",
+    "boundary": 0,
+    "t": 3.281
+   },
+   {
+    "source": "96455",
+    "boundary": 1,
+    "t": 3.281
+   },
+   {
+    "source": "96455",
+    "boundary": 0,
+    "t": -0.028
+   },
+   {
+    "source": "98442",
+    "boundary": 1,
+    "t": -0.028
+   },
+   {
+    "source": "98442",
+    "boundary": 0,
+    "t": -3.432
+   },
+   {
+    "source": "00011",
+    "boundary": 1,
+    "t": -3.432
+   },
+   {
+    "source": "00011",
+    "boundary": 0,
+    "t": -6.927
+   }
+  ]
+ },
+ {
+  "s": 50.0,
+  "section": 8,
+  "written_right_edges": [
+   {
+    "t": 7.094,
+    "between": "offset"
+   },
+   {
+    "t": 3.456,
+    "outer_of": -1,
+    "type": "driving",
+    "source": "94013",
+    "width": 3.638
+   },
+   {
+    "t": 0.148,
+    "outer_of": -2,
+    "type": "driving",
+    "source": "96455",
+    "width": 3.308
+   },
+   {
+    "t": -3.344,
+    "outer_of": -3,
+    "type": "driving",
+    "source": "98442",
+    "width": 3.492
+   },
+   {
+    "t": -6.916,
+    "outer_of": -4,
+    "type": "driving",
+    "source": "00011",
+    "width": 3.572
+   }
+  ],
+  "source_boundaries": [
+   {
+    "source": "94013",
+    "boundary": 1,
+    "t": 7.104
+   },
+   {
+    "source": "94013",
+    "boundary": 0,
+    "t": 3.44
+   },
+   {
+    "source": "96455",
+    "boundary": 1,
+    "t": 3.44
+   },
+   {
+    "source": "96455",
+    "boundary": 0,
+    "t": 0.151
+   },
+   {
+    "source": "98442",
+    "boundary": 1,
+    "t": 0.151
+   },
+   {
+    "source": "98442",
+    "boundary": 0,
+    "t": -3.356
+   },
+   {
+    "source": "00011",
+    "boundary": 1,
+    "t": -3.356
+   },
+   {
+    "source": "00011",
+    "boundary": 0,
+    "t": -6.897
+   }
+  ]
+ },
+ {
+  "s": 60.0,
+  "section": 9,
+  "written_right_edges": [
+   {
+    "t": 7.146,
+    "between": "offset"
+   },
+   {
+    "t": 3.48,
+    "outer_of": -1,
+    "type": "driving",
+    "source": "94013",
+    "width": 3.666
+   },
+   {
+    "t": 0.189,
+    "outer_of": -2,
+    "type": "driving",
+    "source": "96455",
+    "width": 3.292
+   },
+   {
+    "t": -3.397,
+    "outer_of": -3,
+    "type": "driving",
+    "source": "98442",
+    "width": 3.586
+   },
+   {
+    "t": -6.977,
+    "outer_of": -4,
+    "type": "driving",
+    "source": "00011",
+    "width": 3.58
+   }
+  ],
+  "source_boundaries": [
+   {
+    "source": "94013",
+    "boundary": 1,
+    "t": 7.159
+   },
+   {
+    "source": "94013",
+    "boundary": 0,
+    "t": 3.494
+   },
+   {
+    "source": "96455",
+    "boundary": 1,
+    "t": 3.494
+   },
+   {
+    "source": "96455",
+    "boundary": 0,
+    "t": 0.225
+   },
+   {
+    "source": "98442",
+    "boundary": 1,
+    "t": 0.225
+   },
+   {
+    "source": "98442",
+    "boundary": 0,
+    "t": -3.385
+   },
+   {
+    "source": "00011",
+    "boundary": 1,
+    "t": -3.385
+   },
+   {
+    "source": "00011",
+    "boundary": 0,
+    "t": -6.973
+   }
+  ]
+ },
+ {
+  "s": 70.0,
+  "section": 11,
+  "written_right_edges": [
+   {
+    "t": 7.179,
+    "between": "offset"
+   },
+   {
+    "t": 3.519,
+    "outer_of": -1,
+    "type": "driving",
+    "source": "80081",
+    "width": 3.66
+   },
+   {
+    "t": 0.219,
+    "outer_of": -2,
+    "type": "driving",
+    "source": "82436",
+    "width": 3.3
+   },
+   {
+    "t": -3.433,
+    "outer_of": -3,
+    "type": "driving",
+    "source": "84414",
+    "width": 3.652
+   },
+   {
+    "t": -7.026,
+    "outer_of": -4,
+    "type": "driving",
+    "source": "86884",
+    "width": 3.593
+   }
+  ],
+  "source_boundaries": [
+   {
+    "source": "80081",
+    "boundary": 1,
+    "t": 7.174
+   },
+   {
+    "source": "80081",
+    "boundary": 0,
+    "t": 3.52
+   },
+   {
+    "source": "82436",
+    "boundary": 1,
+    "t": 3.52
+   },
+   {
+    "source": "82436",
+    "boundary": 0,
+    "t": 0.252
+   },
+   {
+    "source": "84414",
+    "boundary": 1,
+    "t": 0.252
+   },
+   {
+    "source": "84414",
+    "boundary": 0,
+    "t": -3.433
+   },
+   {
+    "source": "86884",
+    "boundary": 1,
+    "t": -3.433
+   },
+   {
+    "source": "86884",
+    "boundary": 0,
+    "t": -7.061
+   }
+  ]
+ },
+ {
+  "s": 80.0,
+  "section": 13,
+  "written_right_edges": [
+   {
+    "t": 7.212,
+    "between": "offset"
+   },
+   {
+    "t": 3.622,
+    "outer_of": -1,
+    "type": "driving",
+    "source": "89690",
+    "width": 3.59
+   },
+   {
+    "t": 0.25,
+    "outer_of": -2,
+    "type": "driving",
+    "source": "91696",
+    "width": 3.372
+   },
+   {
+    "t": -3.352,
+    "outer_of": -3,
+    "type": "driving",
+    "source": "93654",
+    "width": 3.602
+   },
+   {
+    "t": -6.992,
+    "outer_of": -4,
+    "type": "driving",
+    "source": "95208",
+    "width": 3.64
+   }
+  ],
+  "source_boundaries": [
+   {
+    "source": "89690",
+    "boundary": 1,
+    "t": 7.216
+   },
+   {
+    "source": "89690",
+    "boundary": 0,
+    "t": 3.631
+   },
+   {
+    "source": "91696",
+    "boundary": 1,
+    "t": 3.631
+   },
+   {
+    "source": "91696",
+    "boundary": 0,
+    "t": 0.27
+   },
+   {
+    "source": "93654",
+    "boundary": 1,
+    "t": 0.27
+   },
+   {
+    "source": "93654",
+    "boundary": 0,
+    "t": -3.345
+   },
+   {
+    "source": "95208",
+    "boundary": 1,
+    "t": -3.345
+   },
+   {
+    "source": "95208",
+    "boundary": 0,
+    "t": -6.975
+   }
+  ]
+ },
+ {
+  "s": 87.0,
+  "section": 13,
+  "written_right_edges": [
+   {
+    "t": 7.235,
+    "between": "offset"
+   },
+   {
+    "t": 3.694,
+    "outer_of": -1,
+    "type": "driving",
+    "source": "89690",
+    "width": 3.541
+   },
+   {
+    "t": 0.271,
+    "outer_of": -2,
+    "type": "driving",
+    "source": "91696",
+    "width": 3.423
+   },
+   {
+    "t": -3.295,
+    "outer_of": -3,
+    "type": "driving",
+    "source": "93654",
+    "width": 3.567
+   },
+   {
+    "t": -7.121,
+    "outer_of": -4,
+    "type": "driving",
+    "source": "95208",
+    "width": 3.826
+   }
+  ],
+  "source_boundaries": [
+   {
+    "source": "89690",
+    "boundary": 1,
+    "t": 7.237
+   },
+   {
+    "source": "89690",
+    "boundary": 0,
+    "t": 3.699
+   },
+   {
+    "source": "91696",
+    "boundary": 1,
+    "t": 3.699
+   },
+   {
+    "source": "91696",
+    "boundary": 0,
+    "t": 0.273
+   },
+   {
+    "source": "93654",
+    "boundary": 1,
+    "t": 0.273
+   },
+   {
+    "source": "93654",
+    "boundary": 0,
+    "t": -3.293
+   },
+   {
+    "source": "95208",
+    "boundary": 1,
+    "t": -3.293
+   },
+   {
+    "source": "95208",
+    "boundary": 0,
+    "t": -7.088
+   }
+  ]
+ }
+]

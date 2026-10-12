@@ -1,0 +1,58 @@
+{
+ "10": {
+  "plain_negative": [
+   [
+    "left",
+    0,
+    1,
+    -0.3571
+   ]
+  ],
+  "retry_negative": [],
+  "relative_chains": 1
+ },
+ "skipped": [],
+ "rows": [
+  {
+   "road": "10",
+   "chains": 9,
+   "fallback_boundaries": 0,
+   "c2_ends": true,
+   "rechained": [],
+   "advanced_events": 3,
+   "local_relative": [
+    [
+     333.403,
+     461.196
+    ]
+   ],
+   "relative_chains": 1,
+   "source_events": [
+    {
+     "side": "left",
+     "kind": "birth",
+     "section_s": 330.0,
+     "source_s": 329.922
+    }
+   ],
+   "strong_mouth_flares": [],
+   "curb_return_shoulders": [],
+   "params": {
+    "mode": "g2",
+    "kappa_cap": 0.04,
+    "seg_min": 6.0,
+    "rdp_tol": 0.05,
+    "curb_shoulder": true,
+    "c2_ends": true,
+    "rechain": true,
+    "mouth_anchor": true,
+    "short_kappa": true,
+    "lsq_refine": true,
+    "protect_unobserved_ends": true
+   },
+   "crossing_repairs": [],
+   "width_records": 679,
+   "min_width_m": 0.0
+  }
+ ]
+}
