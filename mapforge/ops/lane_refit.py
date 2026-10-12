@@ -39,7 +39,10 @@ polyline, relative to the unchanged reference line:
   values are set by least squares on the finished curve, mouth ends and mouth-run starts staying on the data
   (lsq_refine); a gap between the lanes of two parallel source links becomes a lane of its own before the refit
   (mapforge.ops.lane_gap, link_gaps, 2026-10-05);
-* boundaries without any source observation keep their current geometry.
+* boundaries without any source observation keep their current geometry;
+* a road that would keep its geometry for a negative width is refitted once more with zero-width starts at the
+  free ends of its failing lanes however short their unobserved stretch, and written only when no width is
+  negative any more (mapforge.ops.refit_zero_start, 2026-10-12; protect_unobserved_ends only).
 
 Only laneOffset and width records change; reference lines, laneSections, lane ids,
 links and provenance stay. Unsupported roads are reported and left unchanged.
@@ -830,6 +833,8 @@ def refit_road(road_el, src, origin, params=None, observe=None, relative=None):
     rechain = params.pop("rechain", False)
     # free road ends where a source lane starts (ends) narrow some way in: zero width up to there (SHP)
     zero_starts = params.pop("protect_unobserved_ends", False)
+    # (side, section, lane) of a second refit whose zero-width starts need no unobserved minimum (refit_zero_start)
+    zero_start_lanes = params.pop("zero_start_lanes", ())
     if zero_starts:
         params["free_end_runs"] = True
     FLARES.clear()
@@ -909,7 +914,9 @@ def refit_road(road_el, src, origin, params=None, observe=None, relative=None):
             base = None
             advanced = _advanced_events(road, side, chain) if chain.get("birth") or chain.get("death") else {}
             if zero_starts and any_src:
-                advanced.update(_zero_starts(road, side, chain, obs, fitted, start, end, a, b))
+                short = any((side, i, k) in zero_start_lanes for i, k in chain["members"].items())
+                advanced.update(_zero_starts(road, side, chain, obs, fitted, start, end, a, b,
+                                             0.0 if short else UNOBSERVED_END_M))
             if advanced or (relative is not None and relative(road, side, chain)):
                 inner = [fitted.get((side, i, chain["members"][i] - 1)) for i in secs]
                 base = [p for part in inner for p in part] if all(inner) else None
@@ -1101,11 +1108,12 @@ def _advanced_fit(obs_s, rel, obs, a, b, base, start, end, ramp_start, ramp_end,
     return sorted(keep + own, key=lambda p: p[0]), (lo, hi)
 
 
-def _zero_starts(road, side, chain, obs, fitted, start, end, a, b):
-    """{"birth"/"death": (station, None)} where a free chain end has no source for more than UNOBSERVED_END_M and
+def _zero_starts(road, side, chain, obs, fitted, start, end, a, b, unobserved_m=UNOBSERVED_END_M):
+    """{"birth"/"death": (station, None)} where a free chain end has no source for more than ``unobserved_m`` and
     the source lane there starts (ends) narrower than ZERO_START_M: shp-node13 road 10 lane 5 exists from the
     road start, its source opens 4 m in from zero width; the refit held the first value, pruned the short
-    held stretch and the lane widened from the road start (0.81 m off at the source start)."""
+    held stretch and the lane widened from the road start (0.81 m off at the source start). ``unobserved_m`` is 0
+    for the failing lanes of a second refit (mapforge.ops.refit_zero_start)."""
     secs = sorted(chain["members"])
     inner = [fitted.get((side, i, chain["members"][i] - 1)) for i in secs]
     if not all(inner) or not len(obs):
@@ -1120,11 +1128,11 @@ def _zero_starts(road, side, chain, obs, fitted, start, end, a, b):
     # (lane 5 of the same road, -0.107 m at the road start).
     with_s = _travels_with_s(road, side, chain)
     sign = 1.0 if side == "left" else -1.0
-    if start is None and not chain.get("birth") and lo > a + UNOBSERVED_END_M:
+    if start is None and not chain.get("birth") and lo > a + unobserved_m:
         first = obs[obs[:, 0] <= lo + GRID]
         if abs(float(np.median(first[:, 1])) - _at(base, lo)) < ZERO_START_M:
             out["birth"] = (lo, None, 0.0 if with_s else sign * TAIL_WIDTH_M)
-    if end is None and not chain.get("death") and hi < b - UNOBSERVED_END_M:
+    if end is None and not chain.get("death") and hi < b - unobserved_m:
         last = obs[obs[:, 0] >= hi - GRID]
         if abs(float(np.median(last[:, 1])) - _at(base, hi)) < ZERO_START_M:
             out["death"] = (hi, None, sign * TAIL_WIDTH_M if with_s else 0.0)
@@ -1446,8 +1454,15 @@ def refit_tree(root, src, params=None):
             if write_road(road, fitted, report):
                 road_el.append(etree.Element("userData", code=CODE, value=json.dumps(report, ensure_ascii=False)))
                 rows.append(report)
+                continue
+            from mapforge.ops import refit_zero_start
+            again, note = refit_zero_start.retry(road_el, src, origin, params, road, fitted, report)
+            if again is not None:
+                road_el.append(etree.Element("userData", code=CODE, value=json.dumps(again, ensure_ascii=False)))
+                rows.append(again)
             else:
-                skipped.append({"road": road_el.get("id"), "reason": report.get("skipped")})
+                skipped.append({"road": road_el.get("id"), "reason": report.get("skipped"),
+                                **({"zero_start_retry": note} if note else {})})
         except (ValueError, KeyError, StopIteration, IndexError) as exc:
             skipped.append({"road": road_el.get("id"), "reason": f"{type(exc).__name__}: {exc}"})
     return {"schema": CODE, "rewritten": len(rows), "skipped": skipped, "rows": rows}
