@@ -42,7 +42,9 @@ polyline, relative to the unchanged reference line:
 * boundaries without any source observation keep their current geometry;
 * a road that would keep its geometry for a negative width is refitted once more with zero-width starts at the
   free ends of its failing lanes however short their unobserved stretch, and written only when no width is
-  negative any more (mapforge.ops.refit_zero_start, 2026-10-12; protect_unobserved_ends only).
+  negative any more (mapforge.ops.refit_zero_start, 2026-10-12; protect_unobserved_ends only); if that fails
+  too, a third time with those lanes' widths held over free ends without source at their value where the
+  source starts (mapforge.ops.refit_hold_width, 2026-10-13).
 
 Only laneOffset and width records change; reference lines, laneSections, lane ids,
 links and provenance stay. Unsupported roads are reported and left unchanged.
@@ -835,6 +837,8 @@ def refit_road(road_el, src, origin, params=None, observe=None, relative=None):
     zero_starts = params.pop("protect_unobserved_ends", False)
     # (side, section, lane) of a second refit whose zero-width starts need no unobserved minimum (refit_zero_start)
     zero_start_lanes = params.pop("zero_start_lanes", ())
+    # (side, section, lane) of a third refit whose widths are held over free ends without source (refit_hold_width)
+    hold_width_lanes = params.pop("hold_width_lanes", ())
     if zero_starts:
         params["free_end_runs"] = True
     FLARES.clear()
@@ -917,6 +921,16 @@ def refit_road(road_el, src, origin, params=None, observe=None, relative=None):
                 short = any((side, i, k) in zero_start_lanes for i, k in chain["members"].items())
                 advanced.update(_zero_starts(road, side, chain, obs, fitted, start, end, a, b,
                                              0.0 if short else UNOBSERVED_END_M))
+                if any((side, i, k) in hold_width_lanes for i, k in chain["members"].items()):
+                    from mapforge.ops import refit_hold_width
+                    for kind, event in refit_hold_width.holds(road, side, chain, obs, fitted, start, end,
+                                                              a, b).items():
+                        if kind not in advanced:
+                            advanced[kind] = event
+                            report.setdefault("held_widths", []).append(
+                                {"side": side, "lane": chain["members"][secs[0] if kind == "birth" else secs[-1]],
+                                 "kind": kind, "s": round(event[0], 3),
+                                 "width_m": round(event[2] if side == "left" else -event[2], 4)})
             if advanced or (relative is not None and relative(road, side, chain)):
                 inner = [fitted.get((side, i, chain["members"][i] - 1)) for i in secs]
                 base = [p for part in inner for p in part] if all(inner) else None
@@ -1455,14 +1469,18 @@ def refit_tree(root, src, params=None):
                 road_el.append(etree.Element("userData", code=CODE, value=json.dumps(report, ensure_ascii=False)))
                 rows.append(report)
                 continue
-            from mapforge.ops import refit_zero_start
+            from mapforge.ops import refit_hold_width, refit_zero_start
             again, note = refit_zero_start.retry(road_el, src, origin, params, road, fitted, report)
+            hold_note = None
+            if again is None:
+                again, hold_note = refit_hold_width.retry(road_el, src, origin, params, report, note)
             if again is not None:
                 road_el.append(etree.Element("userData", code=CODE, value=json.dumps(again, ensure_ascii=False)))
                 rows.append(again)
             else:
                 skipped.append({"road": road_el.get("id"), "reason": report.get("skipped"),
-                                **({"zero_start_retry": note} if note else {})})
+                                **({"zero_start_retry": note} if note else {}),
+                                **({"hold_width_retry": hold_note} if hold_note else {})})
         except (ValueError, KeyError, StopIteration, IndexError) as exc:
             skipped.append({"road": road_el.get("id"), "reason": f"{type(exc).__name__}: {exc}"})
     return {"schema": CODE, "rewritten": len(rows), "skipped": skipped, "rows": rows}
