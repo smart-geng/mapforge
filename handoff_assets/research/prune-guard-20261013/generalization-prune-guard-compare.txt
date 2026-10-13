@@ -1,0 +1,76 @@
+== 2023041111160971268 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+     boundary_inside_max_m                      0.231664688807513 -> 0.21218278168939148
+     boundary_inside_p95_m                      0.03339087343581161 -> 0.03199570239048592
+   * boundary_inside_runs_max_m                 0.231664688807513 -> 0.18450074316010498
+   * boundary_inside_runs_p95_m                 0.03335049321741291 -> 0.03199570239048592
+     boundary_median_m                          0.008357311458839325 -> 0.008219010484970618
+     boundary_p95_m                             0.07836763270025067 -> 0.050120220407144776
+     fair_road_event_kappa_max_per_m            0.04294761505610703 -> 0.0514858537911615
+     fair_road_kappa_max_per_m                  0.04720070682306883 -> 0.024532527599554006
+     fair_road_kappa_p90_per_m                  0.01047055566285033 -> 0.009987975808876661
+   * lane_join_curvature_jump_max_per_m         0.00019021595299544003 -> 0.00015333462423373283
+     outer_curvature_max_per_m                  0.06463197473225965 -> 0.0636202681132974
+   * outer_heading_step_max_deg                 0.0007556277167483174 -> 0.000743697324056073
+     width_records                              1994 -> 1996
+== 2023061310244790027 shp base None anchor None 
+== 2023062713394062899 shp base {'T1': 'PASS', 'T2': 'FAIL'} anchor {'T1': 'PASS', 'T2': 'FAIL'} 
+     boundary_inside_p95_m                      0.786733332812285 -> 0.7116519798253838
+   * boundary_inside_runs_max_m                 1.2842676442649772 -> 0.8760102272080309
+   * boundary_inside_runs_p95_m                 0.056682728538182375 -> 0.04604172400611239
+     boundary_median_m                          0.00956551314006417 -> 0.009415764490105968
+     boundary_p95_m                             0.7516109379589738 -> 0.7095237698178375
+     fair_road_event_kappa_max_per_m            0.1399032364104967 -> 0.16687316333629215
+     fair_road_kappa_p90_per_m                  0.011172790570341002 -> 0.011063428534285515
+     kappa_max_per_m                            0.15130189090495239 -> 0.16687316333629215
+     lane_edge_join_jumps_gt_1e-03              12 -> 14
+   * lane_join_curvature_jump_max_per_m         8.778032815501442e-05 -> 0.00011991251432404149
+     lane_join_jumps_gt_1e-04                   0 -> 1
+   * outer_curvature_flips_per_100m_max         0.9413938461799733 -> 2.8241815385399205
+     outer_curvature_max_per_m                  0.16575741042974815 -> 0.22585714944529434
+   * outer_heading_step_max_deg                 0.0018752081282561153 -> 0.0026069061832834283
+     policy_speed_ay_max_mps2                   18.67924578699901 -> 20.60162509912562
+     width_records                              1994 -> 1998
+== 2023063015350832057 shp base {'T1': 'PASS', 'T2': 'FAIL'} anchor {'T1': 'PASS', 'T2': 'FAIL'} 
+== 2023070710412621654 shp base None anchor None 
+== 2023080118313036830 shp base {'T1': 'PASS', 'T2': 'FAIL'} anchor {'T1': 'PASS', 'T2': 'FAIL'} 
+== 2023041216222042093 shp base {'T1': 'FAIL', 'T2': 'FAIL'} anchor {'T1': 'FAIL', 'T2': 'FAIL'} 
+== 2023062110304177600 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== 2023070118182048481 shp base None anchor None 
+== 2023080810023203229 shp base {'T1': 'PASS', 'T2': 'FAIL'} anchor {'T1': 'PASS', 'T2': 'FAIL'} 
+== 2023062913464138453 shp base None anchor None 
+== 2023072914272536839 shp base None anchor None 
+== 2023041810414040830 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== 2023070710324132429 shp base {'T1': 'PASS', 'T2': 'FAIL'} anchor {'T1': 'PASS', 'T2': 'FAIL'} 
+== 2023081110220126408 shp base None anchor None 
+== 2023071109582525264 shp base {'T1': 'PASS', 'T2': 'FAIL'} anchor {'T1': 'PASS', 'T2': 'FAIL'} TIER CHANGE
+   base failed {'T1': ('PASS', []), 'T2': ('FAIL', ['boundary_inside_runs_p95_m', 'boundary_inside_runs_max_m', 'edge_contact_curvature_max_per_m'])} 
+   anch failed {'T1': ('PASS', []), 'T2': ('FAIL', ['boundary_inside_runs_max_m'])}
+     boundary_inside_max_m                      3.6675133246866407 -> 1.5717944642165966
+     boundary_inside_p95_m                      1.3353655448539403 -> 0.08586915535212321
+   * boundary_inside_runs_max_m                 3.6675133246866407 -> 1.5717944642165966
+   * boundary_inside_runs_p95_m                 1.3353655448539403 -> 0.08586915535212321
+     boundary_max_m                             3.6675133246866407 -> 1.5717944642165966
+     boundary_median_m                          0.011630943068357068 -> 0.011508433174434052
+     boundary_p95_m                             1.330597407367264 -> 0.09624700704915645
+   * conn_edge_join_curvature_jump_max_per_m    0.0024952189506258424 -> 0.0009585818657808498
+   * connector_width_bulge_max_m                0.09906461681776069 -> 0.01878445510478155
+     connector_width_min_m                      2.63638559474909 -> 2.617601139644308
+   * edge_contact_curvature_max_per_m           0.004076184685991671 -> 0.00036489841416611986
+     fair_road_event_kappa_max_per_m            0.8069586745358679 -> 0.8965374155367793
+     fair_road_kappa_p90_per_m                  0.020788732836464572 -> 0.023294304476494186
+     fair_turn_conn_sharpness_max_per_m2        0.0672943674122865 -> 0.04916476562876834
+     fair_turn_conn_sharpness_p90_per_m2        0.06351238453482799 -> 0.04719574292966165
+     kappa_max_per_m                            0.8069586745358679 -> 0.8965374155367793
+     lane_edge_join_curvature_jump_max_per_m    0.0024952189506258424 -> 0.0009585818657808498
+     lane_edge_join_jumps_gt_1e-03              8 -> 0
+   * lane_edge_step_max_m                       0.0007696330201536483 -> 0.0009823213511692686
+     lane_join_jumps_gt_1e-04                   4 -> 5
+     lane_join_jumps_gt_1e-07                   33 -> 36
+   * outer_curvature_flips_per_100m_max         1.2788316940902356 -> 3.836495082270707
+     outer_curvature_max_per_m                  0.7557307555989513 -> 0.8527082819840216
+   * outer_heading_step_max_deg                 0.0005103693782025839 -> 0.001290564457122206
+     policy_speed_ay_max_mps2                   99.6245277005526 -> 110.6836315256138
+     policy_speed_jerk_max_mps3                 2065.9615086352205 -> 2098.9925017446913
+     turn_counter_curvature_max_per_m           0.01614680777465856 -> 0.013879937530451865
+     width_records                              653 -> 661
+rows with any change: 3 / 16

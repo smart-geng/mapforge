@@ -1,0 +1,22 @@
+== 2023070710412621654 shp base {'T1': 'PASS', 'T2': 'FAIL'} anchor {'T1': 'PASS', 'T2': 'FAIL'} 
+     boundary_median_m                          0.024532308330600945 -> 0.022022507322182885
+   * edge_contact_position_max_m                8.936906107865533e-08 -> 1.6559997346553545e-06
+     fair_road_kappa_p90_per_m                  0.01568553484220175 -> 0.015595354389122277
+     fair_turn_conn_sharpness_p90_per_m2        0.026080120256267346 -> 0.026078157398664856
+   * lane_center_max_m                          0.7087127380491252 -> 0.7080503549057645
+     lane_center_median_m                       0.04088565013774238 -> 0.040942610728052026
+   * lane_center_noconflict_max_m               0.7087127380491252 -> 0.7080503549057645
+     lane_center_noconflict_median_m            0.03844970869670879 -> 0.03851356747216966
+   * lane_center_noconflict_p95_m               0.1911111532533083 -> 0.19026482568976863
+     lane_center_noflare_max_m                  0.7087127380491252 -> 0.7080503549057645
+     lane_center_noflare_median_m               0.03844970869670879 -> 0.03851356747216966
+     lane_center_noflare_p95_m                  0.1911111532533083 -> 0.19026482568976863
+   * lane_center_p95_m                          0.22904799897017925 -> 0.22789142676912044
+     lane_center_poly_max_m                     0.7086336392496533 -> 0.7079180784347812
+     lane_center_poly_median_m                  0.0341043142222973 -> 0.03415984768621928
+     lane_join_jumps_gt_1e-04                   27 -> 26
+     lane_join_jumps_gt_1e-07                   249 -> 251
+   * outer_curvature_flips_per_100m_max         0.5686052869692886 -> 0.7877992720038313
+   * road_interface_position_max_m              8.936905782310218e-08 -> 1.6559997329156955e-06
+   * route_gap_max_m                            8.936905782310218e-08 -> 1.6559997329156955e-06
+rows with any change: 1 / 1

@@ -1,0 +1,84 @@
+{
+ "shp-2023041111160971268.stage.xodr": [
+  {
+   "road": "13",
+   "differs": true,
+   "prune_guards": [
+    {
+     "a": 63.432,
+     "b": 140.231,
+     "pruned_error_m": 0.542,
+     "guarded_error_m": 0.206,
+     "used": true
+    }
+   ]
+  }
+ ],
+ "shp-2023041216222042093.stage.xodr": [],
+ "shp-2023041810414040830.stage.xodr": [],
+ "shp-2023061310244790027.stage.xodr": [],
+ "shp-2023062110304177600.stage.xodr": [],
+ "shp-2023062713394062899.stage.xodr": [
+  {
+   "road": "13",
+   "differs": true,
+   "prune_guards": [
+    {
+     "a": 17.792,
+     "b": 106.225,
+     "pruned_error_m": 1.419,
+     "guarded_error_m": 1.126,
+     "used": true
+    }
+   ]
+  }
+ ],
+ "shp-2023063015350832057.stage.xodr": [],
+ "shp-2023070710324132429.stage.xodr": [],
+ "shp-2023070710412621654.stage.xodr": [
+  {
+   "road": "13",
+   "differs": true,
+   "prune_guards": [
+    {
+     "a": 41.334,
+     "b": 126.936,
+     "pruned_error_m": 0.73,
+     "guarded_error_m": 0.005,
+     "used": true
+    }
+   ]
+  }
+ ],
+ "shp-2023071109582525264.stage.xodr": [
+  {
+   "road": "11",
+   "differs": true,
+   "prune_guards": [
+    {
+     "a": 52.694,
+     "b": 78.196,
+     "pruned_error_m": 2.252,
+     "guarded_error_m": 1.066,
+     "used": true
+    },
+    {
+     "a": 0.0,
+     "b": 72.53,
+     "pruned_error_m": 2.813,
+     "guarded_error_m": 1.044,
+     "used": true
+    }
+   ]
+  }
+ ],
+ "shp-2023080118313036830.stage.xodr": [],
+ "shp-2023080810023203229.stage.xodr": [],
+ "shp-NODE5.stage.xodr": [],
+ "shp-node13.stage.xodr": [],
+ "shp-node16.stage.xodr": [],
+ "shp-node17.stage.xodr": [],
+ "shp-node18.stage.xodr": [],
+ "shp-node3.stage.xodr": [],
+ "shp-node4.stage.xodr": []
+}

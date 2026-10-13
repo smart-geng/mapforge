@@ -1,0 +1,1045 @@
+{
+ "road": "11",
+ "length": 78.1963728785595,
+ "sections": [
+  {
+   "k": 0,
+   "s0": 0.0,
+   "s1": 5.137,
+   "lanes": [
+    {
+     "id": -3,
+     "type": "driving",
+     "source": "2023070817034884411",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-taper",
+     "role": "approach",
+     "trusted": null
+    },
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023070817034881605",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-taper",
+     "role": "approach",
+     "trusted": null
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023070817034879284",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-taper",
+     "role": "approach",
+     "trusted": null
+    }
+   ]
+  },
+  {
+   "k": 1,
+   "s0": 5.137,
+   "s1": 10.0,
+   "lanes": [
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023070817034892872",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-taper",
+     "role": "approach",
+     "trusted": null
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023070817034888835",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-taper",
+     "role": "approach",
+     "trusted": null
+    }
+   ]
+  },
+  {
+   "k": 2,
+   "s0": 10.0,
+   "s1": 52.694,
+   "lanes": [
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023070817034892872",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023070817034888835",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    }
+   ]
+  },
+  {
+   "k": 3,
+   "s0": 52.694,
+   "s1": 60.694,
+   "lanes": [
+    {
+     "id": -3,
+     "type": "driving",
+     "source": "2023070817034892872",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023070817035857656",
+     "status": "INFERRED",
+     "eligibility": "excluded",
+     "exclusion_code": "source-extension",
+     "support_s": null,
+     "support_kind": "lane-transition-taper",
+     "role": "approach",
+     "trusted": null
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023070817034888835",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    }
+   ]
+  },
+  {
+   "k": 4,
+   "s0": 60.694,
+   "s1": 64.53,
+   "lanes": [
+    {
+     "id": -3,
+     "type": "driving",
+     "source": "2023070817035860016",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": null
+    },
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023070817035857656",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-taper",
+     "role": "approach",
+     "trusted": null
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023070817035853223",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    }
+   ]
+  },
+  {
+   "k": 5,
+   "s0": 64.53,
+   "s1": 67.57,
+   "lanes": [
+    {
+     "id": -3,
+     "type": "driving",
+     "source": "2023070817035860016",
+     "status": "INFERRED",
+     "eligibility": "excluded",
+     "exclusion_code": "source-extension",
+     "support_s": null,
+     "support_kind": "lane-transition-taper",
+     "role": "approach",
+     "trusted": null
+    },
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023070819581468808",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-taper",
+     "role": "approach",
+     "trusted": null
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023070819581463680",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "source-support-too-short",
+     "support_s": null,
+     "support_kind": "source-support-too-short",
+     "role": "approach",
+     "trusted": null
+    }
+   ]
+  },
+  {
+   "k": 6,
+   "s0": 67.57,
+   "s1": 70.0,
+   "lanes": [
+    {
+     "id": -3,
+     "type": "driving",
+     "source": "2023070817035860016",
+     "status": "INFERRED",
+     "eligibility": "excluded",
+     "exclusion_code": "source-extension",
+     "support_s": null,
+     "support_kind": "lane-transition-taper",
+     "role": "approach",
+     "trusted": null
+    },
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023070819581471256",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "source-support-too-short",
+     "support_s": null,
+     "support_kind": "source-support-too-short",
+     "role": "approach",
+     "trusted": null
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023070819581466055",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "source-support-too-short",
+     "support_s": null,
+     "support_kind": "source-support-too-short",
+     "role": "approach",
+     "trusted": null
+    }
+   ]
+  },
+  {
+   "k": 7,
+   "s0": 70.0,
+   "s1": 72.53,
+   "lanes": [
+    {
+     "id": -3,
+     "type": "driving",
+     "source": "2023070817035860016",
+     "status": "INFERRED",
+     "eligibility": "excluded",
+     "exclusion_code": "source-extension",
+     "support_s": null,
+     "support_kind": "lane-transition-taper",
+     "role": "approach",
+     "trusted": null
+    },
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023070819581471256",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023070819581466055",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    }
+   ]
+  },
+  {
+   "k": 8,
+   "s0": 72.53,
+   "s1": 78.196,
+   "lanes": [
+    {
+     "id": -2,
+     "type": "driving",
+     "source": "2023070819581471256",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    },
+    {
+     "id": -1,
+     "type": "driving",
+     "source": "2023070819581466055",
+     "status": "APPROXIMATED",
+     "eligibility": "excluded",
+     "exclusion_code": "lane-transition-taper",
+     "support_s": null,
+     "support_kind": "lane-transition-ribbon",
+     "role": "approach",
+     "trusted": true
+    }
+   ]
+  }
+ ],
+ "outer_edges": [
+  {
+   "source_lane_id": "2023070817034884411",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": null,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    0.0,
+    5.07
+   ],
+   "n_target": 11,
+   "t2s_inside_max": 3.668,
+   "s2t_inside_max": 3.227,
+   "t2s_samples_gt_0.1": [
+    [
+     0.0,
+     3.668
+    ],
+    [
+     0.51,
+     3.382
+    ],
+    [
+     1.01,
+     3.096
+    ],
+    [
+     1.52,
+     2.81
+    ],
+    [
+     2.03,
+     2.524
+    ],
+    [
+     2.53,
+     2.238
+    ],
+    [
+     3.04,
+     1.939
+    ],
+    [
+     3.55,
+     1.558
+    ],
+    [
+     4.05,
+     1.153
+    ],
+    [
+     4.56,
+     0.869
+    ],
+    [
+     5.07,
+     0.774
+    ]
+   ]
+  },
+  {
+   "source_lane_id": "2023070817034892872",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": null,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    5.57,
+    9.63
+   ],
+   "n_target": 9,
+   "t2s_inside_max": 0.739,
+   "s2t_inside_max": 0.729,
+   "t2s_samples_gt_0.1": [
+    [
+     5.57,
+     0.739
+    ],
+    [
+     6.08,
+     0.709
+    ],
+    [
+     6.59,
+     0.68
+    ],
+    [
+     7.09,
+     0.651
+    ],
+    [
+     7.6,
+     0.622
+    ],
+    [
+     8.11,
+     0.593
+    ],
+    [
+     8.61,
+     0.563
+    ],
+    [
+     9.12,
+     0.534
+    ],
+    [
+     9.63,
+     0.505
+    ]
+   ]
+  },
+  {
+   "source_lane_id": "2023070817034892872",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": true,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    10.13,
+    52.19
+   ],
+   "n_target": 86,
+   "t2s_inside_max": 2.107,
+   "s2t_inside_max": 2.099,
+   "t2s_samples_gt_0.1": [
+    [
+     10.13,
+     0.476
+    ],
+    [
+     10.64,
+     0.446
+    ],
+    [
+     11.15,
+     0.417
+    ],
+    [
+     11.65,
+     0.387
+    ],
+    [
+     12.16,
+     0.357
+    ],
+    [
+     12.67,
+     0.327
+    ],
+    [
+     13.17,
+     0.297
+    ],
+    [
+     13.68,
+     0.267
+    ],
+    [
+     14.19,
+     0.237
+    ],
+    [
+     14.69,
+     0.207
+    ],
+    [
+     15.2,
+     0.176
+    ],
+    [
+     15.71,
+     0.145
+    ],
+    [
+     16.21,
+     0.115
+    ],
+    [
+     19.76,
+     0.105
+    ],
+    [
+     20.27,
+     0.137
+    ],
+    [
+     20.77,
+     0.169
+    ],
+    [
+     21.28,
+     0.201
+    ],
+    [
+     21.79,
+     0.233
+    ],
+    [
+     22.29,
+     0.264
+    ],
+    [
+     22.8,
+     0.295
+    ],
+    [
+     22.8,
+     0.295
+    ],
+    [
+     23.31,
+     0.325
+    ],
+    [
+     23.81,
+     0.355
+    ],
+    [
+     24.32,
+     0.385
+    ],
+    [
+     24.83,
+     0.415
+    ],
+    [
+     25.33,
+     0.445
+    ],
+    [
+     25.84,
+     0.476
+    ],
+    [
+     26.35,
+     0.506
+    ],
+    [
+     26.85,
+     0.537
+    ],
+    [
+     27.36,
+     0.568
+    ],
+    [
+     27.87,
+     0.599
+    ],
+    [
+     28.37,
+     0.63
+    ],
+    [
+     28.88,
+     0.662
+    ],
+    [
+     29.39,
+     0.694
+    ],
+    [
+     29.89,
+     0.726
+    ],
+    [
+     30.4,
+     0.758
+    ],
+    [
+     30.91,
+     0.791
+    ],
+    [
+     31.41,
+     0.824
+    ],
+    [
+     31.92,
+     0.856
+    ],
+    [
+     32.43,
+     0.889
+    ],
+    [
+     32.93,
+     0.92
+    ],
+    [
+     33.44,
+     0.952
+    ],
+    [
+     33.95,
+     0.982
+    ],
+    [
+     34.45,
+     1.012
+    ],
+    [
+     34.96,
+     1.042
+    ],
+    [
+     35.47,
+     1.072
+    ],
+    [
+     35.97,
+     1.101
+    ],
+    [
+     36.48,
+     1.131
+    ],
+    [
+     36.99,
+     1.161
+    ],
+    [
+     37.49,
+     1.191
+    ],
+    [
+     38.0,
+     1.221
+    ],
+    [
+     38.51,
+     1.252
+    ],
+    [
+     39.01,
+     1.283
+    ],
+    [
+     39.52,
+     1.315
+    ],
+    [
+     40.03,
+     1.346
+    ],
+    [
+     40.53,
+     1.379
+    ],
+    [
+     41.04,
+     1.411
+    ],
+    [
+     41.55,
+     1.444
+    ],
+    [
+     42.05,
+     1.477
+    ],
+    [
+     42.56,
+     1.509
+    ],
+    [
+     43.07,
+     1.542
+    ],
+    [
+     43.57,
+     1.574
+    ],
+    [
+     44.08,
+     1.605
+    ],
+    [
+     44.59,
+     1.636
+    ],
+    [
+     45.09,
+     1.666
+    ],
+    [
+     45.6,
+     1.696
+    ],
+    [
+     45.6,
+     1.696
+    ],
+    [
+     46.11,
+     1.726
+    ],
+    [
+     46.61,
+     1.756
+    ],
+    [
+     47.12,
+     1.787
+    ],
+    [
+     47.63,
+     1.818
+    ],
+    [
+     48.13,
+     1.849
+    ],
+    [
+     48.64,
+     1.88
+    ],
+    [
+     49.15,
+     1.912
+    ],
+    [
+     49.65,
+     1.945
+    ],
+    [
+     50.16,
+     1.977
+    ],
+    [
+     50.67,
+     2.01
+    ],
+    [
+     51.17,
+     2.043
+    ],
+    [
+     51.68,
+     2.075
+    ],
+    [
+     52.19,
+     2.107
+    ]
+   ]
+  },
+  {
+   "source_lane_id": "2023070817034892872",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": true,
+   "candidates": 2,
+   "picked": 1,
+   "target_s": [
+    52.69,
+    60.29
+   ],
+   "n_target": 16,
+   "t2s_inside_max": 0.708,
+   "s2t_inside_max": 0.685,
+   "t2s_samples_gt_0.1": [
+    [
+     52.69,
+     0.708
+    ],
+    [
+     53.2,
+     0.678
+    ],
+    [
+     53.71,
+     0.648
+    ],
+    [
+     54.21,
+     0.619
+    ],
+    [
+     54.72,
+     0.589
+    ],
+    [
+     55.23,
+     0.559
+    ],
+    [
+     55.73,
+     0.529
+    ],
+    [
+     56.24,
+     0.499
+    ],
+    [
+     56.75,
+     0.468
+    ],
+    [
+     57.25,
+     0.436
+    ],
+    [
+     57.76,
+     0.405
+    ],
+    [
+     58.27,
+     0.376
+    ],
+    [
+     58.77,
+     0.351
+    ],
+    [
+     59.28,
+     0.331
+    ],
+    [
+     59.79,
+     0.318
+    ],
+    [
+     60.29,
+     0.313
+    ]
+   ]
+  },
+  {
+   "source_lane_id": "2023070817035860016",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": null,
+   "candidates": 2,
+   "picked": 1,
+   "target_s": [
+    60.8,
+    64.35
+   ],
+   "n_target": 8,
+   "t2s_inside_max": 1.708,
+   "s2t_inside_max": 1.821,
+   "t2s_samples_gt_0.1": [
+    [
+     60.8,
+     0.187
+    ],
+    [
+     61.31,
+     0.101
+    ],
+    [
+     61.81,
+     0.382
+    ],
+    [
+     62.32,
+     0.657
+    ],
+    [
+     62.83,
+     0.927
+    ],
+    [
+     63.33,
+     1.191
+    ],
+    [
+     63.84,
+     1.452
+    ],
+    [
+     64.35,
+     1.708
+    ]
+   ]
+  },
+  {
+   "source_lane_id": "2023070817035860016",
+   "exclusion_code": "source-extension",
+   "trusted": null,
+   "candidates": 2,
+   "picked": 1,
+   "target_s": [
+    64.85,
+    67.39
+   ],
+   "n_target": 6,
+   "t2s_inside_max": 2.458,
+   "s2t_inside_max": null,
+   "t2s_samples_gt_0.1": [
+    [
+     64.85,
+     1.961
+    ],
+    [
+     65.36,
+     2.211
+    ],
+    [
+     65.87,
+     2.458
+    ]
+   ]
+  },
+  {
+   "source_lane_id": "2023070817035860016",
+   "exclusion_code": "source-extension",
+   "trusted": null,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    67.89,
+    69.95
+   ],
+   "n_target": 6,
+   "t2s_inside_max": null,
+   "s2t_inside_max": null,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023070817035860016",
+   "exclusion_code": "source-extension",
+   "trusted": null,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    70.46,
+    72.53
+   ],
+   "n_target": 5,
+   "t2s_inside_max": null,
+   "s2t_inside_max": null,
+   "t2s_samples_gt_0.1": []
+  },
+  {
+   "source_lane_id": "2023070819581471256",
+   "exclusion_code": "lane-transition-taper",
+   "trusted": true,
+   "candidates": 2,
+   "picked": 0,
+   "target_s": [
+    73.04,
+    78.2
+   ],
+   "n_target": 11,
+   "t2s_inside_max": 0.833,
+   "s2t_inside_max": 0.841,
+   "t2s_samples_gt_0.1": [
+    [
+     73.04,
+     0.833
+    ],
+    [
+     73.56,
+     0.749
+    ],
+    [
+     74.07,
+     0.665
+    ],
+    [
+     74.59,
+     0.581
+    ],
+    [
+     75.1,
+     0.498
+    ],
+    [
+     75.62,
+     0.414
+    ],
+    [
+     76.13,
+     0.33
+    ],
+    [
+     76.65,
+     0.244
+    ],
+    [
+     77.17,
+     0.16
+    ]
+   ]
+  }
+ ]
+}
