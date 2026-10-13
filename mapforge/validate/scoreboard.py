@@ -99,9 +99,14 @@ METRICS = {
     "boundary_median_m": ("fidelity", "m", "lower"),
     "boundary_p95_m": ("fidelity", "m", "lower"),
     "boundary_max_m": ("fidelity", "m", "lower"),
-    # the same pairing on the common extent only (boundary_inside; reported, not a tier check)
+    # the same pairing on the common extent only (boundary_inside; SHP T2 from 0.5-draft to 0.10-draft)
     "boundary_inside_p95_m": ("fidelity", "m", "lower"),
     "boundary_inside_max_m": ("fidelity", "m", "lower"),
+    # the same with a source lane's records paired run by run where records in between are left out, instead of
+    # across a chord (boundary_inside_runs, user decision 2026-10-13; SHP T2 from 0.11-draft)
+    "boundary_inside_runs_p95_m": ("fidelity", "m", "lower"),
+    "boundary_inside_runs_max_m": ("fidelity", "m", "lower"),
+    "boundary_inside_runs_split": ("fidelity", "count", "info"),
     "map_source_integrity": ("fidelity", "", "pass"),
     "source_dropped_points": ("fidelity", "count", "info"),
     # suspected MAP source errors (map_source_review) without an approved decision (reported, not a tier check)
@@ -386,7 +391,9 @@ def evaluate(xodr: Path, pipeline: str, schema=None, shp_source=None) -> dict:
         m["boundary_p95_m"] = max(x["p95_m"] for x in both)
         m["boundary_max_m"] = max(x["max_m"] for x in both)
         from mapforge.validate.boundary_inside import audit as boundary_inside_audit
+        from mapforge.validate.boundary_inside_runs import audit as boundary_runs_audit
         m.update(boundary_inside_audit(xodr, SHP_DIR, src=shp_source))
+        m.update(boundary_runs_audit(xodr, SHP_DIR, src=shp_source))
     if integrity is not None:
         m["map_source_integrity"] = integrity.get("status")
     m["source_dropped_points"] = (corrections or {}).get("summary", {}).get("DROPPED", 0)

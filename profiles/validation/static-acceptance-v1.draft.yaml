@@ -1,6 +1,6 @@
 schema: mapforge/static-acceptance-policy/v1
 id: static-acceptance-v1
-version: 0.10-draft
+version: 0.11-draft
 lifecycle: draft
 description: >-
   静态地图分级验收草案（2026-10-03，D1/D2）。未经用户确认，只用于比较方案、
@@ -65,8 +65,11 @@ tiers:
       # SHP 物理外边界（G10 同身份双向）建议值；事件区单列前先用全局值
       # 0.5：只计投影落在对方线内部的点（boundary_inside）。原口径把路端外延续 3 m 的源边界也算进来，
       # 每个口部多出 0.5-0.75 m；原 boundary_p95_m / boundary_max_m 继续报告
-      - {metric: boundary_inside_p95_m, op: le, value: 0.10, applies_to: [shp]}
-      - {metric: boundary_inside_max_m, op: le, value: 0.35, applies_to: [shp]}
+      # 0.11（2026-10-13，用户确认，阈值不变）：边界内段改按 boundary_inside_runs_* 判。同一原件车道在一条路上参与评分的
+      # 外缘段，后一段起点离前一段终点超过 1 m（中间的段被排除）时分段各自配对（boundary_inside_runs），不再拼成一条
+      # 跨过空档的直弦去量原件；原件边界的选取、裁切与排除规则不变。原 boundary_inside_* 继续报告
+      - {metric: boundary_inside_runs_p95_m, op: le, value: 0.10, applies_to: [shp]}
+      - {metric: boundary_inside_runs_max_m, op: le, value: 0.35, applies_to: [shp]}
       - {metric: map_source_integrity, op: eq, value: PASS, applies_to: [map]}
       # 接口处车道边缘：沿用 G11 位置/航向阈值
       - {metric: edge_contact_position_max_m, op: le, value: 0.01}

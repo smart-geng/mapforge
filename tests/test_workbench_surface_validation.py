@@ -72,7 +72,8 @@ def setup(tmp_path, monkeypatch):
     policy = yaml.safe_load(sb.POLICY.read_bytes())
     metrics = {check["metric"]: check["value"] for tier in policy["tiers"].values() for check in tier["checks"]
                if not check.get("applies_to") or "shp" in check["applies_to"]}
-    metrics.update(paving_holes_gt1cm2=2, paving_holes_counted=2, boundary_inside_p95_m=0.118)
+    metrics.update(paving_holes_gt1cm2=2, paving_holes_counted=2, boundary_inside_p95_m=0.118,
+                   boundary_inside_runs_p95_m=0.118)
     state.metrics = metrics
     state.evidence_seen = []
 
