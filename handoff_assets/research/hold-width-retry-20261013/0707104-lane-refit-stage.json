@@ -1,0 +1,85 @@
+{
+ "rewritten": 4,
+ "skipped": [
+  {
+   "road": "10",
+   "reason": "negative width -0.514 m",
+   "zero_start_retry": {
+    "lanes": [
+     {
+      "side": "left",
+      "section": 0,
+      "lane": 1,
+      "min_width_m": -0.4489
+     },
+     {
+      "side": "left",
+      "section": 1,
+      "lane": 1,
+      "min_width_m": -0.4575
+     },
+     {
+      "side": "left",
+      "section": 2,
+      "lane": 1,
+      "min_width_m": -0.4579
+     },
+     {
+      "side": "left",
+      "section": 3,
+      "lane": 1,
+      "min_width_m": -0.4394
+     },
+     {
+      "side": "left",
+      "section": 4,
+      "lane": 1,
+      "min_width_m": -0.4336
+     },
+     {
+      "side": "left",
+      "section": 5,
+      "lane": 1,
+      "min_width_m": -0.4484
+     },
+     {
+      "side": "left",
+      "section": 6,
+      "lane": 1,
+      "min_width_m": -0.3972
+     },
+     {
+      "side": "left",
+      "section": 7,
+      "lane": 1,
+      "min_width_m": -0.3345
+     },
+     {
+      "side": "left",
+      "section": 8,
+      "lane": 1,
+      "min_width_m": -0.322
+     },
+     {
+      "side": "left",
+      "section": 9,
+      "lane": 1,
+      "min_width_m": -0.2713
+     },
+     {
+      "side": "left",
+      "section": 10,
+      "lane": 1,
+      "min_width_m": -0.5137
+     }
+    ],
+    "result": "negative width -0.514 m"
+   },
+   "hold_width_retry": {
+    "held": [],
+    "result": "no free end without source"
+   }
+  }
+ ],
+ "retried": []
+}

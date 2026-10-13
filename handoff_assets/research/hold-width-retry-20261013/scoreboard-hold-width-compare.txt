@@ -1,0 +1,27 @@
+== map-node3 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== map-node4 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== map-NODE5 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== map-node13 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== map-node16 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== map-node17 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== map-node18 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node3 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node4 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-NODE5 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node13 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node16 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node17 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node18 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+   * lane_center_max_m                          0.48101390980067854 -> 0.4810769001987178
+     lane_center_median_m                       0.01550260143656531 -> 0.01563681869372928
+   * lane_center_noconflict_max_m               0.2220135840755965 -> 0.30704616776880767
+     lane_center_noconflict_median_m            0.01449678363374442 -> 0.0145817401835431
+   * lane_center_noconflict_p95_m               0.0854294790410023 -> 0.08582906035954045
+     lane_center_noflare_median_m               0.015271056107932316 -> 0.015374511762968834
+     lane_center_noflare_p95_m                  0.08890408076330579 -> 0.0912211238097443
+   * lane_center_p95_m                          0.09262695592741081 -> 0.09380298318417421
+     lane_center_poly_max_m                     0.481013405596164 -> 0.4810052331383724
+     lane_center_poly_median_m                  0.012465309930343253 -> 0.012512446492652545
+     lane_center_poly_p95_m                     0.0891359067570049 -> 0.09178474242681066
+     lane_join_jumps_gt_1e-07                   244 -> 243
+rows with any change: 1 / 14

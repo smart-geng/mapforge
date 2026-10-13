@@ -1,0 +1,39 @@
+Related tests: the 41 files of the earlier rounds (lane_refit, its boundary step, lane_birth_advance, lane_gap, MAP
+lane refit, mouth anchor, source event, surface seams, G8 / scoreboard / generalization, workbench),
+tests/test_refit_zero_start.py and the new tests/test_refit_hold_width.py; same Linux machine, compared per test id
+(junit_compare.py, ../zero-start-retry-20261012/).
+
+1. main (d13d300) vs this change, code-only trees (shp_0222-0326 linked, no out/):
+
+   main:   660 passed, 15 skipped, 30 failed, 61 errors
+   change: 667 passed, 15 skipped, 30 failed, 61 errors
+
+   Differences by test id:
+      7  tests/test_refit_hold_width.py (new)                 -> passed
+   the other 766 ids: same state.
+
+   Environmental in both (as in the earlier rounds):
+   - 61 errors, tests/test_workbench_surface_compiler.py: the compiler refuses a linked source folder
+     ("原料与 Profile 路径不得使用链接");
+   - 30 failed, tests/test_workbench_surface_validation.py: "unsupported-platform" (the consumer check needs Windows).
+
+2. main vs this change in the checkout with the real shp_0222-0326 and out/ (the tree committed):
+
+   main:   725 passed, 3 skipped, 30 failed, 8 errors
+   change: 732 passed, 3 skipped, 30 failed, 8 errors
+
+   Differences by test id: 7 tests/test_refit_hold_width.py (new) -> passed; the other 766 ids: same state.
+   - 30 failed: the same surface validation tests, "unsupported-platform";
+   - 8 errors, tests/test_workbench_validation.py: the fixture reads the accepted WB05 project at a Windows path
+     recorded in the out/ evidence (F:\MapFactory\out\workbench\wb05-compiler-20261008\...).
+   The change was run with OPENBLAS_NUM_THREADS=1, main with the numpy default; no test changed state.
+
+3. The four test files that read the real source folder and out/ (test_paving_holes, test_stopline_match,
+   test_workbench_surface_compiler, test_workbench_surface_validation) with tests/test_refit_zero_start.py, in that
+   checkout:
+
+   main:   123 passed, 1 skipped, 30 failed
+   change: 130 passed, 1 skipped, 30 failed (with tests/test_refit_hold_width.py)
+
+   Differences by test id: 7 tests/test_refit_hold_width.py (new) -> passed; the other 154 ids: same state.
+   The 30 failed are the "unsupported-platform" surface validation tests.

@@ -1,0 +1,44 @@
+{
+ "rewritten": 6,
+ "skipped": [],
+ "retried": [
+  {
+   "road": "10",
+   "zero_start_retry": null,
+   "hold_width_retry": {
+    "lanes": [
+     {
+      "side": "left",
+      "section": 0,
+      "lane": 1,
+      "min_width_m": -0.3571
+     }
+    ],
+    "first_refit": "negative width -0.357 m",
+    "zero_start_retry": "negative width -0.357 m"
+   },
+   "held_widths": [
+    {
+     "side": "left",
+     "lane": 1,
+     "kind": "birth",
+     "s": 60.035,
+     "width_m": 0.3615
+    }
+   ],
+   "advanced_events": 4,
+   "local_relative": [
+    [
+     333.403,
+     461.196
+    ],
+    [
+     75.238,
+     461.196
+    ]
+   ],
+   "crossing_repairs": [],
+   "min_width_m": 0.0
+  }
+ ]
+}

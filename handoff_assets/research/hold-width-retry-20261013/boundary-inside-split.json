@@ -1,0 +1,695 @@
+{
+ "note": "boundary_inside measured as the audit stacks a source lane's included outer-edge records on a road (stacked) and split where consecutive records do not meet (split, gap 1 m); bi_split.py. main = d13d300 outputs: scoreboard SHP (sb-zs-shp), generalization converted in the module (gen-zs), slow 0707104 (gen-slow-zs) and 061310 (gen-slow-seams, unchanged since); this_change = 0627 after the hold-width retry.",
+ "main": {
+  "shp-2023041111160971268.xodr": {
+   "stacked": {
+    "boundary_inside_p95_m": 0.0334,
+    "boundary_inside_max_m": 0.2317
+   },
+   "split": {
+    "boundary_inside_p95_m": 0.0334,
+    "boundary_inside_max_m": 0.2317
+   },
+   "split_lanes": [
+    {
+     "road": "13",
+     "source_lane_id": "2023041111145417209",
+     "parts": 2,
+     "runs": 2,
+     "stacked_max_m": 0.2122,
+     "split_max_m": 0.0311,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    },
+    {
+     "road": "10",
+     "source_lane_id": "2023041111145365627",
+     "parts": 10,
+     "runs": 3,
+     "stacked_max_m": 0.0294,
+     "split_max_m": 0.0294,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    },
+    {
+     "road": "12",
+     "source_lane_id": "2023041111145565286",
+     "parts": 5,
+     "runs": 3,
+     "stacked_max_m": 0.0254,
+     "split_max_m": 0.0254,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    },
+    {
+     "road": "10",
+     "source_lane_id": "2023041111145484089",
+     "parts": 6,
+     "runs": 2,
+     "stacked_max_m": 0.0139,
+     "split_max_m": 0.0139,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    }
+   ]
+  },
+  "shp-2023041216222042093.xodr": {
+   "stacked": {
+    "boundary_inside_p95_m": 0.2796,
+    "boundary_inside_max_m": 0.8641
+   },
+   "split": {
+    "boundary_inside_p95_m": 0.0303,
+    "boundary_inside_max_m": 0.329
+   },
+   "split_lanes": [
+    {
+     "road": "12",
+     "source_lane_id": "2023041911014520063",
+     "parts": 2,
+     "runs": 2,
+     "stacked_max_m": 0.8641,
+     "split_max_m": 0.0419,
+     "stacked_n_gt_0.35": 39,
+     "split_n_gt_0.35": 0
+    }
+   ]
+  },
+  "shp-2023041810414040830.xodr": {
+   "stacked": {
+    "boundary_inside_p95_m": 0.0296,
+    "boundary_inside_max_m": 0.0574
+   },
+   "split": {
+    "boundary_inside_p95_m": 0.0296,
+    "boundary_inside_max_m": 0.0574
+   },
+   "split_lanes": [
+    {
+     "road": "10",
+     "source_lane_id": "2023041014134034812",
+     "parts": 8,
+     "runs": 2,
+     "stacked_max_m": 0.0362,
+     "split_max_m": 0.0362,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    },
+    {
+     "road": "11",
+     "source_lane_id": "2023041910394761616",
+     "parts": 2,
+     "runs": 2,
+     "stacked_max_m": 0.0197,
+     "split_max_m": 0.0197,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    }
+   ]
+  },
+  "shp-2023061310244790027.xodr": {
+   "stacked": {
+    "boundary_inside_p95_m": 0.0284,
+    "boundary_inside_max_m": 0.9392
+   },
+   "split": {
+    "boundary_inside_p95_m": 0.0284,
+    "boundary_inside_max_m": 0.9392
+   },
+   "split_lanes": [
+    {
+     "road": "12",
+     "source_lane_id": "2023081515030987229",
+     "parts": 3,
+     "runs": 2,
+     "stacked_max_m": 0.0363,
+     "split_max_m": 0.0304,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    },
+    {
+     "road": "10",
+     "source_lane_id": "2023061213163956460",
+     "parts": 4,
+     "runs": 2,
+     "stacked_max_m": 0.0113,
+     "split_max_m": 0.0113,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    }
+   ]
+  },
+  "shp-2023062110304177600.xodr": {
+   "stacked": {
+    "boundary_inside_p95_m": 0.0255,
+    "boundary_inside_max_m": 0.0649
+   },
+   "split": {
+    "boundary_inside_p95_m": 0.0255,
+    "boundary_inside_max_m": 0.0649
+   },
+   "split_lanes": []
+  },
+  "shp-2023062713394062899.xodr": {
+   "stacked": {
+    "boundary_inside_p95_m": 3.01,
+    "boundary_inside_max_m": 5.8784
+   },
+   "split": {
+    "boundary_inside_p95_m": 0.3935,
+    "boundary_inside_max_m": 1.648
+   },
+   "split_lanes": [
+    {
+     "road": "10",
+     "source_lane_id": "2023090216125440496",
+     "parts": 3,
+     "runs": 2,
+     "stacked_max_m": 5.8784,
+     "split_max_m": 1.648,
+     "stacked_n_gt_0.35": 275,
+     "split_n_gt_0.35": 32
+    },
+    {
+     "road": "10",
+     "source_lane_id": "2023063018052253616",
+     "parts": 10,
+     "runs": 2,
+     "stacked_max_m": 0.5811,
+     "split_max_m": 0.5811,
+     "stacked_n_gt_0.35": 218,
+     "split_n_gt_0.35": 211
+    },
+    {
+     "road": "12",
+     "source_lane_id": "2023062517463713610",
+     "parts": 2,
+     "runs": 2,
+     "stacked_max_m": 0.1137,
+     "split_max_m": 0.1137,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    },
+    {
+     "road": "12",
+     "source_lane_id": "2023062517463531610",
+     "parts": 6,
+     "runs": 3,
+     "stacked_max_m": 0.0208,
+     "split_max_m": 0.0208,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    }
+   ]
+  },
+  "shp-2023063015350832057.xodr": {
+   "stacked": {
+    "boundary_inside_p95_m": 0.0947,
+    "boundary_inside_max_m": 0.8295
+   },
+   "split": {
+    "boundary_inside_p95_m": 0.096,
+    "boundary_inside_max_m": 0.8295
+   },
+   "split_lanes": [
+    {
+     "road": "10",
+     "source_lane_id": "2023070410533258477",
+     "parts": 8,
+     "runs": 2,
+     "stacked_max_m": 0.8295,
+     "split_max_m": 0.8295,
+     "stacked_n_gt_0.35": 40,
+     "split_n_gt_0.35": 40
+    },
+    {
+     "road": "12",
+     "source_lane_id": "2023070410533245226",
+     "parts": 6,
+     "runs": 2,
+     "stacked_max_m": 0.0417,
+     "split_max_m": 0.0417,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    }
+   ]
+  },
+  "shp-2023070710324132429.xodr": {
+   "stacked": {
+    "boundary_inside_p95_m": 0.036,
+    "boundary_inside_max_m": 0.079
+   },
+   "split": {
+    "boundary_inside_p95_m": 0.0361,
+    "boundary_inside_max_m": 0.079
+   },
+   "split_lanes": [
+    {
+     "road": "10",
+     "source_lane_id": "2023071009340859230",
+     "parts": 4,
+     "runs": 3,
+     "stacked_max_m": 0.0418,
+     "split_max_m": 0.0418,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    },
+    {
+     "road": "11",
+     "source_lane_id": "2023071009341104043",
+     "parts": 3,
+     "runs": 2,
+     "stacked_max_m": 0.0276,
+     "split_max_m": 0.0276,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    }
+   ]
+  },
+  "shp-2023070710412621654.xodr": {
+   "stacked": {
+    "boundary_inside_p95_m": 0.6485,
+    "boundary_inside_max_m": 1.7575
+   },
+   "split": {
+    "boundary_inside_p95_m": 0.6485,
+    "boundary_inside_max_m": 1.7575
+   },
+   "split_lanes": [
+    {
+     "road": "13",
+     "source_lane_id": "2023071009340822072",
+     "parts": 2,
+     "runs": 2,
+     "stacked_max_m": 0.3731,
+     "split_max_m": 0.343,
+     "stacked_n_gt_0.35": 8,
+     "split_n_gt_0.35": 0
+    }
+   ]
+  },
+  "shp-2023071109582525264.xodr": {
+   "stacked": {
+    "boundary_inside_p95_m": 1.3354,
+    "boundary_inside_max_m": 3.6675
+   },
+   "split": {
+    "boundary_inside_p95_m": 1.3354,
+    "boundary_inside_max_m": 3.6675
+   },
+   "split_lanes": [
+    {
+     "road": "12",
+     "source_lane_id": "2023123020420918813",
+     "parts": 7,
+     "runs": 2,
+     "stacked_max_m": 0.0346,
+     "split_max_m": 0.0346,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    },
+    {
+     "road": "12",
+     "source_lane_id": "2023070820120202889",
+     "parts": 6,
+     "runs": 2,
+     "stacked_max_m": 0.0243,
+     "split_max_m": 0.0243,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    }
+   ]
+  },
+  "shp-2023080118313036830.xodr": {
+   "stacked": {
+    "boundary_inside_p95_m": 0.5642,
+    "boundary_inside_max_m": 3.8588
+   },
+   "split": {
+    "boundary_inside_p95_m": 0.5643,
+    "boundary_inside_max_m": 3.8588
+   },
+   "split_lanes": [
+    {
+     "road": "11",
+     "source_lane_id": "2023080110475812040",
+     "parts": 3,
+     "runs": 2,
+     "stacked_max_m": 0.0844,
+     "split_max_m": 0.0844,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    }
+   ]
+  },
+  "shp-2023080810023203229.xodr": {
+   "stacked": {
+    "boundary_inside_p95_m": 0.0354,
+    "boundary_inside_max_m": 0.0692
+   },
+   "split": {
+    "boundary_inside_p95_m": 0.0355,
+    "boundary_inside_max_m": 0.0692
+   },
+   "split_lanes": [
+    {
+     "road": "12",
+     "source_lane_id": "2023080717005341626",
+     "parts": 5,
+     "runs": 2,
+     "stacked_max_m": 0.0171,
+     "split_max_m": 0.0171,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    },
+    {
+     "road": "12",
+     "source_lane_id": "2023080717005346427",
+     "parts": 3,
+     "runs": 2,
+     "stacked_max_m": 0.0091,
+     "split_max_m": 0.0091,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    }
+   ]
+  },
+  "shp-NODE5.xodr": {
+   "stacked": {
+    "boundary_inside_p95_m": 0.016,
+    "boundary_inside_max_m": 0.0432
+   },
+   "split": {
+    "boundary_inside_p95_m": 0.016,
+    "boundary_inside_max_m": 0.0432
+   },
+   "split_lanes": [
+    {
+     "road": "13",
+     "source_lane_id": "2023061314404196019",
+     "parts": 2,
+     "runs": 2,
+     "stacked_max_m": 0.029,
+     "split_max_m": 0.029,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    }
+   ]
+  },
+  "shp-node13.xodr": {
+   "stacked": {
+    "boundary_inside_p95_m": 0.0823,
+    "boundary_inside_max_m": 0.2454
+   },
+   "split": {
+    "boundary_inside_p95_m": 0.0823,
+    "boundary_inside_max_m": 0.2454
+   },
+   "split_lanes": [
+    {
+     "road": "10",
+     "source_lane_id": "2023061609460586446",
+     "parts": 8,
+     "runs": 2,
+     "stacked_max_m": 0.085,
+     "split_max_m": 0.085,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    },
+    {
+     "road": "12",
+     "source_lane_id": "2023062017571371294",
+     "parts": 7,
+     "runs": 2,
+     "stacked_max_m": 0.0135,
+     "split_max_m": 0.0135,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    }
+   ]
+  },
+  "shp-node16.xodr": {
+   "stacked": {
+    "boundary_inside_p95_m": 0.025,
+    "boundary_inside_max_m": 0.2946
+   },
+   "split": {
+    "boundary_inside_p95_m": 0.025,
+    "boundary_inside_max_m": 0.2946
+   },
+   "split_lanes": []
+  },
+  "shp-node17.xodr": {
+   "stacked": {
+    "boundary_inside_p95_m": 0.0374,
+    "boundary_inside_max_m": 0.1308
+   },
+   "split": {
+    "boundary_inside_p95_m": 0.0379,
+    "boundary_inside_max_m": 0.1308
+   },
+   "split_lanes": [
+    {
+     "road": "10",
+     "source_lane_id": "2023061410583479699",
+     "parts": 5,
+     "runs": 3,
+     "stacked_max_m": 0.0312,
+     "split_max_m": 0.0312,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    },
+    {
+     "road": "13",
+     "source_lane_id": "2023061911214870082",
+     "parts": 3,
+     "runs": 2,
+     "stacked_max_m": 0.0267,
+     "split_max_m": 0.0267,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    },
+    {
+     "road": "13",
+     "source_lane_id": "2023061911214855258",
+     "parts": 3,
+     "runs": 2,
+     "stacked_max_m": 0.0207,
+     "split_max_m": 0.0207,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    },
+    {
+     "road": "12",
+     "source_lane_id": "2023061410461285653",
+     "parts": 2,
+     "runs": 2,
+     "stacked_max_m": 0.0125,
+     "split_max_m": 0.0125,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    },
+    {
+     "road": "12",
+     "source_lane_id": "2023061410333437654",
+     "parts": 2,
+     "runs": 2,
+     "stacked_max_m": 0.0103,
+     "split_max_m": 0.0103,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    }
+   ]
+  },
+  "shp-node18.xodr": {
+   "stacked": {
+    "boundary_inside_p95_m": 0.0479,
+    "boundary_inside_max_m": 0.3165
+   },
+   "split": {
+    "boundary_inside_p95_m": 0.0479,
+    "boundary_inside_max_m": 0.3165
+   },
+   "split_lanes": [
+    {
+     "road": "12",
+     "source_lane_id": "2023061410583479699",
+     "parts": 6,
+     "runs": 2,
+     "stacked_max_m": 0.0584,
+     "split_max_m": 0.0584,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    },
+    {
+     "road": "13",
+     "source_lane_id": "2023061414495404821",
+     "parts": 4,
+     "runs": 2,
+     "stacked_max_m": 0.0445,
+     "split_max_m": 0.0445,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    },
+    {
+     "road": "13",
+     "source_lane_id": "2023061915010766448",
+     "parts": 4,
+     "runs": 2,
+     "stacked_max_m": 0.0343,
+     "split_max_m": 0.0343,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    }
+   ]
+  },
+  "shp-node3.xodr": {
+   "stacked": {
+    "boundary_inside_p95_m": 0.0347,
+    "boundary_inside_max_m": 0.1664
+   },
+   "split": {
+    "boundary_inside_p95_m": 0.0347,
+    "boundary_inside_max_m": 0.1664
+   },
+   "split_lanes": [
+    {
+     "road": "13",
+     "source_lane_id": "2023041015461463219",
+     "parts": 4,
+     "runs": 2,
+     "stacked_max_m": 0.089,
+     "split_max_m": 0.089,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    },
+    {
+     "road": "13",
+     "source_lane_id": "2023041810491825656",
+     "parts": 3,
+     "runs": 2,
+     "stacked_max_m": 0.0349,
+     "split_max_m": 0.0349,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    },
+    {
+     "road": "13",
+     "source_lane_id": "2023041015451620844",
+     "parts": 7,
+     "runs": 2,
+     "stacked_max_m": 0.0253,
+     "split_max_m": 0.0253,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    },
+    {
+     "road": "10",
+     "source_lane_id": "2023062017571371294",
+     "parts": 3,
+     "runs": 2,
+     "stacked_max_m": 0.0076,
+     "split_max_m": 0.0076,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    }
+   ]
+  },
+  "shp-node4.xodr": {
+   "stacked": {
+    "boundary_inside_p95_m": 0.0354,
+    "boundary_inside_max_m": 0.3454
+   },
+   "split": {
+    "boundary_inside_p95_m": 0.0354,
+    "boundary_inside_max_m": 0.3454
+   },
+   "split_lanes": [
+    {
+     "road": "13",
+     "source_lane_id": "2023041111113054089",
+     "parts": 3,
+     "runs": 2,
+     "stacked_max_m": 0.3454,
+     "split_max_m": 0.3454,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    },
+    {
+     "road": "12",
+     "source_lane_id": "2023041015314248891",
+     "parts": 7,
+     "runs": 2,
+     "stacked_max_m": 0.04,
+     "split_max_m": 0.04,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    },
+    {
+     "road": "13",
+     "source_lane_id": "2023041111104108825",
+     "parts": 5,
+     "runs": 3,
+     "stacked_max_m": 0.0368,
+     "split_max_m": 0.0368,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    }
+   ]
+  }
+ },
+ "this_change": {
+  "shp-2023062713394062899.xodr": {
+   "stacked": {
+    "boundary_inside_p95_m": 0.7867,
+    "boundary_inside_max_m": 1.9485
+   },
+   "split": {
+    "boundary_inside_p95_m": 0.0567,
+    "boundary_inside_max_m": 1.2843
+   },
+   "split_lanes": [
+    {
+     "road": "10",
+     "source_lane_id": "2023090216125440496",
+     "parts": 3,
+     "runs": 2,
+     "stacked_max_m": 1.9485,
+     "split_max_m": 0.1791,
+     "stacked_n_gt_0.35": 184,
+     "split_n_gt_0.35": 0
+    },
+    {
+     "road": "12",
+     "source_lane_id": "2023062517463713610",
+     "parts": 2,
+     "runs": 2,
+     "stacked_max_m": 0.1137,
+     "split_max_m": 0.1137,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    },
+    {
+     "road": "10",
+     "source_lane_id": "2023063018052253616",
+     "parts": 10,
+     "runs": 2,
+     "stacked_max_m": 0.0325,
+     "split_max_m": 0.0325,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    },
+    {
+     "road": "12",
+     "source_lane_id": "2023062517463531610",
+     "parts": 6,
+     "runs": 3,
+     "stacked_max_m": 0.0208,
+     "split_max_m": 0.0208,
+     "stacked_n_gt_0.35": 0,
+     "split_n_gt_0.35": 0
+    }
+   ]
+  }
+ }
+}
