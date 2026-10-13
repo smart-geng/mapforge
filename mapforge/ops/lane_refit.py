@@ -35,10 +35,12 @@ polyline, relative to the unchanged reference line:
   boundary's own fit after it (_advanced_fit); the event is where the source taper reaches zero when the source
   lane runs on past its section boundary still open (_source_event, 2026-10-10); free road ends where a source
   lane starts narrow get zero width
-  up to it (_zero_starts); short runs stay where their corners fit the curvature target (short_kappa); vertex
-  values are set by least squares on the finished curve, mouth ends and mouth-run starts staying on the data
-  (lsq_refine); a gap between the lanes of two parallel source links becomes a lane of its own before the refit
-  (mapforge.ops.lane_gap, link_gaps, 2026-10-05);
+  up to it (_zero_starts); short runs stay where their corners fit the curvature target (short_kappa); a pruning
+  that leaves the vertices far off the source's is redone, moving a vertex out to SEG_MIN where that stays closer
+  than dropping it (mapforge.ops.refit_prune_guard, 2026-10-13); vertex values are set by least squares on the
+  finished curve, mouth ends and mouth-run starts staying on the data (lsq_refine); a gap between the lanes of
+  two parallel source links becomes a lane of its own before the refit (mapforge.ops.lane_gap, link_gaps,
+  2026-10-05);
 * boundaries without any source observation keep their current geometry;
 * a road that would keep its geometry for a negative width is refitted once more with zero-width starts at the
   free ends of its failing lanes however short their unobserved stretch, and written only when no width is
@@ -173,6 +175,7 @@ KAPPA_CAP = 0.04      # lane-boundary curvature target at corners [1/m]
 H_MIN = 3.0           # shortest corner half-length [m]
 SEG_MIN = 6.0         # shortest straight run between corner vertices [m]
 FLARES: list = []     # strong mouth flares met during the current road (reset per road)
+PRUNE_GUARDS: list = []   # fits whose pruning refit_prune_guard redid during the current road (reset per road)
 
 
 def _prune(vs, vt, seg_min, protected=(), keep_first=False, keep_last=False, protected_runs=False,
@@ -315,7 +318,7 @@ def _g2_transition(s0, s1, start, end):
 def fit_boundary(obs_s, obs_t, a, b, start=None, end=None, ramp_start=False, ramp_end=False,
                  mode=None, kappa_cap=None, rdp_tol=None, seg_min=None, c2_ends=False, protect=(), corner_h=None,
                  protect_values=None, free_end_runs=False, info=None, short_kappa=False, lsq_refine=False,
-                 mouth_anchor=False):
+                 mouth_anchor=False, prune_guard=False):
     """Piecewise cubic over [a, b]: straight runs between RDP vertices with corner blends.
 
     Corner half-length follows the curvature target (g2: |dm|/kappa, c1: |dm|/(2 kappa)),
@@ -353,6 +356,8 @@ def fit_boundary(obs_s, obs_t, a, b, start=None, end=None, ramp_start=False, ram
     was: one the fit without the anchor keeps (> MOUTH_FLARE_MAX), or a run from the anchor into the mouth steeper
     than that, a curb return across the whole zone (generalization 0412 road 30: -0.25 against a held -0.05; the end
     blend bent the outer edge at 0.26 /m). The zone never gets a corner vertex either way.
+    ``prune_guard``: a pruning that leaves the vertex polyline far off its RDP vertices is redone choosing between
+    dropping and moving vertices (mapforge.ops.refit_prune_guard, 2026-10-13; recorded in PRUNE_GUARDS).
     """
     mode = mode or MODE
     kappa_cap = kappa_cap or KAPPA_CAP
@@ -413,12 +418,12 @@ def fit_boundary(obs_s, obs_t, a, b, start=None, end=None, ramp_start=False, ram
         j = int(np.argmin(np.abs(grid - edge)))
         if abs((vals[k] - vals[j]) / (grid[k] - grid[j])) > MOUTH_FLARE_MAX:
             return None       # a strong flare across the zone (a curb return): left as it was
-        n0, plain = len(FLARES), {}
+        n0, g0, plain = len(FLARES), len(PRUNE_GUARDS), {}
         fit_boundary(obs_s, obs_t, a, b, start=start, end=end, ramp_start=ramp_start, ramp_end=ramp_end, mode=mode,
                      kappa_cap=kappa_cap, rdp_tol=rdp_tol, seg_min=seg_min, c2_ends=c2_ends, protect=protect,
                      corner_h=corner_h, protect_values=protect_values, free_end_runs=free_end_runs, info=plain,
-                     short_kappa=short_kappa, lsq_refine=lsq_refine)
-        del FLARES[n0:]
+                     short_kappa=short_kappa, lsq_refine=lsq_refine, prune_guard=prune_guard)
+        del FLARES[n0:], PRUNE_GUARDS[g0:]
         slope = plain["m0" if which == "start" else "mn"]
         if slope is None:     # a strong flare the plain fit keeps: left as it was
             return None
@@ -454,6 +459,18 @@ def fit_boundary(obs_s, obs_t, a, b, start=None, end=None, ramp_start=False, ram
     if free_end_runs and (start is None or end is None) and not (free_start and free_end):
         vs, vt = _prune(grid[keep], vals[keep], min(seg_min, 0.5 * (b - a)), protected=protected,
                         keep_first=free_start, keep_last=free_end, protected_runs=bool(protected), short_kappa=short)
+    if prune_guard:
+        from mapforge.ops import refit_prune_guard
+        tried = {}
+        vs, vt = refit_prune_guard.guard(grid[keep], vals[keep], vs, vt, grid, vals, min(seg_min, 0.5 * (b - a)),
+                                         protected, free_start, free_end, bool(protected), short, tried)
+        if tried.get("used"):
+            PRUNE_GUARDS.append({"a": round(float(a), 3), "b": round(float(b), 3), **tried})
+            # a free-end run the guard moved out to SEG_MIN rounds its corner over all of it, as a kept one does
+            free_start = free_start or (free_end_runs and start is None
+                                        and end_corner_kappa(vs, vt, True) <= FREE_END_KAPPA_MAX)
+            free_end = free_end or (free_end_runs and end is None
+                                    and end_corner_kappa(vs, vt, False) <= FREE_END_KAPPA_MAX)
     def target(cond, run_slope, which):
         if not cond or cond[1] is None:
             return None
@@ -841,7 +858,9 @@ def refit_road(road_el, src, origin, params=None, observe=None, relative=None):
     hold_width_lanes = params.pop("hold_width_lanes", ())
     if zero_starts:
         params["free_end_runs"] = True
+        params["prune_guard"] = True
     FLARES.clear()
+    PRUNE_GUARDS.clear()
     road = _Road(road_el)
     n_sec = len(road.sections)
     cuts = road.s[1:-1]
@@ -994,6 +1013,11 @@ def refit_road(road_el, src, origin, params=None, observe=None, relative=None):
             report["chains"] += 1
             report["fallback_boundaries"] += 0 if any_src else 1
     report["strong_mouth_flares"] = [round(x, 3) for x in FLARES]
+    if PRUNE_GUARDS:
+        spans = {}
+        for g in PRUNE_GUARDS:            # once per fitted span (the advanced fits try several corner sizes)
+            spans.setdefault((g["a"], g["b"]), g)
+        report["prune_guards"] = list(spans.values())
     report["curb_return_shoulders"] = shoulders
     return road, fitted, report
 
