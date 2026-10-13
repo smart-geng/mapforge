@@ -1,0 +1,3576 @@
+{
+ "schema": "mapforge/research/boundary-runs-policy-rescore/v1",
+ "policy_before": "0.10-draft",
+ "policy_after": "0.11-draft",
+ "gap_m": 1.0,
+ "groups": {
+  "frozen": {
+   "tier_pass_before": {
+    "scoreboard": {
+     "T1": 14,
+     "T2": 14
+    },
+    "generalization": {
+     "T1": 8,
+     "T2": 2
+    }
+   },
+   "tier_pass_after": {
+    "scoreboard": {
+     "T1": 14,
+     "T2": 14
+    },
+    "generalization": {
+     "T1": 8,
+     "T2": 2
+    }
+   },
+   "tier_changes": [],
+   "rows": [
+    {
+     "case": "scoreboard/map-node3",
+     "pipeline": "map",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     }
+    },
+    {
+     "case": "scoreboard/shp-node3",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.03518228003652787,
+     "boundary_inside_max_m": 0.16642624779090306,
+     "boundary_inside_runs_p95_m": 0.035285128039457304,
+     "boundary_inside_runs_max_m": 0.16642624779090306,
+     "boundary_inside_runs_split": 4,
+     "worst_lane": {
+      "road": "10",
+      "source_lane_id": "2023041016010096069",
+      "records": 1,
+      "runs": 1,
+      "max_m": 0.16642624779090306
+     },
+     "split_lanes": [
+      {
+       "road": "13",
+       "source_lane_id": "2023041015461463219",
+       "records": 4,
+       "runs": 2,
+       "max_m": 0.08897958412251587
+      },
+      {
+       "road": "13",
+       "source_lane_id": "2023041810491825656",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.03491867765780571
+      },
+      {
+       "road": "13",
+       "source_lane_id": "2023041015451620844",
+       "records": 7,
+       "runs": 2,
+       "max_m": 0.02529619135531731
+      },
+      {
+       "road": "10",
+       "source_lane_id": "2023062017571371294",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.007633596368911561
+      }
+     ]
+    },
+    {
+     "case": "scoreboard/map-node4",
+     "pipeline": "map",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     }
+    },
+    {
+     "case": "scoreboard/shp-node4",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.035949474820139,
+     "boundary_inside_max_m": 0.3454300414176874,
+     "boundary_inside_runs_p95_m": 0.035949474820139,
+     "boundary_inside_runs_max_m": 0.3454300414176874,
+     "boundary_inside_runs_split": 3,
+     "worst_lane": {
+      "road": "13",
+      "source_lane_id": "2023041111113054089",
+      "records": 3,
+      "runs": 2,
+      "max_m": 0.3454300414176874
+     },
+     "split_lanes": [
+      {
+       "road": "13",
+       "source_lane_id": "2023041111113054089",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.3454300414176874
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023041015314248891",
+       "records": 7,
+       "runs": 2,
+       "max_m": 0.040030032071511054
+      },
+      {
+       "road": "13",
+       "source_lane_id": "2023041111104108825",
+       "records": 5,
+       "runs": 3,
+       "max_m": 0.03684960794439537
+      }
+     ]
+    },
+    {
+     "case": "scoreboard/map-NODE5",
+     "pipeline": "map",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     }
+    },
+    {
+     "case": "scoreboard/shp-NODE5",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.015982836785156707,
+     "boundary_inside_max_m": 0.04316006618697996,
+     "boundary_inside_runs_p95_m": 0.015982836785157283,
+     "boundary_inside_runs_max_m": 0.04316006618698069,
+     "boundary_inside_runs_split": 1,
+     "worst_lane": {
+      "road": "13",
+      "source_lane_id": "2023061315010051235",
+      "records": 1,
+      "runs": 1,
+      "max_m": 0.04316006618698069
+     },
+     "split_lanes": [
+      {
+       "road": "13",
+       "source_lane_id": "2023061314404196019",
+       "records": 2,
+       "runs": 2,
+       "max_m": 0.029044849306612695
+      }
+     ]
+    },
+    {
+     "case": "scoreboard/map-node13",
+     "pipeline": "map",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     }
+    },
+    {
+     "case": "scoreboard/shp-node13",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.08230702992831716,
+     "boundary_inside_max_m": 0.24541637052976834,
+     "boundary_inside_runs_p95_m": 0.08234017453129844,
+     "boundary_inside_runs_max_m": 0.24541637052976834,
+     "boundary_inside_runs_split": 2,
+     "worst_lane": {
+      "road": "10",
+      "source_lane_id": "2023061609455754440",
+      "records": 2,
+      "runs": 1,
+      "max_m": 0.24541637052976834
+     },
+     "split_lanes": [
+      {
+       "road": "10",
+       "source_lane_id": "2023061609460586446",
+       "records": 8,
+       "runs": 2,
+       "max_m": 0.08500313648716937
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023062017571371294",
+       "records": 7,
+       "runs": 2,
+       "max_m": 0.013462047262309266
+      }
+     ]
+    },
+    {
+     "case": "scoreboard/map-node16",
+     "pipeline": "map",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     }
+    },
+    {
+     "case": "scoreboard/shp-node16",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.0445192021326857,
+     "boundary_inside_max_m": 0.2946445969914615,
+     "boundary_inside_runs_p95_m": 0.0445192021326857,
+     "boundary_inside_runs_max_m": 0.2946445969914615,
+     "boundary_inside_runs_split": 0,
+     "worst_lane": {
+      "road": "11",
+      "source_lane_id": "2023061415430637614",
+      "records": 2,
+      "runs": 1,
+      "max_m": 0.2946445969914615
+     },
+     "split_lanes": []
+    },
+    {
+     "case": "scoreboard/map-node17",
+     "pipeline": "map",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     }
+    },
+    {
+     "case": "scoreboard/shp-node17",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.038603952483139886,
+     "boundary_inside_max_m": 0.13083369384947374,
+     "boundary_inside_runs_p95_m": 0.03867336168080057,
+     "boundary_inside_runs_max_m": 0.13083369384947374,
+     "boundary_inside_runs_split": 5,
+     "worst_lane": {
+      "road": "12",
+      "source_lane_id": "2023061410462962444",
+      "records": 1,
+      "runs": 1,
+      "max_m": 0.13083369384947374
+     },
+     "split_lanes": [
+      {
+       "road": "10",
+       "source_lane_id": "2023061410583479699",
+       "records": 5,
+       "runs": 3,
+       "max_m": 0.03118983774683682
+      },
+      {
+       "road": "13",
+       "source_lane_id": "2023061911214870082",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.027599418402876233
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023061410461285653",
+       "records": 2,
+       "runs": 2,
+       "max_m": 0.022408579280475998
+      },
+      {
+       "road": "13",
+       "source_lane_id": "2023061911214855258",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.02124013487135066
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023061410333437654",
+       "records": 2,
+       "runs": 2,
+       "max_m": 0.010306024001272557
+      }
+     ]
+    },
+    {
+     "case": "scoreboard/map-node18",
+     "pipeline": "map",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     }
+    },
+    {
+     "case": "scoreboard/shp-node18",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.09558902630562875,
+     "boundary_inside_max_m": 0.33113469551078734,
+     "boundary_inside_runs_p95_m": 0.09581115422531551,
+     "boundary_inside_runs_max_m": 0.33113469551078833,
+     "boundary_inside_runs_split": 2,
+     "worst_lane": {
+      "road": "13",
+      "source_lane_id": "2023061414520781285",
+      "records": 1,
+      "runs": 1,
+      "max_m": 0.33113469551078833
+     },
+     "split_lanes": [
+      {
+       "road": "12",
+       "source_lane_id": "2023061410583479699",
+       "records": 6,
+       "runs": 2,
+       "max_m": 0.058380777398904495
+      },
+      {
+       "road": "13",
+       "source_lane_id": "2023061915010766448",
+       "records": 4,
+       "runs": 2,
+       "max_m": 0.03408272408802228
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023041111160971268",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.03371664983944559,
+     "boundary_inside_max_m": 0.231664688807513,
+     "boundary_inside_runs_p95_m": 0.03353404092973303,
+     "boundary_inside_runs_max_m": 0.231664688807513,
+     "boundary_inside_runs_split": 4,
+     "worst_lane": {
+      "road": "13",
+      "source_lane_id": "2023041111145404800",
+      "records": 2,
+      "runs": 1,
+      "max_m": 0.231664688807513
+     },
+     "split_lanes": [
+      {
+       "road": "13",
+       "source_lane_id": "2023041111145417209",
+       "records": 2,
+       "runs": 2,
+       "max_m": 0.03111683886838538
+      },
+      {
+       "road": "10",
+       "source_lane_id": "2023041111145365627",
+       "records": 10,
+       "runs": 3,
+       "max_m": 0.029399369980411517
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023041111145565286",
+       "records": 5,
+       "runs": 3,
+       "max_m": 0.02544316050155785
+      },
+      {
+       "road": "10",
+       "source_lane_id": "2023041111145484089",
+       "records": 6,
+       "runs": 2,
+       "max_m": 0.013858714576636125
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023061310244790027",
+     "pipeline": "shp",
+     "before": {
+      "T1": "FAIL",
+      "T2": "FAIL"
+     },
+     "after": {
+      "T1": "FAIL",
+      "T2": "FAIL"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [
+       "esmini_pass",
+       "route_gap_max_m",
+       "road_interface_position_max_m",
+       "road_interface_heading_max_deg",
+       "edge_contact_position_max_m",
+       "edge_contact_heading_max_deg",
+       "g8_status_stopline_resolved"
+      ],
+      "T2": [
+       "lane_center_noconflict_max_m",
+       "lane_endpoint_lateral_max_m",
+       "boundary_inside_max_m",
+       "edge_contact_position_max_m",
+       "edge_contact_heading_max_deg",
+       "road_interface_curvature_max_per_m",
+       "edge_contact_curvature_max_per_m"
+      ]
+     },
+     "after_failed": {
+      "T1": [
+       "esmini_pass",
+       "route_gap_max_m",
+       "road_interface_position_max_m",
+       "road_interface_heading_max_deg",
+       "edge_contact_position_max_m",
+       "edge_contact_heading_max_deg",
+       "g8_status_stopline_resolved"
+      ],
+      "T2": [
+       "lane_center_noconflict_max_m",
+       "lane_endpoint_lateral_max_m",
+       "boundary_inside_runs_max_m",
+       "edge_contact_position_max_m",
+       "edge_contact_heading_max_deg",
+       "road_interface_curvature_max_per_m",
+       "edge_contact_curvature_max_per_m"
+      ]
+     },
+     "boundary_inside_p95_m": 0.03039304018025897,
+     "boundary_inside_max_m": 0.9392218659962815,
+     "boundary_inside_runs_p95_m": 0.030288907259969272,
+     "boundary_inside_runs_max_m": 0.9392218659962815,
+     "boundary_inside_runs_split": 2,
+     "worst_lane": {
+      "road": "11",
+      "source_lane_id": "2024010622554931667",
+      "records": 2,
+      "runs": 1,
+      "max_m": 0.9392218659962815
+     },
+     "split_lanes": [
+      {
+       "road": "12",
+       "source_lane_id": "2023081515030987229",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.03038559066024717
+      },
+      {
+       "road": "10",
+       "source_lane_id": "2023061213163956460",
+       "records": 4,
+       "runs": 2,
+       "max_m": 0.010146175243289812
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023062713394062899",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_p95_m",
+       "lane_center_noconflict_max_m",
+       "lane_endpoint_lateral_max_m",
+       "boundary_inside_p95_m",
+       "boundary_inside_max_m",
+       "lane_join_curvature_jump_max_per_m",
+       "edge_contact_curvature_max_per_m",
+       "conn_edge_join_curvature_jump_max_per_m"
+      ]
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_p95_m",
+       "lane_center_noconflict_max_m",
+       "lane_endpoint_lateral_max_m",
+       "boundary_inside_runs_p95_m",
+       "boundary_inside_runs_max_m",
+       "lane_join_curvature_jump_max_per_m",
+       "edge_contact_curvature_max_per_m",
+       "conn_edge_join_curvature_jump_max_per_m"
+      ]
+     },
+     "boundary_inside_p95_m": 3.012034609746836,
+     "boundary_inside_max_m": 5.878390176416023,
+     "boundary_inside_runs_p95_m": 0.39426300244478046,
+     "boundary_inside_runs_max_m": 5.878390176416023,
+     "boundary_inside_runs_split": 4,
+     "worst_lane": {
+      "road": "10",
+      "source_lane_id": "2023090216125440496",
+      "records": 3,
+      "runs": 2,
+      "max_m": 5.878390176416023
+     },
+     "split_lanes": [
+      {
+       "road": "10",
+       "source_lane_id": "2023090216125440496",
+       "records": 3,
+       "runs": 2,
+       "max_m": 5.878390176416023
+      },
+      {
+       "road": "10",
+       "source_lane_id": "2023063018052253616",
+       "records": 10,
+       "runs": 2,
+       "max_m": 0.5811182118684068
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023062517463713610",
+       "records": 2,
+       "runs": 2,
+       "max_m": 0.11369503136425778
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023062517463531610",
+       "records": 6,
+       "runs": 3,
+       "max_m": 0.020846130077791878
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023063015350832057",
+     "pipeline": "shp",
+     "generated": false,
+     "changed": false
+    },
+    {
+     "case": "generalize/2023070710412621654",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_p95_m",
+       "lane_center_noconflict_max_m",
+       "lane_endpoint_lateral_max_m",
+       "boundary_inside_p95_m",
+       "boundary_inside_max_m",
+       "lane_join_curvature_jump_max_per_m",
+       "edge_contact_curvature_max_per_m"
+      ]
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_p95_m",
+       "lane_center_noconflict_max_m",
+       "lane_endpoint_lateral_max_m",
+       "boundary_inside_runs_p95_m",
+       "boundary_inside_runs_max_m",
+       "lane_join_curvature_jump_max_per_m",
+       "edge_contact_curvature_max_per_m"
+      ]
+     },
+     "boundary_inside_p95_m": 0.6484773799432209,
+     "boundary_inside_max_m": 1.757559846873152,
+     "boundary_inside_runs_p95_m": 0.6495248748626107,
+     "boundary_inside_runs_max_m": 1.757559846873152,
+     "boundary_inside_runs_split": 1,
+     "worst_lane": {
+      "road": "10",
+      "source_lane_id": "2023071009341382404",
+      "records": 3,
+      "runs": 1,
+      "max_m": 1.757559846873152
+     },
+     "split_lanes": [
+      {
+       "road": "13",
+       "source_lane_id": "2023071009340822072",
+       "records": 2,
+       "runs": 2,
+       "max_m": 0.37307141667217836
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023080118313036830",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_max_m",
+       "boundary_inside_p95_m",
+       "boundary_inside_max_m"
+      ]
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_max_m",
+       "boundary_inside_runs_p95_m",
+       "boundary_inside_runs_max_m"
+      ]
+     },
+     "boundary_inside_p95_m": 0.564222883424833,
+     "boundary_inside_max_m": 3.8587787620278564,
+     "boundary_inside_runs_p95_m": 0.5643403168527961,
+     "boundary_inside_runs_max_m": 3.8587787620278564,
+     "boundary_inside_runs_split": 1,
+     "worst_lane": {
+      "road": "11",
+      "source_lane_id": "2023080110475776069",
+      "records": 3,
+      "runs": 1,
+      "max_m": 3.8587787620278564
+     },
+     "split_lanes": [
+      {
+       "road": "11",
+       "source_lane_id": "2023080110475812040",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.08442785462538105
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023041216222042093",
+     "pipeline": "shp",
+     "before": {
+      "T1": "FAIL",
+      "T2": "FAIL"
+     },
+     "after": {
+      "T1": "FAIL",
+      "T2": "FAIL"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [
+       "g8_status_stopline_resolved"
+      ],
+      "T2": [
+       "lane_center_noconflict_max_m",
+       "boundary_inside_p95_m",
+       "boundary_inside_max_m",
+       "edge_contact_curvature_max_per_m"
+      ]
+     },
+     "after_failed": {
+      "T1": [
+       "g8_status_stopline_resolved"
+      ],
+      "T2": [
+       "lane_center_noconflict_max_m",
+       "boundary_inside_runs_p95_m",
+       "edge_contact_curvature_max_per_m"
+      ]
+     },
+     "boundary_inside_p95_m": 0.28058204208322424,
+     "boundary_inside_max_m": 0.864106492107684,
+     "boundary_inside_runs_p95_m": 0.1548595602219552,
+     "boundary_inside_runs_max_m": 0.3300564447983451,
+     "boundary_inside_runs_split": 1,
+     "worst_lane": {
+      "road": "10",
+      "source_lane_id": "2023080316360906877",
+      "records": 1,
+      "runs": 1,
+      "max_m": 0.3300564447983451
+     },
+     "split_lanes": [
+      {
+       "road": "12",
+       "source_lane_id": "2023041911014520063",
+       "records": 2,
+       "runs": 2,
+       "max_m": 0.04185209061608806
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023062110304177600",
+     "pipeline": "shp",
+     "generated": false,
+     "changed": false
+    },
+    {
+     "case": "generalize/2023070118182048481",
+     "pipeline": "shp",
+     "generated": false,
+     "changed": false
+    },
+    {
+     "case": "generalize/2023080810023203229",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_max_m"
+      ]
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_max_m"
+      ]
+     },
+     "boundary_inside_p95_m": 0.03844618321484088,
+     "boundary_inside_max_m": 0.0926469382788232,
+     "boundary_inside_runs_p95_m": 0.03844618321484088,
+     "boundary_inside_runs_max_m": 0.0926469382788232,
+     "boundary_inside_runs_split": 2,
+     "worst_lane": {
+      "road": "11",
+      "source_lane_id": "2023080717005366816",
+      "records": 1,
+      "runs": 1,
+      "max_m": 0.0926469382788232
+     },
+     "split_lanes": [
+      {
+       "road": "12",
+       "source_lane_id": "2023080717005341626",
+       "records": 5,
+       "runs": 2,
+       "max_m": 0.017064669663222422
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023080717005346427",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.009445910440448941
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023062913464138453",
+     "pipeline": "shp",
+     "generated": false,
+     "changed": false
+    },
+    {
+     "case": "generalize/2023072914272536839",
+     "pipeline": "shp",
+     "generated": false,
+     "changed": false
+    },
+    {
+     "case": "generalize/2023041810414040830",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.029627231005303355,
+     "boundary_inside_max_m": 0.05736681325353109,
+     "boundary_inside_runs_p95_m": 0.029627231005303355,
+     "boundary_inside_runs_max_m": 0.05736681325353109,
+     "boundary_inside_runs_split": 2,
+     "worst_lane": {
+      "road": "10",
+      "source_lane_id": "2023041014134865690",
+      "records": 2,
+      "runs": 1,
+      "max_m": 0.05736681325353109
+     },
+     "split_lanes": [
+      {
+       "road": "10",
+       "source_lane_id": "2023041014134034812",
+       "records": 8,
+       "runs": 2,
+       "max_m": 0.03622189363940798
+      },
+      {
+       "road": "11",
+       "source_lane_id": "2023041910394761616",
+       "records": 2,
+       "runs": 2,
+       "max_m": 0.019650454917316162
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023070710324132429",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_p95_m",
+       "lane_center_noconflict_max_m"
+      ]
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_p95_m",
+       "lane_center_noconflict_max_m"
+      ]
+     },
+     "boundary_inside_p95_m": 0.035730040962565615,
+     "boundary_inside_max_m": 0.0490827223530887,
+     "boundary_inside_runs_p95_m": 0.03596563058820323,
+     "boundary_inside_runs_max_m": 0.0490827223530887,
+     "boundary_inside_runs_split": 2,
+     "worst_lane": {
+      "road": "10",
+      "source_lane_id": "2023122811444038056",
+      "records": 2,
+      "runs": 1,
+      "max_m": 0.0490827223530887
+     },
+     "split_lanes": [
+      {
+       "road": "10",
+       "source_lane_id": "2023071009340859230",
+       "records": 4,
+       "runs": 3,
+       "max_m": 0.041816207781091325
+      },
+      {
+       "road": "11",
+       "source_lane_id": "2023071009341104043",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.027548967765771565
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023081110220126408",
+     "pipeline": "shp",
+     "generated": false,
+     "changed": false
+    },
+    {
+     "case": "generalize/2023071109582525264",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": [
+       "lane_endpoint_lateral_max_m",
+       "boundary_inside_p95_m",
+       "boundary_inside_max_m",
+       "edge_contact_curvature_max_per_m"
+      ]
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": [
+       "lane_endpoint_lateral_max_m",
+       "boundary_inside_runs_p95_m",
+       "boundary_inside_runs_max_m",
+       "edge_contact_curvature_max_per_m"
+      ]
+     },
+     "boundary_inside_p95_m": 1.3353655448539403,
+     "boundary_inside_max_m": 3.6675133246866407,
+     "boundary_inside_runs_p95_m": 1.3353655448539403,
+     "boundary_inside_runs_max_m": 3.6675133246866407,
+     "boundary_inside_runs_split": 2,
+     "worst_lane": {
+      "road": "11",
+      "source_lane_id": "2023070817034884411",
+      "records": 1,
+      "runs": 1,
+      "max_m": 3.6675133246866407
+     },
+     "split_lanes": [
+      {
+       "road": "12",
+       "source_lane_id": "2023123020420918813",
+       "records": 7,
+       "runs": 2,
+       "max_m": 0.03455802366511525
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023070820120202889",
+       "records": 6,
+       "runs": 2,
+       "max_m": 0.024318401893258047
+      }
+     ]
+    },
+    {
+     "case": "0621/candidate",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": [
+       "boundary_inside_p95_m"
+      ]
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": [
+       "boundary_inside_runs_p95_m"
+      ]
+     },
+     "boundary_inside_p95_m": 0.11800138723332713,
+     "boundary_inside_max_m": 0.24259013156894985,
+     "boundary_inside_runs_p95_m": 0.11800138723332713,
+     "boundary_inside_runs_max_m": 0.24259013156894985,
+     "boundary_inside_runs_split": 0,
+     "worst_lane": {
+      "road": "10",
+      "source_lane_id": "2023061413362616440",
+      "records": 3,
+      "runs": 1,
+      "max_m": 0.24259013156894985
+     },
+     "split_lanes": []
+    }
+   ],
+   "slow": []
+  },
+  "main": {
+   "tier_pass_before": {
+    "scoreboard": {
+     "T1": 14,
+     "T2": 14
+    },
+    "generalization": {
+     "T1": 9,
+     "T2": 3
+    }
+   },
+   "tier_pass_after": {
+    "scoreboard": {
+     "T1": 14,
+     "T2": 14
+    },
+    "generalization": {
+     "T1": 9,
+     "T2": 3
+    }
+   },
+   "tier_changes": [],
+   "rows": [
+    {
+     "case": "scoreboard/map-node3",
+     "pipeline": "map",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     }
+    },
+    {
+     "case": "scoreboard/map-node4",
+     "pipeline": "map",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     }
+    },
+    {
+     "case": "scoreboard/map-NODE5",
+     "pipeline": "map",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     }
+    },
+    {
+     "case": "scoreboard/map-node13",
+     "pipeline": "map",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     }
+    },
+    {
+     "case": "scoreboard/map-node16",
+     "pipeline": "map",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     }
+    },
+    {
+     "case": "scoreboard/map-node17",
+     "pipeline": "map",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     }
+    },
+    {
+     "case": "scoreboard/map-node18",
+     "pipeline": "map",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     }
+    },
+    {
+     "case": "scoreboard/shp-node3",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.034663572217152994,
+     "boundary_inside_max_m": 0.16642624779090306,
+     "boundary_inside_runs_p95_m": 0.034680818739814,
+     "boundary_inside_runs_max_m": 0.16642624779090306,
+     "boundary_inside_runs_split": 4,
+     "worst_lane": {
+      "road": "10",
+      "source_lane_id": "2023041016010096069",
+      "records": 1,
+      "runs": 1,
+      "max_m": 0.16642624779090306
+     },
+     "split_lanes": [
+      {
+       "road": "13",
+       "source_lane_id": "2023041015461463219",
+       "records": 4,
+       "runs": 2,
+       "max_m": 0.08897946588881431
+      },
+      {
+       "road": "13",
+       "source_lane_id": "2023041810491825656",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.03491895249864962
+      },
+      {
+       "road": "13",
+       "source_lane_id": "2023041015451620844",
+       "records": 7,
+       "runs": 2,
+       "max_m": 0.025296203596401126
+      },
+      {
+       "road": "10",
+       "source_lane_id": "2023062017571371294",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.007633596368911561
+      }
+     ]
+    },
+    {
+     "case": "scoreboard/shp-node4",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.035373987791482805,
+     "boundary_inside_max_m": 0.3454300414176874,
+     "boundary_inside_runs_p95_m": 0.035373987791482805,
+     "boundary_inside_runs_max_m": 0.3454300414176874,
+     "boundary_inside_runs_split": 3,
+     "worst_lane": {
+      "road": "13",
+      "source_lane_id": "2023041111113054089",
+      "records": 3,
+      "runs": 2,
+      "max_m": 0.3454300414176874
+     },
+     "split_lanes": [
+      {
+       "road": "13",
+       "source_lane_id": "2023041111113054089",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.3454300414176874
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023041015314248891",
+       "records": 7,
+       "runs": 2,
+       "max_m": 0.040030032071511054
+      },
+      {
+       "road": "13",
+       "source_lane_id": "2023041111104108825",
+       "records": 5,
+       "runs": 3,
+       "max_m": 0.03684960794439537
+      }
+     ]
+    },
+    {
+     "case": "scoreboard/shp-NODE5",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.015982836785157283,
+     "boundary_inside_max_m": 0.04316006618698069,
+     "boundary_inside_runs_p95_m": 0.015982836785157283,
+     "boundary_inside_runs_max_m": 0.04316006618698069,
+     "boundary_inside_runs_split": 1,
+     "worst_lane": {
+      "road": "13",
+      "source_lane_id": "2023061315010051235",
+      "records": 1,
+      "runs": 1,
+      "max_m": 0.04316006618698069
+     },
+     "split_lanes": [
+      {
+       "road": "13",
+       "source_lane_id": "2023061314404196019",
+       "records": 2,
+       "runs": 2,
+       "max_m": 0.029044849306613017
+      }
+     ]
+    },
+    {
+     "case": "scoreboard/shp-node13",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.08230702992831716,
+     "boundary_inside_max_m": 0.2454163705297751,
+     "boundary_inside_runs_p95_m": 0.08234017453129844,
+     "boundary_inside_runs_max_m": 0.2454163705297751,
+     "boundary_inside_runs_split": 2,
+     "worst_lane": {
+      "road": "10",
+      "source_lane_id": "2023061609455754440",
+      "records": 2,
+      "runs": 1,
+      "max_m": 0.2454163705297751
+     },
+     "split_lanes": [
+      {
+       "road": "10",
+       "source_lane_id": "2023061609460586446",
+       "records": 8,
+       "runs": 2,
+       "max_m": 0.08500313648716937
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023062017571371294",
+       "records": 7,
+       "runs": 2,
+       "max_m": 0.013462138592604922
+      }
+     ]
+    },
+    {
+     "case": "scoreboard/shp-node16",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.02495205504789359,
+     "boundary_inside_max_m": 0.2946445969914615,
+     "boundary_inside_runs_p95_m": 0.02495205504789359,
+     "boundary_inside_runs_max_m": 0.2946445969914615,
+     "boundary_inside_runs_split": 0,
+     "worst_lane": {
+      "road": "11",
+      "source_lane_id": "2023061415430637614",
+      "records": 2,
+      "runs": 1,
+      "max_m": 0.2946445969914615
+     },
+     "split_lanes": []
+    },
+    {
+     "case": "scoreboard/shp-node17",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.03743490519499557,
+     "boundary_inside_max_m": 0.1308336958262264,
+     "boundary_inside_runs_p95_m": 0.037852546868002296,
+     "boundary_inside_runs_max_m": 0.1308336958262264,
+     "boundary_inside_runs_split": 5,
+     "worst_lane": {
+      "road": "12",
+      "source_lane_id": "2023061410462962444",
+      "records": 1,
+      "runs": 1,
+      "max_m": 0.1308336958262264
+     },
+     "split_lanes": [
+      {
+       "road": "10",
+       "source_lane_id": "2023061410583479699",
+       "records": 5,
+       "runs": 3,
+       "max_m": 0.031189847443660535
+      },
+      {
+       "road": "13",
+       "source_lane_id": "2023061911214870082",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.026741652190150195
+      },
+      {
+       "road": "13",
+       "source_lane_id": "2023061911214855258",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.02067413824527015
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023061410461285653",
+       "records": 2,
+       "runs": 2,
+       "max_m": 0.012457734290391528
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023061410333437654",
+       "records": 2,
+       "runs": 2,
+       "max_m": 0.010306020122522797
+      }
+     ]
+    },
+    {
+     "case": "scoreboard/shp-node18",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.0479450721444582,
+     "boundary_inside_max_m": 0.3165295004854414,
+     "boundary_inside_runs_p95_m": 0.0479450721444582,
+     "boundary_inside_runs_max_m": 0.3165295004854414,
+     "boundary_inside_runs_split": 3,
+     "worst_lane": {
+      "road": "10",
+      "source_lane_id": "2023061413420010456",
+      "records": 1,
+      "runs": 1,
+      "max_m": 0.3165295004854414
+     },
+     "split_lanes": [
+      {
+       "road": "12",
+       "source_lane_id": "2023061410583479699",
+       "records": 6,
+       "runs": 2,
+       "max_m": 0.05837959052428531
+      },
+      {
+       "road": "13",
+       "source_lane_id": "2023061414495404821",
+       "records": 4,
+       "runs": 2,
+       "max_m": 0.04446005249559395
+      },
+      {
+       "road": "13",
+       "source_lane_id": "2023061915010766448",
+       "records": 4,
+       "runs": 2,
+       "max_m": 0.034321295880560626
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023041111160971268",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.03339087343581161,
+     "boundary_inside_max_m": 0.231664688807513,
+     "boundary_inside_runs_p95_m": 0.03335049321741291,
+     "boundary_inside_runs_max_m": 0.231664688807513,
+     "boundary_inside_runs_split": 4,
+     "worst_lane": {
+      "road": "13",
+      "source_lane_id": "2023041111145404800",
+      "records": 2,
+      "runs": 1,
+      "max_m": 0.231664688807513
+     },
+     "split_lanes": [
+      {
+       "road": "13",
+       "source_lane_id": "2023041111145417209",
+       "records": 2,
+       "runs": 2,
+       "max_m": 0.03111683886838538
+      },
+      {
+       "road": "10",
+       "source_lane_id": "2023041111145365627",
+       "records": 10,
+       "runs": 3,
+       "max_m": 0.029357553199139744
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023041111145565286",
+       "records": 5,
+       "runs": 3,
+       "max_m": 0.02544316050155785
+      },
+      {
+       "road": "10",
+       "source_lane_id": "2023041111145484089",
+       "records": 6,
+       "runs": 2,
+       "max_m": 0.013853743068513539
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023061310244790027",
+     "pipeline": "shp",
+     "generated": false,
+     "changed": false
+    },
+    {
+     "case": "generalize/2023062713394062899",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_p95_m",
+       "lane_center_noconflict_max_m",
+       "lane_endpoint_lateral_max_m",
+       "boundary_inside_p95_m",
+       "boundary_inside_max_m",
+       "lane_join_curvature_jump_max_per_m",
+       "edge_contact_curvature_max_per_m",
+       "conn_edge_join_curvature_jump_max_per_m"
+      ]
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_p95_m",
+       "lane_center_noconflict_max_m",
+       "lane_endpoint_lateral_max_m",
+       "boundary_inside_runs_p95_m",
+       "boundary_inside_runs_max_m",
+       "lane_join_curvature_jump_max_per_m",
+       "edge_contact_curvature_max_per_m",
+       "conn_edge_join_curvature_jump_max_per_m"
+      ]
+     },
+     "boundary_inside_p95_m": 3.0100073835239076,
+     "boundary_inside_max_m": 5.878390176416023,
+     "boundary_inside_runs_p95_m": 0.3934662191133305,
+     "boundary_inside_runs_max_m": 5.878390176416023,
+     "boundary_inside_runs_split": 4,
+     "worst_lane": {
+      "road": "10",
+      "source_lane_id": "2023090216125440496",
+      "records": 3,
+      "runs": 2,
+      "max_m": 5.878390176416023
+     },
+     "split_lanes": [
+      {
+       "road": "10",
+       "source_lane_id": "2023090216125440496",
+       "records": 3,
+       "runs": 2,
+       "max_m": 5.878390176416023
+      },
+      {
+       "road": "10",
+       "source_lane_id": "2023063018052253616",
+       "records": 10,
+       "runs": 2,
+       "max_m": 0.5811182118684068
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023062517463713610",
+       "records": 2,
+       "runs": 2,
+       "max_m": 0.11369503136425693
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023062517463531610",
+       "records": 6,
+       "runs": 3,
+       "max_m": 0.020846130077791878
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023063015350832057",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_p95_m",
+       "lane_center_noconflict_max_m",
+       "lane_endpoint_lateral_max_m",
+       "boundary_inside_max_m",
+       "edge_contact_curvature_max_per_m"
+      ]
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_p95_m",
+       "lane_center_noconflict_max_m",
+       "lane_endpoint_lateral_max_m",
+       "boundary_inside_runs_max_m",
+       "edge_contact_curvature_max_per_m"
+      ]
+     },
+     "boundary_inside_p95_m": 0.09474249034513973,
+     "boundary_inside_max_m": 0.829519414153936,
+     "boundary_inside_runs_p95_m": 0.0960013101292414,
+     "boundary_inside_runs_max_m": 0.829519414153936,
+     "boundary_inside_runs_split": 2,
+     "worst_lane": {
+      "road": "10",
+      "source_lane_id": "2023070410533258477",
+      "records": 8,
+      "runs": 2,
+      "max_m": 0.829519414153936
+     },
+     "split_lanes": [
+      {
+       "road": "10",
+       "source_lane_id": "2023070410533258477",
+       "records": 8,
+       "runs": 2,
+       "max_m": 0.829519414153936
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023070410533245226",
+       "records": 6,
+       "runs": 2,
+       "max_m": 0.041699736980764596
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023070710412621654",
+     "pipeline": "shp",
+     "generated": false,
+     "changed": false
+    },
+    {
+     "case": "generalize/2023080118313036830",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": [
+       "boundary_inside_p95_m",
+       "boundary_inside_max_m"
+      ]
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": [
+       "boundary_inside_runs_p95_m",
+       "boundary_inside_runs_max_m"
+      ]
+     },
+     "boundary_inside_p95_m": 0.5641837399597995,
+     "boundary_inside_max_m": 3.8587793048252097,
+     "boundary_inside_runs_p95_m": 0.564301173994335,
+     "boundary_inside_runs_max_m": 3.8587793048252097,
+     "boundary_inside_runs_split": 1,
+     "worst_lane": {
+      "road": "11",
+      "source_lane_id": "2023080110475776069",
+      "records": 3,
+      "runs": 1,
+      "max_m": 3.8587793048252097
+     },
+     "split_lanes": [
+      {
+       "road": "11",
+       "source_lane_id": "2023080110475812040",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.08442787524571514
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023041216222042093",
+     "pipeline": "shp",
+     "before": {
+      "T1": "FAIL",
+      "T2": "FAIL"
+     },
+     "after": {
+      "T1": "FAIL",
+      "T2": "FAIL"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [
+       "g8_status_stopline_resolved"
+      ],
+      "T2": [
+       "lane_center_noconflict_max_m",
+       "boundary_inside_p95_m",
+       "boundary_inside_max_m",
+       "edge_contact_curvature_max_per_m"
+      ]
+     },
+     "after_failed": {
+      "T1": [
+       "g8_status_stopline_resolved"
+      ],
+      "T2": [
+       "lane_center_noconflict_max_m",
+       "edge_contact_curvature_max_per_m"
+      ]
+     },
+     "boundary_inside_p95_m": 0.2796489920087154,
+     "boundary_inside_max_m": 0.864106492107684,
+     "boundary_inside_runs_p95_m": 0.030266932190646276,
+     "boundary_inside_runs_max_m": 0.3290344281967205,
+     "boundary_inside_runs_split": 1,
+     "worst_lane": {
+      "road": "10",
+      "source_lane_id": "2023080316360906877",
+      "records": 1,
+      "runs": 1,
+      "max_m": 0.3290344281967205
+     },
+     "split_lanes": [
+      {
+       "road": "12",
+       "source_lane_id": "2023041911014520063",
+       "records": 2,
+       "runs": 2,
+       "max_m": 0.04185209061608806
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023062110304177600",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.025521257511707994,
+     "boundary_inside_max_m": 0.06485489572872344,
+     "boundary_inside_runs_p95_m": 0.025521257511707994,
+     "boundary_inside_runs_max_m": 0.06485489572872344,
+     "boundary_inside_runs_split": 0,
+     "worst_lane": {
+      "road": "11",
+      "source_lane_id": "2023061413393526490",
+      "records": 4,
+      "runs": 1,
+      "max_m": 0.06485489572872344
+     },
+     "split_lanes": []
+    },
+    {
+     "case": "generalize/2023070118182048481",
+     "pipeline": "shp",
+     "generated": false,
+     "changed": false
+    },
+    {
+     "case": "generalize/2023080810023203229",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_max_m"
+      ]
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_max_m"
+      ]
+     },
+     "boundary_inside_p95_m": 0.03539369612648423,
+     "boundary_inside_max_m": 0.0691984453159193,
+     "boundary_inside_runs_p95_m": 0.035452731732630215,
+     "boundary_inside_runs_max_m": 0.0691984453159193,
+     "boundary_inside_runs_split": 2,
+     "worst_lane": {
+      "road": "12",
+      "source_lane_id": "2023080717005246085",
+      "records": 3,
+      "runs": 1,
+      "max_m": 0.0691984453159193
+     },
+     "split_lanes": [
+      {
+       "road": "12",
+       "source_lane_id": "2023080717005341626",
+       "records": 5,
+       "runs": 2,
+       "max_m": 0.017087881843587848
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023080717005346427",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.009124662062847072
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023062913464138453",
+     "pipeline": "shp",
+     "generated": false,
+     "changed": false
+    },
+    {
+     "case": "generalize/2023072914272536839",
+     "pipeline": "shp",
+     "generated": false,
+     "changed": false
+    },
+    {
+     "case": "generalize/2023041810414040830",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.02962710154910697,
+     "boundary_inside_max_m": 0.05736661872665088,
+     "boundary_inside_runs_p95_m": 0.02962710154910697,
+     "boundary_inside_runs_max_m": 0.05736661872665088,
+     "boundary_inside_runs_split": 2,
+     "worst_lane": {
+      "road": "10",
+      "source_lane_id": "2023041014134865690",
+      "records": 2,
+      "runs": 1,
+      "max_m": 0.05736661872665088
+     },
+     "split_lanes": [
+      {
+       "road": "10",
+       "source_lane_id": "2023041014134034812",
+       "records": 8,
+       "runs": 2,
+       "max_m": 0.0362218273458098
+      },
+      {
+       "road": "11",
+       "source_lane_id": "2023041910394761616",
+       "records": 2,
+       "runs": 2,
+       "max_m": 0.019650454917316162
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023070710324132429",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_p95_m",
+       "lane_center_noconflict_max_m"
+      ]
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_p95_m",
+       "lane_center_noconflict_max_m"
+      ]
+     },
+     "boundary_inside_p95_m": 0.03604304415863846,
+     "boundary_inside_max_m": 0.07896963492380962,
+     "boundary_inside_runs_p95_m": 0.03609045938812542,
+     "boundary_inside_runs_max_m": 0.07896963492380962,
+     "boundary_inside_runs_split": 2,
+     "worst_lane": {
+      "road": "10",
+      "source_lane_id": "2023122811444038056",
+      "records": 3,
+      "runs": 1,
+      "max_m": 0.07896963492380962
+     },
+     "split_lanes": [
+      {
+       "road": "10",
+       "source_lane_id": "2023071009340859230",
+       "records": 4,
+       "runs": 3,
+       "max_m": 0.041760888246318205
+      },
+      {
+       "road": "11",
+       "source_lane_id": "2023071009341104043",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.027586763187758368
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023081110220126408",
+     "pipeline": "shp",
+     "generated": false,
+     "changed": false
+    },
+    {
+     "case": "generalize/2023071109582525264",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": [
+       "boundary_inside_p95_m",
+       "boundary_inside_max_m",
+       "edge_contact_curvature_max_per_m"
+      ]
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": [
+       "boundary_inside_runs_p95_m",
+       "boundary_inside_runs_max_m",
+       "edge_contact_curvature_max_per_m"
+      ]
+     },
+     "boundary_inside_p95_m": 1.3353655448539403,
+     "boundary_inside_max_m": 3.6675133246866407,
+     "boundary_inside_runs_p95_m": 1.3353655448539403,
+     "boundary_inside_runs_max_m": 3.6675133246866407,
+     "boundary_inside_runs_split": 2,
+     "worst_lane": {
+      "road": "11",
+      "source_lane_id": "2023070817034884411",
+      "records": 1,
+      "runs": 1,
+      "max_m": 3.6675133246866407
+     },
+     "split_lanes": [
+      {
+       "road": "12",
+       "source_lane_id": "2023123020420918813",
+       "records": 7,
+       "runs": 2,
+       "max_m": 0.034556888767010185
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023070820120202889",
+       "records": 6,
+       "runs": 2,
+       "max_m": 0.024320549347219843
+      }
+     ]
+    }
+   ],
+   "slow": [
+    {
+     "case": "slow/2023070710412621654",
+     "run": "gen-slow-zs",
+     "xodr_sha256": "357d00904a3bda56901d77f0240f436501def716fdf5816e92d303a1e912c4ad",
+     "boundary_inside_p95_m": 0.6484960819387188,
+     "boundary_inside_max_m": 1.7575348673229378,
+     "boundary_inside_runs_p95_m": 0.6485465039555225,
+     "boundary_inside_runs_max_m": 1.7575348673229378,
+     "boundary_inside_runs_split": 1,
+     "split_lanes": [
+      {
+       "road": "13",
+       "source_lane_id": "2023071009340822072",
+       "records": 2,
+       "runs": 2,
+       "max_m": 0.37306731193789944
+      }
+     ]
+    },
+    {
+     "case": "slow/2023061310244790027",
+     "run": "gen-slow-seams",
+     "xodr_sha256": "d8e02cb800c0972aa3582d234b9a086c9d81fcd59b5ca8bf991b18a569af5f0b",
+     "boundary_inside_p95_m": 0.028367411449493982,
+     "boundary_inside_max_m": 0.9392217367627166,
+     "boundary_inside_runs_p95_m": 0.02836488941932897,
+     "boundary_inside_runs_max_m": 0.9392217367627166,
+     "boundary_inside_runs_split": 2,
+     "split_lanes": [
+      {
+       "road": "12",
+       "source_lane_id": "2023081515030987229",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.03038569387913036
+      },
+      {
+       "road": "10",
+       "source_lane_id": "2023061213163956460",
+       "records": 4,
+       "runs": 2,
+       "max_m": 0.011344183210213245
+      }
+     ]
+    }
+   ]
+  },
+  "hold-width": {
+   "tier_pass_before": {
+    "scoreboard": {
+     "T1": 14,
+     "T2": 14
+    },
+    "generalization": {
+     "T1": 9,
+     "T2": 3
+    }
+   },
+   "tier_pass_after": {
+    "scoreboard": {
+     "T1": 14,
+     "T2": 14
+    },
+    "generalization": {
+     "T1": 9,
+     "T2": 3
+    }
+   },
+   "tier_changes": [],
+   "rows": [
+    {
+     "case": "scoreboard/shp-node3",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.034663572217152994,
+     "boundary_inside_max_m": 0.16642624779090306,
+     "boundary_inside_runs_p95_m": 0.034680818739814,
+     "boundary_inside_runs_max_m": 0.16642624779090306,
+     "boundary_inside_runs_split": 4,
+     "worst_lane": {
+      "road": "10",
+      "source_lane_id": "2023041016010096069",
+      "records": 1,
+      "runs": 1,
+      "max_m": 0.16642624779090306
+     },
+     "split_lanes": [
+      {
+       "road": "13",
+       "source_lane_id": "2023041015461463219",
+       "records": 4,
+       "runs": 2,
+       "max_m": 0.08897946588881431
+      },
+      {
+       "road": "13",
+       "source_lane_id": "2023041810491825656",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.03491895249864962
+      },
+      {
+       "road": "13",
+       "source_lane_id": "2023041015451620844",
+       "records": 7,
+       "runs": 2,
+       "max_m": 0.025296203596401126
+      },
+      {
+       "road": "10",
+       "source_lane_id": "2023062017571371294",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.007633596368911561
+      }
+     ]
+    },
+    {
+     "case": "scoreboard/shp-node4",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.035373987791482805,
+     "boundary_inside_max_m": 0.3454300414176874,
+     "boundary_inside_runs_p95_m": 0.035373987791482805,
+     "boundary_inside_runs_max_m": 0.3454300414176874,
+     "boundary_inside_runs_split": 3,
+     "worst_lane": {
+      "road": "13",
+      "source_lane_id": "2023041111113054089",
+      "records": 3,
+      "runs": 2,
+      "max_m": 0.3454300414176874
+     },
+     "split_lanes": [
+      {
+       "road": "13",
+       "source_lane_id": "2023041111113054089",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.3454300414176874
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023041015314248891",
+       "records": 7,
+       "runs": 2,
+       "max_m": 0.040030032071511054
+      },
+      {
+       "road": "13",
+       "source_lane_id": "2023041111104108825",
+       "records": 5,
+       "runs": 3,
+       "max_m": 0.03684960794439537
+      }
+     ]
+    },
+    {
+     "case": "scoreboard/shp-NODE5",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.015982836785157283,
+     "boundary_inside_max_m": 0.04316006618698069,
+     "boundary_inside_runs_p95_m": 0.015982836785157283,
+     "boundary_inside_runs_max_m": 0.04316006618698069,
+     "boundary_inside_runs_split": 1,
+     "worst_lane": {
+      "road": "13",
+      "source_lane_id": "2023061315010051235",
+      "records": 1,
+      "runs": 1,
+      "max_m": 0.04316006618698069
+     },
+     "split_lanes": [
+      {
+       "road": "13",
+       "source_lane_id": "2023061314404196019",
+       "records": 2,
+       "runs": 2,
+       "max_m": 0.029044849306613017
+      }
+     ]
+    },
+    {
+     "case": "scoreboard/shp-node13",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.08230702992831716,
+     "boundary_inside_max_m": 0.2454163705297751,
+     "boundary_inside_runs_p95_m": 0.08234017453129844,
+     "boundary_inside_runs_max_m": 0.2454163705297751,
+     "boundary_inside_runs_split": 2,
+     "worst_lane": {
+      "road": "10",
+      "source_lane_id": "2023061609455754440",
+      "records": 2,
+      "runs": 1,
+      "max_m": 0.2454163705297751
+     },
+     "split_lanes": [
+      {
+       "road": "10",
+       "source_lane_id": "2023061609460586446",
+       "records": 8,
+       "runs": 2,
+       "max_m": 0.08500313648716937
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023062017571371294",
+       "records": 7,
+       "runs": 2,
+       "max_m": 0.013462138592604922
+      }
+     ]
+    },
+    {
+     "case": "scoreboard/shp-node16",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.02495205504789359,
+     "boundary_inside_max_m": 0.2946445969914615,
+     "boundary_inside_runs_p95_m": 0.02495205504789359,
+     "boundary_inside_runs_max_m": 0.2946445969914615,
+     "boundary_inside_runs_split": 0,
+     "worst_lane": {
+      "road": "11",
+      "source_lane_id": "2023061415430637614",
+      "records": 2,
+      "runs": 1,
+      "max_m": 0.2946445969914615
+     },
+     "split_lanes": []
+    },
+    {
+     "case": "scoreboard/shp-node17",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.03743490519499557,
+     "boundary_inside_max_m": 0.1308336958262264,
+     "boundary_inside_runs_p95_m": 0.037852546868002296,
+     "boundary_inside_runs_max_m": 0.1308336958262264,
+     "boundary_inside_runs_split": 5,
+     "worst_lane": {
+      "road": "12",
+      "source_lane_id": "2023061410462962444",
+      "records": 1,
+      "runs": 1,
+      "max_m": 0.1308336958262264
+     },
+     "split_lanes": [
+      {
+       "road": "10",
+       "source_lane_id": "2023061410583479699",
+       "records": 5,
+       "runs": 3,
+       "max_m": 0.031189847443660535
+      },
+      {
+       "road": "13",
+       "source_lane_id": "2023061911214870082",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.026741652190150195
+      },
+      {
+       "road": "13",
+       "source_lane_id": "2023061911214855258",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.02067413824527015
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023061410461285653",
+       "records": 2,
+       "runs": 2,
+       "max_m": 0.012457734290391528
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023061410333437654",
+       "records": 2,
+       "runs": 2,
+       "max_m": 0.010306020122522797
+      }
+     ]
+    },
+    {
+     "case": "scoreboard/shp-node18",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.0479450721444582,
+     "boundary_inside_max_m": 0.3165295004854414,
+     "boundary_inside_runs_p95_m": 0.0479450721444582,
+     "boundary_inside_runs_max_m": 0.3165295004854414,
+     "boundary_inside_runs_split": 3,
+     "worst_lane": {
+      "road": "10",
+      "source_lane_id": "2023061413420010456",
+      "records": 1,
+      "runs": 1,
+      "max_m": 0.3165295004854414
+     },
+     "split_lanes": [
+      {
+       "road": "12",
+       "source_lane_id": "2023061410583479699",
+       "records": 6,
+       "runs": 2,
+       "max_m": 0.05837959052428531
+      },
+      {
+       "road": "13",
+       "source_lane_id": "2023061414495404821",
+       "records": 4,
+       "runs": 2,
+       "max_m": 0.04446005249559395
+      },
+      {
+       "road": "13",
+       "source_lane_id": "2023061915010766448",
+       "records": 4,
+       "runs": 2,
+       "max_m": 0.034321295880560626
+      }
+     ]
+    },
+    {
+     "case": "scoreboard/map-node3",
+     "pipeline": "map",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     }
+    },
+    {
+     "case": "scoreboard/map-node4",
+     "pipeline": "map",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     }
+    },
+    {
+     "case": "scoreboard/map-NODE5",
+     "pipeline": "map",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     }
+    },
+    {
+     "case": "scoreboard/map-node13",
+     "pipeline": "map",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     }
+    },
+    {
+     "case": "scoreboard/map-node16",
+     "pipeline": "map",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     }
+    },
+    {
+     "case": "scoreboard/map-node17",
+     "pipeline": "map",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     }
+    },
+    {
+     "case": "scoreboard/map-node18",
+     "pipeline": "map",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     }
+    },
+    {
+     "case": "generalize/2023041111160971268",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.03339087343581161,
+     "boundary_inside_max_m": 0.231664688807513,
+     "boundary_inside_runs_p95_m": 0.03335049321741291,
+     "boundary_inside_runs_max_m": 0.231664688807513,
+     "boundary_inside_runs_split": 4,
+     "worst_lane": {
+      "road": "13",
+      "source_lane_id": "2023041111145404800",
+      "records": 2,
+      "runs": 1,
+      "max_m": 0.231664688807513
+     },
+     "split_lanes": [
+      {
+       "road": "13",
+       "source_lane_id": "2023041111145417209",
+       "records": 2,
+       "runs": 2,
+       "max_m": 0.03111683886838538
+      },
+      {
+       "road": "10",
+       "source_lane_id": "2023041111145365627",
+       "records": 10,
+       "runs": 3,
+       "max_m": 0.029357553199139744
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023041111145565286",
+       "records": 5,
+       "runs": 3,
+       "max_m": 0.02544316050155785
+      },
+      {
+       "road": "10",
+       "source_lane_id": "2023041111145484089",
+       "records": 6,
+       "runs": 2,
+       "max_m": 0.013853743068513539
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023061310244790027",
+     "pipeline": "shp",
+     "generated": false,
+     "changed": false
+    },
+    {
+     "case": "generalize/2023062713394062899",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_max_m",
+       "lane_endpoint_lateral_max_m",
+       "boundary_inside_p95_m",
+       "boundary_inside_max_m",
+       "edge_contact_curvature_max_per_m"
+      ]
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_max_m",
+       "lane_endpoint_lateral_max_m",
+       "boundary_inside_runs_max_m",
+       "edge_contact_curvature_max_per_m"
+      ]
+     },
+     "boundary_inside_p95_m": 0.786733332812285,
+     "boundary_inside_max_m": 1.9484585659844158,
+     "boundary_inside_runs_p95_m": 0.056682728538182375,
+     "boundary_inside_runs_max_m": 1.2842676442649772,
+     "boundary_inside_runs_split": 4,
+     "worst_lane": {
+      "road": "13",
+      "source_lane_id": "2023090215384371212",
+      "records": 2,
+      "runs": 1,
+      "max_m": 1.2842676442649772
+     },
+     "split_lanes": [
+      {
+       "road": "10",
+       "source_lane_id": "2023090216125440496",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.17912456292183507
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023062517463713610",
+       "records": 2,
+       "runs": 2,
+       "max_m": 0.11369503136425693
+      },
+      {
+       "road": "10",
+       "source_lane_id": "2023063018052253616",
+       "records": 10,
+       "runs": 2,
+       "max_m": 0.03245479688597408
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023062517463531610",
+       "records": 6,
+       "runs": 3,
+       "max_m": 0.020846130077791878
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023063015350832057",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_p95_m",
+       "lane_center_noconflict_max_m",
+       "lane_endpoint_lateral_max_m",
+       "boundary_inside_max_m",
+       "edge_contact_curvature_max_per_m"
+      ]
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_p95_m",
+       "lane_center_noconflict_max_m",
+       "lane_endpoint_lateral_max_m",
+       "boundary_inside_runs_max_m",
+       "edge_contact_curvature_max_per_m"
+      ]
+     },
+     "boundary_inside_p95_m": 0.09474249034513973,
+     "boundary_inside_max_m": 0.829519414153936,
+     "boundary_inside_runs_p95_m": 0.0960013101292414,
+     "boundary_inside_runs_max_m": 0.829519414153936,
+     "boundary_inside_runs_split": 2,
+     "worst_lane": {
+      "road": "10",
+      "source_lane_id": "2023070410533258477",
+      "records": 8,
+      "runs": 2,
+      "max_m": 0.829519414153936
+     },
+     "split_lanes": [
+      {
+       "road": "10",
+       "source_lane_id": "2023070410533258477",
+       "records": 8,
+       "runs": 2,
+       "max_m": 0.829519414153936
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023070410533245226",
+       "records": 6,
+       "runs": 2,
+       "max_m": 0.041699736980764596
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023070710412621654",
+     "pipeline": "shp",
+     "generated": false,
+     "changed": false
+    },
+    {
+     "case": "generalize/2023080118313036830",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": [
+       "boundary_inside_p95_m",
+       "boundary_inside_max_m"
+      ]
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": [
+       "boundary_inside_runs_p95_m",
+       "boundary_inside_runs_max_m"
+      ]
+     },
+     "boundary_inside_p95_m": 0.5641837399597995,
+     "boundary_inside_max_m": 3.8587793048252097,
+     "boundary_inside_runs_p95_m": 0.564301173994335,
+     "boundary_inside_runs_max_m": 3.8587793048252097,
+     "boundary_inside_runs_split": 1,
+     "worst_lane": {
+      "road": "11",
+      "source_lane_id": "2023080110475776069",
+      "records": 3,
+      "runs": 1,
+      "max_m": 3.8587793048252097
+     },
+     "split_lanes": [
+      {
+       "road": "11",
+       "source_lane_id": "2023080110475812040",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.08442787524571514
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023041216222042093",
+     "pipeline": "shp",
+     "before": {
+      "T1": "FAIL",
+      "T2": "FAIL"
+     },
+     "after": {
+      "T1": "FAIL",
+      "T2": "FAIL"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [
+       "g8_status_stopline_resolved"
+      ],
+      "T2": [
+       "lane_center_noconflict_max_m",
+       "boundary_inside_p95_m",
+       "boundary_inside_max_m",
+       "edge_contact_curvature_max_per_m"
+      ]
+     },
+     "after_failed": {
+      "T1": [
+       "g8_status_stopline_resolved"
+      ],
+      "T2": [
+       "lane_center_noconflict_max_m",
+       "edge_contact_curvature_max_per_m"
+      ]
+     },
+     "boundary_inside_p95_m": 0.2796489920087154,
+     "boundary_inside_max_m": 0.864106492107684,
+     "boundary_inside_runs_p95_m": 0.030266932190646276,
+     "boundary_inside_runs_max_m": 0.3290344281967205,
+     "boundary_inside_runs_split": 1,
+     "worst_lane": {
+      "road": "10",
+      "source_lane_id": "2023080316360906877",
+      "records": 1,
+      "runs": 1,
+      "max_m": 0.3290344281967205
+     },
+     "split_lanes": [
+      {
+       "road": "12",
+       "source_lane_id": "2023041911014520063",
+       "records": 2,
+       "runs": 2,
+       "max_m": 0.04185209061608806
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023062110304177600",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.025521257511707994,
+     "boundary_inside_max_m": 0.06485489572872344,
+     "boundary_inside_runs_p95_m": 0.025521257511707994,
+     "boundary_inside_runs_max_m": 0.06485489572872344,
+     "boundary_inside_runs_split": 0,
+     "worst_lane": {
+      "road": "11",
+      "source_lane_id": "2023061413393526490",
+      "records": 4,
+      "runs": 1,
+      "max_m": 0.06485489572872344
+     },
+     "split_lanes": []
+    },
+    {
+     "case": "generalize/2023070118182048481",
+     "pipeline": "shp",
+     "generated": false,
+     "changed": false
+    },
+    {
+     "case": "generalize/2023080810023203229",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_max_m"
+      ]
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_max_m"
+      ]
+     },
+     "boundary_inside_p95_m": 0.03539369612648423,
+     "boundary_inside_max_m": 0.0691984453159193,
+     "boundary_inside_runs_p95_m": 0.035452731732630215,
+     "boundary_inside_runs_max_m": 0.0691984453159193,
+     "boundary_inside_runs_split": 2,
+     "worst_lane": {
+      "road": "12",
+      "source_lane_id": "2023080717005246085",
+      "records": 3,
+      "runs": 1,
+      "max_m": 0.0691984453159193
+     },
+     "split_lanes": [
+      {
+       "road": "12",
+       "source_lane_id": "2023080717005341626",
+       "records": 5,
+       "runs": 2,
+       "max_m": 0.017087881843587848
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023080717005346427",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.009124662062847072
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023062913464138453",
+     "pipeline": "shp",
+     "generated": false,
+     "changed": false
+    },
+    {
+     "case": "generalize/2023072914272536839",
+     "pipeline": "shp",
+     "generated": false,
+     "changed": false
+    },
+    {
+     "case": "generalize/2023041810414040830",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "PASS"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": []
+     },
+     "boundary_inside_p95_m": 0.02962710154910697,
+     "boundary_inside_max_m": 0.05736661872665088,
+     "boundary_inside_runs_p95_m": 0.02962710154910697,
+     "boundary_inside_runs_max_m": 0.05736661872665088,
+     "boundary_inside_runs_split": 2,
+     "worst_lane": {
+      "road": "10",
+      "source_lane_id": "2023041014134865690",
+      "records": 2,
+      "runs": 1,
+      "max_m": 0.05736661872665088
+     },
+     "split_lanes": [
+      {
+       "road": "10",
+       "source_lane_id": "2023041014134034812",
+       "records": 8,
+       "runs": 2,
+       "max_m": 0.0362218273458098
+      },
+      {
+       "road": "11",
+       "source_lane_id": "2023041910394761616",
+       "records": 2,
+       "runs": 2,
+       "max_m": 0.019650454917316162
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023070710324132429",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_p95_m",
+       "lane_center_noconflict_max_m"
+      ]
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": [
+       "lane_center_noconflict_p95_m",
+       "lane_center_noconflict_max_m"
+      ]
+     },
+     "boundary_inside_p95_m": 0.03604304415863846,
+     "boundary_inside_max_m": 0.07896963492380962,
+     "boundary_inside_runs_p95_m": 0.03609045938812542,
+     "boundary_inside_runs_max_m": 0.07896963492380962,
+     "boundary_inside_runs_split": 2,
+     "worst_lane": {
+      "road": "10",
+      "source_lane_id": "2023122811444038056",
+      "records": 3,
+      "runs": 1,
+      "max_m": 0.07896963492380962
+     },
+     "split_lanes": [
+      {
+       "road": "10",
+       "source_lane_id": "2023071009340859230",
+       "records": 4,
+       "runs": 3,
+       "max_m": 0.041760888246318205
+      },
+      {
+       "road": "11",
+       "source_lane_id": "2023071009341104043",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.027586763187758368
+      }
+     ]
+    },
+    {
+     "case": "generalize/2023081110220126408",
+     "pipeline": "shp",
+     "generated": false,
+     "changed": false
+    },
+    {
+     "case": "generalize/2023071109582525264",
+     "pipeline": "shp",
+     "before": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "after": {
+      "T1": "PASS",
+      "T2": "FAIL"
+     },
+     "changed": false,
+     "before_failed": {
+      "T1": [],
+      "T2": [
+       "boundary_inside_p95_m",
+       "boundary_inside_max_m",
+       "edge_contact_curvature_max_per_m"
+      ]
+     },
+     "after_failed": {
+      "T1": [],
+      "T2": [
+       "boundary_inside_runs_p95_m",
+       "boundary_inside_runs_max_m",
+       "edge_contact_curvature_max_per_m"
+      ]
+     },
+     "boundary_inside_p95_m": 1.3353655448539403,
+     "boundary_inside_max_m": 3.6675133246866407,
+     "boundary_inside_runs_p95_m": 1.3353655448539403,
+     "boundary_inside_runs_max_m": 3.6675133246866407,
+     "boundary_inside_runs_split": 2,
+     "worst_lane": {
+      "road": "11",
+      "source_lane_id": "2023070817034884411",
+      "records": 1,
+      "runs": 1,
+      "max_m": 3.6675133246866407
+     },
+     "split_lanes": [
+      {
+       "road": "12",
+       "source_lane_id": "2023123020420918813",
+       "records": 7,
+       "runs": 2,
+       "max_m": 0.034556888767010185
+      },
+      {
+       "road": "12",
+       "source_lane_id": "2023070820120202889",
+       "records": 6,
+       "runs": 2,
+       "max_m": 0.024320549347219843
+      }
+     ]
+    }
+   ],
+   "slow": [
+    {
+     "case": "slow/2023070710412621654",
+     "run": "gen-slow-rw",
+     "xodr_sha256": "a06a4afea6d4ee38a2f3b362ceb744024cf440062566b96365af36634024663f",
+     "boundary_inside_p95_m": 0.6484960819387188,
+     "boundary_inside_max_m": 1.7575348673229378,
+     "boundary_inside_runs_p95_m": 0.6485465039555225,
+     "boundary_inside_runs_max_m": 1.7575348673229378,
+     "boundary_inside_runs_split": 1,
+     "split_lanes": [
+      {
+       "road": "13",
+       "source_lane_id": "2023071009340822072",
+       "records": 2,
+       "runs": 2,
+       "max_m": 0.37306731193789944
+      }
+     ]
+    },
+    {
+     "case": "slow/2023061310244790027",
+     "run": "gen-slow-seams",
+     "xodr_sha256": "d8e02cb800c0972aa3582d234b9a086c9d81fcd59b5ca8bf991b18a569af5f0b",
+     "boundary_inside_p95_m": 0.028367411449493982,
+     "boundary_inside_max_m": 0.9392217367627166,
+     "boundary_inside_runs_p95_m": 0.02836488941932897,
+     "boundary_inside_runs_max_m": 0.9392217367627166,
+     "boundary_inside_runs_split": 2,
+     "split_lanes": [
+      {
+       "road": "12",
+       "source_lane_id": "2023081515030987229",
+       "records": 3,
+       "runs": 2,
+       "max_m": 0.03038569387913036
+      },
+      {
+       "road": "10",
+       "source_lane_id": "2023061213163956460",
+       "records": 4,
+       "runs": 2,
+       "max_m": 0.011344183210213245
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "note": "stacked = boundary_inside (records of a source lane on a road stacked into one polyline); runs = boundary_inside_runs (split where a record starts more than gap_m from where the previous one ends); frozen metrics are stored Windows values, the rest Linux; the source boundaries are read from shp_0222-0326 through ibd-smarteditor-v1"
+}
