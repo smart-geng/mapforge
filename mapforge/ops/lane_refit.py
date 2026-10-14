@@ -1538,11 +1538,16 @@ def refit_tree(root, src, params=None):
 
 
 def advance_births(root, src):
-    """lane_birth_advance on every ordinary road (before the refit); returns {road id: events}."""
-    from mapforge.ops import lane_birth_advance
+    """lane_birth_advance on every ordinary road (before the refit); returns ({road id: events}, {road id: (road,
+    events)}). An event whose own section is too short to measure its opening slope is measured on through the next
+    sections along the lane links (mapforge.ops.refit_birth_window, 2026-10-14); the second dict holds, where that
+    advances more, the road as the event sections' own observations alone advance it, for a road the refit then
+    skips, that would lose a curb-return shoulder or that would lie farther from its source
+    (refit_birth_window.keep_own_way)."""
+    from mapforge.ops import refit_birth_window
     from mapforge.validate.shp_boundary_fidelity import _origin
     origin = _origin(root)
-    out = {}
+    out, own_way = {}, {}
     for road_el in root.findall("road"):
         if road_el.get("junction") not in (None, "-1") or road_el.get("name") == "junction_paving":
             continue
@@ -1553,10 +1558,12 @@ def advance_births(root, src):
                 return _source_observations(road, src, origin, side, i, k)
             except IndexError:
                 return None
-        events = lane_birth_advance.advance(road_el, observe, KAPPA_CAP)
+        events, own = refit_birth_window.advance(road_el, road, observe, KAPPA_CAP)
         if events:
             out[road_el.get("id")] = events
-    return out
+        if own is not None:
+            own_way[road_el.get("id")] = own
+    return out, own_way
 
 
 _SOURCE = None
@@ -1608,10 +1615,15 @@ def apply(xodr_in, xodr_out, params=None):
         if link_gaps:
             from mapforge.ops import lane_gap
             gaps = lane_gap.apply(root, _shp_source())
-        advanced = advance_births(root, _shp_source()) if birth_advance else None
-        report = refit_tree(root, _shp_source(), {**params, "protect_unobserved_ends": True} if birth_advance else params)
+        advanced, own_way = advance_births(root, _shp_source()) if birth_advance else (None, None)
+        refit_params = {**params, "protect_unobserved_ends": True} if birth_advance else params
+        report = refit_tree(root, _shp_source(), refit_params)
         if advanced is not None:
+            from mapforge.ops import refit_birth_window
+            redone = refit_birth_window.keep_own_way(root, _shp_source(), refit_params, report, advanced, own_way)
             report["birth_advance"] = advanced
+            if redone:
+                report["birth_window_redone"] = redone
         if gaps is not None:
             report["link_gaps"] = gaps
     elif map_refit:
