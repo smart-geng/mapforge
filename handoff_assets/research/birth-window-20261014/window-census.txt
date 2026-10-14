@@ -1,0 +1,23 @@
+{
+ "measured on its own section": 87,
+ "measured through the window": 19
+}
+2023061310244790027    road  12 birth left    4 s   88.35 sec  1.65  measured through the window              0.164  own [[4, 1.07], [8, 1.28]] window [[13, 5.42], [26, 5.71]]
+2023062713394062899    road  12 birth left    4 s  128.76 sec  1.24  measured through the window              0.233  own [[4, 0.49], [4, 0.5]] window [[24, 5.37], [24, 5.52]]
+2023063015350832057    road  11 birth right  -3 s  108.62 sec  1.38  measured through the window              0.108  own [[3, 1.0], [6, 1.0]] window [[12, 5.5], [24, 5.5]]
+2023063015350832057    road  12 birth left    4 s   98.23 sec  1.77  measured through the window              0.223  own [[4, 1.42], [8, 1.42]] window [[13, 5.67], [26, 5.74]]
+2023063015350832057    road  12 birth right  -3 s   98.23 sec  1.77  measured through the window              0.069  own [[8, 1.52], [8, 1.52]] window [[24, 5.56], [24, 5.54]]
+2023063015350832057    road  12 birth right  -4 s   98.23 sec  1.77  measured through the window              0.172  own [[4, 1.5], [8, 1.52]] window [[12, 5.5], [24, 5.56]]
+2023070710324132429    road  10 death left    3 s   85.69 sec  5.69  measured through the window              0.361  own [[10, 1.99], [10, 1.93]] window [[12, 2.49], [12, 2.41]]
+2023070710412621654    road  10 birth left    4 s   78.85 sec  1.15  measured through the window              0.136  own [[3, 0.95], [4, 0.48]] window [[13, 5.72], [24, 5.36]]
+2023070710412621654    road  10 birth right  -3 s   78.85 sec  1.15  measured through the window              0.165  own [[2, 0.0], [2, 0.0]] window [[22, 5.03], [22, 4.99]]
+2023070710412621654    road  10 birth right  -4 s   78.85 sec  1.15  measured through the window              0.096  own [[1, 0.0], [2, 0.0]] window [[11, 4.99], [22, 5.03]]
+2023070710412621654    road  13 birth right  -1 s   65.07 sec  2.32  measured through the window              0.325  own [[12, 1.84], [5, 1.71]] window [[26, 5.36], [12, 5.2]]
+2023080118313036830    road  12 death right  -5 s  141.43 sec  1.43  measured through the window              0.005  own [[3, 1.0], [6, 1.0]] window [[12, 5.5], [24, 5.5]]
+node16                 road  11 birth right  -2 s  158.27 sec  1.73  measured through the window              0.125  own [[4, 1.5], [8, 1.5]] window [[13, 5.99], [26, 5.99]]
+node17                 road  10 death right  -4 s   81.01 sec  1.01  measured through the window              0.087  own [[3, 0.63], [6, 0.54]] window [[13, 5.56], [26, 5.47]]
+node18                 road  13 birth left    4 s   38.11 sec  1.89  measured through the window              0.099  own [[4, 1.43], [10, 1.62]] window [[13, 5.92], [26, 5.62]]
+node3                  road  13 birth right  -3 s   69.00 sec  1.00  measured through the window              0.063  own [[2, 0.5], [4, 0.5]] window [[12, 5.5], [24, 5.51]]
+node3                  road  13 death left    5 s  131.45 sec  1.45  measured through the window              0.136  own [[2, 0.51], [4, 0.51]] window [[11, 5.12], [22, 5.14]]
+node4                  road  10 death left    4 s   60.00 sec  2.67  measured through the window              0.153  own [[5, 1.96], [10, 1.94]] window [[12, 5.38], [24, 5.35]]
+node4                  road  13 death left    4 s  152.24 sec  2.24  measured through the window              0.141  own [[5, 1.98], [10, 2.0]] window [[13, 5.94], [26, 6.0]]

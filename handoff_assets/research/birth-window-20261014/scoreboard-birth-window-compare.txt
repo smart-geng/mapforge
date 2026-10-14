@@ -1,0 +1,89 @@
+== map-node3 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node3 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+     boundary_inside_p95_m                      0.034663572217152994 -> 0.03579178345836419
+   * boundary_inside_runs_p95_m                 0.034680818739814 -> 0.03579178345836419
+     boundary_median_m                          0.007508387510099725 -> 0.0075547168271547175
+     boundary_p95_m                             0.053805581231798 -> 0.044808699467918926
+     fair_road_event_kappa_max_per_m            0.03656805090853739 -> 0.0365724478527068
+     fair_turn_conn_sharpness_max_per_m2        0.03656469865091713 -> 0.03656905482955526
+     lane_center_median_m                       0.018547126043162627 -> 0.01853179209767279
+   * lane_center_noconflict_max_m               0.1718619148458128 -> 0.1709189942482439
+     lane_center_noconflict_median_m            0.017597190599046058 -> 0.01750230980525385
+     lane_center_noflare_max_m                  0.1718619148458128 -> 0.1709189942482439
+     lane_center_noflare_median_m               0.017597190599046058 -> 0.01750230980525385
+     lane_center_poly_median_m                  0.014936823756389911 -> 0.014837795218719703
+     lane_center_poly_p95_m                     0.08624399833149253 -> 0.08624688498257845
+     lane_join_jumps_gt_1e-04                   3 -> 4
+     lane_join_jumps_gt_1e-07                   136 -> 135
+     lane_sections                              91 -> 93
+     outer_curvature_max_per_m                  0.07385135692994244 -> 0.05140814410490604
+     policy_speed_jerk_max_mps3                 137.08251118444173 -> 77.04997612374335
+     width_records                              1386 -> 1404
+== map-node4 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node4 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+     boundary_inside_p95_m                      0.035373987791482805 -> 0.03618969547579813
+   * boundary_inside_runs_p95_m                 0.035373987791482805 -> 0.03618969547579813
+     boundary_median_m                          0.01050922176997501 -> 0.011190840598607425
+     boundary_p95_m                             0.06765609137219451 -> 0.06931073627871762
+   * conn_edge_join_curvature_jump_max_per_m    0.0002471942902286389 -> 0.0003124909597640585
+   * edge_contact_curvature_max_per_m           0.00023711848294468704 -> 0.0002079377788155754
+     fair_road_kappa_max_per_m                  0.07378631873180841 -> 0.0700738793184464
+     fair_road_kappa_p90_per_m                  0.01971694354428423 -> 0.01965740382183975
+     fair_straight_conn_kappa_median_per_m      0.005599331300150844 -> 0.005391928549585217
+     fair_turn_conn_sharpness_max_per_m2        0.033436675104051496 -> 0.03346410424258401
+     lane_center_median_m                       0.018491318056776347 -> 0.01855107073376709
+   * lane_center_noconflict_max_m               0.13867113233392805 -> 0.13967094102939012
+     lane_center_noconflict_median_m            0.018301018431972748 -> 0.018345618418547104
+   * lane_center_noconflict_p95_m               0.05616392768392865 -> 0.05640062360306971
+     lane_center_noflare_max_m                  0.13867113233392805 -> 0.13967094102939012
+     lane_center_noflare_median_m               0.018301018431972748 -> 0.018345618418547104
+     lane_center_noflare_p95_m                  0.05616392768392865 -> 0.05640062360306971
+   * lane_center_p95_m                          0.0584955823021794 -> 0.058592181779344533
+     lane_center_poly_median_m                  0.016614615633794114 -> 0.016657219806076387
+     lane_center_poly_p95_m                     0.05792030574922853 -> 0.057951791673645524
+     lane_edge_join_curvature_jump_max_per_m    0.0012384845517606582 -> 0.0004945946967320259
+     lane_edge_join_jumps_gt_1e-03              1 -> 0
+     lane_sections                              87 -> 88
+     width_records                              1365 -> 1368
+== map-NODE5 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-NODE5 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== map-node13 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node13 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== map-node16 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node16 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+     boundary_inside_max_m                      0.2946445969914615 -> 0.1154697597206541
+     boundary_inside_p95_m                      0.02495205504789359 -> 0.021965364240285702
+   * boundary_inside_runs_max_m                 0.2946445969914615 -> 0.1154697597206541
+   * boundary_inside_runs_p95_m                 0.02495205504789359 -> 0.021965364240285702
+     boundary_median_m                          0.0016731813270567577 -> 0.001628531498928053
+     boundary_p95_m                             0.04510491243292153 -> 0.02955580982778362
+   * connector_width_bulge_max_m                0.08089259346412048 -> 0.08131603700710155
+     fair_road_kappa_p90_per_m                  0.01202933400577709 -> 0.011866443431866856
+     fair_straight_conn_kappa_median_per_m      0.018317649674572577 -> 0.01824491815443649
+     lane_center_median_m                       0.010263295576726674 -> 0.010274831292192118
+     lane_center_noconflict_median_m            0.009891416999285422 -> 0.00989955623316094
+     lane_center_noflare_median_m               0.010134510645098968 -> 0.010156779209700054
+     lane_sections                              56 -> 57
+     width_records                              721 -> 729
+== map-node17 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node17 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+     boundary_inside_p95_m                      0.03743490519499557 -> 0.03481859433841127
+   * boundary_inside_runs_p95_m                 0.037852546868002296 -> 0.03522430145721308
+     boundary_median_m                          0.008270417686148083 -> 0.008165212446294734
+     boundary_p95_m                             0.05264309183912381 -> 0.04745634253750482
+     fair_road_kappa_p90_per_m                  0.009681116206643088 -> 0.009707536575796353
+     lane_join_jumps_gt_1e-07                   177 -> 174
+     lane_sections                              94 -> 95
+   * outer_curvature_flips_per_100m_max         2.0283542401940644 -> 0.5070885600485161
+     policy_speed_jerk_max_mps3                 236.0709107999853 -> 145.44550600304373
+     width_records                              2036 -> 2041
+== map-node18 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node18 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+     boundary_inside_p95_m                      0.0479450721444582 -> 0.04395881926195497
+   * boundary_inside_runs_p95_m                 0.0479450721444582 -> 0.04395881926195497
+     boundary_median_m                          0.009115827292798044 -> 0.008985892144076937
+     boundary_p95_m                             0.13748239251319175 -> 0.11288027836150383
+     fair_road_kappa_p90_per_m                  0.010201375189840715 -> 0.009791348268653433
+     lane_sections                              102 -> 103
+     width_records                              2061 -> 2070
+rows with any change: 5 / 14

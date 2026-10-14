@@ -1,0 +1,3400 @@
+{
+ "tally": {
+  "measured on its own section": 87,
+  "measured through the window": 19
+ },
+ "events": [
+  {
+   "file": "shp-2023041111160971268.raw.xodr",
+   "road": "10",
+   "kind": "death",
+   "side": "left",
+   "lane": 4,
+   "s": 52.11,
+   "section_m": 2.11,
+   "state": "measured on its own section",
+   "slope_main": 0.051,
+   "slope_window": 0.051,
+   "own_outer_inner": [
+    [
+     5,
+     2.01
+    ],
+    [
+     10,
+     2.01
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     5,
+     2.01
+    ],
+    [
+     10,
+     2.01
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023041111160971268.raw.xodr",
+   "road": "10",
+   "kind": "birth",
+   "side": "right",
+   "lane": -2,
+   "s": 87.47,
+   "section_m": 2.53,
+   "state": "measured on its own section",
+   "slope_main": 0.093,
+   "slope_window": 0.093,
+   "own_outer_inner": [
+    [
+     12,
+     2.5
+    ],
+    [
+     12,
+     2.49
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     2.5
+    ],
+    [
+     12,
+     2.49
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023041111160971268.raw.xodr",
+   "road": "11",
+   "kind": "birth",
+   "side": "right",
+   "lane": -3,
+   "s": 594.46,
+   "section_m": 5.54,
+   "state": "measured on its own section",
+   "slope_main": 0.104,
+   "slope_window": 0.104,
+   "own_outer_inner": [
+    [
+     22,
+     4.99
+    ],
+    [
+     24,
+     5.47
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     22,
+     4.99
+    ],
+    [
+     24,
+     5.47
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023041111160971268.raw.xodr",
+   "road": "11",
+   "kind": "birth",
+   "side": "right",
+   "lane": -4,
+   "s": 594.46,
+   "section_m": 5.54,
+   "state": "measured on its own section",
+   "slope_main": 0.071,
+   "slope_window": 0.071,
+   "own_outer_inner": [
+    [
+     12,
+     5.47
+    ],
+    [
+     22,
+     4.99
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.47
+    ],
+    [
+     22,
+     4.99
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023041111160971268.raw.xodr",
+   "road": "12",
+   "kind": "birth",
+   "side": "right",
+   "lane": -2,
+   "s": 16.18,
+   "section_m": 3.82,
+   "state": "measured on its own section",
+   "slope_main": 0.131,
+   "slope_window": 0.131,
+   "own_outer_inner": [
+    [
+     16,
+     3.5
+    ],
+    [
+     16,
+     3.48
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     16,
+     3.5
+    ],
+    [
+     16,
+     3.48
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023041111160971268.raw.xodr",
+   "road": "12",
+   "kind": "death",
+   "side": "left",
+   "lane": 4,
+   "s": 87.38,
+   "section_m": 7.38,
+   "state": "measured on its own section",
+   "slope_main": 0.103,
+   "slope_window": 0.103,
+   "own_outer_inner": [
+    [
+     12,
+     5.47
+    ],
+    [
+     24,
+     5.48
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.47
+    ],
+    [
+     24,
+     5.48
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023041111160971268.raw.xodr",
+   "road": "13",
+   "kind": "birth",
+   "side": "right",
+   "lane": -2,
+   "s": 50.92,
+   "section_m": 7.23,
+   "state": "measured on its own section",
+   "slope_main": 0.065,
+   "slope_window": 0.065,
+   "own_outer_inner": [
+    [
+     24,
+     5.49
+    ],
+    [
+     24,
+     5.5
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     24,
+     5.49
+    ],
+    [
+     24,
+     5.5
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023041111160971268.raw.xodr",
+   "road": "13",
+   "kind": "birth",
+   "side": "right",
+   "lane": -4,
+   "s": 50.92,
+   "section_m": 7.23,
+   "state": "measured on its own section",
+   "slope_main": 0.038,
+   "slope_window": 0.038,
+   "own_outer_inner": [
+    [
+     12,
+     5.5
+    ],
+    [
+     24,
+     5.51
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.5
+    ],
+    [
+     24,
+     5.51
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023041111160971268.raw.xodr",
+   "road": "13",
+   "kind": "birth",
+   "side": "left",
+   "lane": 5,
+   "s": 71.18,
+   "section_m": 8.82,
+   "state": "measured on its own section",
+   "slope_main": 0.31,
+   "slope_window": 0.31,
+   "own_outer_inner": [
+    [
+     12,
+     5.44
+    ],
+    [
+     24,
+     5.21
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.44
+    ],
+    [
+     24,
+     5.21
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023041111160971268.raw.xodr",
+   "road": "13",
+   "kind": "death",
+   "side": "left",
+   "lane": 4,
+   "s": 83.21,
+   "section_m": 3.21,
+   "state": "measured on its own section",
+   "slope_main": 0.36,
+   "slope_window": 0.36,
+   "own_outer_inner": [
+    [
+     14,
+     2.85
+    ],
+    [
+     12,
+     2.47
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     14,
+     2.85
+    ],
+    [
+     12,
+     2.47
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023041111160971268.raw.xodr",
+   "road": "13",
+   "kind": "death",
+   "side": "left",
+   "lane": 4,
+   "s": 136.87,
+   "section_m": 6.87,
+   "state": "measured on its own section",
+   "slope_main": 0.135,
+   "slope_window": 0.135,
+   "own_outer_inner": [
+    [
+     12,
+     5.46
+    ],
+    [
+     24,
+     5.52
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.46
+    ],
+    [
+     24,
+     5.52
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023041216222042093.raw.xodr",
+   "road": "10",
+   "kind": "birth",
+   "side": "right",
+   "lane": -4,
+   "s": 29.77,
+   "section_m": 10.72,
+   "state": "measured on its own section",
+   "slope_main": 0.256,
+   "slope_window": 0.256,
+   "own_outer_inner": [
+    [
+     13,
+     5.88
+    ],
+    [
+     24,
+     5.49
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     13,
+     5.88
+    ],
+    [
+     24,
+     5.49
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023041216222042093.raw.xodr",
+   "road": "12",
+   "kind": "birth",
+   "side": "right",
+   "lane": -2,
+   "s": 14.54,
+   "section_m": 5.46,
+   "state": "measured on its own section",
+   "slope_main": 0.043,
+   "slope_window": 0.043,
+   "own_outer_inner": [
+    [
+     22,
+     4.99
+    ],
+    [
+     22,
+     5.0
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     22,
+     4.99
+    ],
+    [
+     22,
+     5.0
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023041216222042093.raw.xodr",
+   "road": "12",
+   "kind": "death",
+   "side": "left",
+   "lane": 5,
+   "s": 60.0,
+   "section_m": 4.86,
+   "state": "measured on its own section",
+   "slope_main": 0.085,
+   "slope_window": 0.085,
+   "own_outer_inner": [
+    [
+     7,
+     2.94
+    ],
+    [
+     14,
+     2.94
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     7,
+     2.94
+    ],
+    [
+     14,
+     2.94
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023041810414040830.raw.xodr",
+   "road": "10",
+   "kind": "death",
+   "side": "left",
+   "lane": 4,
+   "s": 50.0,
+   "section_m": 6.19,
+   "state": "measured on its own section",
+   "slope_main": 0.07,
+   "slope_window": 0.07,
+   "own_outer_inner": [
+    [
+     9,
+     4.07
+    ],
+    [
+     18,
+     4.09
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     9,
+     4.07
+    ],
+    [
+     18,
+     4.09
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023041810414040830.raw.xodr",
+   "road": "10",
+   "kind": "death",
+   "side": "right",
+   "lane": -4,
+   "s": 66.75,
+   "section_m": 6.75,
+   "state": "measured on its own section",
+   "slope_main": 0.165,
+   "slope_window": 0.165,
+   "own_outer_inner": [
+    [
+     12,
+     5.27
+    ],
+    [
+     26,
+     5.61
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.27
+    ],
+    [
+     26,
+     5.61
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023041810414040830.raw.xodr",
+   "road": "10",
+   "kind": "death",
+   "side": "right",
+   "lane": -3,
+   "s": 87.52,
+   "section_m": 7.52,
+   "state": "measured on its own section",
+   "slope_main": 0.115,
+   "slope_window": 0.115,
+   "own_outer_inner": [
+    [
+     12,
+     5.43
+    ],
+    [
+     26,
+     5.73
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.43
+    ],
+    [
+     26,
+     5.73
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023061310244790027.raw.xodr",
+   "road": "10",
+   "kind": "birth",
+   "side": "left",
+   "lane": 4,
+   "s": 22.73,
+   "section_m": 7.27,
+   "state": "measured on its own section",
+   "slope_main": 0.092,
+   "slope_window": 0.092,
+   "own_outer_inner": [
+    [
+     12,
+     5.47
+    ],
+    [
+     24,
+     5.5
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.47
+    ],
+    [
+     24,
+     5.5
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023061310244790027.raw.xodr",
+   "road": "10",
+   "kind": "death",
+   "side": "left",
+   "lane": 4,
+   "s": 123.61,
+   "section_m": 3.61,
+   "state": "measured on its own section",
+   "slope_main": 0.117,
+   "slope_window": 0.117,
+   "own_outer_inner": [
+    [
+     7,
+     2.98
+    ],
+    [
+     14,
+     3.0
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     7,
+     2.98
+    ],
+    [
+     14,
+     3.0
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023061310244790027.raw.xodr",
+   "road": "11",
+   "kind": "birth",
+   "side": "right",
+   "lane": -4,
+   "s": 65.57,
+   "section_m": 4.43,
+   "state": "measured on its own section",
+   "slope_main": 0.34,
+   "slope_window": 0.34,
+   "own_outer_inner": [
+    [
+     9,
+     3.98
+    ],
+    [
+     18,
+     3.88
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     9,
+     3.98
+    ],
+    [
+     18,
+     3.88
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023061310244790027.raw.xodr",
+   "road": "11",
+   "kind": "birth",
+   "side": "right",
+   "lane": -5,
+   "s": 159.86,
+   "section_m": 10.14,
+   "state": "measured on its own section",
+   "slope_main": 0.166,
+   "slope_window": 0.166,
+   "own_outer_inner": [
+    [
+     12,
+     5.42
+    ],
+    [
+     24,
+     5.51
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.42
+    ],
+    [
+     24,
+     5.51
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023061310244790027.raw.xodr",
+   "road": "12",
+   "kind": "birth",
+   "side": "left",
+   "lane": 4,
+   "s": 88.35,
+   "section_m": 1.65,
+   "state": "measured through the window",
+   "slope_main": null,
+   "slope_window": 0.164,
+   "own_outer_inner": [
+    [
+     4,
+     1.07
+    ],
+    [
+     8,
+     1.28
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     13,
+     5.42
+    ],
+    [
+     26,
+     5.71
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023061310244790027.raw.xodr",
+   "road": "12",
+   "kind": "birth",
+   "side": "right",
+   "lane": -3,
+   "s": 126.17,
+   "section_m": 3.83,
+   "state": "measured on its own section",
+   "slope_main": 0.178,
+   "slope_window": 0.178,
+   "own_outer_inner": [
+    [
+     8,
+     3.48
+    ],
+    [
+     16,
+     3.48
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     8,
+     3.48
+    ],
+    [
+     16,
+     3.48
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023061310244790027.raw.xodr",
+   "road": "13",
+   "kind": "birth",
+   "side": "right",
+   "lane": -4,
+   "s": 207.51,
+   "section_m": 2.49,
+   "state": "measured on its own section",
+   "slope_main": 0.076,
+   "slope_window": 0.076,
+   "own_outer_inner": [
+    [
+     5,
+     2.02
+    ],
+    [
+     10,
+     2.02
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     5,
+     2.02
+    ],
+    [
+     10,
+     2.02
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023062110304177600.raw.xodr",
+   "road": "11",
+   "kind": "death",
+   "side": "left",
+   "lane": 4,
+   "s": 63.39,
+   "section_m": 3.39,
+   "state": "measured on its own section",
+   "slope_main": 0.268,
+   "slope_window": 0.268,
+   "own_outer_inner": [
+    [
+     6,
+     2.53
+    ],
+    [
+     12,
+     2.6
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     6,
+     2.53
+    ],
+    [
+     12,
+     2.6
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023062713394062899.raw.xodr",
+   "road": "10",
+   "kind": "birth",
+   "side": "right",
+   "lane": -3,
+   "s": 322.91,
+   "section_m": 7.09,
+   "state": "measured on its own section",
+   "slope_main": 0.124,
+   "slope_window": 0.124,
+   "own_outer_inner": [
+    [
+     12,
+     5.5
+    ],
+    [
+     24,
+     5.5
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.5
+    ],
+    [
+     24,
+     5.5
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023062713394062899.raw.xodr",
+   "road": "10",
+   "kind": "birth",
+   "side": "left",
+   "lane": 4,
+   "s": 330.0,
+   "section_m": 10.0,
+   "state": "measured on its own section",
+   "slope_main": 0.123,
+   "slope_window": 0.123,
+   "own_outer_inner": [
+    [
+     12,
+     5.43
+    ],
+    [
+     24,
+     5.47
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.43
+    ],
+    [
+     24,
+     5.47
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023062713394062899.raw.xodr",
+   "road": "10",
+   "kind": "birth",
+   "side": "right",
+   "lane": -4,
+   "s": 344.0,
+   "section_m": 16.0,
+   "state": "measured on its own section",
+   "slope_main": 0.214,
+   "slope_window": 0.214,
+   "own_outer_inner": [
+    [
+     13,
+     5.91
+    ],
+    [
+     24,
+     5.51
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     13,
+     5.91
+    ],
+    [
+     24,
+     5.51
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023062713394062899.raw.xodr",
+   "road": "11",
+   "kind": "birth",
+   "side": "right",
+   "lane": -3,
+   "s": 102.52,
+   "section_m": 7.48,
+   "state": "measured on its own section",
+   "slope_main": 0.094,
+   "slope_window": 0.094,
+   "own_outer_inner": [
+    [
+     12,
+     5.49
+    ],
+    [
+     24,
+     5.5
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.49
+    ],
+    [
+     24,
+     5.5
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023062713394062899.raw.xodr",
+   "road": "12",
+   "kind": "birth",
+   "side": "left",
+   "lane": 4,
+   "s": 33.7,
+   "section_m": 6.3,
+   "state": "measured on its own section",
+   "slope_main": 0.08,
+   "slope_window": 0.08,
+   "own_outer_inner": [
+    [
+     12,
+     5.46
+    ],
+    [
+     24,
+     5.48
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.46
+    ],
+    [
+     24,
+     5.48
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023062713394062899.raw.xodr",
+   "road": "12",
+   "kind": "birth",
+   "side": "right",
+   "lane": -3,
+   "s": 69.28,
+   "section_m": 9.51,
+   "state": "measured on its own section",
+   "slope_main": 0.328,
+   "slope_window": 0.328,
+   "own_outer_inner": [
+    [
+     24,
+     5.5
+    ],
+    [
+     24,
+     5.22
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     24,
+     5.5
+    ],
+    [
+     24,
+     5.22
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023062713394062899.raw.xodr",
+   "road": "12",
+   "kind": "birth",
+   "side": "right",
+   "lane": -4,
+   "s": 69.28,
+   "section_m": 9.51,
+   "state": "measured on its own section",
+   "slope_main": 0.152,
+   "slope_window": 0.152,
+   "own_outer_inner": [
+    [
+     12,
+     5.44
+    ],
+    [
+     24,
+     5.5
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.44
+    ],
+    [
+     24,
+     5.5
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023062713394062899.raw.xodr",
+   "road": "12",
+   "kind": "birth",
+   "side": "left",
+   "lane": 4,
+   "s": 128.76,
+   "section_m": 1.24,
+   "state": "measured through the window",
+   "slope_main": null,
+   "slope_window": 0.233,
+   "own_outer_inner": [
+    [
+     4,
+     0.49
+    ],
+    [
+     4,
+     0.5
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     24,
+     5.37
+    ],
+    [
+     24,
+     5.52
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023062713394062899.raw.xodr",
+   "road": "12",
+   "kind": "death",
+   "side": "left",
+   "lane": 5,
+   "s": 144.86,
+   "section_m": 4.86,
+   "state": "measured on its own section",
+   "slope_main": 0.233,
+   "slope_window": 0.233,
+   "own_outer_inner": [
+    [
+     10,
+     4.51
+    ],
+    [
+     20,
+     4.39
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     10,
+     4.51
+    ],
+    [
+     20,
+     4.39
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023062713394062899.raw.xodr",
+   "road": "13",
+   "kind": "birth",
+   "side": "right",
+   "lane": -2,
+   "s": 20.9,
+   "section_m": 9.1,
+   "state": "measured on its own section",
+   "slope_main": 0.196,
+   "slope_window": 0.196,
+   "own_outer_inner": [
+    [
+     24,
+     5.49
+    ],
+    [
+     26,
+     5.93
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     24,
+     5.49
+    ],
+    [
+     26,
+     5.93
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023062713394062899.raw.xodr",
+   "road": "13",
+   "kind": "birth",
+   "side": "right",
+   "lane": -4,
+   "s": 20.9,
+   "section_m": 9.1,
+   "state": "measured on its own section",
+   "slope_main": 0.203,
+   "slope_window": 0.203,
+   "own_outer_inner": [
+    [
+     14,
+     5.9
+    ],
+    [
+     24,
+     5.47
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     14,
+     5.9
+    ],
+    [
+     24,
+     5.47
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023063015350832057.raw.xodr",
+   "road": "10",
+   "kind": "birth",
+   "side": "right",
+   "lane": -4,
+   "s": 82.73,
+   "section_m": 7.27,
+   "state": "measured on its own section",
+   "slope_main": 0.103,
+   "slope_window": 0.103,
+   "own_outer_inner": [
+    [
+     12,
+     5.5
+    ],
+    [
+     24,
+     5.48
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.5
+    ],
+    [
+     24,
+     5.48
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023063015350832057.raw.xodr",
+   "road": "11",
+   "kind": "birth",
+   "side": "right",
+   "lane": -3,
+   "s": 108.62,
+   "section_m": 1.38,
+   "state": "measured through the window",
+   "slope_main": null,
+   "slope_window": 0.108,
+   "own_outer_inner": [
+    [
+     3,
+     1.0
+    ],
+    [
+     6,
+     1.0
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.5
+    ],
+    [
+     24,
+     5.5
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023063015350832057.raw.xodr",
+   "road": "11",
+   "kind": "birth",
+   "side": "right",
+   "lane": -3,
+   "s": 120.67,
+   "section_m": 9.33,
+   "state": "measured on its own section",
+   "slope_main": 0.136,
+   "slope_window": 0.136,
+   "own_outer_inner": [
+    [
+     24,
+     5.49
+    ],
+    [
+     24,
+     5.5
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     24,
+     5.49
+    ],
+    [
+     24,
+     5.5
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023063015350832057.raw.xodr",
+   "road": "12",
+   "kind": "birth",
+   "side": "left",
+   "lane": 4,
+   "s": 98.23,
+   "section_m": 1.77,
+   "state": "measured through the window",
+   "slope_main": null,
+   "slope_window": 0.223,
+   "own_outer_inner": [
+    [
+     4,
+     1.42
+    ],
+    [
+     8,
+     1.42
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     13,
+     5.67
+    ],
+    [
+     26,
+     5.74
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023063015350832057.raw.xodr",
+   "road": "12",
+   "kind": "birth",
+   "side": "right",
+   "lane": -3,
+   "s": 98.23,
+   "section_m": 1.77,
+   "state": "measured through the window",
+   "slope_main": null,
+   "slope_window": 0.069,
+   "own_outer_inner": [
+    [
+     8,
+     1.52
+    ],
+    [
+     8,
+     1.52
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     24,
+     5.56
+    ],
+    [
+     24,
+     5.54
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023063015350832057.raw.xodr",
+   "road": "12",
+   "kind": "birth",
+   "side": "right",
+   "lane": -4,
+   "s": 98.23,
+   "section_m": 1.77,
+   "state": "measured through the window",
+   "slope_main": null,
+   "slope_window": 0.172,
+   "own_outer_inner": [
+    [
+     4,
+     1.5
+    ],
+    [
+     8,
+     1.52
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.5
+    ],
+    [
+     24,
+     5.56
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023063015350832057.raw.xodr",
+   "road": "13",
+   "kind": "birth",
+   "side": "right",
+   "lane": -4,
+   "s": 13.15,
+   "section_m": 6.85,
+   "state": "measured on its own section",
+   "slope_main": 0.21,
+   "slope_window": 0.21,
+   "own_outer_inner": [
+    [
+     11,
+     4.93
+    ],
+    [
+     22,
+     4.93
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     11,
+     4.93
+    ],
+    [
+     22,
+     4.93
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023070710324132429.raw.xodr",
+   "road": "10",
+   "kind": "birth",
+   "side": "right",
+   "lane": -3,
+   "s": 66.9,
+   "section_m": 7.05,
+   "state": "measured on its own section",
+   "slope_main": 0.097,
+   "slope_window": 0.097,
+   "own_outer_inner": [
+    [
+     12,
+     5.47
+    ],
+    [
+     24,
+     5.5
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.47
+    ],
+    [
+     24,
+     5.5
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023070710324132429.raw.xodr",
+   "road": "10",
+   "kind": "death",
+   "side": "left",
+   "lane": 3,
+   "s": 85.69,
+   "section_m": 5.69,
+   "state": "measured through the window",
+   "slope_main": null,
+   "slope_window": 0.361,
+   "own_outer_inner": [
+    [
+     10,
+     1.99
+    ],
+    [
+     10,
+     1.93
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     2.49
+    ],
+    [
+     12,
+     2.41
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023070710324132429.raw.xodr",
+   "road": "11",
+   "kind": "death",
+   "side": "left",
+   "lane": 6,
+   "s": 83.38,
+   "section_m": 3.38,
+   "state": "measured on its own section",
+   "slope_main": 0.136,
+   "slope_window": 0.136,
+   "own_outer_inner": [
+    [
+     7,
+     2.96
+    ],
+    [
+     14,
+     2.97
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     7,
+     2.96
+    ],
+    [
+     14,
+     2.97
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023070710324132429.raw.xodr",
+   "road": "11",
+   "kind": "death",
+   "side": "left",
+   "lane": 2,
+   "s": 83.38,
+   "section_m": 3.38,
+   "state": "measured on its own section",
+   "slope_main": 0.063,
+   "slope_window": 0.063,
+   "own_outer_inner": [
+    [
+     14,
+     2.99
+    ],
+    [
+     7,
+     2.99
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     14,
+     2.99
+    ],
+    [
+     7,
+     2.99
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023070710412621654.raw.xodr",
+   "road": "10",
+   "kind": "birth",
+   "side": "left",
+   "lane": 4,
+   "s": 78.85,
+   "section_m": 1.15,
+   "state": "measured through the window",
+   "slope_main": null,
+   "slope_window": 0.136,
+   "own_outer_inner": [
+    [
+     3,
+     0.95
+    ],
+    [
+     4,
+     0.48
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     13,
+     5.72
+    ],
+    [
+     24,
+     5.36
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023070710412621654.raw.xodr",
+   "road": "10",
+   "kind": "birth",
+   "side": "right",
+   "lane": -3,
+   "s": 78.85,
+   "section_m": 1.15,
+   "state": "measured through the window",
+   "slope_main": null,
+   "slope_window": 0.165,
+   "own_outer_inner": [
+    [
+     2,
+     0.0
+    ],
+    [
+     2,
+     0.0
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     22,
+     5.03
+    ],
+    [
+     22,
+     4.99
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023070710412621654.raw.xodr",
+   "road": "10",
+   "kind": "birth",
+   "side": "right",
+   "lane": -4,
+   "s": 78.85,
+   "section_m": 1.15,
+   "state": "measured through the window",
+   "slope_main": null,
+   "slope_window": 0.096,
+   "own_outer_inner": [
+    [
+     1,
+     0.0
+    ],
+    [
+     2,
+     0.0
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     11,
+     4.99
+    ],
+    [
+     22,
+     5.03
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023070710412621654.raw.xodr",
+   "road": "11",
+   "kind": "birth",
+   "side": "right",
+   "lane": -1,
+   "s": 53.46,
+   "section_m": 6.54,
+   "state": "measured on its own section",
+   "slope_main": 0.063,
+   "slope_window": 0.063,
+   "own_outer_inner": [
+    [
+     24,
+     5.5
+    ],
+    [
+     12,
+     5.49
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     24,
+     5.5
+    ],
+    [
+     12,
+     5.49
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023070710412621654.raw.xodr",
+   "road": "11",
+   "kind": "birth",
+   "side": "right",
+   "lane": -5,
+   "s": 53.46,
+   "section_m": 6.54,
+   "state": "measured on its own section",
+   "slope_main": 0.134,
+   "slope_window": 0.134,
+   "own_outer_inner": [
+    [
+     12,
+     5.49
+    ],
+    [
+     24,
+     5.48
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.49
+    ],
+    [
+     24,
+     5.48
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023070710412621654.raw.xodr",
+   "road": "12",
+   "kind": "birth",
+   "side": "right",
+   "lane": -3,
+   "s": 89.31,
+   "section_m": 10.69,
+   "state": "measured on its own section",
+   "slope_main": 0.121,
+   "slope_window": 0.121,
+   "own_outer_inner": [
+    [
+     24,
+     5.51
+    ],
+    [
+     24,
+     5.49
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     24,
+     5.51
+    ],
+    [
+     24,
+     5.49
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023070710412621654.raw.xodr",
+   "road": "12",
+   "kind": "birth",
+   "side": "right",
+   "lane": -4,
+   "s": 89.31,
+   "section_m": 10.69,
+   "state": "measured on its own section",
+   "slope_main": 0.068,
+   "slope_window": 0.068,
+   "own_outer_inner": [
+    [
+     12,
+     5.48
+    ],
+    [
+     24,
+     5.51
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.48
+    ],
+    [
+     24,
+     5.51
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023070710412621654.raw.xodr",
+   "road": "13",
+   "kind": "birth",
+   "side": "right",
+   "lane": -3,
+   "s": 36.71,
+   "section_m": 3.29,
+   "state": "measured on its own section",
+   "slope_main": 0.298,
+   "slope_window": 0.298,
+   "own_outer_inner": [
+    [
+     7,
+     2.99
+    ],
+    [
+     14,
+     2.97
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     7,
+     2.99
+    ],
+    [
+     14,
+     2.97
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023070710412621654.raw.xodr",
+   "road": "13",
+   "kind": "birth",
+   "side": "right",
+   "lane": -4,
+   "s": 46.94,
+   "section_m": 3.06,
+   "state": "measured on its own section",
+   "slope_main": 0.191,
+   "slope_window": 0.191,
+   "own_outer_inner": [
+    [
+     6,
+     2.47
+    ],
+    [
+     12,
+     2.49
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     6,
+     2.47
+    ],
+    [
+     12,
+     2.49
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023070710412621654.raw.xodr",
+   "road": "13",
+   "kind": "birth",
+   "side": "right",
+   "lane": -1,
+   "s": 65.07,
+   "section_m": 2.32,
+   "state": "measured through the window",
+   "slope_main": null,
+   "slope_window": 0.325,
+   "own_outer_inner": [
+    [
+     12,
+     1.84
+    ],
+    [
+     5,
+     1.71
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     26,
+     5.36
+    ],
+    [
+     12,
+     5.2
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023071109582525264.raw.xodr",
+   "road": "11",
+   "kind": "death",
+   "side": "right",
+   "lane": -2,
+   "s": 5.14,
+   "section_m": 5.14,
+   "state": "measured on its own section",
+   "slope_main": 0.491,
+   "slope_window": 0.491,
+   "own_outer_inner": [
+    [
+     24,
+     4.71
+    ],
+    [
+     22,
+     4.72
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     24,
+     4.71
+    ],
+    [
+     22,
+     4.72
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023071109582525264.raw.xodr",
+   "road": "11",
+   "kind": "birth",
+   "side": "right",
+   "lane": -2,
+   "s": 60.69,
+   "section_m": 3.84,
+   "state": "measured on its own section",
+   "slope_main": 0.762,
+   "slope_window": 0.762,
+   "own_outer_inner": [
+    [
+     22,
+     3.7
+    ],
+    [
+     16,
+     3.49
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     22,
+     3.7
+    ],
+    [
+     16,
+     3.49
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023071109582525264.raw.xodr",
+   "road": "11",
+   "kind": "death",
+   "side": "right",
+   "lane": -3,
+   "s": 64.53,
+   "section_m": 3.84,
+   "state": "measured on its own section",
+   "slope_main": 0.77,
+   "slope_window": 0.77,
+   "own_outer_inner": [
+    [
+     8,
+     3.32
+    ],
+    [
+     22,
+     3.7
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     8,
+     3.32
+    ],
+    [
+     22,
+     3.7
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023080118313036830.raw.xodr",
+   "road": "10",
+   "kind": "birth",
+   "side": "right",
+   "lane": -3,
+   "s": 35.91,
+   "section_m": 4.09,
+   "state": "measured on its own section",
+   "slope_main": 0.318,
+   "slope_window": 0.318,
+   "own_outer_inner": [
+    [
+     18,
+     3.95
+    ],
+    [
+     18,
+     3.95
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     18,
+     3.95
+    ],
+    [
+     18,
+     3.95
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023080118313036830.raw.xodr",
+   "road": "10",
+   "kind": "death",
+   "side": "right",
+   "lane": -5,
+   "s": 90.7,
+   "section_m": 6.69,
+   "state": "measured on its own section",
+   "slope_main": 0.237,
+   "slope_window": 0.237,
+   "own_outer_inner": [
+    [
+     13,
+     5.54
+    ],
+    [
+     26,
+     5.7
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     13,
+     5.54
+    ],
+    [
+     26,
+     5.7
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023080118313036830.raw.xodr",
+   "road": "11",
+   "kind": "birth",
+   "side": "left",
+   "lane": 3,
+   "s": 55.46,
+   "section_m": 4.54,
+   "state": "measured on its own section",
+   "slope_main": 0.3,
+   "slope_window": 0.3,
+   "own_outer_inner": [
+    [
+     18,
+     3.86
+    ],
+    [
+     18,
+     4.04
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     18,
+     3.86
+    ],
+    [
+     18,
+     4.04
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023080118313036830.raw.xodr",
+   "road": "11",
+   "kind": "death",
+   "side": "left",
+   "lane": 5,
+   "s": 70.0,
+   "section_m": 10.0,
+   "state": "measured on its own section",
+   "slope_main": 0.283,
+   "slope_window": 0.283,
+   "own_outer_inner": [
+    [
+     7,
+     3.16
+    ],
+    [
+     16,
+     3.53
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     7,
+     3.16
+    ],
+    [
+     16,
+     3.53
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023080118313036830.raw.xodr",
+   "road": "11",
+   "kind": "death",
+   "side": "right",
+   "lane": -4,
+   "s": 90.89,
+   "section_m": 10.89,
+   "state": "measured on its own section",
+   "slope_main": 0.155,
+   "slope_window": 0.155,
+   "own_outer_inner": [
+    [
+     12,
+     5.35
+    ],
+    [
+     24,
+     5.5
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.35
+    ],
+    [
+     24,
+     5.5
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023080118313036830.raw.xodr",
+   "road": "12",
+   "kind": "birth",
+   "side": "right",
+   "lane": -5,
+   "s": 87.18,
+   "section_m": 2.82,
+   "state": "measured on its own section",
+   "slope_main": 0.132,
+   "slope_window": 0.132,
+   "own_outer_inner": [
+    [
+     6,
+     2.5
+    ],
+    [
+     12,
+     2.48
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     6,
+     2.5
+    ],
+    [
+     12,
+     2.48
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023080118313036830.raw.xodr",
+   "road": "12",
+   "kind": "death",
+   "side": "right",
+   "lane": -5,
+   "s": 141.43,
+   "section_m": 1.43,
+   "state": "measured through the window",
+   "slope_main": null,
+   "slope_window": 0.005,
+   "own_outer_inner": [
+    [
+     3,
+     1.0
+    ],
+    [
+     6,
+     1.0
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.5
+    ],
+    [
+     24,
+     5.5
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023080810023203229.raw.xodr",
+   "road": "10",
+   "kind": "birth",
+   "side": "right",
+   "lane": -3,
+   "s": 80.91,
+   "section_m": 9.09,
+   "state": "measured on its own section",
+   "slope_main": 0.047,
+   "slope_window": 0.047,
+   "own_outer_inner": [
+    [
+     12,
+     5.51
+    ],
+    [
+     24,
+     5.51
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.51
+    ],
+    [
+     24,
+     5.51
+    ]
+   ]
+  },
+  {
+   "file": "shp-2023080810023203229.raw.xodr",
+   "road": "12",
+   "kind": "birth",
+   "side": "right",
+   "lane": -2,
+   "s": 90.46,
+   "section_m": 9.54,
+   "state": "measured on its own section",
+   "slope_main": 0.116,
+   "slope_window": 0.116,
+   "own_outer_inner": [
+    [
+     26,
+     5.97
+    ],
+    [
+     24,
+     5.5
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     26,
+     5.97
+    ],
+    [
+     24,
+     5.5
+    ]
+   ]
+  },
+  {
+   "file": "shp-NODE5.raw.xodr",
+   "road": "10",
+   "kind": "death",
+   "side": "left",
+   "lane": 3,
+   "s": 5.87,
+   "section_m": 5.87,
+   "state": "measured on its own section",
+   "slope_main": 0.147,
+   "slope_window": 0.147,
+   "own_outer_inner": [
+    [
+     11,
+     4.99
+    ],
+    [
+     22,
+     4.97
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     11,
+     4.99
+    ],
+    [
+     22,
+     4.97
+    ]
+   ]
+  },
+  {
+   "file": "shp-NODE5.raw.xodr",
+   "road": "10",
+   "kind": "birth",
+   "side": "right",
+   "lane": -2,
+   "s": 100.4,
+   "section_m": 9.6,
+   "state": "measured on its own section",
+   "slope_main": 0.162,
+   "slope_window": 0.162,
+   "own_outer_inner": [
+    [
+     12,
+     5.5
+    ],
+    [
+     24,
+     5.46
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.5
+    ],
+    [
+     24,
+     5.46
+    ]
+   ]
+  },
+  {
+   "file": "shp-NODE5.raw.xodr",
+   "road": "13",
+   "kind": "birth",
+   "side": "right",
+   "lane": -2,
+   "s": 55.73,
+   "section_m": 4.27,
+   "state": "measured on its own section",
+   "slope_main": 0.249,
+   "slope_window": 0.249,
+   "own_outer_inner": [
+    [
+     8,
+     3.49
+    ],
+    [
+     16,
+     3.44
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     8,
+     3.49
+    ],
+    [
+     16,
+     3.44
+    ]
+   ]
+  },
+  {
+   "file": "shp-node13.raw.xodr",
+   "road": "12",
+   "kind": "birth",
+   "side": "right",
+   "lane": -4,
+   "s": 14.29,
+   "section_m": 5.71,
+   "state": "measured on its own section",
+   "slope_main": 0.088,
+   "slope_window": 0.088,
+   "own_outer_inner": [
+    [
+     12,
+     5.54
+    ],
+    [
+     24,
+     5.55
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.54
+    ],
+    [
+     24,
+     5.55
+    ]
+   ]
+  },
+  {
+   "file": "shp-node16.raw.xodr",
+   "road": "10",
+   "kind": "death",
+   "side": "left",
+   "lane": 4,
+   "s": 80.32,
+   "section_m": 10.32,
+   "state": "measured on its own section",
+   "slope_main": 0.231,
+   "slope_window": 0.231,
+   "own_outer_inner": [
+    [
+     12,
+     5.36
+    ],
+    [
+     24,
+     5.5
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.36
+    ],
+    [
+     24,
+     5.5
+    ]
+   ]
+  },
+  {
+   "file": "shp-node16.raw.xodr",
+   "road": "10",
+   "kind": "death",
+   "side": "right",
+   "lane": -3,
+   "s": 80.32,
+   "section_m": 10.32,
+   "state": "measured on its own section",
+   "slope_main": 0.125,
+   "slope_window": 0.125,
+   "own_outer_inner": [
+    [
+     13,
+     5.57
+    ],
+    [
+     26,
+     5.96
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     13,
+     5.57
+    ],
+    [
+     26,
+     5.96
+    ]
+   ]
+  },
+  {
+   "file": "shp-node16.raw.xodr",
+   "road": "11",
+   "kind": "birth",
+   "side": "right",
+   "lane": -2,
+   "s": 158.27,
+   "section_m": 1.73,
+   "state": "measured through the window",
+   "slope_main": null,
+   "slope_window": 0.125,
+   "own_outer_inner": [
+    [
+     4,
+     1.5
+    ],
+    [
+     8,
+     1.5
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     13,
+     5.99
+    ],
+    [
+     26,
+     5.99
+    ]
+   ]
+  },
+  {
+   "file": "shp-node16.raw.xodr",
+   "road": "12",
+   "kind": "birth",
+   "side": "left",
+   "lane": 2,
+   "s": 40.5,
+   "section_m": 9.5,
+   "state": "measured on its own section",
+   "slope_main": 0.062,
+   "slope_window": 0.062,
+   "own_outer_inner": [
+    [
+     24,
+     5.5
+    ],
+    [
+     12,
+     5.49
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     24,
+     5.5
+    ],
+    [
+     12,
+     5.49
+    ]
+   ]
+  },
+  {
+   "file": "shp-node17.raw.xodr",
+   "road": "10",
+   "kind": "death",
+   "side": "left",
+   "lane": 4,
+   "s": 48.55,
+   "section_m": 8.55,
+   "state": "measured on its own section",
+   "slope_main": 0.123,
+   "slope_window": 0.123,
+   "own_outer_inner": [
+    [
+     12,
+     5.75
+    ],
+    [
+     22,
+     5.26
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.75
+    ],
+    [
+     22,
+     5.26
+    ]
+   ]
+  },
+  {
+   "file": "shp-node17.raw.xodr",
+   "road": "10",
+   "kind": "death",
+   "side": "right",
+   "lane": -4,
+   "s": 81.01,
+   "section_m": 1.01,
+   "state": "measured through the window",
+   "slope_main": null,
+   "slope_window": 0.087,
+   "own_outer_inner": [
+    [
+     3,
+     0.63
+    ],
+    [
+     6,
+     0.54
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     13,
+     5.56
+    ],
+    [
+     26,
+     5.47
+    ]
+   ]
+  },
+  {
+   "file": "shp-node17.raw.xodr",
+   "road": "10",
+   "kind": "birth",
+   "side": "left",
+   "lane": 4,
+   "s": 109.47,
+   "section_m": 10.53,
+   "state": "measured on its own section",
+   "slope_main": 0.114,
+   "slope_window": 0.114,
+   "own_outer_inner": [
+    [
+     12,
+     5.45
+    ],
+    [
+     24,
+     5.33
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.45
+    ],
+    [
+     24,
+     5.33
+    ]
+   ]
+  },
+  {
+   "file": "shp-node17.raw.xodr",
+   "road": "12",
+   "kind": "birth",
+   "side": "left",
+   "lane": 4,
+   "s": 56.92,
+   "section_m": 3.08,
+   "state": "measured on its own section",
+   "slope_main": 0.154,
+   "slope_window": 0.154,
+   "own_outer_inner": [
+    [
+     6,
+     2.44
+    ],
+    [
+     12,
+     2.45
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     6,
+     2.44
+    ],
+    [
+     12,
+     2.45
+    ]
+   ]
+  },
+  {
+   "file": "shp-node17.raw.xodr",
+   "road": "12",
+   "kind": "birth",
+   "side": "right",
+   "lane": -3,
+   "s": 56.92,
+   "section_m": 3.08,
+   "state": "measured on its own section",
+   "slope_main": 0.253,
+   "slope_window": 0.253,
+   "own_outer_inner": [
+    [
+     6,
+     2.47
+    ],
+    [
+     12,
+     2.5
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     6,
+     2.47
+    ],
+    [
+     12,
+     2.5
+    ]
+   ]
+  },
+  {
+   "file": "shp-node17.raw.xodr",
+   "road": "13",
+   "kind": "birth",
+   "side": "left",
+   "lane": 4,
+   "s": 83.66,
+   "section_m": 16.34,
+   "state": "measured on its own section",
+   "slope_main": 0.065,
+   "slope_window": 0.065,
+   "own_outer_inner": [
+    [
+     12,
+     5.44
+    ],
+    [
+     24,
+     5.45
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.44
+    ],
+    [
+     24,
+     5.45
+    ]
+   ]
+  },
+  {
+   "file": "shp-node17.raw.xodr",
+   "road": "13",
+   "kind": "birth",
+   "side": "right",
+   "lane": -3,
+   "s": 103.28,
+   "section_m": 6.72,
+   "state": "measured on its own section",
+   "slope_main": 0.133,
+   "slope_window": 0.133,
+   "own_outer_inner": [
+    [
+     12,
+     5.48
+    ],
+    [
+     24,
+     5.51
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.48
+    ],
+    [
+     24,
+     5.51
+    ]
+   ]
+  },
+  {
+   "file": "shp-node18.raw.xodr",
+   "road": "10",
+   "kind": "birth",
+   "side": "right",
+   "lane": -3,
+   "s": 45.18,
+   "section_m": 14.82,
+   "state": "measured on its own section",
+   "slope_main": 0.275,
+   "slope_window": 0.275,
+   "own_outer_inner": [
+    [
+     12,
+     5.48
+    ],
+    [
+     24,
+     5.48
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.48
+    ],
+    [
+     24,
+     5.48
+    ]
+   ]
+  },
+  {
+   "file": "shp-node18.raw.xodr",
+   "road": "11",
+   "kind": "birth",
+   "side": "left",
+   "lane": 3,
+   "s": 130.0,
+   "section_m": 9.89,
+   "state": "measured on its own section",
+   "slope_main": 0.182,
+   "slope_window": 0.182,
+   "own_outer_inner": [
+    [
+     12,
+     5.5
+    ],
+    [
+     24,
+     5.4
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.5
+    ],
+    [
+     24,
+     5.4
+    ]
+   ]
+  },
+  {
+   "file": "shp-node18.raw.xodr",
+   "road": "11",
+   "kind": "birth",
+   "side": "left",
+   "lane": 4,
+   "s": 139.89,
+   "section_m": 20.11,
+   "state": "measured on its own section",
+   "slope_main": 0.045,
+   "slope_window": 0.045,
+   "own_outer_inner": [
+    [
+     12,
+     5.5
+    ],
+    [
+     24,
+     5.5
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.5
+    ],
+    [
+     24,
+     5.5
+    ]
+   ]
+  },
+  {
+   "file": "shp-node18.raw.xodr",
+   "road": "11",
+   "kind": "birth",
+   "side": "right",
+   "lane": -2,
+   "s": 176.59,
+   "section_m": 13.41,
+   "state": "measured on its own section",
+   "slope_main": 0.078,
+   "slope_window": 0.078,
+   "own_outer_inner": [
+    [
+     24,
+     5.49
+    ],
+    [
+     24,
+     5.49
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     24,
+     5.49
+    ],
+    [
+     24,
+     5.49
+    ]
+   ]
+  },
+  {
+   "file": "shp-node18.raw.xodr",
+   "road": "12",
+   "kind": "death",
+   "side": "right",
+   "lane": -3,
+   "s": 23.47,
+   "section_m": 3.47,
+   "state": "measured on its own section",
+   "slope_main": 0.115,
+   "slope_window": 0.115,
+   "own_outer_inner": [
+    [
+     7,
+     2.94
+    ],
+    [
+     16,
+     3.31
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     7,
+     2.94
+    ],
+    [
+     16,
+     3.31
+    ]
+   ]
+  },
+  {
+   "file": "shp-node18.raw.xodr",
+   "road": "12",
+   "kind": "birth",
+   "side": "left",
+   "lane": 5,
+   "s": 51.56,
+   "section_m": 8.44,
+   "state": "measured on its own section",
+   "slope_main": 0.09,
+   "slope_window": 0.09,
+   "own_outer_inner": [
+    [
+     13,
+     5.33
+    ],
+    [
+     28,
+     5.73
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     13,
+     5.33
+    ],
+    [
+     28,
+     5.73
+    ]
+   ]
+  },
+  {
+   "file": "shp-node18.raw.xodr",
+   "road": "12",
+   "kind": "birth",
+   "side": "right",
+   "lane": -3,
+   "s": 82.84,
+   "section_m": 7.16,
+   "state": "measured on its own section",
+   "slope_main": 0.128,
+   "slope_window": 0.128,
+   "own_outer_inner": [
+    [
+     12,
+     5.56
+    ],
+    [
+     24,
+     5.57
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.56
+    ],
+    [
+     24,
+     5.57
+    ]
+   ]
+  },
+  {
+   "file": "shp-node18.raw.xodr",
+   "road": "12",
+   "kind": "death",
+   "side": "left",
+   "lane": 5,
+   "s": 139.13,
+   "section_m": 9.13,
+   "state": "measured on its own section",
+   "slope_main": 0.19,
+   "slope_window": 0.19,
+   "own_outer_inner": [
+    [
+     12,
+     5.35
+    ],
+    [
+     24,
+     5.39
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.35
+    ],
+    [
+     24,
+     5.39
+    ]
+   ]
+  },
+  {
+   "file": "shp-node18.raw.xodr",
+   "road": "13",
+   "kind": "birth",
+   "side": "left",
+   "lane": 4,
+   "s": 38.11,
+   "section_m": 1.89,
+   "state": "measured through the window",
+   "slope_main": null,
+   "slope_window": 0.099,
+   "own_outer_inner": [
+    [
+     4,
+     1.43
+    ],
+    [
+     10,
+     1.62
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     13,
+     5.92
+    ],
+    [
+     26,
+     5.62
+    ]
+   ]
+  },
+  {
+   "file": "shp-node3.raw.xodr",
+   "road": "10",
+   "kind": "death",
+   "side": "left",
+   "lane": 5,
+   "s": 113.6,
+   "section_m": 3.6,
+   "state": "measured on its own section",
+   "slope_main": 0.089,
+   "slope_window": 0.089,
+   "own_outer_inner": [
+    [
+     7,
+     2.99
+    ],
+    [
+     14,
+     3.0
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     7,
+     2.99
+    ],
+    [
+     14,
+     3.0
+    ]
+   ]
+  },
+  {
+   "file": "shp-node3.raw.xodr",
+   "road": "11",
+   "kind": "birth",
+   "side": "right",
+   "lane": -3,
+   "s": 102.96,
+   "section_m": 17.04,
+   "state": "measured on its own section",
+   "slope_main": 0.085,
+   "slope_window": 0.085,
+   "own_outer_inner": [
+    [
+     12,
+     5.53
+    ],
+    [
+     24,
+     5.53
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.53
+    ],
+    [
+     24,
+     5.53
+    ]
+   ]
+  },
+  {
+   "file": "shp-node3.raw.xodr",
+   "road": "12",
+   "kind": "birth",
+   "side": "right",
+   "lane": -3,
+   "s": 145.4,
+   "section_m": 4.6,
+   "state": "measured on its own section",
+   "slope_main": 0.089,
+   "slope_window": 0.089,
+   "own_outer_inner": [
+    [
+     10,
+     4.49
+    ],
+    [
+     20,
+     4.5
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     10,
+     4.49
+    ],
+    [
+     20,
+     4.5
+    ]
+   ]
+  },
+  {
+   "file": "shp-node3.raw.xodr",
+   "road": "13",
+   "kind": "birth",
+   "side": "right",
+   "lane": -3,
+   "s": 69.0,
+   "section_m": 1.0,
+   "state": "measured through the window",
+   "slope_main": null,
+   "slope_window": 0.063,
+   "own_outer_inner": [
+    [
+     2,
+     0.5
+    ],
+    [
+     4,
+     0.5
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.5
+    ],
+    [
+     24,
+     5.51
+    ]
+   ]
+  },
+  {
+   "file": "shp-node3.raw.xodr",
+   "road": "13",
+   "kind": "death",
+   "side": "left",
+   "lane": 5,
+   "s": 131.45,
+   "section_m": 1.45,
+   "state": "measured through the window",
+   "slope_main": null,
+   "slope_window": 0.136,
+   "own_outer_inner": [
+    [
+     2,
+     0.51
+    ],
+    [
+     4,
+     0.51
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     11,
+     5.12
+    ],
+    [
+     22,
+     5.14
+    ]
+   ]
+  },
+  {
+   "file": "shp-node4.raw.xodr",
+   "road": "10",
+   "kind": "birth",
+   "side": "right",
+   "lane": -2,
+   "s": 41.39,
+   "section_m": 8.61,
+   "state": "measured on its own section",
+   "slope_main": 0.216,
+   "slope_window": 0.216,
+   "own_outer_inner": [
+    [
+     24,
+     5.49
+    ],
+    [
+     24,
+     5.42
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     24,
+     5.49
+    ],
+    [
+     24,
+     5.42
+    ]
+   ]
+  },
+  {
+   "file": "shp-node4.raw.xodr",
+   "road": "10",
+   "kind": "death",
+   "side": "left",
+   "lane": 4,
+   "s": 60.0,
+   "section_m": 2.67,
+   "state": "measured through the window",
+   "slope_main": null,
+   "slope_window": 0.153,
+   "own_outer_inner": [
+    [
+     5,
+     1.96
+    ],
+    [
+     10,
+     1.94
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.38
+    ],
+    [
+     24,
+     5.35
+    ]
+   ]
+  },
+  {
+   "file": "shp-node4.raw.xodr",
+   "road": "11",
+   "kind": "birth",
+   "side": "right",
+   "lane": -3,
+   "s": 131.06,
+   "section_m": 8.94,
+   "state": "measured on its own section",
+   "slope_main": 0.09,
+   "slope_window": 0.09,
+   "own_outer_inner": [
+    [
+     12,
+     5.51
+    ],
+    [
+     24,
+     5.52
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.51
+    ],
+    [
+     24,
+     5.52
+    ]
+   ]
+  },
+  {
+   "file": "shp-node4.raw.xodr",
+   "road": "11",
+   "kind": "birth",
+   "side": "right",
+   "lane": -4,
+   "s": 151.62,
+   "section_m": 9.35,
+   "state": "measured on its own section",
+   "slope_main": 0.379,
+   "slope_window": 0.379,
+   "own_outer_inner": [
+    [
+     12,
+     5.41
+    ],
+    [
+     24,
+     5.35
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     12,
+     5.41
+    ],
+    [
+     24,
+     5.35
+    ]
+   ]
+  },
+  {
+   "file": "shp-node4.raw.xodr",
+   "road": "12",
+   "kind": "death",
+   "side": "left",
+   "lane": 4,
+   "s": 34.05,
+   "section_m": 4.05,
+   "state": "measured on its own section",
+   "slope_main": 0.083,
+   "slope_window": 0.083,
+   "own_outer_inner": [
+    [
+     8,
+     3.49
+    ],
+    [
+     16,
+     3.5
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     8,
+     3.49
+    ],
+    [
+     16,
+     3.5
+    ]
+   ]
+  },
+  {
+   "file": "shp-node4.raw.xodr",
+   "road": "13",
+   "kind": "birth",
+   "side": "left",
+   "lane": 4,
+   "s": 45.81,
+   "section_m": 4.19,
+   "state": "measured on its own section",
+   "slope_main": 0.052,
+   "slope_window": 0.052,
+   "own_outer_inner": [
+    [
+     8,
+     3.59
+    ],
+    [
+     16,
+     3.6
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     8,
+     3.59
+    ],
+    [
+     16,
+     3.6
+    ]
+   ]
+  },
+  {
+   "file": "shp-node4.raw.xodr",
+   "road": "13",
+   "kind": "birth",
+   "side": "right",
+   "lane": -2,
+   "s": 63.3,
+   "section_m": 6.7,
+   "state": "measured on its own section",
+   "slope_main": 0.157,
+   "slope_window": 0.157,
+   "own_outer_inner": [
+    [
+     24,
+     5.48
+    ],
+    [
+     24,
+     5.48
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     24,
+     5.48
+    ],
+    [
+     24,
+     5.48
+    ]
+   ]
+  },
+  {
+   "file": "shp-node4.raw.xodr",
+   "road": "13",
+   "kind": "death",
+   "side": "left",
+   "lane": 4,
+   "s": 152.24,
+   "section_m": 2.24,
+   "state": "measured through the window",
+   "slope_main": null,
+   "slope_window": 0.141,
+   "own_outer_inner": [
+    [
+     5,
+     1.98
+    ],
+    [
+     10,
+     2.0
+    ]
+   ],
+   "window_outer_inner": [
+    [
+     13,
+     5.94
+    ],
+    [
+     26,
+     6.0
+    ]
+   ]
+  }
+ ]
+}

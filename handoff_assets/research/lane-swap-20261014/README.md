@@ -36,7 +36,7 @@
 | `related-tests.txt` | 相关测试前后逐项对比（`junit_compare.py`，见 [`../zero-start-retry-20261012/`](../zero-start-retry-20261012/)）。"之前"是上一轮同机同命令的结果 |
 | `stage-diff.json`、`run_st2.sh` | 筛查：<br>- 输入是上一轮筛查的 19 个 `lane_refit` 输入（`*.raw.xodr`），由 [`../prune-guard-20261013/`](../prune-guard-20261013/) 的 `stage_raw.py` 生成；<br>- 用本次代码只跑 `lane_refit` 一步（`c_stage_hold.py`，见 [`../hold-width-retry-20261013/`](../hold-width-retry-20261013/)）；<br>- 与上一轮同一步的结果（现行 `main` 的代码）逐路比较（`stage_diff.py`），并列出护栏记录；<br>- 只有 0411 road 13、0711 road 11 不同 |
 | `swaps-found.json`、`swaps_found.py` | 本次 `lane_refit` 记录的换位（`lane_swaps`）和失败的换位（`lane_swaps_failed`）：只有上面两处，没有失败 |
-| `divider-slopes.txt`、`divider_slopes.py` | 两处分界线的总宽、斜率、曲率目标要的拐角半长与实际取的，以及拐角在事件点离原件折角的距离（μ·h/6） |
+| `divider-slopes.txt`、`divider_slopes.py` | 两处分界线的总宽、斜率、曲率目标要的拐角半长与实际取的，以及拐角在事件点离原件折角的距离（μ·h/6）。<br>10-14 修正 `divider_slopes.py` 的输出路径：一次传几个输入时，从第二个起 `sys.argv[0]` 已换成 stage 脚本，输出写到了 stage 脚本旁边。原说明"只有第一个输出与单独跑 stage 相同"是误判。修正后每个输出都与单独跑 stage 的结果逐字节相同；`divider-slopes.txt` 的数值不受影响 |
 | `hash_lists_sw.py`、`launch_sw.sh`、`synth_numbers.py` | 生成三份哈希清单；本轮三组转换的启动脚本；合成测试里的数字（文档"改法"引用） |
 
 泛化集分批转换与合并评分的 `gen_part.py`、`gen_score_all.py`，以及下列脚本与前几轮相同，这里不再复制：

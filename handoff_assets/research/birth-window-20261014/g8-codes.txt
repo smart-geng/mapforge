@@ -1,0 +1,88 @@
+== shp-node3
+   status          PASS
+   matched         55/55
+ * excluded        310
+                   -> 326
+ * codes           {'lane-transition-taper': 159, 'median-non-driving': 30, 'minimal-chain-source-fidelity-unmet': 2, 'source-extension': 9, 'source-polygon-paving': 12, 'source-support-outside': 22, 'source-support-too-short': 36, 'source-topology-gap-bridge': 24, 'zero-width': 16}
+                   -> {'lane-transition-taper': 172, 'median-non-driving': 32, 'minimal-chain-source-fidelity-unmet': 2, 'source-extension': 9, 'source-polygon-paving': 12, 'source-support-outside': 22, 'source-support-too-short': 36, 'source-support-unavailable': 2, 'source-topology-gap-bridge': 24, 'zero-width': 15}
+ * inferred_codes  {'zero-width': 4}
+                   -> {'source-support-unavailable': 1, 'zero-width': 5}
+ * decision        {'status': 'BLOCKED', 'blocked_reasons': [{'code': 'crs_not_absolutely_verified', 'integrity': 'internally-consistent'}, {'code': 'required_gate_not_pass', 'gate_id': 'G11', 'gate_status': 'FAIL'}, {'code': 'required_gate_not_pass', 'gate_id': 'G11-edge-contacts', 'gate_status': 'FAIL'}], 'review_reasons': [{'code': 'g8_exclusion_requires_review', 'exclusion_code': 'minimal-chain-source-fidelity-unmet'}, {'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-support-too-short'}, {'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-topology-gap-bridge'}]}
+                   -> {'status': 'BLOCKED', 'blocked_reasons': [{'code': 'crs_not_absolutely_verified', 'integrity': 'internally-consistent'}, {'code': 'required_gate_not_pass', 'gate_id': 'G11', 'gate_status': 'FAIL'}, {'code': 'required_gate_not_pass', 'gate_id': 'G11-edge-contacts', 'gate_status': 'FAIL'}], 'review_reasons': [{'code': 'g8_exclusion_requires_review', 'exclusion_code': 'minimal-chain-source-fidelity-unmet'}, {'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-support-too-short'}, {'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-support-unavailable'}, {'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-topology-gap-bridge'}]}
+== shp-node4
+   status          PASS
+   matched         41/41
+ * excluded        339
+                   -> 347
+ * codes           {'lane-transition-taper': 198, 'median-non-driving': 41, 'minimal-chain-source-fidelity-unmet': 1, 'source-extension': 4, 'source-polygon-paving': 13, 'source-support-outside': 10, 'source-support-too-short': 46, 'source-support-unavailable': 2, 'source-topology-gap-bridge': 15, 'zero-width': 9}
+                   -> {'lane-transition-taper': 204, 'median-non-driving': 42, 'minimal-chain-source-fidelity-unmet': 1, 'source-extension': 4, 'source-polygon-paving': 13, 'source-support-outside': 10, 'source-support-too-short': 46, 'source-support-unavailable': 3, 'source-topology-gap-bridge': 15, 'zero-width': 9}
+ * inferred_codes  {'source-extension': 1, 'source-support-unavailable': 1, 'zero-width': 5}
+                   -> {'source-extension': 1, 'source-support-unavailable': 2, 'zero-width': 5}
+   decision        {'status': 'BLOCKED', 'blocked_reasons': [{'code': 'crs_not_absolutely_verified', 'integrity': 'internally-consistent'}, {'code': 'required_gate_not_pass', 'gate_id': 'G11', 'gate_status': 'FAIL'}, {'code': 'required_gate_not_pass', 'gate_id': 'G11-edge-contacts', 'gate_status': 'FAIL'}], 'review_reasons': [{'code': 'g8_exclusion_requires_review', 'exclusion_code': 'minimal-chain-source-fidelity-unmet'}, {'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-support-too-short'}, {'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-support-unavailable'}, {'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-topology-gap-bridge'}]}
+== shp-node16
+   status          PASS
+   matched         38/38
+ * excluded        166
+                   -> 170
+ * codes           {'lane-transition-taper': 81, 'median-non-driving': 32, 'source-extension': 3, 'source-polygon-paving': 14, 'source-support-outside': 13, 'source-support-too-short': 2, 'source-support-unavailable': 2, 'source-topology-gap-bridge': 17, 'zero-width': 2}
+                   -> {'lane-transition-taper': 84, 'median-non-driving': 33, 'source-extension': 4, 'source-polygon-paving': 14, 'source-support-outside': 13, 'source-support-too-short': 2, 'source-support-unavailable': 2, 'source-topology-gap-bridge': 17, 'zero-width': 1}
+ * inferred_codes  {'source-support-unavailable': 2, 'zero-width': 1}
+                   -> {'source-extension': 1, 'source-support-unavailable': 2, 'zero-width': 1}
+   decision        {'status': 'BLOCKED', 'blocked_reasons': [{'code': 'crs_not_absolutely_verified', 'integrity': 'internally-consistent'}, {'code': 'required_gate_not_pass', 'gate_id': 'G11', 'gate_status': 'FAIL'}, {'code': 'required_gate_not_pass', 'gate_id': 'G11-edge-contacts', 'gate_status': 'FAIL'}], 'review_reasons': [{'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-support-too-short'}, {'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-support-unavailable'}, {'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-topology-gap-bridge'}]}
+== shp-node17
+   status          PASS
+   matched         47/47
+ * excluded        392
+                   -> 399
+ * codes           {'lane-transition-taper': 209, 'median-non-driving': 56, 'minimal-chain-source-fidelity-unmet': 1, 'source-extension': 13, 'source-polygon-paving': 14, 'source-support-outside': 11, 'source-support-too-short': 55, 'source-support-unavailable': 2, 'source-topology-gap-bridge': 27, 'zero-width': 4}
+                   -> {'lane-transition-taper': 214, 'median-non-driving': 57, 'minimal-chain-source-fidelity-unmet': 1, 'source-extension': 13, 'source-polygon-paving': 14, 'source-support-outside': 11, 'source-support-too-short': 55, 'source-support-unavailable': 3, 'source-topology-gap-bridge': 27, 'zero-width': 4}
+ * inferred_codes  {'source-extension': 3, 'source-support-unavailable': 2, 'zero-width': 3}
+                   -> {'source-extension': 3, 'source-support-unavailable': 2, 'zero-width': 4}
+   decision        {'status': 'BLOCKED', 'blocked_reasons': [{'code': 'crs_not_absolutely_verified', 'integrity': 'internally-consistent'}, {'code': 'required_gate_not_pass', 'gate_id': 'G11', 'gate_status': 'FAIL'}, {'code': 'required_gate_not_pass', 'gate_id': 'G11-edge-contacts', 'gate_status': 'FAIL'}], 'review_reasons': [{'code': 'g8_exclusion_requires_review', 'exclusion_code': 'minimal-chain-source-fidelity-unmet'}, {'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-support-too-short'}, {'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-support-unavailable'}, {'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-topology-gap-bridge'}]}
+== shp-node18
+   status          PASS
+   matched         55/55
+ * excluded        418
+                   -> 422
+ * codes           {'lane-transition-taper': 218, 'median-non-driving': 60, 'minimal-chain-source-fidelity-unmet': 1, 'source-extension': 17, 'source-polygon-paving': 14, 'source-support-outside': 9, 'source-support-too-short': 63, 'source-support-unavailable': 3, 'source-topology-gap-bridge': 27, 'zero-width': 6}
+                   -> {'lane-transition-taper': 221, 'median-non-driving': 61, 'minimal-chain-source-fidelity-unmet': 1, 'source-extension': 17, 'source-polygon-paving': 14, 'source-support-outside': 9, 'source-support-too-short': 63, 'source-support-unavailable': 3, 'source-topology-gap-bridge': 27, 'zero-width': 6}
+ * inferred_codes  {'source-extension': 2, 'source-support-unavailable': 3, 'zero-width': 5}
+                   -> {'source-extension': 2, 'source-support-unavailable': 3, 'zero-width': 6}
+   decision        {'status': 'BLOCKED', 'blocked_reasons': [{'code': 'crs_not_absolutely_verified', 'integrity': 'internally-consistent'}, {'code': 'required_gate_not_pass', 'gate_id': 'G11', 'gate_status': 'FAIL'}, {'code': 'required_gate_not_pass', 'gate_id': 'G11-edge-contacts', 'gate_status': 'FAIL'}], 'review_reasons': [{'code': 'g8_exclusion_requires_review', 'exclusion_code': 'minimal-chain-source-fidelity-unmet'}, {'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-support-too-short'}, {'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-support-unavailable'}, {'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-topology-gap-bridge'}]}
+== 0627
+   status          PASS
+   matched         50/50
+ * excluded        397
+                   -> 406
+ * codes           {'lane-transition-taper': 239, 'median-non-driving': 43, 'minimal-chain-source-fidelity-unmet': 1, 'source-extension': 7, 'source-polygon-paving': 12, 'source-support-outside': 8, 'source-support-too-short': 40, 'source-support-unavailable': 3, 'source-topology-gap-bridge': 26, 'zero-width': 18}
+                   -> {'lane-transition-taper': 247, 'median-non-driving': 44, 'minimal-chain-source-fidelity-unmet': 1, 'source-extension': 9, 'source-polygon-paving': 12, 'source-support-outside': 8, 'source-support-too-short': 40, 'source-support-unavailable': 2, 'source-topology-gap-bridge': 26, 'zero-width': 17}
+ * inferred_codes  {'source-extension': 5, 'source-support-unavailable': 3, 'zero-width': 6}
+                   -> {'source-extension': 7, 'source-support-unavailable': 2, 'zero-width': 6}
+   decision        {'status': 'BLOCKED', 'blocked_reasons': [{'code': 'crs_not_absolutely_verified', 'integrity': 'internally-consistent'}, {'code': 'required_gate_not_pass', 'gate_id': 'G11', 'gate_status': 'FAIL'}, {'code': 'required_gate_not_pass', 'gate_id': 'G11-edge-contacts', 'gate_status': 'FAIL'}], 'review_reasons': [{'code': 'g8_exclusion_requires_review', 'exclusion_code': 'minimal-chain-source-fidelity-unmet'}, {'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-support-too-short'}, {'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-support-unavailable'}, {'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-topology-gap-bridge'}]}
+== 0630
+   status          PASS
+   matched         44/44
+ * excluded        310
+                   -> 318
+ * codes           {'lane-transition-taper': 174, 'median-non-driving': 27, 'physical-edge-fill': 1, 'source-extension': 1, 'source-polygon-paving': 12, 'source-support-outside': 15, 'source-support-too-short': 43, 'source-support-unavailable': 4, 'source-topology-gap-bridge': 20, 'zero-width': 13}
+                   -> {'lane-transition-taper': 181, 'median-non-driving': 28, 'physical-edge-fill': 1, 'source-extension': 3, 'source-polygon-paving': 12, 'source-support-outside': 15, 'source-support-too-short': 43, 'source-support-unavailable': 2, 'source-topology-gap-bridge': 20, 'zero-width': 13}
+ * inferred_codes  {'source-extension': 1, 'source-polygon-paving': 1, 'source-support-unavailable': 2, 'zero-width': 3}
+                   -> {'source-extension': 3, 'source-polygon-paving': 1, 'source-support-unavailable': 2, 'zero-width': 4}
+   decision        {'status': 'BLOCKED', 'blocked_reasons': [{'code': 'crs_not_absolutely_verified', 'integrity': 'internally-consistent'}, {'code': 'required_gate_not_pass', 'gate_id': 'G11', 'gate_status': 'FAIL'}, {'code': 'required_gate_not_pass', 'gate_id': 'G11-edge-contacts', 'gate_status': 'FAIL'}], 'review_reasons': [{'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-support-too-short'}, {'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-support-unavailable'}, {'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-topology-gap-bridge'}]}
+== 0707104
+   status          PASS
+   matched         58/58
+ * excluded        383
+                   -> 392
+ * codes           {'lane-transition-taper': 234, 'median-non-driving': 31, 'source-extension': 1, 'source-polygon-paving': 13, 'source-support-outside': 9, 'source-support-too-short': 44, 'source-support-unavailable': 2, 'source-topology-gap-bridge': 28, 'zero-width': 21}
+                   -> {'lane-transition-taper': 240, 'median-non-driving': 32, 'source-extension': 2, 'source-polygon-paving': 13, 'source-support-outside': 9, 'source-support-too-short': 45, 'source-support-unavailable': 2, 'source-topology-gap-bridge': 28, 'zero-width': 21}
+ * inferred_codes  {'source-extension': 1, 'source-support-unavailable': 2, 'zero-width': 2}
+                   -> {'source-extension': 2, 'source-support-unavailable': 2, 'zero-width': 2}
+   decision        {'status': 'BLOCKED', 'blocked_reasons': [{'code': 'crs_not_absolutely_verified', 'integrity': 'internally-consistent'}, {'code': 'required_gate_not_pass', 'gate_id': 'G11', 'gate_status': 'FAIL'}, {'code': 'required_gate_not_pass', 'gate_id': 'G11-edge-contacts', 'gate_status': 'FAIL'}], 'review_reasons': [{'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-support-too-short'}, {'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-support-unavailable'}, {'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-topology-gap-bridge'}]}
+== 061310
+   status          FAIL
+   matched         64/64
+   excluded        339
+   codes           {'lane-transition-taper': 188, 'median-non-driving': 44, 'physical-edge-fill': 1, 'source-extension': 5, 'source-polygon-paving': 12, 'source-support-outside': 16, 'source-support-too-short': 37, 'source-support-unavailable': 1, 'source-topology-gap-bridge': 22, 'zero-width': 13}
+   inferred_codes  {'source-extension': 3, 'source-support-unavailable': 1, 'zero-width': 4}
+   decision        {'status': 'BLOCKED', 'blocked_reasons': [{'code': 'crs_not_absolutely_verified', 'integrity': 'internally-consistent'}, {'code': 'required_gate_not_pass', 'gate_id': 'G11', 'gate_status': 'FAIL'}, {'code': 'required_gate_not_pass', 'gate_id': 'G11-edge-contacts', 'gate_status': 'FAIL'}, {'code': 'required_gate_not_pass', 'gate_id': 'G8', 'gate_status': 'FAIL'}], 'review_reasons': [{'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-support-too-short'}, {'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-support-unavailable'}, {'code': 'g8_exclusion_requires_review', 'exclusion_code': 'source-topology-gap-bridge'}]}

@@ -1,0 +1,8 @@
+== shp-2023063015350832057 road 12 station s 98.23
+   birth left  lane   4: slope own section -, through the window 0.223; alone it would advance 5.57 m
+   birth right lane  -3: slope own section -, through the window 0.069; alone it would advance 3.00 m
+   birth right lane  -4: slope own section -, through the window 0.172; alone it would advance 4.30 m
+== shp-2023070710412621654 road 10 station s 78.85
+   birth left  lane   4: slope own section -, through the window 0.136; alone it would advance 3.40 m
+   birth right lane  -3: slope own section -, through the window 0.165; alone it would advance 4.11 m
+   birth right lane  -4: slope own section -, through the window 0.096; alone it would advance 3.00 m

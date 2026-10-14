@@ -1,0 +1,900 @@
+{
+ "shp-2023041111160971268.raw.xodr": {
+  "sha": "113e1b46354ec2cd9aef52aa42cde449b32c969ee8859ee615cf058c1938dc92",
+  "report": {
+   "10": [
+    {
+     "kind": "birth",
+     "section": 9,
+     "side": "right",
+     "lane": -2,
+     "s": 87.4689,
+     "slope": 0.093,
+     "advanced_m": 3.0
+    },
+    {
+     "kind": "death",
+     "section": 6,
+     "side": "left",
+     "lane": 4,
+     "s": 52.1064,
+     "slope": 0.051,
+     "advanced_m": 3.0
+    }
+   ],
+   "11": [
+    {
+     "kind": "birth",
+     "section": 4,
+     "side": "right",
+     "lane": -3,
+     "s": 594.4646,
+     "slope": 0.104,
+     "advanced_m": 3.0
+    }
+   ],
+   "12": [
+    {
+     "kind": "death",
+     "section": 8,
+     "side": "left",
+     "lane": 4,
+     "s": 87.3782,
+     "slope": 0.103,
+     "advanced_m": 3.0
+    },
+    {
+     "kind": "birth",
+     "section": 2,
+     "side": "right",
+     "lane": -2,
+     "s": 16.1811,
+     "slope": 0.131,
+     "advanced_m": 3.285
+    }
+   ],
+   "13": [
+    {
+     "kind": "death",
+     "section": 18,
+     "side": "left",
+     "lane": 4,
+     "s": 136.8673,
+     "slope": 0.135,
+     "advanced_m": 3.363
+    },
+    {
+     "kind": "death",
+     "section": 11,
+     "side": "left",
+     "lane": 4,
+     "s": 83.2137,
+     "slope": 0.36,
+     "advanced_m": 4.786
+    },
+    {
+     "kind": "birth",
+     "section": 10,
+     "side": "left",
+     "lane": 5,
+     "s": 71.1828,
+     "slope": 0.31,
+     "advanced_m": 7.751
+    },
+    {
+     "kind": "birth",
+     "section": 6,
+     "side": "right",
+     "lane": -2,
+     "s": 50.9162,
+     "slope": 0.065,
+     "advanced_m": 3.0
+    }
+   ]
+  }
+ },
+ "shp-2023041216222042093.raw.xodr": {
+  "sha": "93f224732c188c30b12ed9682386c14c287738064fe763a460c808697d5029b9",
+  "report": {
+   "10": [
+    {
+     "kind": "birth",
+     "section": 2,
+     "side": "right",
+     "lane": -4,
+     "s": 29.7672,
+     "slope": 0.256,
+     "advanced_m": 6.39
+    }
+   ],
+   "12": [
+    {
+     "kind": "death",
+     "section": 5,
+     "side": "left",
+     "lane": 5,
+     "s": 60.0,
+     "slope": 0.085,
+     "advanced_m": 3.0
+    },
+    {
+     "kind": "birth",
+     "section": 3,
+     "side": "right",
+     "lane": -2,
+     "s": 14.5367,
+     "slope": 0.043,
+     "advanced_m": 0.0,
+     "reason": "no room"
+    }
+   ]
+  }
+ },
+ "shp-2023041810414040830.raw.xodr": {
+  "sha": "1752e7d21eb9aa68ddb51de5d2ab35de49900685d2094da8a21af075e4cec5b2",
+  "report": {
+   "10": [
+    {
+     "kind": "death",
+     "section": 7,
+     "side": "right",
+     "lane": -3,
+     "s": 87.5224,
+     "slope": 0.115,
+     "advanced_m": 3.0
+    },
+    {
+     "kind": "death",
+     "section": 5,
+     "side": "right",
+     "lane": -4,
+     "s": 66.7549,
+     "slope": 0.165,
+     "advanced_m": 4.12
+    },
+    {
+     "kind": "death",
+     "section": 2,
+     "side": "left",
+     "lane": 4,
+     "s": 50.0,
+     "slope": 0.07,
+     "advanced_m": 4.144
+    }
+   ]
+  }
+ },
+ "shp-2023061310244790027.raw.xodr": {
+  "sha": "dec806c0ca191f76533baf5381e1ee9ea926ae2d3abbe22e44c2629ceb1b8de4",
+  "report": {
+   "10": [
+    {
+     "kind": "death",
+     "section": 8,
+     "side": "left",
+     "lane": 4,
+     "s": 123.6101,
+     "slope": 0.117,
+     "advanced_m": 3.0
+    },
+    {
+     "kind": "birth",
+     "section": 2,
+     "side": "left",
+     "lane": 4,
+     "s": 22.7279,
+     "slope": 0.092,
+     "advanced_m": 3.0
+    }
+   ],
+   "11": [
+    {
+     "kind": "birth",
+     "section": 11,
+     "side": "right",
+     "lane": -5,
+     "s": 159.8637,
+     "slope": 0.166,
+     "advanced_m": 4.162
+    },
+    {
+     "kind": "birth",
+     "section": 4,
+     "side": "right",
+     "lane": -4,
+     "s": 65.5728,
+     "slope": 0.34,
+     "advanced_m": 8.0
+    }
+   ],
+   "12": [
+    {
+     "kind": "birth",
+     "section": 8,
+     "side": "right",
+     "lane": -3,
+     "s": 126.1738,
+     "slope": 0.178,
+     "advanced_m": 6.174
+    }
+   ],
+   "13": [
+    {
+     "kind": "birth",
+     "section": 4,
+     "side": "right",
+     "lane": -4,
+     "s": 207.5105,
+     "slope": 0.076,
+     "advanced_m": 3.0
+    }
+   ]
+  }
+ },
+ "shp-2023062110304177600.raw.xodr": {
+  "sha": "773339d196bd273920503df82b0e98a145da5f07ce17ae23e3a3f21e0a293753",
+  "report": {
+   "11": [
+    {
+     "kind": "death",
+     "section": 5,
+     "side": "left",
+     "lane": 4,
+     "s": 63.3857,
+     "slope": 0.268,
+     "advanced_m": 6.71
+    }
+   ]
+  }
+ },
+ "shp-2023062713394062899.raw.xodr": {
+  "sha": "6a584e9849d390a6ea9a6434498fc2573780ebcb066285f56149e08c256058dc",
+  "report": {
+   "10": [
+    {
+     "kind": "birth",
+     "section": 14,
+     "side": "right",
+     "lane": -4,
+     "s": 344.0034,
+     "slope": 0.214,
+     "advanced_m": 5.347
+    },
+    {
+     "kind": "birth",
+     "section": 12,
+     "side": "left",
+     "lane": 4,
+     "s": 330.0,
+     "slope": 0.123,
+     "advanced_m": 3.078
+    },
+    {
+     "kind": "birth",
+     "section": 11,
+     "side": "right",
+     "lane": -3,
+     "s": 322.9086,
+     "slope": 0.124,
+     "advanced_m": 3.099
+    }
+   ],
+   "11": [
+    {
+     "kind": "birth",
+     "section": 8,
+     "side": "right",
+     "lane": -3,
+     "s": 102.5194,
+     "slope": 0.094,
+     "advanced_m": 3.0
+    }
+   ],
+   "12": [
+    {
+     "kind": "death",
+     "section": 13,
+     "side": "left",
+     "lane": 5,
+     "s": 144.8597,
+     "slope": 0.233,
+     "advanced_m": 5.814
+    },
+    {
+     "kind": "birth",
+     "section": 5,
+     "side": "right",
+     "lane": -3,
+     "s": 69.2838,
+     "slope": 0.328,
+     "advanced_m": 4.055
+    },
+    {
+     "kind": "birth",
+     "section": 2,
+     "side": "left",
+     "lane": 4,
+     "s": 33.6996,
+     "slope": 0.08,
+     "advanced_m": 3.0
+    }
+   ],
+   "13": [
+    {
+     "kind": "birth",
+     "section": 4,
+     "side": "right",
+     "lane": -4,
+     "s": 20.8961,
+     "slope": 0.203,
+     "advanced_m": 3.104
+    }
+   ]
+  }
+ },
+ "shp-2023063015350832057.raw.xodr": {
+  "sha": "d74c1da169b4bea9e979c17e3637a8b2963248a5d5222b84c702b225d740bf2c",
+  "report": {
+   "10": [
+    {
+     "kind": "birth",
+     "section": 3,
+     "side": "right",
+     "lane": -4,
+     "s": 82.7286,
+     "slope": 0.103,
+     "advanced_m": 3.0
+    }
+   ],
+   "11": [
+    {
+     "kind": "birth",
+     "section": 4,
+     "side": "right",
+     "lane": -3,
+     "s": 120.6665,
+     "slope": 0.136,
+     "advanced_m": 3.403
+    }
+   ],
+   "13": [
+    {
+     "kind": "birth",
+     "section": 2,
+     "side": "right",
+     "lane": -4,
+     "s": 13.1534,
+     "slope": 0.21,
+     "advanced_m": 5.251
+    }
+   ]
+  }
+ },
+ "shp-2023070710324132429.raw.xodr": {
+  "sha": "119a7fd218e69dd1d45b9553d835533ce8402f323176c42da75bda74f13fb85c",
+  "report": {
+   "10": [
+    {
+     "kind": "birth",
+     "section": 5,
+     "side": "right",
+     "lane": -3,
+     "s": 66.8959,
+     "slope": 0.097,
+     "advanced_m": 3.0
+    }
+   ],
+   "11": [
+    {
+     "kind": "death",
+     "section": 9,
+     "side": "left",
+     "lane": 6,
+     "s": 83.3785,
+     "slope": 0.136,
+     "advanced_m": 3.39
+    }
+   ]
+  }
+ },
+ "shp-2023070710412621654.raw.xodr": {
+  "sha": "e223a1bc79f74a26b1262248c253dcf92878f6344f189f38dfdbf35b9dd13d33",
+  "report": {
+   "11": [
+    {
+     "kind": "birth",
+     "section": 6,
+     "side": "right",
+     "lane": -5,
+     "s": 53.4575,
+     "slope": 0.134,
+     "advanced_m": 0.0,
+     "reason": "no room"
+    }
+   ],
+   "12": [
+    {
+     "kind": "birth",
+     "section": 5,
+     "side": "right",
+     "lane": -3,
+     "s": 89.3056,
+     "slope": 0.121,
+     "advanced_m": 3.02
+    }
+   ],
+   "13": [
+    {
+     "kind": "birth",
+     "section": 4,
+     "side": "right",
+     "lane": -4,
+     "s": 46.9437,
+     "slope": 0.191,
+     "advanced_m": 4.777
+    },
+    {
+     "kind": "birth",
+     "section": 2,
+     "side": "right",
+     "lane": -3,
+     "s": 36.7106,
+     "slope": 0.298,
+     "advanced_m": 7.445
+    }
+   ]
+  }
+ },
+ "shp-2023071109582525264.raw.xodr": {
+  "sha": "36f43123cd85be0c05156be2f90fc75f605dd5130b75572236ba77a721752809",
+  "report": {
+   "11": [
+    {
+     "kind": "death",
+     "section": 3,
+     "side": "right",
+     "lane": -3,
+     "s": 64.5299,
+     "slope": 0.77,
+     "advanced_m": 8.0
+    },
+    {
+     "kind": "birth",
+     "section": 3,
+     "side": "right",
+     "lane": -2,
+     "s": 60.6936,
+     "slope": 0.762,
+     "advanced_m": 8.0
+    },
+    {
+     "kind": "death",
+     "section": 0,
+     "side": "right",
+     "lane": -2,
+     "s": 5.1372,
+     "slope": 0.491,
+     "advanced_m": 0.0,
+     "reason": "no room"
+    }
+   ]
+  }
+ },
+ "shp-2023080118313036830.raw.xodr": {
+  "sha": "dc5b09a34b6b9b359c87659cbf6afb7c9cfcaee6cbaa63175a503a0dbcf1613a",
+  "report": {
+   "10": [
+    {
+     "kind": "death",
+     "section": 5,
+     "side": "right",
+     "lane": -5,
+     "s": 90.6998,
+     "slope": 0.237,
+     "advanced_m": 0.0,
+     "reason": "no room"
+    },
+    {
+     "kind": "birth",
+     "section": 1,
+     "side": "right",
+     "lane": -3,
+     "s": 35.9079,
+     "slope": 0.318,
+     "advanced_m": 7.946
+    }
+   ],
+   "11": [
+    {
+     "kind": "death",
+     "section": 8,
+     "side": "right",
+     "lane": -4,
+     "s": 90.8891,
+     "slope": 0.155,
+     "advanced_m": 3.869
+    },
+    {
+     "kind": "death",
+     "section": 5,
+     "side": "left",
+     "lane": 5,
+     "s": 70.0,
+     "slope": 0.283,
+     "advanced_m": 7.073
+    },
+    {
+     "kind": "birth",
+     "section": 4,
+     "side": "left",
+     "lane": 3,
+     "s": 55.4619,
+     "slope": 0.3,
+     "advanced_m": 7.496
+    }
+   ],
+   "12": [
+    {
+     "kind": "birth",
+     "section": 2,
+     "side": "right",
+     "lane": -5,
+     "s": 87.1786,
+     "slope": 0.132,
+     "advanced_m": 3.312
+    }
+   ]
+  }
+ },
+ "shp-2023080810023203229.raw.xodr": {
+  "sha": "b03242bdcb63d27d7b2954afc7f6b218407c1bf212ecfd6cf09ed36aa2b3b8b9",
+  "report": {
+   "10": [
+    {
+     "kind": "birth",
+     "section": 3,
+     "side": "right",
+     "lane": -3,
+     "s": 80.9123,
+     "slope": 0.047,
+     "advanced_m": 3.0
+    }
+   ],
+   "12": [
+    {
+     "kind": "birth",
+     "section": 9,
+     "side": "right",
+     "lane": -2,
+     "s": 90.4613,
+     "slope": 0.116,
+     "advanced_m": 3.0
+    }
+   ]
+  }
+ },
+ "shp-NODE5.raw.xodr": {
+  "sha": "4efe81b85d0bc8a855822c605c405b9f9518b8a6dafe8f769e79001a940bac31",
+  "report": {
+   "10": [
+    {
+     "kind": "birth",
+     "section": 6,
+     "side": "right",
+     "lane": -2,
+     "s": 100.3989,
+     "slope": 0.162,
+     "advanced_m": 4.059
+    },
+    {
+     "kind": "death",
+     "section": 0,
+     "side": "left",
+     "lane": 3,
+     "s": 5.8706,
+     "slope": 0.147,
+     "advanced_m": 4.433
+    }
+   ],
+   "13": [
+    {
+     "kind": "birth",
+     "section": 2,
+     "side": "right",
+     "lane": -2,
+     "s": 55.7262,
+     "slope": 0.249,
+     "advanced_m": 6.224
+    }
+   ]
+  }
+ },
+ "shp-node13.raw.xodr": {
+  "sha": "2b257bb6984d4796c4b584a1f53012f06b78d007b3dc45befc38ef7b0c2dbe69",
+  "report": {
+   "12": [
+    {
+     "kind": "birth",
+     "section": 2,
+     "side": "right",
+     "lane": -4,
+     "s": 14.2926,
+     "slope": 0.088,
+     "advanced_m": 4.293
+    }
+   ]
+  }
+ },
+ "shp-node16.raw.xodr": {
+  "sha": "50213e015054f29b926f2c5e6bb23e6b10e0fa8f0eb398a13c602dfe95085e38",
+  "report": {
+   "10": [
+    {
+     "kind": "death",
+     "section": 6,
+     "side": "left",
+     "lane": 4,
+     "s": 80.3247,
+     "slope": 0.231,
+     "advanced_m": 5.766
+    }
+   ],
+   "12": [
+    {
+     "kind": "birth",
+     "section": 2,
+     "side": "left",
+     "lane": 2,
+     "s": 40.5001,
+     "slope": 0.062,
+     "advanced_m": 3.0
+    }
+   ]
+  }
+ },
+ "shp-node17.raw.xodr": {
+  "sha": "79271a5fbaea413fbb95e0628630dfcd2ab10b9080665dba416f7635a9a6a19c",
+  "report": {
+   "10": [
+    {
+     "kind": "birth",
+     "section": 12,
+     "side": "left",
+     "lane": 4,
+     "s": 109.4703,
+     "slope": 0.114,
+     "advanced_m": 3.0
+    },
+    {
+     "kind": "death",
+     "section": 3,
+     "side": "left",
+     "lane": 4,
+     "s": 48.545,
+     "slope": 0.123,
+     "advanced_m": 3.073
+    }
+   ],
+   "12": [
+    {
+     "kind": "birth",
+     "section": 3,
+     "side": "right",
+     "lane": -3,
+     "s": 56.9193,
+     "slope": 0.253,
+     "advanced_m": 6.32
+    }
+   ],
+   "13": [
+    {
+     "kind": "birth",
+     "section": 9,
+     "side": "right",
+     "lane": -3,
+     "s": 103.2824,
+     "slope": 0.133,
+     "advanced_m": 3.324
+    },
+    {
+     "kind": "birth",
+     "section": 7,
+     "side": "left",
+     "lane": 4,
+     "s": 83.6564,
+     "slope": 0.065,
+     "advanced_m": 3.656
+    }
+   ]
+  }
+ },
+ "shp-node18.raw.xodr": {
+  "sha": "4b6b095bd56beec137ea31647df655ad16cff5af601b869f91d6dc5c6502257d",
+  "report": {
+   "10": [
+    {
+     "kind": "birth",
+     "section": 1,
+     "side": "right",
+     "lane": -3,
+     "s": 45.1766,
+     "slope": 0.275,
+     "advanced_m": 6.876
+    }
+   ],
+   "11": [
+    {
+     "kind": "birth",
+     "section": 9,
+     "side": "right",
+     "lane": -2,
+     "s": 176.5907,
+     "slope": 0.078,
+     "advanced_m": 3.0
+    },
+    {
+     "kind": "birth",
+     "section": 7,
+     "side": "left",
+     "lane": 4,
+     "s": 139.8947,
+     "slope": 0.045,
+     "advanced_m": 3.0
+    },
+    {
+     "kind": "birth",
+     "section": 6,
+     "side": "left",
+     "lane": 3,
+     "s": 130.0,
+     "slope": 0.182,
+     "advanced_m": 4.562
+    }
+   ],
+   "12": [
+    {
+     "kind": "death",
+     "section": 14,
+     "side": "left",
+     "lane": 5,
+     "s": 139.1304,
+     "slope": 0.19,
+     "advanced_m": 4.762
+    },
+    {
+     "kind": "birth",
+     "section": 10,
+     "side": "right",
+     "lane": -3,
+     "s": 82.8369,
+     "slope": 0.128,
+     "advanced_m": 3.204
+    },
+    {
+     "kind": "birth",
+     "section": 6,
+     "side": "left",
+     "lane": 5,
+     "s": 51.5611,
+     "slope": 0.09,
+     "advanced_m": 3.0
+    },
+    {
+     "kind": "death",
+     "section": 2,
+     "side": "right",
+     "lane": -3,
+     "s": 23.4677,
+     "slope": 0.115,
+     "advanced_m": 3.0
+    }
+   ]
+  }
+ },
+ "shp-node3.raw.xodr": {
+  "sha": "2c1e9ebda66eebec5d65dceec5023ccba538ff4c17e189c337c584be59072ac4",
+  "report": {
+   "10": [
+    {
+     "kind": "death",
+     "section": 7,
+     "side": "left",
+     "lane": 5,
+     "s": 113.5974,
+     "slope": 0.089,
+     "advanced_m": 3.0
+    }
+   ],
+   "11": [
+    {
+     "kind": "birth",
+     "section": 5,
+     "side": "right",
+     "lane": -3,
+     "s": 102.9635,
+     "slope": 0.085,
+     "advanced_m": 3.0
+    }
+   ],
+   "12": [
+    {
+     "kind": "birth",
+     "section": 1,
+     "side": "right",
+     "lane": -3,
+     "s": 145.4027,
+     "slope": 0.089,
+     "advanced_m": 3.0
+    }
+   ]
+  }
+ },
+ "shp-node4.raw.xodr": {
+  "sha": "1a15f1e795f3d482a1cb6f4f4547ff5911288ed374b063afd548698a56bc151c",
+  "report": {
+   "10": [
+    {
+     "kind": "birth",
+     "section": 4,
+     "side": "right",
+     "lane": -2,
+     "s": 41.3887,
+     "slope": 0.216,
+     "advanced_m": 0.0,
+     "reason": "no room"
+    }
+   ],
+   "11": [
+    {
+     "kind": "birth",
+     "section": 8,
+     "side": "right",
+     "lane": -4,
+     "s": 151.6178,
+     "slope": 0.379,
+     "advanced_m": 8.0
+    },
+    {
+     "kind": "birth",
+     "section": 5,
+     "side": "right",
+     "lane": -3,
+     "s": 131.062,
+     "slope": 0.09,
+     "advanced_m": 3.0
+    }
+   ],
+   "12": [
+    {
+     "kind": "death",
+     "section": 2,
+     "side": "left",
+     "lane": 4,
+     "s": 34.0456,
+     "slope": 0.083,
+     "advanced_m": 3.0
+    }
+   ],
+   "13": [
+    {
+     "kind": "birth",
+     "section": 5,
+     "side": "right",
+     "lane": -2,
+     "s": 63.3038,
+     "slope": 0.157,
+     "advanced_m": 3.937
+    },
+    {
+     "kind": "birth",
+     "section": 3,
+     "side": "left",
+     "lane": 4,
+     "s": 45.8146,
+     "slope": 0.052,
+     "advanced_m": 3.0
+    }
+   ]
+  }
+ }
+}

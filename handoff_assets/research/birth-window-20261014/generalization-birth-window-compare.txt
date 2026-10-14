@@ -1,0 +1,67 @@
+== 2023041111160971268 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== 2023061310244790027 shp base None anchor None 
+== 2023062713394062899 shp base {'T1': 'PASS', 'T2': 'FAIL'} anchor {'T1': 'PASS', 'T2': 'FAIL'} 
+   * boundary_inside_runs_p95_m                 0.04604172400611239 -> 0.04230433999088248
+     boundary_median_m                          0.009415764490105968 -> 0.009303497822596487
+     fair_road_kappa_p90_per_m                  0.011063428534285515 -> 0.010678284719641882
+     fair_road_sharpness_max_per_m2             0.07923911482743534 -> 0.0670777719561453
+     fair_straight_conn_kappa_median_per_m      0.01842060770463207 -> 0.019957944778315626
+     fair_turn_conn_sharpness_p90_per_m2        0.0383454611811275 -> 0.03831447294357657
+     lane_center_median_m                       0.020815072158104415 -> 0.021008781837823752
+     lane_center_noconflict_median_m            0.0179596970512904 -> 0.018038804512437202
+   * lane_center_noconflict_p95_m               0.14959490227067698 -> 0.1495061502120045
+     lane_center_noflare_median_m               0.0179596970512904 -> 0.018038804512437202
+     lane_center_noflare_p95_m                  0.14959490227067698 -> 0.1495061502120045
+   * lane_center_p95_m                          0.1895666583548096 -> 0.18952075153095818
+     lane_center_poly_median_m                  0.016601114330547256 -> 0.016657606352183205
+     lane_join_jumps_gt_1e-07                   167 -> 163
+     lane_sections                              112 -> 113
+     policy_speed_jerk_max_mps3                 115.21111530944944 -> 108.54905998537227
+     width_records                              1998 -> 2010
+== 2023063015350832057 shp base {'T1': 'PASS', 'T2': 'FAIL'} anchor {'T1': 'PASS', 'T2': 'FAIL'} 
+     boundary_inside_p95_m                      0.09474249034513973 -> 0.08556117034950952
+   * boundary_inside_runs_p95_m                 0.0960013101292414 -> 0.08621102867415943
+     boundary_median_m                          0.007727168225470938 -> 0.006223449031743511
+     boundary_p95_m                             0.1536511631365779 -> 0.1502220625836284
+   * conn_edge_join_curvature_jump_max_per_m    0.001474742248360028 -> 0.0014721036069344495
+   * connector_width_bulge_max_m                0.2518596548385661 -> 0.25190106744031926
+     fair_road_event_kappa_max_per_m            0.10893898619141992 -> 0.06863459171523352
+     fair_road_kappa_max_per_m                  0.11182707178484068 -> 0.08010761232521645
+     fair_road_kappa_p90_per_m                  0.013431586204408822 -> 0.010805814099836816
+     fair_straight_conn_kappa_max_per_m         0.06629026465910125 -> 0.06629842303133404
+     fair_straight_conn_kappa_median_per_m      0.02652752941146256 -> 0.026440224784510274
+     fair_turn_conn_sharpness_max_per_m2        0.08794379323562633 -> 0.08793854411761998
+     fair_turn_conn_sharpness_p90_per_m2        0.05770983788682664 -> 0.05771086561962641
+     kappa_max_per_m                            0.2409203174416144 -> 0.24092133596833862
+   * lane_center_max_m                          1.5686560137204124 -> 1.5684474146337926
+     lane_center_median_m                       0.0196781843388086 -> 0.019521374915947295
+   * lane_center_noconflict_max_m               0.6991681328878375 -> 0.6992679107927826
+   * lane_center_noconflict_p95_m               0.17372802029573256 -> 0.16981070108888557
+     lane_center_noflare_max_m                  0.6991681328878375 -> 0.6992679107927826
+     lane_center_noflare_p95_m                  0.17372802029573256 -> 0.16981070108888557
+   * lane_center_p95_m                          0.33052917080924715 -> 0.32916498153631363
+     lane_center_poly_max_m                     1.5686548899640838 -> 1.5684414226406103
+     lane_center_poly_median_m                  0.012050073364943008 -> 0.011975038904281284
+     lane_center_poly_p95_m                     0.3188889700902016 -> 0.3121429894099614
+   * lane_endpoint_lateral_max_m                0.9691403121819493 -> 0.9691354602487429
+     lane_join_jumps_gt_1e-04                   4 -> 3
+     lane_join_jumps_gt_1e-07                   149 -> 142
+     lane_sections                              82 -> 83
+   * outer_heading_step_max_deg                 0.0011484733133135638 -> 0.0009703014707007552
+     policy_speed_ay_max_mps2                   29.743249060917325 -> 29.743374804957327
+     primitives                                 151 -> 152
+     turn_counter_curvature_max_per_m           0.018913784883710153 -> 0.019072404561535063
+     width_records                              1931 -> 1953
+== 2023070710412621654 shp base None anchor None 
+== 2023080118313036830 shp base {'T1': 'PASS', 'T2': 'FAIL'} anchor {'T1': 'PASS', 'T2': 'FAIL'} 
+== 2023041216222042093 shp base {'T1': 'FAIL', 'T2': 'FAIL'} anchor {'T1': 'FAIL', 'T2': 'FAIL'} 
+== 2023062110304177600 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== 2023070118182048481 shp base None anchor None 
+== 2023080810023203229 shp base {'T1': 'PASS', 'T2': 'FAIL'} anchor {'T1': 'PASS', 'T2': 'FAIL'} 
+== 2023062913464138453 shp base None anchor None 
+== 2023072914272536839 shp base None anchor None 
+== 2023041810414040830 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== 2023070710324132429 shp base {'T1': 'PASS', 'T2': 'FAIL'} anchor {'T1': 'PASS', 'T2': 'FAIL'} 
+== 2023081110220126408 shp base None anchor None 
+== 2023071109582525264 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+rows with any change: 2 / 16

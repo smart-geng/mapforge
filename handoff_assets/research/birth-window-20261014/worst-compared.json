@@ -1,0 +1,172 @@
+{
+ "shp-2023061310244790027": {
+  "compared": {},
+  "redone": [
+   {
+    "road": "12",
+    "reason": "curb shoulder",
+    "window_events": [
+     {
+      "kind": "birth",
+      "section": 2,
+      "side": "left",
+      "lane": 4,
+      "s": 88.351,
+      "slope": 0.164,
+      "advanced_m": 4.09
+     }
+    ],
+    "refit": "written"
+   }
+  ]
+ },
+ "shp-2023062713394062899": {
+  "compared": {
+   "12": {
+    "window_m": 0.249,
+    "own_m": 0.4031,
+    "back": false
+   }
+  },
+  "redone": []
+ },
+ "shp-2023063015350832057": {
+  "compared": {
+   "11": {
+    "window_m": 0.152,
+    "own_m": 0.1462,
+    "back": true
+   },
+   "12": {
+    "window_m": 3.7701,
+    "own_m": 3.7701,
+    "back": false
+   }
+  },
+  "redone": [
+   {
+    "road": "11",
+    "reason": "source deviation",
+    "window_events": [
+     {
+      "kind": "birth",
+      "section": 2,
+      "side": "right",
+      "lane": -3,
+      "s": 108.6181,
+      "slope": 0.108,
+      "advanced_m": 3.0
+     }
+    ],
+    "refit": "written",
+    "worst_m": {
+     "window": 0.152,
+     "own": 0.1462
+    }
+   }
+  ]
+ },
+ "shp-2023070710412621654": {
+  "compared": {
+   "13": {
+    "window_m": 1.2045,
+    "own_m": 1.5995,
+    "back": false
+   }
+  },
+  "redone": [
+   {
+    "road": "10",
+    "reason": "skipped",
+    "window_events": [
+     {
+      "kind": "birth",
+      "section": 4,
+      "side": "right",
+      "lane": -3,
+      "s": 78.8505,
+      "slope": 0.165,
+      "advanced_m": 4.113
+     }
+    ],
+    "refit": "skipped"
+   }
+  ]
+ },
+ "shp-node16": {
+  "compared": {
+   "11": {
+    "window_m": 0.0407,
+    "own_m": 0.2953,
+    "back": false
+   }
+  },
+  "redone": []
+ },
+ "shp-node17": {
+  "compared": {
+   "10": {
+    "window_m": 0.26,
+    "own_m": 0.26,
+    "back": false
+   }
+  },
+  "redone": []
+ },
+ "shp-node18": {
+  "compared": {
+   "13": {
+    "window_m": 0.1916,
+    "own_m": 0.2286,
+    "back": false
+   }
+  },
+  "redone": []
+ },
+ "shp-node3": {
+  "compared": {
+   "13": {
+    "window_m": 0.0941,
+    "own_m": 0.1434,
+    "back": false
+   }
+  },
+  "redone": []
+ },
+ "shp-node4": {
+  "compared": {
+   "10": {
+    "window_m": 0.2726,
+    "own_m": 0.2726,
+    "back": false
+   },
+   "13": {
+    "window_m": 0.3938,
+    "own_m": 0.375,
+    "back": true
+   }
+  },
+  "redone": [
+   {
+    "road": "13",
+    "reason": "source deviation",
+    "window_events": [
+     {
+      "kind": "death",
+      "section": 14,
+      "side": "left",
+      "lane": 4,
+      "s": 152.2443,
+      "slope": 0.141,
+      "advanced_m": 3.53
+     }
+    ],
+    "refit": "written",
+    "worst_m": {
+     "window": 0.3938,
+     "own": 0.375
+    }
+   }
+  ]
+ }
+}

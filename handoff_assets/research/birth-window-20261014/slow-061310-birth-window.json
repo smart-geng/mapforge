@@ -1,0 +1,220 @@
+{
+ "2023061310244790027": {
+  "metrics": {
+   "xsd_valid": true,
+   "esmini_pass": false,
+   "esmini_gap_max_cm": 19.1,
+   "planview_violations": 0,
+   "route_gap_max_m": 0.1912232653716301,
+   "road_interface_position_max_m": 0.1912232653716301,
+   "road_interface_heading_max_deg": 0.3767929758221284,
+   "road_interface_curvature_max_per_m": 0.04290688451929958,
+   "edge_contacts": 148,
+   "edge_contact_position_max_m": 0.5345858233496696,
+   "edge_contact_heading_max_deg": 6.046497427913324,
+   "edge_contact_curvature_max_per_m": 0.04404944292414981,
+   "lane_edge_step_max_m": 0.0006666224969631429,
+   "connector_width_bulge_max_m": 0.2934841971763458,
+   "connector_width_min_m": 3.201887473985993,
+   "paving_components": 1,
+   "paving_holes_gt1cm2": 0,
+   "paving_holes_resampled": 0,
+   "paving_holes_source_void": 0,
+   "paving_holes_counted": 0,
+   "paving_hole_counted_area_max_m2": 0.0,
+   "paving_source_void_area_m2": 0.0,
+   "paving_source_void_evidence": "none",
+   "g8_status": "FAIL",
+   "lane_center_median_m": 0.01889463830610072,
+   "lane_center_p95_m": 0.12859748353941358,
+   "lane_center_max_m": 2.673781783285883,
+   "lane_endpoint_max_m": 1.1712224789075767,
+   "lane_center_poly_median_m": 0.013648297117933179,
+   "lane_center_poly_p95_m": 0.1203141270186207,
+   "lane_center_poly_max_m": 2.640252019617767,
+   "mouth_curb_flares": 4,
+   "lane_center_flare_samples_left_out": 196,
+   "lane_center_noflare_median_m": 0.018415516450648158,
+   "lane_center_noflare_p95_m": 0.1143905288192905,
+   "lane_center_noflare_max_m": 2.673781783285883,
+   "tight_turn_source_conflicts": 0,
+   "lane_center_conflict_lanes_left_out": 0,
+   "lane_center_conflict_samples_left_out": 0,
+   "lane_center_noconflict_median_m": 0.018415516450648158,
+   "lane_center_noconflict_p95_m": 0.1143905288192905,
+   "lane_center_noconflict_max_m": 2.673781783285883,
+   "lane_endpoint_lateral_max_m": 1.1374599457528807,
+   "stopline_matched": 0,
+   "stopline_source_absent": 0,
+   "stopline_match_distance_max_m": null,
+   "stopline_matched_delta_max_m": null,
+   "g8_status_stopline_resolved": "FAIL",
+   "g8_stopline_requirements_left_out": 0,
+   "boundary_median_m": 0.006072967489627727,
+   "boundary_p95_m": 0.051325341887088226,
+   "boundary_max_m": 0.9784642031658871,
+   "boundary_inside_p95_m": 0.028367411449493982,
+   "boundary_inside_max_m": 0.9392217367627166,
+   "boundary_inside_runs_p95_m": 0.02836488941932897,
+   "boundary_inside_runs_max_m": 0.9392217367627166,
+   "boundary_inside_runs_split": 2,
+   "source_dropped_points": 0,
+   "source_review_open": 0,
+   "source_issues_recorded": 72,
+   "ref_kappa_step_max_per_m": 0.0,
+   "primitives": 296,
+   "leg_seg_min_m": 13.27249786,
+   "conn_seg_min_m": 3.00000000000002,
+   "leg_sharp_flips_per_100m_max": 1.751669015330466,
+   "outer_curvature_max_per_m": 0.08302502050329963,
+   "outer_heading_step_max_deg": 0.0009718944763721817,
+   "outer_curvature_flips_per_100m_max": 0.0,
+   "lane_join_curvature_jump_max_per_m": 0.000992696483569866,
+   "lane_join_jumps_gt_1e-07": 224,
+   "lane_join_jumps_gt_1e-04": 4,
+   "lane_join_jumps_gt_1e-03": 0,
+   "lane_edge_join_curvature_jump_max_per_m": 0.18113886308593863,
+   "lane_edge_join_jumps_gt_1e-03": 25,
+   "conn_edge_join_curvature_jump_max_per_m": 0.0022377764586182583,
+   "turn_counter_curvature_max_per_m": 0.019632595565452497,
+   "turn_counter_curvature_gt_0.02": 0,
+   "fair_road_kappa_max_per_m": 0.03824850453699842,
+   "fair_road_kappa_p90_per_m": 0.004365245556610671,
+   "fair_road_sharpness_max_per_m2": 0.0503249505371149,
+   "fair_road_event_kappa_max_per_m": 0.045384497379772605,
+   "fair_straight_conn_kappa_max_per_m": 0.20122685461137718,
+   "fair_straight_conn_kappa_median_per_m": 0.02175480951927185,
+   "fair_straight_conn_s_bends": 8,
+   "fair_turn_conn_sharpness_p90_per_m2": 0.0203283534718845,
+   "fair_turn_conn_sharpness_max_per_m2": 0.029571238288498034,
+   "width_records": 1950,
+   "lane_sections": 101,
+   "policy_speed_ay_max_mps2": 24.84282155199158,
+   "policy_speed_jerk_max_mps3": 155.8299297238216,
+   "kappa_max_per_m": 0.20122685461137718,
+   "crs": "internally-consistent",
+   "cli_delivery": "BLOCKED"
+  },
+  "tiers": {
+   "T1": {
+    "status": "FAIL",
+    "failed": [
+     {
+      "metric": "esmini_pass",
+      "op": "eq",
+      "value": true,
+      "actual": false,
+      "pass": false
+     },
+     {
+      "metric": "route_gap_max_m",
+      "op": "le",
+      "value": 0.01,
+      "actual": 0.1912232653716301,
+      "pass": false
+     },
+     {
+      "metric": "road_interface_position_max_m",
+      "op": "le",
+      "value": 0.01,
+      "actual": 0.1912232653716301,
+      "pass": false
+     },
+     {
+      "metric": "road_interface_heading_max_deg",
+      "op": "le",
+      "value": 0.1,
+      "actual": 0.3767929758221284,
+      "pass": false
+     },
+     {
+      "metric": "edge_contact_position_max_m",
+      "op": "le",
+      "value": 0.05,
+      "actual": 0.5345858233496696,
+      "pass": false
+     },
+     {
+      "metric": "edge_contact_heading_max_deg",
+      "op": "le",
+      "value": 1.0,
+      "actual": 6.046497427913324,
+      "pass": false
+     },
+     {
+      "metric": "g8_status_stopline_resolved",
+      "op": "eq",
+      "value": "PASS",
+      "actual": "FAIL",
+      "pass": false
+     }
+    ],
+    "unavailable": []
+   },
+   "T2": {
+    "status": "FAIL",
+    "failed": [
+     {
+      "metric": "lane_center_noconflict_max_m",
+      "op": "le",
+      "value": 0.35,
+      "applies_to": [
+       "shp"
+      ],
+      "actual": 2.673781783285883,
+      "pass": false
+     },
+     {
+      "metric": "lane_endpoint_lateral_max_m",
+      "op": "le",
+      "value": 0.2,
+      "applies_to": [
+       "shp"
+      ],
+      "actual": 1.1374599457528807,
+      "pass": false
+     },
+     {
+      "metric": "boundary_inside_runs_max_m",
+      "op": "le",
+      "value": 0.35,
+      "applies_to": [
+       "shp"
+      ],
+      "actual": 0.9392217367627166,
+      "pass": false
+     },
+     {
+      "metric": "edge_contact_position_max_m",
+      "op": "le",
+      "value": 0.01,
+      "actual": 0.5345858233496696,
+      "pass": false
+     },
+     {
+      "metric": "edge_contact_heading_max_deg",
+      "op": "le",
+      "value": 0.1,
+      "actual": 6.046497427913324,
+      "pass": false
+     },
+     {
+      "metric": "road_interface_curvature_max_per_m",
+      "op": "le",
+      "value": 0.001,
+      "actual": 0.04290688451929958,
+      "pass": false
+     },
+     {
+      "metric": "edge_contact_curvature_max_per_m",
+      "op": "le",
+      "value": 0.001,
+      "actual": 0.04404944292414981,
+      "pass": false
+     }
+    ],
+    "unavailable": []
+   }
+  }
+ }
+}

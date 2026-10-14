@@ -1,0 +1,32 @@
+Related tests: the 41 files of the earlier rounds (lane_refit, its boundary step, lane_birth_advance, lane_gap, MAP
+lane refit, mouth anchor, source event, surface seams, G8 / scoreboard / generalization, workbench),
+tests/test_refit_zero_start.py, tests/test_refit_hold_width.py, tests/test_boundary_inside_runs.py,
+tests/test_refit_prune_guard.py, tests/test_refit_lane_swap.py and the new tests/test_refit_birth_window.py; in the
+checkout with the real shp_0222-0326 and out/ (run after the last change of the three files, on the committed
+bytes), compared per test id (junit_compare.py, ../zero-start-retry-20261012/).
+The "before" runs are those of the previous round's change (../lane-swap-20261014/related-tests.txt, same machine,
+same commands), whose code is main df7455b. Comparison 1 ran with OPENBLAS_NUM_THREADS=1 both times, comparison 2 with
+the numpy default both times.
+
+1. Before (main df7455b) vs this change:
+
+   before: 756 passed, 3 skipped, 30 failed, 8 errors
+   change: 772 passed, 3 skipped, 30 failed, 8 errors
+
+   Differences by test id:
+     16  tests/test_refit_birth_window.py (new)               -> passed
+   the other 797 ids: same state.
+
+   Environmental in both (as in the earlier rounds):
+   - 30 failed, tests/test_workbench_surface_validation.py: "unsupported-platform" (the consumer check needs Windows);
+   - 8 errors, tests/test_workbench_validation.py: the fixture reads the accepted WB05 project at a Windows path
+     recorded in the out/ evidence.
+
+2. The four test files that read the real source folder and out/ (test_paving_holes, test_stopline_match,
+   test_workbench_surface_compiler, test_workbench_surface_validation) with the five retry/metric/guard/swap test files
+   and the new one:
+
+   before: 154 passed, 1 skipped, 30 failed
+   change: 170 passed, 1 skipped, 30 failed
+
+   Differences by test id: 16 tests/test_refit_birth_window.py (new) -> passed; the other 185 ids: same state.

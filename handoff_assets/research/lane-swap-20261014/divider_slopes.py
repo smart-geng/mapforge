@@ -1,8 +1,7 @@
 """Slopes and corner sizes of each divider refit_lane_swap builds on lane_refit stage inputs: the full width W and its
 slope W' at the middle of the swap, mu0 / mu1, the corner half length each slope asks for at the curvature target
 (mu / KAPPA_CAP) and the one taken (h_m). cwd = code tree. argv: raw xodr..., then '--' and the c_stage_hold.py path.
-The stage outputs go to tmp-*.stage.* beside this script. With several inputs in one call only the first output is the
-one a stage run of its own writes (the first run leaves module state behind); the printed sizes are the same."""
+The stage outputs go to tmp-*.stage.* beside this script; each is the same as a stage run of its own writes."""
 import runpy, sys
 from pathlib import Path
 sys.path.insert(0, str(Path.cwd()))
@@ -33,7 +32,8 @@ SW.divider = divider
 args = sys.argv[1:]
 cut = args.index("--")
 raws, stage = args[:cut], args[cut + 1]
+here = Path(sys.argv[0]).resolve().parent          # sys.argv is the stage script's from the first run on
 for raw in raws:
-    out = Path(sys.argv[0]).with_name("tmp-" + Path(raw).name.replace(".raw.", ".stage."))
+    out = here / ("tmp-" + Path(raw).name.replace(".raw.", ".stage."))
     sys.argv = [stage, raw, str(out), str(out.with_suffix(".json"))]
     runpy.run_path(stage, run_name="__main__")

@@ -1,0 +1,126 @@
+== sb-sw shp-node3.xodr
+  road       road   11 lane  -3 s  180.00- 190.00 kappa 0.0157 (sample 9) width 2.94-3.15 sharp 0.0166
+  road       road   12 lane  -2 s    0.00- 142.40 kappa 0.0140 (sample 12) width 3.47-3.74 sharp 0.0047
+  road       road   11 lane  -1 s  120.00- 150.00 kappa 0.0134 (sample 3) width 3.33-3.52 sharp 0.0088
+  road_event road   13 lane   5 s   20.00-  27.07 kappa 0.0366 (sample 28) width 0.00-0.06 sharp 0.0125
+  road_event road   13 lane  -3 s   70.00-  80.00 kappa 0.0358 (sample 2) width 0.01-0.80 sharp 0.0211
+  road_event road   13 lane   5 s   27.07-  30.00 kappa 0.0357 (sample 0) width 0.06-0.31 sharp 0.0126
+== sb-bw4 shp-node3.xodr
+  road       road   11 lane  -3 s  180.00- 190.00 kappa 0.0157 (sample 9) width 2.94-3.15 sharp 0.0166
+  road       road   12 lane  -2 s    0.00- 142.40 kappa 0.0140 (sample 12) width 3.47-3.74 sharp 0.0047
+  road       road   11 lane  -1 s  120.00- 150.00 kappa 0.0134 (sample 3) width 3.33-3.52 sharp 0.0088
+  road_event road   13 lane   5 s   20.00-  27.07 kappa 0.0366 (sample 28) width 0.00-0.06 sharp 0.0125
+  road_event road   13 lane   5 s   27.07-  30.00 kappa 0.0357 (sample 0) width 0.06-0.31 sharp 0.0126
+  road_event road   11 lane  -3 s  102.96- 120.00 kappa 0.0241 (sample 14) width 0.02-2.04 sharp 0.0162
+== sb-sw shp-node4.xodr
+  road       road   10 lane   3 s   57.33-  60.00 kappa 0.0738 (sample 5) width 3.54-3.59 sharp 0.0461
+  road       road   10 lane  -3 s   41.39-  50.00 kappa 0.0701 (sample 6) width 3.47-3.71 sharp 0.0620
+  road       road   11 lane  -2 s  160.96- 173.39 kappa 0.0492 (sample 1) width 3.43-3.47 sharp 0.0116
+  road_event road   11 lane  -3 s  151.62- 160.96 kappa 0.0880 (sample 1) width 3.08-3.40 sharp 0.0270
+  road_event road   11 lane  -3 s  150.00- 151.62 kappa 0.0798 (sample 6) width 2.76-3.06 sharp 0.0256
+  road_event road   11 lane  -4 s  151.62- 160.96 kappa 0.0792 (sample 2) width 0.17-3.03 sharp 0.0595
+== sb-bw4 shp-node4.xodr
+  road       road   10 lane  -3 s   41.39-  50.00 kappa 0.0701 (sample 6) width 3.47-3.71 sharp 0.0620
+  road       road   11 lane  -2 s  160.96- 173.39 kappa 0.0492 (sample 1) width 3.43-3.47 sharp 0.0116
+  road       road   11 lane  -3 s  160.96- 173.39 kappa 0.0492 (sample 1) width 3.40-3.49 sharp 0.0115
+  road_event road   11 lane  -3 s  151.62- 160.96 kappa 0.0880 (sample 1) width 3.08-3.40 sharp 0.0270
+  road_event road   11 lane  -3 s  150.00- 151.62 kappa 0.0798 (sample 6) width 2.76-3.06 sharp 0.0256
+  road_event road   11 lane  -4 s  151.62- 160.96 kappa 0.0792 (sample 2) width 0.17-3.03 sharp 0.0595
+== sb-sw shp-node16.xodr
+  road       road   10 lane   2 s   34.59-  46.41 kappa 0.0278 (sample 43) width 3.16-3.24 sharp 0.0245
+  road       road   10 lane   4 s   46.41-  60.00 kappa 0.0211 (sample 9) width 3.22-3.48 sharp 0.0081
+  road       road   13 lane   2 s    0.00-  30.00 kappa 0.0208 (sample 57) width 3.26-3.49 sharp 0.0075
+  road_event road   10 lane   4 s   80.32-  86.09 kappa 0.0310 (sample 0) width 0.00-0.10 sharp 0.0168
+  road_event road   10 lane   4 s   70.00-  80.32 kappa 0.0289 (sample 41) width 0.11-1.86 sharp 0.0282
+  road_event road   11 lane  -2 s  160.00- 170.00 kappa 0.0252 (sample 5) width 0.02-1.41 sharp 0.0160
+== sb-bw4 shp-node16.xodr
+  road       road   10 lane   2 s   34.59-  46.41 kappa 0.0278 (sample 43) width 3.16-3.24 sharp 0.0245
+  road       road   10 lane   4 s   46.41-  60.00 kappa 0.0211 (sample 9) width 3.22-3.48 sharp 0.0081
+  road       road   13 lane   2 s    0.00-  30.00 kappa 0.0208 (sample 57) width 3.26-3.49 sharp 0.0075
+  road_event road   10 lane   4 s   80.32-  86.09 kappa 0.0310 (sample 0) width 0.00-0.10 sharp 0.0168
+  road_event road   10 lane   4 s   70.00-  80.32 kappa 0.0289 (sample 41) width 0.11-1.86 sharp 0.0282
+  road_event road   12 lane   2 s    0.00-  20.00 kappa 0.0186 (sample 12) width 3.33-3.70 sharp 0.0063
+== sb-sw shp-node17.xodr
+  road       road   11 lane   2 s   50.00- 154.57 kappa 0.0208 (sample 388) width 3.31-3.32 sharp 0.0070
+  road       road   10 lane  -3 s   80.00-  81.01 kappa 0.0204 (sample 3) width 3.85-3.86 sharp 0.0063
+  road       road   11 lane   3 s   50.00- 154.57 kappa 0.0201 (sample 388) width 3.30-3.53 sharp 0.0068
+  road_event road   10 lane  -3 s  190.00- 197.20 kappa 0.0465 (sample 25) width 3.27-3.84 sharp 0.0543
+  road_event road   12 lane  -3 s   56.92-  60.00 kappa 0.0419 (sample 0) width 0.11-0.68 sharp 0.0144
+  road_event road   12 lane  -3 s   50.60-  56.92 kappa 0.0409 (sample 25) width 0.00-0.10 sharp 0.0144
+== sb-bw4 shp-node17.xodr
+  road       road   11 lane   2 s   50.00- 154.57 kappa 0.0208 (sample 388) width 3.31-3.32 sharp 0.0070
+  road       road   10 lane  -3 s   80.00-  81.01 kappa 0.0204 (sample 3) width 3.85-3.86 sharp 0.0063
+  road       road   10 lane  -3 s   81.01-  84.01 kappa 0.0202 (sample 0) width 3.75-3.86 sharp 0.0067
+  road_event road   10 lane  -3 s  190.00- 197.20 kappa 0.0465 (sample 25) width 3.27-3.84 sharp 0.0543
+  road_event road   12 lane  -3 s   56.92-  60.00 kappa 0.0419 (sample 0) width 0.11-0.68 sharp 0.0144
+  road_event road   12 lane  -3 s   50.60-  56.92 kappa 0.0409 (sample 25) width 0.00-0.10 sharp 0.0144
+== sb-sw shp-node18.xodr
+  road       road   11 lane   3 s  139.89- 160.00 kappa 0.0357 (sample 0) width 3.13-3.28 sharp 0.0101
+  road       road   11 lane   2 s  139.89- 160.00 kappa 0.0344 (sample 0) width 3.21-3.34 sharp 0.0096
+  road       road   12 lane   4 s  139.13- 143.89 kappa 0.0279 (sample 0) width 3.52-3.57 sharp 0.0092
+  road_event road   11 lane   2 s  125.44- 130.00 kappa 0.0811 (sample 7) width 5.70-6.63 sharp 0.0468
+  road_event road   11 lane   3 s  125.44- 130.00 kappa 0.0810 (sample 7) width 0.00-0.89 sharp 0.0468
+  road_event road   10 lane   4 s  110.00- 116.58 kappa 0.0408 (sample 23) width 3.53-3.95 sharp 0.0493
+== sb-bw4 shp-node18.xodr
+  road       road   11 lane   3 s  139.89- 160.00 kappa 0.0357 (sample 0) width 3.13-3.28 sharp 0.0101
+  road       road   11 lane   2 s  139.89- 160.00 kappa 0.0344 (sample 0) width 3.21-3.34 sharp 0.0096
+  road       road   12 lane   4 s  139.13- 143.89 kappa 0.0279 (sample 0) width 3.52-3.57 sharp 0.0092
+  road_event road   11 lane   2 s  125.44- 130.00 kappa 0.0811 (sample 7) width 5.70-6.63 sharp 0.0468
+  road_event road   11 lane   3 s  125.44- 130.00 kappa 0.0810 (sample 7) width 0.00-0.89 sharp 0.0468
+  road_event road   10 lane   4 s  110.00- 116.58 kappa 0.0408 (sample 23) width 3.53-3.95 sharp 0.0493
+== gen-sw shp-2023062713394062899.xodr
+  road       road   12 lane  -2 s   65.23-  69.28 kappa 0.0723 (sample 16) width 4.15-4.33 sharp 0.0228
+  road       road   12 lane   5 s  128.76- 130.00 kappa 0.0602 (sample 4) width 3.53-3.63 sharp 0.0792
+  road       road   10 lane   4 s  460.00- 461.20 kappa 0.0586 (sample 1) width 4.31-4.35 sharp 0.0671
+  road_event road   13 lane  -4 s   17.79-  20.90 kappa 0.1669 (sample 11) width 0.00-0.18 sharp 0.0551
+  road_event road   13 lane  -4 s   20.90-  30.00 kappa 0.1647 (sample 0) width 0.20-2.33 sharp 0.0552
+  road_event road   12 lane   5 s  130.00- 140.00 kappa 0.1399 (sample 3) width 1.30-3.50 sharp 0.0840
+== gen-bw4 shp-2023062713394062899.xodr
+  road       road   12 lane  -2 s   65.23-  69.28 kappa 0.0723 (sample 16) width 4.15-4.33 sharp 0.0228
+  road       road   10 lane   4 s  460.00- 461.20 kappa 0.0586 (sample 1) width 4.31-4.35 sharp 0.0671
+  road       road   12 lane  -2 s   78.80-  80.00 kappa 0.0517 (sample 1) width 3.07-3.15 sharp 0.0112
+  road_event road   13 lane  -4 s   17.79-  20.90 kappa 0.1669 (sample 11) width 0.00-0.18 sharp 0.0551
+  road_event road   13 lane  -4 s   20.90-  30.00 kappa 0.1647 (sample 0) width 0.20-2.33 sharp 0.0552
+  road_event road   12 lane  -2 s   69.28-  78.80 kappa 0.0765 (sample 1) width 3.15-4.32 sharp 0.0241
+== gen-sw shp-2023063015350832057.xodr
+  road       road   12 lane   3 s   98.23- 100.00 kappa 0.1118 (sample 6) width 5.69-5.77 sharp 0.0709
+  road       road   31 lane  -2 s    0.00- 256.08 kappa 0.0801 (sample 4) width 3.75-3.84 sharp 0.0951
+  road       road   31 lane  -3 s    0.00- 256.08 kappa 0.0775 (sample 4) width 2.91-2.95 sharp 0.0924
+  road_event road   12 lane   4 s   98.23- 100.00 kappa 0.1089 (sample 6) width 0.00-0.14 sharp 0.0688
+  road_event road   12 lane   3 s  100.00- 110.00 kappa 0.0970 (sample 0) width 3.82-5.72 sharp 0.0539
+  road_event road   12 lane   4 s  100.00- 110.00 kappa 0.0949 (sample 0) width 0.15-3.00 sharp 0.0530
+== gen-bw4 shp-2023063015350832057.xodr
+  road       road   31 lane  -2 s    0.00- 256.08 kappa 0.0801 (sample 4) width 3.75-3.84 sharp 0.0951
+  road       road   31 lane  -3 s    0.00- 256.08 kappa 0.0775 (sample 4) width 2.91-2.95 sharp 0.0924
+  road       road   10 lane  -3 s   82.73-  90.00 kappa 0.0239 (sample 1) width 3.46-3.55 sharp 0.0081
+  road_event road   12 lane   4 s   92.65-  98.23 kappa 0.0686 (sample 6) width 0.00-0.85 sharp 0.0494
+  road_event road   12 lane   3 s   92.65-  98.23 kappa 0.0667 (sample 6) width 4.86-5.18 sharp 0.0456
+  road_event road   11 lane  -3 s  110.00- 117.26 kappa 0.0420 (sample 1) width 0.03-0.94 sharp 0.0232
+== gen-slow-sw shp-2023070710412621654.xodr
+  road       road   13 lane  -2 s   65.07-  67.39 kappa 0.1219 (sample 6) width 4.68-4.80 sharp 0.0879
+  road       road   13 lane   3 s   65.07-  67.39 kappa 0.0531 (sample 8) width 2.98-3.14 sharp 0.0182
+  road       road   13 lane   3 s   67.39-  70.00 kappa 0.0479 (sample 0) width 2.93-2.98 sharp 0.0177
+  road_event road   10 lane  -4 s   78.85-  80.00 kappa 0.3414 (sample 0) width 0.00-0.01 sharp 0.4507
+  road_event road   13 lane  -1 s   65.07-  67.39 kappa 0.1190 (sample 6) width 0.00-0.30 sharp 0.0911
+  road_event road   10 lane  -3 s   78.85-  80.00 kappa 0.1123 (sample 0) width 0.00-0.13 sharp 0.1294
+== gen-slow-bw4 shp-2023070710412621654.xodr
+  road       road   13 lane   3 s   65.07-  67.39 kappa 0.0531 (sample 8) width 2.98-3.14 sharp 0.0182
+  road       road   13 lane   3 s   60.00-  62.00 kappa 0.0519 (sample 2) width 3.47-3.59 sharp 0.0173
+  road       road   13 lane   3 s   67.39-  70.00 kappa 0.0479 (sample 0) width 2.93-2.98 sharp 0.0177
+  road_event road   10 lane  -4 s   78.85-  80.00 kappa 0.3414 (sample 0) width 0.00-0.01 sharp 0.4507
+  road_event road   10 lane  -3 s   78.85-  80.00 kappa 0.1123 (sample 0) width 0.00-0.13 sharp 0.1294
+  road_event road   13 lane  -4 s   46.94-  50.00 kappa 0.0646 (sample 2) width 0.09-0.56 sharp 0.0679
+== gen-slow-base13 shp-2023061310244790027.xodr
+  road       road   30 lane  -2 s    0.00- 176.16 kappa 0.0382 (sample 3) width 3.49-3.53 sharp 0.0503
+  road       road   30 lane  -1 s    0.00- 176.16 kappa 0.0359 (sample 4) width 3.66-3.74 sharp 0.0468
+  road       road   30 lane  -3 s    0.00- 176.16 kappa 0.0355 (sample 3) width 3.48-3.52 sharp 0.0466
+  road_event road   11 lane  -5 s  159.86- 170.00 kappa 0.0454 (sample 0) width 0.22-3.31 sharp 0.0122
+  road_event road   11 lane  -5 s  155.70- 159.86 kappa 0.0435 (sample 16) width 0.00-0.20 sharp 0.0119
+  road_event road   12 lane   4 s   90.00-  97.02 kappa 0.0388 (sample 4) width 0.03-1.44 sharp 0.0263
+== gen-slow-bw4 shp-2023061310244790027.xodr
+  road       road   30 lane  -2 s    0.00- 176.16 kappa 0.0382 (sample 3) width 3.49-3.53 sharp 0.0503
+  road       road   30 lane  -1 s    0.00- 176.16 kappa 0.0359 (sample 4) width 3.66-3.74 sharp 0.0468
+  road       road   30 lane  -3 s    0.00- 176.16 kappa 0.0355 (sample 3) width 3.48-3.52 sharp 0.0466
+  road_event road   11 lane  -5 s  159.86- 170.00 kappa 0.0454 (sample 0) width 0.22-3.31 sharp 0.0122
+  road_event road   11 lane  -5 s  155.70- 159.86 kappa 0.0435 (sample 16) width 0.00-0.20 sharp 0.0119
+  road_event road   12 lane   4 s   90.00-  97.02 kappa 0.0388 (sample 4) width 0.03-1.44 sharp 0.0263

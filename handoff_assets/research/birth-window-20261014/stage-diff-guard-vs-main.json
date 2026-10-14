@@ -1,0 +1,100 @@
+{
+ "shp-2023041111160971268.stage.xodr": [],
+ "shp-2023041216222042093.stage.xodr": [],
+ "shp-2023041810414040830.stage.xodr": [],
+ "shp-2023061310244790027.stage.xodr": [],
+ "shp-2023062110304177600.stage.xodr": [],
+ "shp-2023062713394062899.stage.xodr": [
+  {
+   "road": "12",
+   "differs": true,
+   "prune_guards": null
+  },
+  {
+   "road": "13",
+   "differs": false,
+   "prune_guards": [
+    {
+     "a": 17.792,
+     "b": 106.225,
+     "pruned_error_m": 1.419,
+     "guarded_error_m": 1.126,
+     "used": true
+    }
+   ]
+  }
+ ],
+ "shp-2023063015350832057.stage.xodr": [
+  {
+   "road": "11",
+   "differs": true,
+   "prune_guards": null
+  },
+  {
+   "road": "12",
+   "differs": true,
+   "prune_guards": null
+  }
+ ],
+ "shp-2023070710324132429.stage.xodr": [],
+ "shp-2023070710412621654.stage.xodr": [
+  {
+   "road": "13",
+   "differs": true,
+   "prune_guards": [
+    {
+     "a": 41.334,
+     "b": 126.936,
+     "pruned_error_m": 0.73,
+     "guarded_error_m": 0.005,
+     "used": true
+    }
+   ]
+  }
+ ],
+ "shp-2023071109582525264.stage.xodr": [],
+ "shp-2023080118313036830.stage.xodr": [],
+ "shp-2023080810023203229.stage.xodr": [],
+ "shp-NODE5.stage.xodr": [],
+ "shp-node13.stage.xodr": [],
+ "shp-node16.stage.xodr": [
+  {
+   "road": "11",
+   "differs": true,
+   "prune_guards": null
+  }
+ ],
+ "shp-node17.stage.xodr": [
+  {
+   "road": "10",
+   "differs": true,
+   "prune_guards": null
+  }
+ ],
+ "shp-node18.stage.xodr": [
+  {
+   "road": "13",
+   "differs": true,
+   "prune_guards": null
+  }
+ ],
+ "shp-node3.stage.xodr": [
+  {
+   "road": "13",
+   "differs": true,
+   "prune_guards": null
+  }
+ ],
+ "shp-node4.stage.xodr": [
+  {
+   "road": "10",
+   "differs": true,
+   "prune_guards": null
+  },
+  {
+   "road": "13",
+   "differs": true,
+   "prune_guards": null
+  }
+ ]
+}

@@ -1,0 +1,13 @@
+shp-2023061310244790027  road  12 birth left  lane   4 s    88.35  section  1.65 m  own obs (outer; inner) 4 obs / 1.07 m; 8 obs / 1.28 m  slope 0.164  advance 4.09 m
+shp-2023062713394062899  road  12 birth left  lane   4 s   128.76  section  1.24 m  own obs (outer; inner) 4 obs / 0.49 m; 4 obs / 0.50 m  slope 0.233  advance 5.81 m
+shp-2023063015350832057  road  11 birth right lane  -3 s   108.62  section  1.38 m  own obs (outer; inner) 3 obs / 1.00 m; 6 obs / 1.00 m  slope 0.108  advance 3.00 m
+shp-2023063015350832057  road  12 birth left  lane   4 s    98.23  section  1.77 m  own obs (outer; inner) 4 obs / 1.42 m; 8 obs / 1.42 m  slope 0.223  advance 5.57 m
+shp-2023070710412621654  road  10 birth right lane  -3 s    78.85  section  1.15 m  own obs (outer; inner) 2 obs / 0.00 m; 2 obs / 0.00 m  slope 0.165  advance 4.11 m
+shp-2023070710412621654  road  13 birth right lane  -1 s    65.07  section  2.32 m  own obs (outer; inner) 12 obs / 1.84 m; 5 obs / 1.71 m  slope 0.325  advance 3.07 m
+shp-node16               road  11 birth right lane  -2 s   158.27  section  1.73 m  own obs (outer; inner) 4 obs / 1.50 m; 8 obs / 1.50 m  slope 0.125  advance 3.12 m
+shp-node17               road  10 death right lane  -4 s    81.01  section  1.01 m  own obs (outer; inner) 3 obs / 0.63 m; 6 obs / 0.54 m  slope 0.087  advance 3.00 m
+shp-node18               road  13 birth left  lane   4 s    38.11  section  1.89 m  own obs (outer; inner) 4 obs / 1.43 m; 10 obs / 1.62 m  slope 0.099  advance 3.00 m
+shp-node3                road  13 death left  lane   5 s   131.45  section  1.45 m  own obs (outer; inner) 2 obs / 0.51 m; 4 obs / 0.51 m  slope 0.136  advance 3.40 m
+shp-node3                road  13 birth right lane  -3 s    69.00  section  1.00 m  own obs (outer; inner) 2 obs / 0.50 m; 4 obs / 0.50 m  slope 0.063  advance 3.00 m
+shp-node4                road  10 death left  lane   4 s    60.00  section  2.67 m  own obs (outer; inner) 5 obs / 1.96 m; 10 obs / 1.94 m  slope 0.153  advance 3.83 m
+shp-node4                road  13 death left  lane   4 s   152.24  section  2.24 m  own obs (outer; inner) 5 obs / 1.98 m; 10 obs / 2.00 m  slope 0.141  advance 3.53 m

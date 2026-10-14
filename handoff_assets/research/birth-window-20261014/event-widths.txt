@@ -1,0 +1,31 @@
+== 0630 road 11 right -3 (birth 108.62)
+s  108.76  source  0.000  written main  0.000  window  0.000
+s  109.26  source  0.054  written main  0.003  window  0.003
+s  109.76  source  0.108  written main  0.016  window  0.016
+s  110.76  source  0.216  written main  0.101  window  0.101
+s  111.26  source  0.270  written main  0.170  window  0.170
+s  111.76  source  0.324  written main  0.250  window  0.250
+s  112.26  source  0.378  written main  0.333  window  0.333
+s  112.76  source  0.431  written main  0.415  window  0.415
+s  113.27  source  0.485  written main  0.489  window  0.489
+s  113.77  source  0.539  written main  0.554  window  0.554
+s  114.27  source  0.593  written main  0.612  window  0.612
+s  114.77  source  0.647  written main  0.668  window  0.668
+s  115.27  source  0.701  written main  0.723  window  0.723
+s  115.77  source  0.755  written main  0.778  window  0.778
+== 0630 road 12 left 4 (birth 98.23)
+s   98.49  source  0.586  written main  0.000  window  0.897
+s   98.96  source  0.697  written main  0.011  window  0.962
+s   99.43  source  0.808  written main  0.046  window  1.026
+s  100.37  source  1.028  written main  0.248  window  1.153
+s  100.84  source  1.138  written main  0.406  window  1.217
+s  101.31  source  1.248  written main  0.588  window  1.281
+s  101.78  source  1.359  written main  0.781  window  1.345
+s  102.26  source  1.468  written main  0.974  window  1.411
+s  102.74  source  1.567  written main  1.152  window  1.477
+s  103.21  source  1.653  written main  1.306  window  1.545
+s  103.68  source  1.740  written main  1.442  window  1.616
+s  104.16  source  1.826  written main  1.569  window  1.691
+s  104.63  source  1.912  written main  1.695  window  1.771
+s  105.11  source  1.999  written main  1.821  window  1.856
+s  105.59  source  2.085  written main  1.947  window  1.946

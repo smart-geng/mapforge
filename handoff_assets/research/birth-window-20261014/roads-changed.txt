@@ -1,0 +1,79 @@
+== shp-node3
+roads differing: 6
+13 (junction -1): lanes, userData
+127 (junction 1): planView, lanes
+128 (junction 1): planView, lanes
+129 (junction 1): planView, lanes, userData
+130 (junction 1): planView, lanes
+131 (junction 1): planView, lanes
+non-road elements identical: True
+== shp-node4
+roads differing: 4
+10 (junction -1): lanes, userData
+106 (junction 1): planView, lanes
+115 (junction 1): planView, lanes
+122 (junction 1): planView, lanes
+non-road elements identical: True
+== shp-node16
+roads differing: 4
+11 (junction -1): lanes, userData
+106 (junction 1): planView, lanes
+107 (junction 1): planView, lanes
+108 (junction 1): planView, lanes
+non-road elements identical: True
+== shp-node17
+roads differing: 1
+10 (junction -1): lanes, userData
+non-road elements identical: True
+== shp-node18
+roads differing: 4
+13 (junction -1): lanes, userData
+102 (junction 1): planView, lanes, userData
+114 (junction 1): planView, lanes
+124 (junction 1): planView, lanes
+non-road elements identical: True
+== 0627
+roads differing: 10
+12 (junction -1): lanes, userData
+102 (junction 1): planView, lanes
+103 (junction 1): planView, lanes
+104 (junction 1): planView, lanes
+112 (junction 1): planView, lanes
+113 (junction 1): planView, lanes
+114 (junction 1): planView, lanes
+122 (junction 1): planView, lanes
+123 (junction 1): planView, lanes
+124 (junction 1): lanes
+non-road elements identical: True
+== 0630
+roads differing: 12
+12 (junction -1): lanes, userData
+101 (junction 1): planView, lanes
+102 (junction 1): planView, lanes
+103 (junction 1): planView, lanes, userData
+109 (junction 1): planView, lanes, userData
+110 (junction 1): planView, lanes, userData
+112 (junction 1): planView, lanes
+113 (junction 1): planView, lanes
+114 (junction 1): planView, lanes, userData
+115 (junction 1): lanes
+116 (junction 1): lanes, userData
+117 (junction 1): planView, lanes
+non-road elements identical: True
+== 0707104
+roads differing: 10
+13 (junction -1): lanes, userData
+132 (junction 1): planView, lanes
+133 (junction 1): planView, lanes
+134 (junction 1): planView, lanes
+135 (junction 1): planView, lanes
+136 (junction 1): planView, lanes
+137 (junction 1): lanes
+138 (junction 1): lanes
+139 (junction 1): planView, lanes
+140 (junction 1): planView, lanes, userData
+non-road elements identical: True
+== 061310
+roads differing: 0
+
+non-road elements identical: True

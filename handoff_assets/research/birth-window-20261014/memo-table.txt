@@ -1,0 +1,15 @@
+converted 12, T1 not passed 2, T2 not passed 8
+| 路口 | T1 | T2 | 不过的项（值 / 阈值） |
+|---|---|---|---|
+| 0411 | PASS | PASS | — |
+| 0412 | FAIL | FAIL | T1 g8_status_stopline_resolved FAIL；T2 lane_center_noconflict_max_m 5.179 / 0.35；T2 edge_contact_curvature_max_per_m 0.001726 / 0.001 |
+| 0418 | PASS | PASS | — |
+| 061310 | FAIL | FAIL | T1 esmini_pass 0 / True；T1 route_gap_max_m 0.1912 / 0.01；T1 road_interface_position_max_m 0.1912 / 0.01；T1 road_interface_heading_max_deg 0.3768 / 0.1；T1 edge_contact_position_max_m 0.5346 / 0.01；T1 edge_contact_heading_max_deg 6.046 / 0.1；T1 g8_status_stopline_resolved FAIL；T2 lane_center_noconflict_max_m 2.674 / 0.35；T2 lane_endpoint_lateral_max_m 1.137 / 0.2；T2 boundary_inside_runs_max_m 0.9392 / 0.35；T2 edge_contact_position_max_m 0.5346 / 0.01；T2 edge_contact_heading_max_deg 6.046 / 0.1；T2 road_interface_curvature_max_per_m 0.04291 / 0.001；T2 edge_contact_curvature_max_per_m 0.04405 / 0.001 |
+| 0621 | PASS | PASS | — |
+| 0627 | PASS | FAIL | T2 lane_center_noconflict_max_m 0.3908 / 0.35；T2 lane_endpoint_lateral_max_m 0.3729 / 0.2；T2 boundary_inside_runs_max_m 0.876 / 0.35；T2 edge_contact_curvature_max_per_m 0.001078 / 0.001 |
+| 0630 | PASS | FAIL | T2 lane_center_noconflict_p95_m 0.1698 / 0.15；T2 lane_center_noconflict_max_m 0.6993 / 0.35；T2 lane_endpoint_lateral_max_m 0.9691 / 0.2；T2 boundary_inside_runs_max_m 0.8295 / 0.35；T2 edge_contact_curvature_max_per_m 0.003967 / 0.001 |
+| 0707(0324) | PASS | FAIL | T2 lane_center_noconflict_p95_m 0.3458 / 0.15；T2 lane_center_noconflict_max_m 0.3555 / 0.35 |
+| 0707104 | PASS | FAIL | T2 lane_center_noconflict_p95_m 0.1903 / 0.15；T2 lane_center_noconflict_max_m 0.708 / 0.35；T2 lane_endpoint_lateral_max_m 0.2583 / 0.2；T2 boundary_inside_runs_p95_m 0.6485 / 0.1；T2 boundary_inside_runs_max_m 1.758 / 0.35；T2 lane_join_curvature_jump_max_per_m 0.1741 / 0.001；T2 edge_contact_curvature_max_per_m 0.00182 / 0.001 |
+| 0711 | PASS | PASS | — |
+| 0801 | PASS | FAIL | T2 boundary_inside_runs_p95_m 0.5643 / 0.1；T2 boundary_inside_runs_max_m 3.859 / 0.35 |
+| 0808 | PASS | FAIL | T2 lane_center_noconflict_max_m 0.7883 / 0.35 |
