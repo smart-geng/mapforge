@@ -1,0 +1,2 @@
+road 11 right inner-birth: run 3.836 W 2.864 W' -0.0056 mu0 0.7437 mu1 0.7493 asks h 18.59 / 18.73 took [1.918, 1.918] corner offset mu*h/6 [0.238, 0.24]
+road 13 left outer-birth: run 12.031 W 3.848 W' -0.0504 mu0 0.2946 mu1 0.3450 asks h 7.37 / 8.63 took [6.015, 4.786] corner offset mu*h/6 [0.295, 0.275]

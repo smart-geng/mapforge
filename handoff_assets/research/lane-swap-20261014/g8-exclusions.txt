@@ -1,0 +1,29 @@
+G8 exclusions that changed class (g8_exclusions_diff.py, main gen-pg -> this change gen-sw), the widths of those
+lane pieces (g8_widths.py: G8 samples them every 1 m from the section start plus the point just before its end;
+zero_width_epsilon_m 0.05) and the delivery decision's review reasons.
+
+== 2023071109582525264
+status PASS -> PASS | excluded 123 -> 123
+  exclusion ('11', 3, 'right', -2) ('source-extension', 'INFERRED', '57656') -> ('source-support-unavailable', 'INFERRED', '57656')
+  exclusion ('11', 5, 'right', -3) ('source-extension', 'INFERRED', '60016') -> ('source-support-unavailable', 'INFERRED', '60016')
+  widths, main:
+    section 3 s 52.69-60.69 lane -2: max width 0.233 m at s 60.69; > 0.05 m over s 59.4936-60.6936; G8 samples > 0.05 m: [(59.69, 0.069), (60.69, 0.233)]
+    section 5 s 64.53-67.57 lane -3: max width 0.247 m at s 64.53; > 0.05 m over s 64.5299-65.7672614; G8 samples > 0.05 m: [(64.53, 0.247), (65.53, 0.073)]
+  widths, change:
+    section 3 s 52.69-60.69 lane -2: max width 0.238 m at s 60.69; > 0.05 m over s 59.91760000000001-60.6936; G8 samples > 0.05 m: [(60.69, 0.238)]
+    section 5 s 64.53-67.57 lane -3: max width 0.240 m at s 64.53; > 0.05 m over s 64.5299-65.3097113; G8 samples > 0.05 m: [(64.53, 0.24)]
+  delivery main: BLOCKED; blocked ['crs_not_absolutely_verified', 'required_gate_not_pass/G11', 'required_gate_not_pass/G11-edge-contacts']; review ['minimal-chain-source-fidelity-unmet', 'source-support-too-short']
+  delivery change: BLOCKED; blocked ['crs_not_absolutely_verified', 'required_gate_not_pass/G11', 'required_gate_not_pass/G11-edge-contacts']; review ['minimal-chain-source-fidelity-unmet', 'source-support-too-short', 'source-support-unavailable']
+
+== 2023041111160971268
+status PASS -> PASS | excluded 520 -> 520
+  exclusion ('13', 10, 'left', 5) ('zero-width', 'INFERRED', '04800') -> ('source-extension', 'INFERRED', '04800')
+  exclusion ('13', 22, 'left', 4) ('source-support-unavailable', 'INFERRED', '82419') -> ('zero-width', 'INFERRED', '82419')
+  widths, main:
+    section 10 s 63.43-70.00 lane 5: max width 0.040 m at s 70.00; > 0.05 m over s ---; G8 samples > 0.05 m: []
+    section 22 s 136.87-140.00 lane 4: max width 0.058 m at s 136.87; > 0.05 m over s 136.8673-136.9769445; G8 samples > 0.05 m: [(136.87, 0.058)]
+  widths, change:
+    section 10 s 63.43-70.00 lane 5: max width 0.153 m at s 70.00; > 0.05 m over s 68.49585317540998-70.0; G8 samples > 0.05 m: [(69.43, 0.105), (70.0, 0.153)]
+    section 22 s 136.87-140.00 lane 4: max width 0.048 m at s 136.87; > 0.05 m over s ---; G8 samples > 0.05 m: []
+  delivery main: BLOCKED; blocked ['crs_not_absolutely_verified', 'required_gate_not_pass/G11', 'required_gate_not_pass/G11-edge-contacts']; review ['minimal-chain-source-fidelity-unmet', 'source-support-too-short', 'source-support-unavailable', 'source-topology-gap-bridge']
+  delivery change: BLOCKED; blocked ['crs_not_absolutely_verified', 'required_gate_not_pass/G11', 'required_gate_not_pass/G11-edge-contacts']; review ['minimal-chain-source-fidelity-unmet', 'source-support-too-short', 'source-support-unavailable', 'source-topology-gap-bridge']

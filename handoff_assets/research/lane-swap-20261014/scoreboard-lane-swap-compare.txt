@@ -1,0 +1,15 @@
+== map-node3 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node3 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== map-node4 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node4 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== map-NODE5 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-NODE5 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== map-node13 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node13 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== map-node16 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node16 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== map-node17 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node17 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== map-node18 map base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+== shp-node18 shp base {'T1': 'PASS', 'T2': 'PASS'} anchor {'T1': 'PASS', 'T2': 'PASS'} 
+rows with any change: 0 / 14

@@ -1,0 +1,23 @@
+0711 road 11 (right): outer edge and divider vs the source on the same normal (xsec_table.py on 0711-road11-xsec-*.json)
+outer edge (inward = toward the reference line)
+     0.0-   5.1  before 向内 0.62 (s 4.5)          after 向内 0.03 (s 5.0)
+     5.1-  10.0  before 向内 0.47 (s 5.5)          after 向内 0.03 (s 5.5)
+    10.0-  52.7  before 向外 0.09 (s 48.0)         after 向内 0.02 (s 42.5)
+    52.7-  60.7  before 向内 0.70 (s 60.5)         after 向外 0.02 (s 53.0)
+    60.7-  64.5  before 向内 0.98 (s 62.5)         after 向外 0.03 (s 64.0)
+    64.5-  67.6  before 向内 0.80 (s 64.5)         after 向外 0.05 (s 67.5)
+    67.6-  72.5  before 向内 0.04 (s 68.0)         after 向外 0.05 (s 68.5)
+    72.5-  78.2  before 向外 0.01 (s 74.0)         after 向外 0.03 (s 72.5)
+divider over the swap
+    60.7-  64.5  before 向内 0.98 (s 64.0)         after 向内 0.15 (s 64.0)
+
+0411 road 13 (left): the same on 0411-road13-xsec-*.json (s 60-142)
+outer edge (inward = toward the reference line)
+    60.0-  63.4  before 向外 0.01 (s 63.0)         after 向内 0.01 (s 60.0)
+    63.4-  71.2  before 向内 0.07 (s 71.0)         after 向内 0.01 (s 71.0)
+    71.2-  83.2  before 向内 0.10 (s 83.0)         after 向内 0.01 (s 71.5)
+    83.2-  88.0  before 向内 0.16 (s 84.5)         after 向内 0.02 (s 85.5)
+    88.0- 136.9  before 向外 0.07 (s 120.5)        after 向内 0.04 (s 122.5)
+   136.9- 142.5  before 向内 0.04 (s 138.5)        after 向内 0.04 (s 138.0)
+divider over the swap
+    71.2-  83.2  before 向外 0.31 (s 83.0)         after 向内 0.32 (s 71.5)

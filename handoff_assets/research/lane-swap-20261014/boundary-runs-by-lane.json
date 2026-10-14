@@ -1,0 +1,95 @@
+{
+ "0711": {
+  "before": {
+   "boundary_inside_runs_p95_m": 0.08586915535212321,
+   "boundary_inside_runs_max_m": 1.5717944642165966,
+   "boundary_inside_runs_split": 2
+  },
+  "after": {
+   "boundary_inside_runs_p95_m": 0.0329652262396393,
+   "boundary_inside_runs_max_m": 0.08825015976668762,
+   "boundary_inside_runs_split": 2
+  },
+  "lanes": [
+   {
+    "lane": "11/2023070817034884411",
+    "before": 0.627,
+    "after": 0.027
+   },
+   {
+    "lane": "11/2023070817034892872",
+    "before": 0.64,
+    "after": 0.025
+   },
+   {
+    "lane": "11/2023070817035860016",
+    "before": 1.572,
+    "after": 0.033
+   },
+   {
+    "lane": "11/2023070819581471256",
+    "before": 0.012,
+    "after": 0.031
+   },
+   {
+    "lane": "30/2023070817350904840",
+    "before": 0.088,
+    "after": 0.088
+   }
+  ]
+ },
+ "0411": {
+  "before": {
+   "boundary_inside_runs_p95_m": 0.03199570239048592,
+   "boundary_inside_runs_max_m": 0.18450074316010498,
+   "boundary_inside_runs_split": 4
+  },
+  "after": {
+   "boundary_inside_runs_p95_m": 0.02881539102722611,
+   "boundary_inside_runs_max_m": 0.18450074316010498,
+   "boundary_inside_runs_split": 4
+  },
+  "lanes": [
+   {
+    "lane": "10/2023041111145371207",
+    "before": 0.091,
+    "after": 0.091
+   },
+   {
+    "lane": "11/2023041111145281604",
+    "before": 0.058,
+    "after": 0.058
+   },
+   {
+    "lane": "11/2023061614590307678",
+    "before": 0.185,
+    "after": 0.185
+   },
+   {
+    "lane": "13/2023041111145382419",
+    "before": 0.068,
+    "after": 0.046
+   },
+   {
+    "lane": "13/2023041111145388844",
+    "before": 0.162,
+    "after": 0.021
+   },
+   {
+    "lane": "13/2023041111145404800",
+    "before": 0.081,
+    "after": 0.015
+   },
+   {
+    "lane": "13/2023041111145412881",
+    "before": 0.014,
+    "after": 0.007
+   },
+   {
+    "lane": "13/2023041111145417209",
+    "before": 0.031,
+    "after": 0.038
+   }
+  ]
+ }
+}

@@ -1,0 +1,31 @@
+Lane-centre fairness peaks (fair_where.py, lane_fairness.tracks_by_class: 'road' = ordinary-road lanes at least 2.5 m
+wide whose width changes by less than 0.3 m in the section, 'road_event' = the others; curvature sampled every 0.25 m
+from the section start). Top three tracks per class, main (gen-pg) then this change (gen-sw).
+== gen-pg shp-2023071109582525264.xodr
+  road       road   30 lane  -1 s    0.00- 163.13 kappa 0.0571 (sample 4) width 3.74-3.77 sharp 0.0695
+  road       road   11 lane  -2 s   67.57-  70.00 kappa 0.0527 (sample 0) width 2.69-2.76 sharp 0.0256
+  road       road   30 lane  -2 s    0.00- 163.13 kappa 0.0525 (sample 4) width 3.71-3.74 sharp 0.0639
+  road_event road   11 lane  -3 s    0.00-   5.14 kappa 0.8965 (sample 18) width 0.61-2.24 sharp 1.5302
+  road_event road   11 lane  -2 s    0.00-   5.14 kappa 0.4691 (sample 18) width 0.00-2.34 sharp 0.7493
+  road_event road   11 lane  -3 s   60.69-  64.53 kappa 0.1336 (sample 0) width 0.27-1.89 sharp 0.0300
+== gen-pg shp-2023041111160971268.xodr
+  road       road   13 lane   4 s   70.00-  71.18 kappa 0.0245 (sample 4) width 3.96-4.10 sharp 0.0058
+  road       road   30 lane  -1 s    0.00- 189.43 kappa 0.0226 (sample 32) width 3.73-4.01 sharp 0.0228
+  road       road   10 lane   4 s    0.00-  10.02 kappa 0.0221 (sample 40) width 2.67-2.75 sharp 0.0085
+  road_event road   13 lane   5 s   83.21-  88.00 kappa 0.0515 (sample 0) width 3.18-3.56 sharp 0.0218
+  road_event road   13 lane   5 s   80.00-  83.21 kappa 0.0461 (sample 12) width 2.53-3.15 sharp 0.0247
+  road_event road   13 lane   4 s   83.21-  88.00 kappa 0.0329 (sample 0) width 0.00-0.28 sharp 0.0091
+== gen-sw shp-2023071109582525264.xodr
+  road       road   11 lane  -2 s   64.53-  67.57 kappa 0.1817 (sample 0) width 2.61-2.84 sharp 0.1007
+  road       road   11 lane  -3 s   52.69-  60.69 kappa 0.1602 (sample 31) width 2.71-2.87 sharp 0.0996
+  road       road   30 lane  -1 s    0.00- 163.13 kappa 0.0571 (sample 4) width 3.74-3.77 sharp 0.0695
+  road_event road   11 lane  -2 s    0.00-   5.14 kappa 0.4691 (sample 18) width 0.00-2.34 sharp 0.7493
+  road_event road   11 lane  -3 s    0.00-   5.14 kappa 0.4652 (sample 18) width 0.25-2.80 sharp 0.7504
+  road_event road   11 lane  -2 s   60.69-  64.53 kappa 0.1820 (sample 0) width 0.24-2.58 sharp 0.1123
+== gen-sw shp-2023041111160971268.xodr
+  road       road   13 lane   5 s   83.21-  88.00 kappa 0.0431 (sample 0) width 3.29-3.56 sharp 0.0151
+  road       road   13 lane   4 s   70.00-  71.18 kappa 0.0254 (sample 4) width 3.88-4.04 sharp 0.0053
+  road       road   30 lane  -1 s    0.00- 189.43 kappa 0.0226 (sample 32) width 3.73-4.01 sharp 0.0228
+  road_event road   13 lane   4 s  136.87- 140.00 kappa 0.0437 (sample 0) width 0.00-0.05 sharp 0.0242
+  road_event road   13 lane   5 s   80.00-  83.21 kappa 0.0432 (sample 12) width 2.59-3.26 sharp 0.0139
+  road_event road   13 lane   4 s  130.00- 136.87 kappa 0.0408 (sample 27) width 0.06-1.00 sharp 0.0242
