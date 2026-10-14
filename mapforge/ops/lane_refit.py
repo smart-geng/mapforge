@@ -40,7 +40,10 @@ polyline, relative to the unchanged reference line:
   than dropping it (mapforge.ops.refit_prune_guard, 2026-10-13); vertex values are set by least squares on the
   finished curve, mouth ends and mouth-run starts staying on the data (lsq_refine); a gap between the lanes of
   two parallel source links becomes a lane of its own before the refit (mapforge.ops.lane_gap, link_gaps,
-  2026-10-05);
+  2026-10-05); two adjacent lanes that swap, one opening from zero width while the other closes and the outer
+  edge runs on, are fitted together: the outer edge as one chain on its own source, the divider built from the
+  two zero-width ends, and the road refitted without swaps where that fails (mapforge.ops.refit_lane_swap,
+  lane_swaps, 2026-10-14);
 * boundaries without any source observation keep their current geometry;
 * a road that would keep its geometry for a negative width is refitted once more with zero-width starts at the
   free ends of its failing lanes however short their unobserved stretch, and written only when no width is
@@ -847,11 +850,14 @@ def refit_road(road_el, src, origin, params=None, observe=None, relative=None):
     ``relative(road, side, chain)``: True fits that chain's boundary as an offset from its fitted inner
     boundary (the lane width), so a zero-width stretch stays exactly zero and an opening taper never crosses
     its inner boundary (MAP turn bays); default: every boundary is fitted on its own."""
+    requested = dict(params or {})
     params = dict(params or {})
     curb_shoulder = params.pop("curb_shoulder", CURB_SHOULDER)
     rechain = params.pop("rechain", False)
     # free road ends where a source lane starts (ends) narrow some way in: zero width up to there (SHP)
     zero_starts = params.pop("protect_unobserved_ends", False)
+    # two lanes swapping across a road side fitted together, the outer edge on its own source (SHP; refit_lane_swap)
+    lane_swaps = params.pop("lane_swaps", zero_starts)
     # (side, section, lane) of a second refit whose zero-width starts need no unobserved minimum (refit_zero_start)
     zero_start_lanes = params.pop("zero_start_lanes", ())
     # (side, section, lane) of a third refit whose widths are held over free ends without source (refit_hold_width)
@@ -902,21 +908,42 @@ def refit_road(road_el, src, origin, params=None, observe=None, relative=None):
 
     for side in ("right", "left"):
         chains = sorted(_chains(road, side), key=lambda c: min(c["members"].values()))
+
+        def obs_at(i, k, side=side):
+            try:
+                return observe(road, side, i, k, fitted)
+            except IndexError:
+                return None
         if rechain:
-            def obs_at(i, k, side=side):
-                try:
-                    return observe(road, side, i, k, fitted)
-                except IndexError:
-                    return None
             chains = _fit_order(_rechain(road, side, chains, obs_at))
             report.setdefault("rechained", []).extend(
                 {"side": side, "members": {str(i): k for i, k in c["members"].items()},
                  "peel": c.get("peel"), "converge": c.get("converge")}
                 for c in chains if c.get("peel") or c.get("converge"))
+        if lane_swaps:
+            from mapforge.ops import refit_lane_swap
+            chains = refit_lane_swap.find(road, side, chains, obs_at, report)
         for chain in chains:
             secs = sorted(chain["members"])
             a, b = road.s[secs[0]], road.s[secs[-1] + 1]
-            obs, any_src = observations((side,), [(i, chain["members"][i]) for i in secs])
+            swap = chain.get("swap")
+            if swap and swap["role"] == "divider":
+                obs, _ = observations((side,), [(i, chain["members"][i]) for i in secs])
+                whole = refit_lane_swap.divider(road, side, chain, fitted, params.get("kappa_cap"), obs)
+                if whole is None:            # no room for its corners: the road is refitted without lane swaps
+                    again = refit_road(road_el, src, origin, {**requested, "lane_swaps": False}, observe, relative)
+                    again[2]["lane_swaps_failed"] = swap["row"]
+                    return again
+                pieces = _split(whole, cuts)
+                for i in secs:
+                    fitted[(side, i, chain["members"][i])] = [p for p in pieces
+                                                              if road.s[i] - 1e-6 <= p[0] < road.s[i + 1] - 1e-6]
+                report["chains"] += 1
+                continue
+            if swap:
+                refit_lane_swap.stand_in(side, chain, fitted)
+            obs, any_src = observations((side,), [(i, chain["members"][i]) for i in secs]
+                                        + (swap["extra"] if swap else []))
             first_k, last_k = chain["members"][secs[0]], chain["members"][secs[-1]]
             inner_start = fitted.get((side, secs[0], first_k + (1 if chain.get("peel") == "outer" else -1)))
             inner_end = fitted.get((side, secs[-1], last_k + (1 if chain.get("converge") == "outer" else -1)))
