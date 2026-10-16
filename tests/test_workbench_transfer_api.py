@@ -14,7 +14,7 @@ from mapforge.workbench import project_transfer
 from mapforge.workbench.app import create_app
 from mapforge.workbench.sources import SourceCatalog
 from mapforge.workbench.store import ProjectStore
-from test_workbench_project_relocation import case
+from test_workbench_project_relocation import _never_bound, case
 
 TOKEN = "transfer-api-test-session-token-with-32-characters"
 PORT = 19881
@@ -120,6 +120,19 @@ def test_page_round_trip_keeps_drafts_marks_old_results_stale_and_never_opens_au
     assert project["status"]["can_redo"] is True
     assert project["status"]["candidate_stale"] is True and project["status"]["validation_stale"] is True
     assert project["status"]["formal_export_available"] is False
+
+
+def test_to_do_only_project_exports_and_imports_through_the_page_api(tmp_path):
+    c = _never_bound(tmp_path)
+    with _client(c.store, c.raw, c.profile) as source, \
+            _client(ProjectStore(tmp_path / "目标 工程库"), c.raw, c.profile) as target:
+        _, response = _package(source, c.project)
+        imported = _import(target, _upload(target, response.content))
+        assert imported["state"] == "succeeded", imported
+        assert imported["result"]["candidate_stale"] is False
+        project = target.get(f"/api/projects/{c.project['project_id']}").json()
+        assert project["intents"] == c.project["intents"]
+        assert project["candidate"] is None
 
 
 def test_same_id_import_is_rejected_with_explanation_and_does_not_overwrite(pair):
